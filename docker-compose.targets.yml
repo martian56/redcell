@@ -1,0 +1,24 @@
+# Intentionally-vulnerable practice targets for REDCELL (authorized local use only).
+# Start:  docker compose -f docker-compose.targets.yml up -d
+# Stop:   docker compose -f docker-compose.targets.yml down
+# Isolated project name so it never touches the dev infra (redis/postgres/minio).
+name: redcell-targets
+services:
+  juice-shop:
+    image: bkimminich/juice-shop
+    ports: ['3000:3000']
+    restart: unless-stopped
+
+  # Self-contained DVWA: bundles MariaDB inside the container (the digininja
+  # image needs a separate DB service). Includes the Command Injection RCE page.
+  dvwa:
+    image: vulnerables/web-dvwa
+    ports: ['8081:80']
+    restart: unless-stopped
+
+  webgoat:
+    image: webgoat/webgoat
+    ports: ['8082:8080', '9090:9090']
+    environment:
+      TZ: UTC
+    restart: unless-stopped
