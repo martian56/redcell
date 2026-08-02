@@ -1,26 +1,26 @@
 # REDCELL platform
 
-Red-team platform backend. Postgres holds state, Redis carries pub/sub + the job
-queue + cache, MinIO stores files, and a separate arq worker runs the agents.
-The API stays thin: it serves REST + WebSockets and enqueues runs.
+Red-team platform backend. Postgres holds state, Redis carries pub/sub plus the
+job queue and cache, MinIO stores files, and a separate arq worker runs the
+agents. The API stays thin: it serves REST and WebSockets and enqueues runs.
 
-- `packages/core` (`redcell_core`) — shared library: config, db (async
+- `packages/core` (`redcell_core`): shared library. Config, db (async
   SQLAlchemy 2.0), models, schemas, repositories, storage (MinIO), bus (Redis),
-  crypto (Fernet), engine (LangGraph runner + sim + execution + listeners), the
-  `rc` CLI, and Alembic migrations.
-- `apps/api` — FastAPI. Routers go through repositories and enqueue worker jobs.
-- `apps/worker` — arq worker. Runs the run engine (sim or live) and publishes
-  live output onto Redis.
+  crypto (Fernet), the engine (LangGraph runner, sim, execution, listeners,
+  reporting), the `rc` CLI, and Alembic migrations.
+- `apps/api`: FastAPI. Routers go through repositories and enqueue worker jobs.
+- `apps/worker`: arq worker. Runs the engine (sim or live) and publishes live
+  output onto Redis.
 
 ## Run modes
 
-- **sim** (default): the simulator publishes real events / chat questions /
+- **sim** (default): the simulator publishes real events, chat questions, and
   shell output. No provider keys, Docker, or target needed.
 - **live** (`REDCELL_RUN_MODE=live`): the LangGraph engine runs real agents
   through LiteLLM, executes commands (Kali container or SSH VPS), and catches
   reverse shells. Needs `uv sync --group live` and provider keys in Settings.
 
-Both publish onto the same channels (`events:{runId}` / `chat:{runId}` /
+Both publish onto the same channels (`events:{runId}`, `chat:{runId}`,
 `shell:{shellId}`), so the UI is identical either way.
 
 ## Dev quick start
@@ -35,8 +35,8 @@ uv sync --group live                                 # omit --group live for sim
 # 3. database + seed
 uv run rc db upgrade                                 # apply migrations
 uv run rc seed --demo                                # admin + providers + demo data
-#   rc seed            -> bootstrap only (buckets, providers, admin, settings)
-#   rc seed --unseed   -> wipe Postgres app data + empty MinIO buckets
+#   rc seed            bootstrap only (buckets, providers, admin, settings)
+#   rc seed --unseed   wipe Postgres app data + empty MinIO buckets
 
 # 4. run the three processes (separate terminals)
 cd apps/api    && uv run uvicorn app.main:app --host 0.0.0.0 --port 8080
@@ -44,7 +44,7 @@ cd apps/worker && uv run arq worker.settings.WorkerSettings
 bun dev                                              # frontend on :5183
 ```
 
-Open http://localhost:5183 and sign in with `admin` / `admin`. Health:
+Open http://localhost:5183 and sign in with `admin` / `admin`. Health check:
 `curl http://localhost:8080/health`.
 
 ## Configuration (env, `REDCELL_` prefix)
@@ -64,7 +64,7 @@ Open http://localhost:5183 and sign in with `admin` / `admin`. Health:
 ## Tests
 
 ```bash
-uv run pytest        # 17 tests: repos, storage vs MinIO, engine, worker, API smoke, seed
+uv run pytest        # repos, storage vs MinIO, engine, worker, API smoke, seed
 ```
 
 ## Files and reports
@@ -72,5 +72,5 @@ uv run pytest        # 17 tests: repos, storage vs MinIO, engine, worker, API sm
 - Upload (API-proxied): `POST /sessions/{id}/files`. Download: `GET /files/{id}`
   redirects to a short-TTL presigned URL (private) or the public URL.
 - Buckets: `uploads`, `loot`, `reports`, `public` (env-overridable).
-- Reporting is foundation-only for now: `reports` data model + CRUD endpoints;
-  the export generator lands once the system runs real pentests.
+- Reports: `POST /sessions/{id}/reports` enqueues generation. The worker writes a
+  PDF plus JSON and SARIF to the `reports` bucket and the API serves them back.

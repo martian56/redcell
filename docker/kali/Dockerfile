@@ -1,12 +1,9 @@
-# REDCELL execution image: Kali base with a curated pentest toolset baked in.
-# Published to Docker Hub as martian56/kali:latest so any host (local or a remote
-# server) can pull it. Rebuild + push with:
+# Kali execution image. The engine runs every command inside a container of this,
+# so it ships with the pentest tools an engagement actually reaches for.
+# Published as martian56/kali:latest so any host can pull it:
 #     docker build -t martian56/kali:latest docker/kali && docker push martian56/kali:latest
-#   Full Kali headless metapackage (huge, ~6-8 GB, slow):
+# Pass FULL=1 for the kali-linux-headless metapackage (~6-8 GB, slow build):
 #     docker build --build-arg FULL=1 -t martian56/kali:latest docker/kali
-#
-# The platform default (Settings -> Local execution image) is martian56/kali:latest;
-# the engine runs every command inside a container of it, local or remote.
 FROM kalilinux/kali-rolling
 
 ENV DEBIAN_FRONTEND=noninteractive
