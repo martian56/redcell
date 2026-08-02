@@ -1,0 +1,22 @@
+# The API image builds from the repo root (so the uv workspace root + lock are
+# in context). Keep the context small: only the manifests and apps/api/app are
+# actually COPYed.
+**/node_modules/
+**/.venv/
+**/__pycache__/
+**/*.pyc
+**/dist/
+**/build/
+.git/
+.turbo/
+coverage/
+*.log
+.playwright-mcp/
+*.png
+apps/web/
+pentest-agents-research/
+docs/
+
+# local durability checkpoint store
+*.sqlite
+redcell-checkpoints.sqlite
