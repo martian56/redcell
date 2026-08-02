@@ -1,5 +1,4 @@
-"""Auth: admin login validated against a bcrypt hash in the DB, a JWT stored in
-an httpOnly cookie, and a dependency that resolves the current user."""
+"""Auth: bcrypt password check, JWT in an httpOnly cookie, current-user dependency."""
 
 from __future__ import annotations
 

@@ -240,8 +240,8 @@ class LlmSettings(Camel):
 
 class ExecutionSettings(Camel):
     backend: str = "local-docker"
-    # Published curated Kali toolset image (Docker Hub). Pullable on any host, so
-    # remote servers pull it instead of transferring the local build.
+    # prebuilt Kali image on Docker Hub. any host can pull it, so remote servers
+    # pull instead of shipping the local build.
     docker_image: str = "martian56/kali:latest"
     ssh_host: str | None = ""
     ssh_user: str | None = "root"

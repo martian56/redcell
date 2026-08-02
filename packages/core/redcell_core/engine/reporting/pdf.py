@@ -1,4 +1,4 @@
-"""Render a client-ready PDF with ReportLab: cover, TOC, executive summary,
+"""Render the PDF report with ReportLab: cover, TOC, executive summary,
 methodology, findings, attack surface, recommendations."""
 
 from __future__ import annotations

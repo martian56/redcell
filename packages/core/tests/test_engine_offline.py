@@ -1,7 +1,7 @@
-"""Offline test of the live engine: real LangGraph plan/act loop + real executor
-loop + real SimBackend + repositories + bus, with a scripted fake LLM instead of
-litellm. Verifies delegation, command execution, finding recording, the operator
-ask/answer round-trip, and that everything is persisted and published."""
+"""Offline test of the live engine: the real plan/act loop, executor, SimBackend,
+repositories, and bus wired together, with a scripted fake LLM instead of litellm.
+Covers delegation, command execution, finding recording, the operator ask/answer
+round-trip, and that everything gets persisted and published."""
 
 import asyncio
 import json
@@ -48,9 +48,8 @@ class FakeLLM:
 
 @pytest.mark.asyncio
 async def test_engine_runs_and_persists():
-    # Unit test targets engine logic, not durability; disable the SQLite
-    # checkpointer (its aiosqlite connection does not mix with pytest's
-    # per-test event loops). Durability is covered separately.
+    # disable the SQLite checkpointer: its aiosqlite connection doesn't mix with
+    # pytest's per-test event loops. we're exercising engine logic, not durability.
     from redcell_core.config import settings as _s
     _s.checkpoint_db = ""
 

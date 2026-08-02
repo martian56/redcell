@@ -1,5 +1,4 @@
-"""SSH connection test for a saved Server: connect, gather basic facts (hostname,
-OS, CPU, RAM, first IP), and return a structured result."""
+"""SSH into a saved Server and gather basic facts: hostname, OS, CPU, RAM, first IP."""
 
 from __future__ import annotations
 

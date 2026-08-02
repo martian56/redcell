@@ -2,9 +2,7 @@ from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-# Single backend env file at the repo root, loaded no matter which app's
-# directory a process starts from (config.py lives at
-# packages/core/redcell_core/config.py, so the root is three parents up).
+# repo-root .env (three levels up), loaded whatever dir a process starts in
 _ROOT_ENV = Path(__file__).resolve().parents[3] / ".env"
 
 
@@ -18,8 +16,8 @@ class Settings(BaseSettings):
     database_url: str = "postgresql+asyncpg://redcell:redcell@localhost:5432/redcell"
     redis_url: str = "redis://localhost:6379/0"
     run_mode: str = "sim"  # sim | live
-    # Address a target should call back to for a reverse shell. The listener binds
-    # on the worker host; a Docker target reaches it via host.docker.internal.
+    # reverse-shell callback address. listener runs on the worker host; a Docker
+    # target reaches it via host.docker.internal.
     callback_host: str = "host.docker.internal"
 
     admin_username: str = "admin"
@@ -35,8 +33,8 @@ class Settings(BaseSettings):
     s3_region: str = "us-east-1"
     s3_public_base_url: str | None = None
 
-    # Durable checkpoint store for the agent loop (survives crashes/restarts).
-    # SQLite so it works on any OS/event loop; business data stays in Postgres.
+    # durable checkpoint store for the agent loop, survives restarts. SQLite so it
+    # runs on any OS/event loop; business data stays in Postgres.
     checkpoint_db: str = str(_ROOT_ENV.parent / "redcell-checkpoints.sqlite")
 
     bucket_uploads: str = "uploads"

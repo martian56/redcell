@@ -1,5 +1,5 @@
 """End-to-end API smoke test against Postgres + Redis + MinIO. Boots the app in
-a TestClient (lifespan connects the bus), then exercises the REST surface, file
+a TestClient (lifespan connects the bus), then hits the REST endpoints, file
 upload/download, reports, and a WebSocket chat round-trip."""
 
 import asyncio
@@ -29,8 +29,8 @@ def check(name, cond):
 
 
 def test_api_smoke():
-    # ensure admin + providers exist (other tests may have unseeded), then
-    # release the bootstrap loop's connections before TestClient opens its own.
+    # other tests may have unseeded the DB; boot here, and free the bootstrap
+    # loop's connections before TestClient opens its own.
     asyncio.run(_boot())
     with TestClient(app) as c:
         r = c.get("/health")
