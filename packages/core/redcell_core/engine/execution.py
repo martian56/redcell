@@ -72,7 +72,7 @@ class LocalDockerBackend(ExecutionBackend):
         await self._docker("rm", "-f", self.name, check=False)
         if not await self._image_present():
             if on_status:
-                await on_status(f"pulling image {self.image} (first run, this can take a few minutes)…")
+                await on_status(f"pulling image {self.image} (first run, this can take a few minutes)...")
             await self._pull()
             if on_status:
                 await on_status(f"image {self.image} ready")
@@ -237,7 +237,7 @@ class RemoteDockerBackend(ExecutionBackend):
 
     async def _install_docker(self, on_status: OnOutput | None) -> None:
         if on_status:
-            await on_status("Docker not found on the remote; installing via the official get.docker.com script…")
+            await on_status("Docker not found on the remote; installing via the official get.docker.com script...")
         sudo = "" if self.user == "root" else "sudo "
         # Official Docker install (https://docs.docker.com/engine/install/): the
         # get.docker.com convenience script covers Debian/Ubuntu/Kali/CentOS/etc.
@@ -272,7 +272,7 @@ class RemoteDockerBackend(ExecutionBackend):
         if (await self._sh(f"docker image inspect {self.image} >/dev/null 2>&1"))[0] == 0:
             return
         if on_status:
-            await on_status(f"pulling {self.image} on the remote…")
+            await on_status(f"pulling {self.image} on the remote...")
         if (await self._sh(f"docker pull {self.image}"))[0] == 0:
             return
         # Not in a registry (e.g. a locally-built redcell/kali). Transfer the
@@ -280,7 +280,7 @@ class RemoteDockerBackend(ExecutionBackend):
         if not await self._local_image_present():
             raise RuntimeError(f"remote can't pull {self.image} and it isn't available locally to transfer")
         if on_status:
-            await on_status(f"{self.image} isn't in a registry; transferring it to the remote (one-time, large)…")
+            await on_status(f"{self.image} isn't in a registry; transferring it to the remote (one-time, large)...")
         await self._transfer_image()
         if (await self._sh(f"docker image inspect {self.image} >/dev/null 2>&1"))[0] != 0:
             raise RuntimeError(f"image transfer to remote did not produce {self.image}")

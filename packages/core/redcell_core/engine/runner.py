@@ -233,8 +233,8 @@ class LiveRunner:
         graph.add_conditional_edges("act", lambda st: END if st.get("done") else "plan",
                                     {END: END, "plan": "plan"})
 
-        # Durable checkpointing: state snapshotted to Postgres after every step
-        # for crash/restart resume.
+        # durable checkpointing: state is saved to SQLite (via aiosqlite) after
+        # every step so a crash or restart can resume the run.
         saver = None
         try:
             from .checkpoint import get_checkpointer
