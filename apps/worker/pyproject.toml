@@ -1,0 +1,12 @@
+[project]
+name = "redcell-worker"
+version = "0.1.0"
+description = "REDCELL background worker (arq)"
+requires-python = ">=3.12"
+dependencies = ["redcell-core", "arq>=0.26"]
+
+[tool.uv.sources]
+redcell-core = { workspace = true }
+
+[tool.uv]
+package = false
