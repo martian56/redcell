@@ -1,0 +1,42 @@
+[project]
+name = "redcell-core"
+version = "0.1.0"
+description = "REDCELL shared core: db, storage, bus, engine"
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    "SQLAlchemy[asyncio]>=2.0.36",
+    "asyncpg>=0.30",
+    "alembic>=1.14",
+    "redis>=5.2",
+    "arq>=0.26",
+    "aioboto3>=13.2",
+    "cryptography>=43.0",
+    "PyJWT>=2.9",
+    "bcrypt>=4.0",
+    "typer>=0.15",
+    "httpx>=0.27",
+    "socksio>=1.0",
+    "reportlab>=4.2",
+]
+
+[dependency-groups]
+live = [
+    "litellm>=1.50",
+    "langgraph>=0.2",
+    "langchain-core>=0.3",
+    "asyncssh>=2.17",
+    "langgraph-checkpoint-sqlite>=2.0",
+    "aiosqlite>=0.20",
+]
+
+[project.scripts]
+rc = "redcell_core.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["redcell_core"]
