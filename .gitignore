@@ -1,0 +1,46 @@
+# ---- dependencies / build ----
+node_modules/
+dist/
+build/
+.turbo/
+.vite/
+coverage/
+
+# ---- python / uv (uv.lock is committed for reproducible installs) ----
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# ---- env & secrets ----
+.env
+.env.local
+*.local
+
+# ---- local data / durable stores (never commit) ----
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+
+# ---- generated / scratch ----
+*.log
+_diag*.py
+.playwright-mcp/
+playwright-report/
+test-results/
+
+# ---- editors / OS ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ---- research clones (kept out of the app repo) ----
+pentest-agents-research/
+
+# ---- Claude Code specs, plans, and local tooling (not for the public repo) ----
+.claude/
+docs/superpowers/
