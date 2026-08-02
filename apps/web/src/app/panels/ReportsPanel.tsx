@@ -54,9 +54,9 @@ export function ReportsPanel() {
       <div className="rounded-[var(--radius)] border border-border bg-panel2 p-5">
         <h3 className="text-sm font-bold">Generate session report</h3>
         <p className="mt-1.5 max-w-[62ch] text-xs text-muted">
-          A client-ready report: executive summary, methodology (PTES / OWASP WSTG), findings with CVSS
-          and evidence, attack surface, and prioritized remediation. Written by the session's model and
-          humanized.
+          A complete report: executive summary, methodology (PTES / OWASP WSTG), findings with CVSS
+          and evidence, attack surface, and remediation in priority order. Written by the session's model
+          and cleaned up to read like a person wrote it.
         </p>
         <div className="mt-4 flex gap-8">
           <Stat k="Verified findings" v={String(verified)} />

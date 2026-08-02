@@ -62,7 +62,7 @@ export function Workspace() {
           )}
         />
       ) : (
-        <Empty>All panels closed. Use “Add panel” in the header.</Empty>
+        <Empty>All panels closed. Use "Add panel" in the header.</Empty>
       )}
     </div>
   );

@@ -89,14 +89,13 @@ export function ServerDetailPage() {
             Servers
           </button>
           <Button variant="primary" disabled={test.isPending} onClick={() => void runTest()}>
-            {test.isPending ? 'Testing…' : 'Test connection'}
+            {test.isPending ? 'Testing...' : 'Test connection'}
           </Button>
           <Button onClick={() => void del()}>Delete</Button>
         </>
       }
     >
       <div className="grid max-w-[860px] gap-4 p-5">
-        {/* Connection status */}
         <div className="rounded-[var(--radius)] border border-border bg-bg2 p-4">
           <div className="mb-3 flex items-center justify-between">
             <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-faint">Connection</div>
@@ -122,12 +121,11 @@ export function ServerDetailPage() {
             </pre>
           ) : (
             <div className="mt-3 text-[11px] text-faint">
-              Run “Test connection” to SSH in and confirm reachability, then read back the host facts below.
+              Run "Test connection" to SSH in and confirm reachability, then read back the host facts below.
             </div>
           )}
         </div>
 
-        {/* Host facts */}
         <div className="rounded-[var(--radius)] border border-border bg-bg2 p-4">
           <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.14em] text-faint">Host</div>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -142,7 +140,6 @@ export function ServerDetailPage() {
           </div>
         </div>
 
-        {/* Edit */}
         <div className="rounded-[var(--radius)] border border-border bg-bg2 p-4">
           <div className="mb-3 flex items-center justify-between">
             <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-faint">Configuration</div>

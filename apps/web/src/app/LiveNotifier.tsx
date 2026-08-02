@@ -42,7 +42,7 @@ export function LiveNotifier() {
         tone: 'critical',
         onClick: focusSession,
       });
-      browserNotify('REDCELL — agent needs your input', {
+      browserNotify('REDCELL: agent needs your input', {
         body: m.text.slice(0, 180),
         tag: `q-${runId}`,
         requireInteraction: true,
@@ -53,7 +53,7 @@ export function LiveNotifier() {
       const text = e.text || '';
       if (e.source === 'listener' && /reverse shell/i.test(text)) {
         notifyToast({ title: 'Reverse shell caught', body: text, tone: 'success', onClick: focusSession });
-        browserNotify('REDCELL — reverse shell caught', { body: text, tag: `rs-${runId}`, onClick: focusSession });
+        browserNotify('REDCELL: reverse shell caught', { body: text, tag: `rs-${runId}`, onClick: focusSession });
       } else if (e.type === 'finding') {
         const sev = severityFromText(text);
         if (sev === 'critical' || sev === 'high') {
@@ -63,7 +63,7 @@ export function LiveNotifier() {
             tone: sev === 'critical' ? 'critical' : 'warning',
             onClick: focusSession,
           });
-          browserNotify(`REDCELL — ${sev} finding`, { body: text, tag: `f-${e.id}`, onClick: focusSession });
+          browserNotify(`REDCELL: ${sev} finding`, { body: text, tag: `f-${e.id}`, onClick: focusSession });
         }
       }
     };
@@ -83,7 +83,7 @@ export function LiveNotifier() {
     if (st && prev && st !== prev && (st === 'completed' || st === 'failed')) {
       const good = st === 'completed';
       notifyToast({ title: good ? 'Run completed' : 'Run failed', tone: good ? 'success' : 'error', onClick: focusSession });
-      browserNotify(good ? 'REDCELL — run completed' : 'REDCELL — run failed', {
+      browserNotify(good ? 'REDCELL: run completed' : 'REDCELL: run failed', {
         tag: `st-${runId}`,
         onClick: focusSession,
       });

@@ -41,7 +41,7 @@ export const useToasts = create<ToastState>((set) => ({
   dismiss: (id) => set((s) => ({ toasts: s.toasts.filter((t) => t.id !== id) })),
 }));
 
-/** Simple imperative helper (back-compat): a one-line toast. */
+/** One-line toast helper (back-compat). */
 export const toast = (msg: string, tone?: Tone) => useToasts.getState().push(msg, tone);
 /** Rich toast: title + body, tone, click action, optional persistence. */
 export const notifyToast = (t: RichToast) => useToasts.getState().pushRich(t);

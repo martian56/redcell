@@ -94,14 +94,13 @@ export function ProxyDetailPage() {
             Proxies
           </button>
           <Button variant="primary" disabled={test.isPending} onClick={() => void runTest()}>
-            {test.isPending ? 'Testing…' : 'Test proxy'}
+            {test.isPending ? 'Testing...' : 'Test proxy'}
           </Button>
           <Button onClick={() => void del()}>Delete</Button>
         </>
       }
     >
       <div className="grid max-w-[860px] gap-4 p-5">
-        {/* Health */}
         <div className="rounded-[var(--radius)] border border-border bg-bg2 p-4">
           <div className="mb-3 flex items-center justify-between">
             <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-faint">Health</div>
@@ -127,12 +126,11 @@ export function ProxyDetailPage() {
             </pre>
           ) : (
             <div className="mt-3 text-[11px] text-faint">
-              Run “Test proxy” to fetch your egress IP through it and confirm it forwards traffic.
+              Run "Test proxy" to fetch your egress IP through it and confirm it forwards traffic.
             </div>
           )}
         </div>
 
-        {/* Config */}
         <div className="rounded-[var(--radius)] border border-border bg-bg2 p-4">
           <div className="mb-3 flex items-center justify-between">
             <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-faint">Configuration</div>

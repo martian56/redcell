@@ -17,7 +17,7 @@ export function LiveFeedPanel() {
   const events = useRunEvents(runId, 80);
 
   if (!runId) return <Empty>No active run.</Empty>;
-  if (events.length === 0) return <Empty>Waiting for activity…</Empty>;
+  if (events.length === 0) return <Empty>Waiting for activity...</Empty>;
 
   return (
     <div className="h-full overflow-auto">

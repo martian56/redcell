@@ -75,7 +75,7 @@ function ChipInput({
               e.preventDefault();
             }
           }}
-          placeholder={items.length ? 'add…' : placeholder}
+          placeholder={items.length ? 'add...' : placeholder}
           className="min-w-[120px] flex-1 bg-transparent px-1 font-mono text-[12px] text-text outline-none placeholder:text-faint"
         />
       </div>
@@ -282,7 +282,7 @@ export function NewSessionPage() {
               onKeyDown={(e) => {
                 if (e.key === 'Enter') void send();
               }}
-              placeholder="Describe the target, scope, objectives…"
+              placeholder="Describe the target, scope, objectives..."
               className="h-9 flex-1 rounded-[var(--radius)] border border-border2 bg-black px-3 text-[13px] text-text outline-none placeholder:text-faint focus:border-accent"
             />
             <Button variant="primary" onClick={send} disabled={!input.trim() || busy}>
@@ -350,7 +350,7 @@ export function NewSessionPage() {
                 const [provider, model] = id.split('::');
                 patch({ provider, model });
               }}
-              placeholder="Search models…"
+              placeholder="Search models..."
             />
             <PickerField
               label="Execution server"
@@ -358,7 +358,7 @@ export function NewSessionPage() {
               options={serverOptions}
               value={draft.serverId}
               onChange={(serverId) => patch({ serverId })}
-              placeholder="Search servers…"
+              placeholder="Search servers..."
             />
             <PickerField
               label="Proxy"
@@ -366,7 +366,7 @@ export function NewSessionPage() {
               options={proxyOptions}
               value={draft.proxyId}
               onChange={(proxyId) => patch({ proxyId })}
-              placeholder="Search proxies…"
+              placeholder="Search proxies..."
             />
 
             <Field label="Rules of engagement">
@@ -374,7 +374,7 @@ export function NewSessionPage() {
                 value={draft.roe}
                 onChange={(e) => patch({ roe: e.target.value })}
                 rows={3}
-                placeholder="Testing window, no-DoS, exclusions…"
+                placeholder="Testing window, no-DoS, exclusions..."
                 className="w-full rounded-[var(--radius)] border border-border2 bg-black px-3 py-2 text-[13px] text-text outline-none placeholder:text-faint focus:border-accent"
               />
             </Field>
