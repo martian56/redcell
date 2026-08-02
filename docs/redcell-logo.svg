@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 240" width="920" height="240" role="img" aria-label="REDCELL">
+  <defs>
+    <radialGradient id="mark" cx="32%" cy="22%" r="90%">
+      <stop offset="0%" stop-color="#ff4d5e"/>
+      <stop offset="55%" stop-color="#e01235"/>
+      <stop offset="100%" stop-color="#8f0d24"/>
+    </radialGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="14" result="b"/>
+      <feMerge><feMergeNode in="b"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect x="0.5" y="0.5" width="919" height="239" rx="22" fill="#0b0e13" stroke="#1b2230" stroke-width="1"/>
+
+  <!-- glow -->
+  <polygon points="124,36.2 205,97.8 175.8,198.2 72.2,198.2 43,97.8"
+           fill="#ff3344" opacity="0.20" filter="url(#glow)"/>
+  <!-- pentagon mark -->
+  <polygon points="124,60 184,105.6 162.4,180 85.6,180 64,105.6" fill="url(#mark)"/>
+  <polygon points="124,60 184,105.6 162.4,180 85.6,180 64,105.6" fill="none"
+           stroke="#ff6b7a" stroke-width="1" opacity="0.5"/>
+
+  <!-- wordmark -->
+  <text x="232" y="138" font-family="'Helvetica Neue', Arial, sans-serif" font-weight="800"
+        font-size="78" letter-spacing="2" fill="#f2f5fa">REDCELL</text>
+  <text x="235" y="176" font-family="'Helvetica Neue', Arial, sans-serif" font-weight="600"
+        font-size="17" letter-spacing="6" fill="#7f8a99">AI RED-TEAM PLATFORM</text>
+</svg>
