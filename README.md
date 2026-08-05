@@ -7,6 +7,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/martian56/redcell/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/martian56/redcell/actions/workflows/ci.yml/badge.svg"></a>
   <img alt="Python" src="https://img.shields.io/badge/python-3.12-3776AB?logo=python&logoColor=white">
   <img alt="FastAPI" src="https://img.shields.io/badge/API-FastAPI-009688?logo=fastapi&logoColor=white">
   <img alt="React" src="https://img.shields.io/badge/UI-React%20%2B%20Vite-61DAFB?logo=react&logoColor=black">
