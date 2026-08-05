@@ -121,6 +121,10 @@ docker-compose.dev.yml       Postgres + Redis + MinIO
 docker-compose.targets.yml   local vulnerable targets
 ```
 
+## Contributing
+
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, tests, and conventions, and the [Code of Conduct](CODE_OF_CONDUCT.md). Report security issues privately through [SECURITY.md](SECURITY.md), not public issues.
+
 ## Responsible use
 
 This is defensive and authorized-offensive tooling for security professionals, CTFs, and your own labs. Do not use it against systems you have no written permission to test. The maintainers are not responsible for misuse.
