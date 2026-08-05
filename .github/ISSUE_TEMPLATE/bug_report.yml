@@ -1,0 +1,56 @@
+name: Bug report
+description: Report a problem with REDCELL
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug. Do not report security
+        vulnerabilities here. See SECURITY.md for how to report those privately.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: A clear description of the bug and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: How can we reproduce it? Note the run mode (sim or live) if it matters.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Engine / agents
+        - API
+        - Worker
+        - Web UI
+        - Execution (Docker / SSH / remote)
+        - Reporting
+        - Other
+    validations:
+      required: false
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, browser, Python and bun versions, run mode, and anything else relevant.
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Relevant logs or errors. Scrub any secrets, tokens, or real target details first.
+      render: shell
+    validations:
+      required: false

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/martian56/redcell/security/advisories/new
+    about: Report security issues privately. Do not open a public issue for anything exploitable.
+  - name: Questions and discussion
+    url: https://github.com/martian56/redcell/discussions
+    about: Ask questions, share ideas, and discuss REDCELL.
