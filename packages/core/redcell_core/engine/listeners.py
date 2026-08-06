@@ -6,9 +6,8 @@ from __future__ import annotations
 
 import asyncio
 
-from ..bus import Bus, events_channel, shell_channel, shell_input_channel
+from ..bus import Bus, shell_channel, shell_input_channel
 from ..db import session_scope
-from ..repositories import ids
 from ..repositories import listeners as listeners_repo
 from ..repositories import sessions as sessions_repo
 from ..repositories import shells as shells_repo

@@ -6,11 +6,11 @@ import contextlib
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
 from redcell_core.bus import bus
 from redcell_core.config import settings
 
-from .routers import ai, auth, files, infra, reports, resources, settings as settings_router, ws
+from .routers import ai, auth, files, infra, reports, resources, ws
+from .routers import settings as settings_router
 
 
 @contextlib.asynccontextmanager

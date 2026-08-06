@@ -7,4 +7,4 @@ def new_id(prefix: str) -> str:
 
 
 def now_iso() -> str:
-    return dt.datetime.now(dt.timezone.utc).isoformat()
+    return dt.datetime.now(dt.UTC).isoformat()

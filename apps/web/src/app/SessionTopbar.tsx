@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ComponentProps, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ComponentProps } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getLeaves } from 'react-mosaic-component';
 import { useUI } from '@/store/ui';
@@ -39,14 +39,6 @@ function useLiveSeconds(startISO?: string): number {
   }, []);
   if (!startISO) return 0;
   return Math.max(0, Math.floor((now - new Date(startISO).getTime()) / 1000));
-}
-
-function Chip({ children }: { children: ReactNode }) {
-  return (
-    <span className="inline-flex h-[27px] items-center gap-2 rounded-[var(--radius)] border border-border2 bg-panel px-2.5 font-mono text-xs text-muted">
-      {children}
-    </span>
-  );
 }
 
 function Metric({ k, v, mono, clamp }: { k: string; v: string; mono?: boolean; clamp?: boolean }) {

@@ -3,16 +3,23 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from redcell_core.keys import normalize_private_key
 from redcell_core.probe import probe_proxy, probe_server
 from redcell_core.repositories import ids
 from redcell_core.repositories import proxies as proxies_repo
 from redcell_core.repositories import servers as servers_repo
-from redcell_core.schemas import (CreateProxyInput, CreateServerInput, Proxy, ProxyTestResult, Server,
-                                  ServerTestResult, UpdateProxyInput, UpdateServerInput)
+from redcell_core.schemas import (
+    CreateProxyInput,
+    CreateServerInput,
+    Proxy,
+    ProxyTestResult,
+    Server,
+    ServerTestResult,
+    UpdateProxyInput,
+    UpdateServerInput,
+)
 from redcell_core.security import current_user
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..deps import ListParams, db, list_params
 

@@ -8,6 +8,14 @@
     "dev": "bun --filter @redcell/web dev",
     "build": "bun --filter @redcell/web build",
     "preview": "bun --filter @redcell/web preview",
-    "typecheck": "bun --filter '*' typecheck"
+    "typecheck": "bun --filter '*' typecheck",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.1",
+    "eslint": "9.39.1",
+    "eslint-plugin-react-hooks": "5.2.0",
+    "globals": "16.5.0",
+    "typescript-eslint": "8.46.1"
   }
 }

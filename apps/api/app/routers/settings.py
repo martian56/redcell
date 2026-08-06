@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from redcell_core.repositories import provider_credentials as creds_repo
 from redcell_core.repositories import providers as providers_repo
 from redcell_core.repositories import settings as settings_repo
@@ -16,6 +14,7 @@ from redcell_core.schemas import (
     Settings,
 )
 from redcell_core.security import current_user
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..deps import db
 

@@ -1,7 +1,6 @@
 import pytest
-from sqlalchemy import text
-
 from redcell_core.db import session_scope
+from sqlalchemy import text
 
 
 @pytest.mark.asyncio

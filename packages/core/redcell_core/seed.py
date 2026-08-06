@@ -11,14 +11,30 @@ from sqlalchemy import delete
 from .config import settings
 from .db import session_scope
 from .models import (
-    Agent, AgentEdge, AppSettings, ChatMessage, File, Finding, Host, Listener, Loot,
-    Provider, ProviderCredential, Proxy, ProxyEntry, Report, Run, Server, Session, Shell, User,
+    Agent,
+    AgentEdge,
+    AppSettings,
+    ChatMessage,
+    File,
+    Finding,
+    Host,
+    Listener,
+    Loot,
+    Provider,
+    ProviderCredential,
+    Proxy,
+    ProxyEntry,
+    Report,
+    Run,
+    Server,
+    Session,
+    Shell,
+    User,
 )
 from .repositories import ids
 from .repositories import providers as providers_repo
 from .repositories import settings as settings_repo
 from .repositories import users as users_repo
-from .schemas import Settings as SettingsSchema
 from .security import hash_password
 from .storage import storage
 
@@ -58,7 +74,7 @@ PROVIDERS = [
 
 
 def _mins_ago(minutes: int) -> str:
-    return (dt.datetime.now(dt.timezone.utc) - dt.timedelta(minutes=minutes)).isoformat()
+    return (dt.datetime.now(dt.UTC) - dt.timedelta(minutes=minutes)).isoformat()
 
 
 async def bootstrap() -> None:

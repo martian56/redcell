@@ -6,7 +6,8 @@ from __future__ import annotations
 import asyncio
 import json
 from collections import defaultdict
-from typing import Any, AsyncIterator
+from collections.abc import AsyncIterator
+from typing import Any
 
 import redis.asyncio as redis
 

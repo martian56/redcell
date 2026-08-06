@@ -7,12 +7,10 @@ from __future__ import annotations
 import asyncio
 import random
 
-from ..bus import Bus, chat_channel, events_channel, shell_channel
+from ..bus import Bus, chat_channel, shell_channel
 from ..db import session_scope
 from ..repositories import chat as chat_repo
-from ..repositories import ids
 from ..repositories import runs as runs_repo
-from ..repositories import sessions as sessions_repo
 from ..repositories import shells as shells_repo
 
 EVENT_TEMPLATES = [

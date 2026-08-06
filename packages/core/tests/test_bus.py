@@ -1,7 +1,6 @@
 import asyncio
 
 import pytest
-
 from redcell_core.bus import Bus, control_channel
 
 

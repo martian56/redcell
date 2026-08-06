@@ -86,7 +86,7 @@ def _usage_total(resp: Any) -> int:
     if usage is None:
         return 0
     if hasattr(usage, "total_tokens"):
-        return int(getattr(usage, "total_tokens") or 0)
+        return int(usage.total_tokens or 0)
     try:
         return int(usage.get("total_tokens") or 0)
     except Exception:

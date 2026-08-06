@@ -2,10 +2,9 @@ import asyncio
 from logging.config import fileConfig
 
 from alembic import context
-from sqlalchemy.ext.asyncio import create_async_engine
-
 from redcell_core.config import settings
 from redcell_core.models import Base
+from sqlalchemy.ext.asyncio import create_async_engine
 
 config = context.config
 if config.config_file_name:
