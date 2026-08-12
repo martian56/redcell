@@ -220,15 +220,6 @@ class ChatSendInput(Camel):
     text: str
 
 
-class EventMsg(Camel):
-    id: str
-    ts: str
-    run_id: str
-    source: str
-    type: str
-    text: str
-
-
 # ---- settings / providers ----
 class LlmSettings(Camel):
     provider: str = "moonshot"

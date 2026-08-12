@@ -1,5 +1,4 @@
 import pytest
-
 from redcell_core.db import session_scope
 from redcell_core.repositories import proxy_entries, servers
 

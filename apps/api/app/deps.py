@@ -1,13 +1,12 @@
 """FastAPI dependencies: DB session, current-user guard, list-query params."""
 
+from collections.abc import AsyncIterator
 from dataclasses import dataclass
-from typing import AsyncIterator
 
 from fastapi import Depends, Query
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from redcell_core.db import SessionLocal
 from redcell_core.security import current_user  # noqa: F401  re-exported
+from sqlalchemy.ext.asyncio import AsyncSession
 
 __all__ = ["db", "current_user", "ListParams", "list_params"]
 

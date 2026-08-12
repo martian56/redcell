@@ -3,12 +3,11 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException, Response
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from redcell_core.config import settings
 from redcell_core.repositories import users as users_repo
 from redcell_core.schemas import FirstRun, LoginInput, User
 from redcell_core.security import clear_cookie, current_user, issue_cookie, verify_password
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..deps import db
 

@@ -7,13 +7,24 @@ import base64
 from io import BytesIO
 
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER, TA_LEFT
+from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
-from reportlab.platypus import (BaseDocTemplate, Flowable, Frame, HRFlowable, Image, KeepTogether,
-                                NextPageTemplate, PageBreak, PageTemplate, Paragraph, Spacer, Table,
-                                TableStyle)
+from reportlab.platypus import (
+    BaseDocTemplate,
+    Flowable,
+    Frame,
+    HRFlowable,
+    Image,
+    NextPageTemplate,
+    PageBreak,
+    PageTemplate,
+    Paragraph,
+    Spacer,
+    Table,
+    TableStyle,
+)
 from reportlab.platypus.tableofcontents import TableOfContents
 
 from .text import humanize
@@ -192,7 +203,7 @@ def _sev_summary_table(st, findings) -> Table:
         ("LEFTPADDING", (0, 0), (-1, -1), 8),
         ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
     ]
-    for i, s in enumerate(["critical", "high", "medium", "low", "info"], start=1):
+    for s in ["critical", "high", "medium", "low", "info"]:
         rows.append([_Bar(s, SEV[s]), _p(str(counts[s]), st["meta"])])
     t = Table(rows, colWidths=[40 * mm, None])
     t.setStyle(TableStyle(style))

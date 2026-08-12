@@ -9,15 +9,14 @@ import json
 from typing import Any, TypedDict
 
 from .. import steer
-from ..bus import Bus, chat_channel, events_channel, shell_channel, shell_input_channel
+from ..bus import Bus, chat_channel, shell_channel, shell_input_channel
 from ..config import settings
 from ..db import session_scope
 from ..repositories import agents as agents_repo
-from ..repositories import listeners as listeners_repo
 from ..repositories import chat as chat_repo
 from ..repositories import findings as findings_repo
 from ..repositories import hosts as hosts_repo
-from ..repositories import ids
+from ..repositories import listeners as listeners_repo
 from ..repositories import loot as loot_repo
 from ..repositories import provider_credentials as creds_repo
 from ..repositories import proxies as proxies_repo
@@ -29,8 +28,14 @@ from ..repositories import shells as shells_repo
 from ..schemas import ExecutionSettings, LlmSettings
 from .execution import build_backend
 from .llm import LlmClient
-from .tools import (EXECUTOR_TOOLS, ORCHESTRATOR_TOOLS, codescan_executor_system,
-                    codescan_orchestrator_system, executor_system, orchestrator_system)
+from .tools import (
+    EXECUTOR_TOOLS,
+    ORCHESTRATOR_TOOLS,
+    codescan_executor_system,
+    codescan_orchestrator_system,
+    executor_system,
+    orchestrator_system,
+)
 
 MAX_ORCH_STEPS = 40
 MAX_EXEC_STEPS = 10
@@ -420,7 +425,7 @@ class LiveRunner:
 
         try:
             return await asyncio.wait_for(wait(), timeout=timeout)
-        except asyncio.TimeoutError:
+        except TimeoutError:
             await self._event("orchestrator", "steer", "operator did not answer; proceeding conservatively")
             return None
 

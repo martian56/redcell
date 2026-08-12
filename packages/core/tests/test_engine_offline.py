@@ -7,7 +7,6 @@ import asyncio
 import json
 
 import pytest
-
 from redcell_core.bus import Bus, chat_channel, events_channel
 from redcell_core.db import session_scope
 from redcell_core.engine.execution import SimBackend
@@ -114,9 +113,10 @@ async def test_engine_runs_and_persists():
     assert any(c.get("options") for c in chats)
 
     # clean up so the test session does not linger in the shared dev DB
+    from redcell_core.models import Agent, AgentEdge, ChatMessage, Finding, Host, Shell
+    from redcell_core.models import Run as _Run
+    from redcell_core.models import Session as _Session
     from sqlalchemy import delete
-    from redcell_core.models import (Agent, AgentEdge, ChatMessage, Finding, Host, Run as _Run,
-                                     Session as _Session, Shell)
     async with session_scope() as s:
         for m in (Agent, AgentEdge, ChatMessage):
             await s.execute(delete(m).where(m.run_id == rid))

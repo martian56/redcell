@@ -27,7 +27,7 @@ async def probe_server(host: str, username: str | None, secret: str | None, time
         await asyncio.wait_for(backend.start(), timeout=timeout)
         res = await asyncio.wait_for(backend.run(_PROBE), timeout=timeout)
         latency = int((perf_counter() - t0) * 1000)
-    except asyncio.TimeoutError:
+    except TimeoutError:
         return {"ok": False, "error": "connection timed out"}
     except Exception as exc:
         return {"ok": False, "error": (str(exc) or type(exc).__name__)[:220]}
