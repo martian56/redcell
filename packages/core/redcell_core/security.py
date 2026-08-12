@@ -28,7 +28,7 @@ def verify_password(password: str, password_hash: str) -> bool:
 
 
 def issue_cookie(response: Response, username: str, role: str = "admin") -> None:
-    now = dt.datetime.now(dt.timezone.utc)
+    now = dt.datetime.now(dt.UTC)
     payload = {
         "sub": username,
         "role": role,
@@ -52,5 +52,5 @@ def current_user(rc_session: str | None = Cookie(default=None)) -> User:
     try:
         payload = jwt.decode(rc_session, settings.jwt_secret, algorithms=[_ALGO])
     except jwt.PyJWTError:
-        raise HTTPException(status_code=401, detail="invalid session")
+        raise HTTPException(status_code=401, detail="invalid session") from None
     return User(id="u-1", username=payload.get("sub", "admin"), role=payload.get("role", "admin"))

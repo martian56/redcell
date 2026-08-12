@@ -1,5 +1,4 @@
 import pytest
-
 from redcell_core.config import settings
 from redcell_core.storage import storage
 

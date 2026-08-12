@@ -6,7 +6,6 @@ import asyncio
 
 import jwt
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
-
 from redcell_core.bus import bus, chat_channel, events_channel, shell_channel
 from redcell_core.config import settings
 from redcell_core.security import COOKIE_NAME

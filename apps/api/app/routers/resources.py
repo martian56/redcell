@@ -5,8 +5,6 @@ from __future__ import annotations
 import asyncio
 
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from redcell_core import queue, steer
 from redcell_core.bus import bus, chat_channel, control_channel, shell_channel, shell_input_channel
 from redcell_core.db import session_scope
@@ -22,11 +20,28 @@ from redcell_core.repositories import runs as runs_repo
 from redcell_core.repositories import sessions as sessions_repo
 from redcell_core.repositories import shells as shells_repo
 from redcell_core.schemas import (
-    Agent, AgentEdge, AgentGraph, ChatMessage, ChatSendInput, CreateRunInput, CreateSessionInput,
-    EventMsg, Finding, Host, Listener, LootItem, OpenShellInput, ProxyEntry, Run, Session, Shell,
-    ShellWriteInput, StartListenerInput,
+    Agent,
+    AgentEdge,
+    AgentGraph,
+    ChatMessage,
+    ChatSendInput,
+    CreateRunInput,
+    CreateSessionInput,
+    EventMsg,
+    Finding,
+    Host,
+    Listener,
+    LootItem,
+    OpenShellInput,
+    ProxyEntry,
+    Run,
+    Session,
+    Shell,
+    ShellWriteInput,
+    StartListenerInput,
 )
 from redcell_core.security import current_user
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..deps import ListParams, db, list_params
 
@@ -239,7 +254,7 @@ async def list_listeners(sid: str, s: AsyncSession = Depends(db), p: ListParams 
                          status: str | None = Query(None)) -> list[Listener]:
     await _get_session(s, sid)
     rows = await listeners_repo.list_for_session(s, sid, status=status, q=p.q, limit=p.limit, offset=p.offset)
-    return [_listener_schema(l) for l in rows]
+    return [_listener_schema(row) for row in rows]
 
 
 @router.post("/sessions/{sid}/listeners", response_model=Listener)

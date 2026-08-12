@@ -1,5 +1,4 @@
 import pytest
-
 from redcell_core import seed
 from redcell_core.config import settings
 from redcell_core.db import session_scope

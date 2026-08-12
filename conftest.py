@@ -19,10 +19,10 @@ the async engine binds to the test database from the start.
 import asyncio
 
 import pytest
-from sqlalchemy.engine import make_url
 
 # 1) Redirect settings to test-only infra BEFORE anything binds to them. ----------
 from redcell_core.config import settings  # noqa: E402
+from sqlalchemy.engine import make_url
 
 
 def _test_db_url(url: str) -> str:

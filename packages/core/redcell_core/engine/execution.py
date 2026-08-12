@@ -9,8 +9,8 @@ Backends stream output line by line through an async callback."""
 from __future__ import annotations
 
 import asyncio
+from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
-from typing import Awaitable, Callable
 
 from ..config import settings
 from ..schemas import ExecutionSettings

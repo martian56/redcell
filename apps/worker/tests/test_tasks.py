@@ -2,7 +2,6 @@ import asyncio
 import json
 
 import pytest
-
 from redcell_core.bus import bus, events_channel
 from redcell_core.config import settings
 from redcell_core.db import session_scope
@@ -21,7 +20,7 @@ async def test_run_engagement_sim_publishes(monkeypatch):
         ses = await sessions_repo.create(s, {"name": "W", "client": "C", "scope": [], "targets": []})
         run = await runs_repo.create(s, {"session_id": ses.id, "name": "r", "status": "queued",
                                          "phase": "Recon", "model": "kimi-k3"})
-        rid = ses_id_run = run.id
+        rid = run.id
 
     got = []
 

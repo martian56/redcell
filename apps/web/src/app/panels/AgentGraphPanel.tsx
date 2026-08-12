@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
 import { cn } from '@/lib/cn';
 import { useUI } from '@/store/ui';
 import { useGraph } from '@/store/graph';
@@ -66,7 +66,7 @@ export function AgentGraphPanel() {
     null,
   );
 
-  const keyFor = (id: string) => `${runId}:${id}`;
+  const keyFor = useCallback((id: string) => `${runId}:${id}`, [runId]);
   const posOf = (id: string): Pt => live[id] ?? stored[keyFor(id)] ?? defaults.get(id) ?? { x: 16, y: 16 };
 
   useEffect(() => {
@@ -105,7 +105,7 @@ export function AgentGraphPanel() {
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerup', onUp);
     };
-  }, [setPos, select, showPanel, runId]);
+  }, [setPos, select, showPanel, runId, keyFor]);
 
   if (isLoading) return <div className="grid h-full place-items-center"><Spinner /></div>;
   if (!data || data.nodes.length === 0) return <Empty>No active run.</Empty>;

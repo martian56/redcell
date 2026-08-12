@@ -3,12 +3,11 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from redcell_core import queue
 from redcell_core.repositories import reports as reports_repo
 from redcell_core.schemas import CreateReportInput, Report
 from redcell_core.security import current_user
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..deps import db
 

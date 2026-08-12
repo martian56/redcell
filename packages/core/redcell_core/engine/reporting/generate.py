@@ -8,18 +8,17 @@ import asyncio
 import json
 import re
 
+from ...config import settings
 from ...db import session_scope
 from ...repositories import files as files_repo
 from ...repositories import findings as findings_repo
 from ...repositories import hosts as hosts_repo
+from ...repositories import ids
 from ...repositories import loot as loot_repo
 from ...repositories import provider_credentials as creds_repo
 from ...repositories import reports as reports_repo
-from ...repositories import runs as runs_repo
 from ...repositories import sessions as sessions_repo
 from ...repositories import settings as settings_repo
-from ...repositories import ids
-from ...config import settings
 from ...schemas import LlmSettings, ReportSettings
 from ...storage import storage
 from .narrative import write_narrative
