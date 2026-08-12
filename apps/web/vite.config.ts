@@ -1,7 +1,7 @@
 import path from 'node:path';
 import tailwind from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 
 const root = import.meta.dirname;
 
@@ -18,5 +18,12 @@ export default defineConfig({
     port: 5183,
     // allow importing files from the monorepo root (the api-client package)
     fs: { allow: ['../..'] },
+  },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: ['./src/test/setup.ts'],
+    // Unit tests only: stores, lib helpers, and the mock client. No backend.
+    include: ['src/**/*.test.{ts,tsx}'],
   },
 });

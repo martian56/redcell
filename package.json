@@ -8,6 +8,7 @@
     "dev": "bun --filter @redcell/web dev",
     "build": "bun --filter @redcell/web build",
     "preview": "bun --filter @redcell/web preview",
-    "typecheck": "bun --filter '*' typecheck"
+    "typecheck": "bun --filter '*' typecheck",
+    "test": "bun --filter @redcell/web test"
   }
 }
