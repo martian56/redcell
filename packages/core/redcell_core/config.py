@@ -15,7 +15,7 @@ class Settings(BaseSettings):
 
     database_url: str = "postgresql+asyncpg://redcell:redcell@localhost:5432/redcell"
     redis_url: str = "redis://localhost:6379/0"
-    run_mode: str = "sim"  # sim | live
+    run_mode: str = "live"  # live | sim (sim replays canned output, runs no tools)
     # reverse-shell callback address. listener runs on the worker host; a Docker
     # target reaches it via host.docker.internal.
     callback_host: str = "host.docker.internal"
