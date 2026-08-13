@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+"""REDCELL in-container browser action helper. Connects to the headed Chromium
+started by rc-browserd over CDP, performs one action, and prints a single JSON
+line. Driven by the engine BrowserManager through backend.run, so the browser is
+operated exactly like every other tool in the container."""
+
+import base64
+import json
+import sys
+
+CDP = "http://localhost:9222"
+
+
+def _out(obj):
+    print(json.dumps(obj))
+
+
+def _page(pw):
+    browser = pw.chromium.connect_over_cdp(CDP)
+    ctx = browser.contexts[0] if browser.contexts else browser.new_context()
+    page = ctx.pages[0] if ctx.pages else ctx.new_page()
+    return browser, page
+
+
+def _run(action, argv):
+    from playwright.sync_api import sync_playwright
+
+    with sync_playwright() as pw:
+        browser, page = _page(pw)
+        try:
+            if action == "open":
+                page.goto(argv[0], wait_until="domcontentloaded", timeout=30000)
+                _out({"ok": True, "url": page.url, "title": page.title()})
+            elif action == "click":
+                page.click(argv[0], timeout=15000)
+                _out({"ok": True, "url": page.url})
+            elif action == "type":
+                submit = "--submit" in argv[2:]
+                page.fill(argv[0], argv[1], timeout=15000)
+                if submit:
+                    page.keyboard.press("Enter")
+                _out({"ok": True, "url": page.url})
+            elif action == "read":
+                text = page.inner_text("body")[:6000]
+                links = [
+                    {"text": (a.inner_text() or "").strip()[:80], "href": a.get_attribute("href")}
+                    for a in page.query_selector_all("a[href]")[:40]
+                ]
+                inputs = [
+                    {"name": i.get_attribute("name"), "type": i.get_attribute("type"),
+                     "id": i.get_attribute("id")}
+                    for i in page.query_selector_all("input, textarea, select")[:40]
+                ]
+                _out({"ok": True, "url": page.url, "title": page.title(), "text": text,
+                      "links": links, "inputs": inputs})
+            elif action == "screenshot":
+                _out({"ok": True, "b64": base64.b64encode(page.screenshot()).decode()})
+            else:
+                _out({"ok": False, "error": f"unknown action {action}"})
+        finally:
+            # connect_over_cdp: close() disconnects the client but leaves Chromium
+            # running, so page state persists for the next action.
+            browser.close()
+
+
+def main(argv):
+    if not argv:
+        _out({"ok": False, "error": "no action"})
+        return
+    try:
+        _run(argv[0], argv[1:])
+    except Exception as exc:
+        _out({"ok": False, "error": (str(exc) or type(exc).__name__)[:300]})
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
