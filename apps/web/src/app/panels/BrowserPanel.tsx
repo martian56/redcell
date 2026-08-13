@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import RFB from '@novnc/novnc';
 import { useUI } from '@/store/ui';
 import { useApi } from '@/lib/api';
 import { Button, Empty } from '@/components/ui/primitives';
 
-type Status = 'connecting' | 'connected' | 'disconnected';
+type Status = 'idle' | 'starting' | 'connecting' | 'connected' | 'disconnected' | 'error';
 
 export function BrowserPanel() {
   const sessionId = useUI((s) => s.activeSessionId);
@@ -12,32 +12,50 @@ export function BrowserPanel() {
   const screenRef = useRef<HTMLDivElement>(null);
   const rfbRef = useRef<RFB | null>(null);
   const operatorRef = useRef(false);
-  const [status, setStatus] = useState<Status>('connecting');
+  const [status, setStatus] = useState<Status>('idle');
+  const [detail, setDetail] = useState('');
   const [operator, setOperator] = useState(false);
 
-  useEffect(() => {
-    if (!sessionId || !screenRef.current) return;
-    setStatus('connecting');
-    let rfb: RFB | null = null;
+  const teardown = useCallback(() => {
     try {
-      rfb = new RFB(screenRef.current, api.browser.vncUrl(sessionId), { shared: true });
+      rfbRef.current?.disconnect();
+    } catch {
+      /* already gone */
+    }
+    rfbRef.current = null;
+  }, []);
+
+  const connect = useCallback(async () => {
+    if (!sessionId || !screenRef.current) return;
+    teardown();
+    setDetail('');
+    setStatus('starting');
+    const started = await api.browser
+      .start(sessionId)
+      .catch(() => ({ ok: false, detail: 'could not reach the API' }));
+    if (!started.ok) {
+      setStatus('error');
+      setDetail(started.detail || 'could not start the browser (is a run active?)');
+      return;
+    }
+    setStatus('connecting');
+    try {
+      const rfb = new RFB(screenRef.current, api.browser.vncUrl(sessionId), { shared: true });
       rfb.viewOnly = !operatorRef.current;
       rfb.scaleViewport = true;
       rfb.addEventListener('connect', () => setStatus('connected'));
       rfb.addEventListener('disconnect', () => setStatus('disconnected'));
       rfbRef.current = rfb;
     } catch {
-      setStatus('disconnected');
+      setStatus('error');
+      setDetail('VNC connection failed');
     }
-    return () => {
-      try {
-        rfb?.disconnect();
-      } catch {
-        /* already gone */
-      }
-      rfbRef.current = null;
-    };
-  }, [sessionId, api]);
+  }, [sessionId, api, teardown]);
+
+  useEffect(() => {
+    void connect();
+    return teardown;
+  }, [connect, teardown]);
 
   const toggleControl = async () => {
     if (!sessionId) return;
@@ -54,13 +72,25 @@ export function BrowserPanel() {
     <div className="flex h-full flex-col">
       <div className="flex flex-none items-center gap-2 border-b border-border bg-bg2 px-3 py-2">
         <span className="font-mono text-[10px] uppercase tracking-wider text-faint">Browser</span>
-        <span className="font-mono text-[10px] text-muted">
+        <span className="min-w-0 truncate font-mono text-[10px] text-muted">
           {status}
           {operator ? ' · you have control' : ''}
+          {detail ? ` · ${detail}` : ''}
         </span>
-        <Button variant="subtle" className="ml-auto h-6 px-2 text-[11px]" onClick={toggleControl}>
-          {operator ? 'Release control' : 'Take control'}
-        </Button>
+        {status === 'connected' ? (
+          <Button variant="subtle" className="ml-auto h-6 flex-none px-2 text-[11px]" onClick={toggleControl}>
+            {operator ? 'Release control' : 'Take control'}
+          </Button>
+        ) : (
+          <Button
+            variant="subtle"
+            className="ml-auto h-6 flex-none px-2 text-[11px]"
+            disabled={status === 'starting' || status === 'connecting'}
+            onClick={() => void connect()}
+          >
+            Connect
+          </Button>
+        )}
       </div>
       <div ref={screenRef} className="min-h-0 flex-1 bg-black" />
     </div>

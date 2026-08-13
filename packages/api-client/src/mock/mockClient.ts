@@ -582,6 +582,9 @@ export function createMockClient(): ApiClient {
       },
     },
     browser: {
+      async start() {
+        return { ok: true };
+      },
       async control(_sessionId, owner) {
         return { owner };
       },
