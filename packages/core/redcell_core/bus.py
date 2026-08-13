@@ -36,6 +36,11 @@ def control_channel(run_id: str) -> str:
     return f"control:{run_id}"
 
 
+def browser_channel(session_id: str) -> str:
+    """Browser control-owner handoff (operator take/release) from the API to the worker."""
+    return f"browser:{session_id}"
+
+
 class _MemoryBackend:
     def __init__(self) -> None:
         self._subs: dict[str, set[asyncio.Queue[str]]] = defaultdict(set)

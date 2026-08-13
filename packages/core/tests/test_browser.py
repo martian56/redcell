@@ -143,3 +143,8 @@ async def test_dispatch_browser_unavailable_returns_error():
     r = LiveRunner(bus=None, run_id="run-1")
     out = await r._dispatch_browser("browser_open", {"url": "x"})
     assert "error" in out
+
+
+def test_browser_channel_name():
+    from redcell_core.bus import browser_channel
+    assert browser_channel("ses-1") == "browser:ses-1"

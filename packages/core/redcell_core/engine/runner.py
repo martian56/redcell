@@ -9,7 +9,7 @@ import json
 from typing import Any, TypedDict
 
 from .. import steer
-from ..bus import Bus, chat_channel, shell_channel, shell_input_channel
+from ..bus import Bus, browser_channel, chat_channel, shell_channel, shell_input_channel
 from ..config import settings
 from ..db import session_scope
 from ..repositories import agents as agents_repo
@@ -135,6 +135,8 @@ class LiveRunner:
 
     async def run(self) -> None:
         await self._load()
+        if self._browser is not None:
+            self._listener_tasks.append(asyncio.create_task(self._watch_browser_control()))
         if self.kind != "code":
             await self._seed_targets()
         try:
@@ -360,6 +362,21 @@ class LiveRunner:
                 return {"ok": True, "captured": True, "url": res.get("url")}
             return res
         return {"error": f"unknown browser tool {name}"}
+
+    async def _watch_browser_control(self) -> None:
+        """Flip the browser's control owner when the operator takes or releases it."""
+        try:
+            async for payload in self.bus.subscribe(browser_channel(self.session_id)):
+                try:
+                    data = json.loads(payload)
+                except json.JSONDecodeError:
+                    continue
+                if self._browser is not None and "owner" in data:
+                    self._browser.set_owner(data["owner"])
+        except asyncio.CancelledError:
+            raise
+        except Exception:
+            pass
 
     # ---- executor sub-agent ----
     async def _delegate(self, agent_name: str, objective: str) -> dict[str, Any]:
