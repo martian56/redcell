@@ -19,6 +19,8 @@ export default defineConfig({
     // allow importing files from the monorepo root (the api-client package)
     fs: { allow: ['../..'] },
   },
+  // es2022 so @novnc/novnc's top-level await survives the build (all target browsers support it).
+  build: { target: 'es2022' },
   test: {
     environment: 'jsdom',
     globals: true,

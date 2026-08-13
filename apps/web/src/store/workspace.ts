@@ -14,7 +14,8 @@ export type PanelId =
   | 'chat'
   | 'surface'
   | 'loot'
-  | 'reports';
+  | 'reports'
+  | 'browser';
 
 export const PANEL_LABELS: Record<PanelId, string> = {
   agents: 'Agent graph',
@@ -28,6 +29,7 @@ export const PANEL_LABELS: Record<PanelId, string> = {
   surface: 'Attack surface',
   loot: 'Loot & creds',
   reports: 'Reports',
+  browser: 'Browser',
 };
 
 export const SWAPPABLE: PanelId[] = [
@@ -42,6 +44,7 @@ export const SWAPPABLE: PanelId[] = [
   'listeners',
   'proxy',
   'reports',
+  'browser',
 ];
 
 type Node = MosaicNode<PanelId>;

@@ -10,6 +10,7 @@ import { ChatPanel } from './ChatPanel';
 import { AttackSurfacePanel } from './AttackSurfacePanel';
 import { LootPanel } from './LootPanel';
 import { ReportsPanel } from './ReportsPanel';
+import { BrowserPanel } from './BrowserPanel';
 
 export function PanelView({ id }: { id: PanelId }) {
   switch (id) {
@@ -35,6 +36,8 @@ export function PanelView({ id }: { id: PanelId }) {
       return <LootPanel />;
     case 'reports':
       return <ReportsPanel />;
+    case 'browser':
+      return <BrowserPanel />;
     default:
       return null;
   }
