@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useApi } from '@/lib/api';
-import type { ChatMessage, Settings } from '@redcell/api-client';
+import type { ChatMessage, FindingStatus, Settings } from '@redcell/api-client';
 
 export function useSessions() {
   const api = useApi();
@@ -137,11 +137,22 @@ export function useLoot(sessionId: string | null) {
   });
 }
 
-export function useVerifyFinding() {
+export function useSetFindingStatus() {
   const api = useApi();
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => api.findings.verify(id),
+    mutationFn: ({ id, status }: { id: string; status: FindingStatus }) =>
+      api.findings.setStatus(id, status),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['findings'] }),
+  });
+}
+
+export function useMergeFindings() {
+  const api = useApi();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ primaryId, duplicateIds }: { primaryId: string; duplicateIds: string[] }) =>
+      api.findings.merge(primaryId, duplicateIds),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['findings'] }),
   });
 }

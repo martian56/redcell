@@ -40,10 +40,12 @@ from redcell_core.schemas import (
     Host,
     Listener,
     LootItem,
+    MergeFindingsInput,
     OpenShellInput,
     ProxyEntry,
     Run,
     Session,
+    SetFindingStatusInput,
     Shell,
     ShellWriteInput,
     StartListenerInput,
@@ -253,6 +255,27 @@ async def get_finding(fid: str, s: AsyncSession = Depends(db)) -> Finding:
 @router.post("/findings/{fid}/verify", response_model=Finding)
 async def verify_finding(fid: str, s: AsyncSession = Depends(db)) -> Finding:
     row = await findings_repo.verify(s, fid)
+    if row is None:
+        raise HTTPException(404, "finding not found")
+    return Finding.model_validate(row)
+
+
+@router.post("/findings/{fid}/status", response_model=Finding)
+async def set_finding_status(fid: str, body: SetFindingStatusInput,
+                             s: AsyncSession = Depends(db)) -> Finding:
+    try:
+        row = await findings_repo.set_status(s, fid, body.status)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    if row is None:
+        raise HTTPException(404, "finding not found")
+    return Finding.model_validate(row)
+
+
+@router.post("/findings/{fid}/merge", response_model=Finding)
+async def merge_findings(fid: str, body: MergeFindingsInput,
+                         s: AsyncSession = Depends(db)) -> Finding:
+    row = await findings_repo.merge(s, fid, body.duplicate_ids)
     if row is None:
         raise HTTPException(404, "finding not found")
     return Finding.model_validate(row)

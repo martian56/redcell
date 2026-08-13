@@ -10,6 +10,7 @@ import type {
   DraftChatOutput,
   EventMsg,
   Finding,
+  FindingStatus,
   Host,
   ID,
   Listener,
@@ -114,6 +115,9 @@ export interface ApiClient {
     list(sessionId: string, params?: ListQuery): Promise<Finding[]>;
     get(id: string): Promise<Finding>;
     verify(id: string): Promise<Finding>;
+    setStatus(id: string, status: FindingStatus): Promise<Finding>;
+    /** Fold duplicates into a primary finding: the duplicates are dismissed. */
+    merge(primaryId: string, duplicateIds: string[]): Promise<Finding>;
   };
   shells: {
     list(sessionId: string, params?: ListQuery): Promise<Shell[]>;

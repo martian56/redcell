@@ -45,19 +45,36 @@ describe('runs', () => {
 });
 
 describe('findings', () => {
-  it('marks a finding verified', async () => {
+  async function findWithFindings() {
     const sessions = await client.sessions.list();
-    let target;
     for (const s of sessions) {
       const findings = await client.findings.list(s.id);
-      if (findings.length) {
-        target = findings[0];
-        break;
-      }
+      if (findings.length) return { sessionId: s.id, findings };
     }
-    expect(target, 'expected a fixture finding to verify').toBeTruthy();
-    const verified = await client.findings.verify(target!.id);
+    throw new Error('expected a fixture session with findings');
+  }
+
+  it('marks a finding verified', async () => {
+    const { findings } = await findWithFindings();
+    const verified = await client.findings.verify(findings[0]!.id);
     expect(verified.status).toBe('verified');
+  });
+
+  it('sets an arbitrary triage status', async () => {
+    const { findings } = await findWithFindings();
+    const dismissed = await client.findings.setStatus(findings[0]!.id, 'dismissed');
+    expect(dismissed.status).toBe('dismissed');
+  });
+
+  it('merges duplicates by dismissing them and keeping the primary', async () => {
+    const { sessionId, findings } = await findWithFindings();
+    if (findings.length < 2) return; // fixtures always have several, but stay safe
+    const [primary, dup] = findings;
+    const kept = await client.findings.merge(primary!.id, [dup!.id]);
+    expect(kept.id).toBe(primary!.id);
+    const after = await client.findings.list(sessionId);
+    expect(after.find((f) => f.id === dup!.id)!.status).toBe('dismissed');
+    expect(after.find((f) => f.id === primary!.id)!.status).not.toBe('dismissed');
   });
 });
 

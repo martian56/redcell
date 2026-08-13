@@ -3,6 +3,7 @@ exporter, and a smoke test of the PDF builder. All pure, no DB or infra."""
 
 from types import SimpleNamespace
 
+from redcell_core.engine.reporting.generate import select_report_findings
 from redcell_core.engine.reporting.pdf import build_pdf
 from redcell_core.engine.reporting.sarif import build_sarif
 from redcell_core.engine.reporting.text import humanize
@@ -29,6 +30,17 @@ def test_humanize_handles_none_and_empty():
 
 def test_humanize_collapses_runs_of_spaces():
     assert humanize("a    b") == "a b"
+
+
+# ---- report triage filter ----
+
+def test_select_report_findings_excludes_dismissed():
+    findings = [
+        SimpleNamespace(id="a", status="verified"),
+        SimpleNamespace(id="b", status="dismissed"),
+        SimpleNamespace(id="c", status="candidate"),
+    ]
+    assert [f.id for f in select_report_findings(findings)] == ["a", "c"]
 
 
 # ---- SARIF export ----

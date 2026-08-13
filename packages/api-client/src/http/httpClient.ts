@@ -66,6 +66,8 @@ export function createHttpClient(baseUrl: string, wsUrl: string): ApiClient {
       list: (sessionId, params) => req(`/sessions/${sessionId}/findings${qs(params)}`),
       get: (id) => req(`/findings/${id}`),
       verify: (id) => req(`/findings/${id}/verify`, { method: 'POST' }),
+      setStatus: (id, status) => req(`/findings/${id}/status`, json({ status })),
+      merge: (primaryId, duplicateIds) => req(`/findings/${primaryId}/merge`, json({ duplicateIds })),
     },
     shells: {
       list: (sessionId, params) => req(`/sessions/${sessionId}/shells${qs(params)}`),

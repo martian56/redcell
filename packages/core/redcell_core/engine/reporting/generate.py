@@ -33,6 +33,12 @@ def _slug(text: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", (text or "report").lower()).strip("-")[:50] or "report"
 
 
+def select_report_findings(findings) -> list:
+    """Findings that belong in a client report: dismissed ones (false positives
+    and merged duplicates) are excluded; everything else is kept."""
+    return [f for f in findings if f.status != "dismissed"]
+
+
 def _findings_json(findings) -> list:
     return [{
         "id": f.id, "title": f.title, "severity": f.severity, "cvss": f.cvss, "cwe": f.cwe,
@@ -48,7 +54,7 @@ async def generate_report(report_id: str) -> None:
             if report is None:
                 return
             session = await sessions_repo.get(s, report.session_id)
-            findings = await findings_repo.list_for_session(s, report.session_id)
+            findings = select_report_findings(await findings_repo.list_for_session(s, report.session_id))
             hosts = await hosts_repo.list_for_session(s, report.session_id)
             loot = await loot_repo.list_for_session(s, report.session_id)
             cfg = await settings_repo.get(s)
