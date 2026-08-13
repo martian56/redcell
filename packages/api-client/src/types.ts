@@ -6,7 +6,7 @@ export type ISODate = string;
 export type Severity = 'critical' | 'high' | 'medium' | 'low' | 'info';
 export type RunStatus = 'queued' | 'running' | 'paused' | 'completed' | 'failed' | 'stopped';
 export type AgentStatus = 'running' | 'waiting' | 'done' | 'idle' | 'failed';
-export type FindingStatus = 'candidate' | 'verified' | 'inconclusive';
+export type FindingStatus = 'candidate' | 'verified' | 'dismissed' | 'inconclusive';
 export type ShellKind = 'tool' | 'interactive' | 'reverse';
 export type ShellStatus = 'running' | 'idle' | 'closed';
 

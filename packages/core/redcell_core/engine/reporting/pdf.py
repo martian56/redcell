@@ -60,6 +60,8 @@ def _styles():
                                textColor=INK, spaceAfter=6),
         "small": ParagraphStyle("rc_small", fontName="Helvetica", fontSize=8.5, leading=12,
                                 textColor=MUTED),
+        "verified": ParagraphStyle("rc_verified", fontName="Helvetica-Bold", fontSize=8.5,
+                                   leading=12, textColor=colors.HexColor("#1a7f4b")),
         "meta": ParagraphStyle("rc_meta", fontName="Helvetica", fontSize=9, leading=13, textColor=INK),
         "mono": ParagraphStyle("rc_mono", fontName="Courier", fontSize=8, leading=11, textColor=INK),
         "label": ParagraphStyle("rc_label", fontName="Helvetica-Bold", fontSize=8, leading=11,
@@ -223,12 +225,13 @@ def _findings_index(st, findings) -> Table:
         ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
     ]
     for f in findings:
+        verified = f.status == "verified"
         rows.append([
             _p(f.id.replace("finding-", "")[:8], st["small"]),
             _p(f.title, st["meta"]),
             _Bar(f.severity, SEV.get(f.severity, MUTED), width=22 * mm),
             _p(f"{f.cvss:.1f}" if f.cvss else "-", st["meta"]),
-            _p(f.status, st["small"]),
+            _p("verified" if verified else f.status, st["verified"] if verified else st["small"]),
         ])
     t = Table(rows, colWidths=[16 * mm, None, 26 * mm, 14 * mm, 20 * mm], repeatRows=1)
     t.setStyle(TableStyle(style))

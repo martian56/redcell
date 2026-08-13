@@ -218,6 +218,24 @@ export function createMockClient(): ApiClient {
         finding.status = 'verified';
         return structuredClone(finding);
       },
+      async setStatus(id, status) {
+        await delay(200);
+        const finding = db.findings.find((f) => f.id === id);
+        if (!finding) throw new Error(`finding ${id} not found`);
+        finding.status = status;
+        return structuredClone(finding);
+      },
+      async merge(primaryId, duplicateIds) {
+        await delay(200);
+        const primary = db.findings.find((f) => f.id === primaryId);
+        if (!primary) throw new Error(`finding ${primaryId} not found`);
+        for (const dupId of duplicateIds) {
+          if (dupId === primaryId) continue;
+          const dup = db.findings.find((f) => f.id === dupId);
+          if (dup && dup.sessionId === primary.sessionId) dup.status = 'dismissed';
+        }
+        return structuredClone(primary);
+      },
     },
 
     shells: {

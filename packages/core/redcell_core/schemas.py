@@ -127,6 +127,14 @@ class Finding(Camel):
     created_at: str
 
 
+class SetFindingStatusInput(Camel):
+    status: str
+
+
+class MergeFindingsInput(Camel):
+    duplicate_ids: list[str] = []
+
+
 # ---- shells ----
 class Shell(Camel):
     id: str
