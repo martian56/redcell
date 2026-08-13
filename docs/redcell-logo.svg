@@ -5,17 +5,10 @@
       <stop offset="55%" stop-color="#e01235"/>
       <stop offset="100%" stop-color="#8f0d24"/>
     </radialGradient>
-    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
-      <feGaussianBlur stdDeviation="14" result="b"/>
-      <feMerge><feMergeNode in="b"/></feMerge>
-    </filter>
   </defs>
 
   <rect x="0.5" y="0.5" width="919" height="239" rx="22" fill="#0b0e13" stroke="#1b2230" stroke-width="1"/>
 
-  <!-- glow -->
-  <polygon points="124,36.2 205,97.8 175.8,198.2 72.2,198.2 43,97.8"
-           fill="#ff3344" opacity="0.20" filter="url(#glow)"/>
   <!-- pentagon mark -->
   <polygon points="124,60 184,105.6 162.4,180 85.6,180 64,105.6" fill="url(#mark)"/>
   <polygon points="124,60 184,105.6 162.4,180 85.6,180 64,105.6" fill="none"
