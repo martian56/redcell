@@ -182,7 +182,18 @@ async def browser_start(sid: str, s: AsyncSession = Depends(db)) -> dict[str, ob
             "docker", "exec", container, "rc-browserd", "start",
             stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT,
         )
+    except Exception as exc:
+        return {"ok": False, "detail": str(exc)[:200]}
+    try:
         out, _ = await asyncio.wait_for(proc.communicate(), timeout=30)
+    except TimeoutError:
+        # wait_for cancels communicate() but leaves docker exec running; kill and reap it.
+        try:
+            proc.kill()
+        except Exception:
+            pass
+        await proc.wait()
+        return {"ok": False, "detail": "browser start timed out"}
     except Exception as exc:
         return {"ok": False, "detail": str(exc)[:200]}
     ok = proc.returncode == 0
@@ -195,7 +206,9 @@ async def browser_start(sid: str, s: AsyncSession = Depends(db)) -> dict[str, ob
 @router.post("/sessions/{sid}/browser/control")
 async def browser_control(sid: str, body: BrowserControlInput, s: AsyncSession = Depends(db)) -> dict[str, str]:
     await _get_session(s, sid)
-    await steer.set_browser_owner(sid, body.owner)  # durable, so a take before the worker subscribes is not lost
+    if not await steer.set_browser_owner(sid, body.owner):
+        raise HTTPException(503, "could not persist browser control; retry")
+    # Publish only after the durable write succeeds (live update; the worker reads the durable value authoritatively).
     await bus.publish_json(browser_channel(sid), {"owner": body.owner})
     return {"owner": body.owner}
 

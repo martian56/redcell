@@ -62,13 +62,14 @@ def _browser_owner_key(session_id: str) -> str:
     return f"browser_owner:{session_id}"
 
 
-async def set_browser_owner(session_id: str, owner: str) -> None:
-    """Persist who holds the browser (operator/agent) so a take/release survives
-    the pub/sub timing: the worker loads it when its watcher starts."""
+async def set_browser_owner(session_id: str, owner: str) -> bool:
+    """Persist who holds the browser (operator/agent). Returns False on failure so
+    the caller does not report a successful take/release that was never stored."""
     try:
         await _r.set(_browser_owner_key(session_id), owner, ex=86400)
+        return True
     except Exception:
-        pass
+        return False
 
 
 async def get_browser_owner(session_id: str) -> str:

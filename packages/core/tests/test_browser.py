@@ -84,6 +84,10 @@ from redcell_core.engine.runner import LiveRunner  # noqa: E402
 class FakeBrowser:
     def __init__(self) -> None:
         self.calls: list[tuple] = []
+        self.owner = "agent"
+
+    def set_owner(self, owner):
+        self.owner = owner
 
     async def open(self, url):
         self.calls.append(("open", url))

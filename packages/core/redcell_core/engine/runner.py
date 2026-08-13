@@ -349,6 +349,9 @@ class LiveRunner:
     async def _dispatch_browser(self, name: str, args: dict[str, Any]) -> dict[str, Any]:
         if self._browser is None:
             return {"error": "browser not available for this session"}
+        # Authoritative ownership: read the durable value before every action, so a
+        # take/release is honored even if the live subscription missed it.
+        self._browser.set_owner(await steer.get_browser_owner(self.session_id))
         if name == "browser_open":
             return await self._browser.open(args.get("url", ""))
         if name == "browser_click":
