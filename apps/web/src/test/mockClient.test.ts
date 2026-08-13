@@ -108,3 +108,11 @@ describe('settings', () => {
     expect(models.some((m) => m.provider === 'ollama')).toBe(true);
   });
 });
+
+describe('browser', () => {
+  it('control echoes the owner and vncUrl points at the browser ws', async () => {
+    const res = await client.browser.control('ses-1', 'operator');
+    expect(res.owner).toBe('operator');
+    expect(client.browser.vncUrl('ses-1')).toContain('/ws/browser/');
+  });
+});
