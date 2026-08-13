@@ -12,9 +12,15 @@ export function BrowserPanel() {
   const screenRef = useRef<HTMLDivElement>(null);
   const rfbRef = useRef<RFB | null>(null);
   const operatorRef = useRef(false);
+  const busyRef = useRef(false);
+  const sessionIdRef = useRef(sessionId);
   const [status, setStatus] = useState<Status>('idle');
   const [detail, setDetail] = useState('');
   const [operator, setOperator] = useState(false);
+
+  useEffect(() => {
+    sessionIdRef.current = sessionId;
+  }, [sessionId]);
 
   const teardown = useCallback(() => {
     try {
@@ -28,11 +34,16 @@ export function BrowserPanel() {
   const connect = useCallback(async () => {
     if (!sessionId || !screenRef.current) return;
     teardown();
+    // Ownership is per session: never carry the previous session's control state over.
+    operatorRef.current = false;
+    setOperator(false);
     setDetail('');
     setStatus('starting');
     const started = await api.browser
       .start(sessionId)
       .catch(() => ({ ok: false, detail: 'could not reach the API' }));
+    // Bail if the session changed while we were starting.
+    if (sessionId !== sessionIdRef.current) return;
     if (!started.ok) {
       setStatus('error');
       setDetail(started.detail || 'could not start the browser (is a run active?)');
@@ -41,7 +52,7 @@ export function BrowserPanel() {
     setStatus('connecting');
     try {
       const rfb = new RFB(screenRef.current, api.browser.vncUrl(sessionId), { shared: true });
-      rfb.viewOnly = !operatorRef.current;
+      rfb.viewOnly = true; // view-only until the operator explicitly takes control of THIS session
       rfb.scaleViewport = true;
       rfb.addEventListener('connect', () => setStatus('connected'));
       rfb.addEventListener('disconnect', () => setStatus('disconnected'));
@@ -58,12 +69,21 @@ export function BrowserPanel() {
   }, [connect, teardown]);
 
   const toggleControl = async () => {
-    if (!sessionId) return;
+    if (!sessionId || busyRef.current) return;
+    const target = sessionId;
+    const rfb = rfbRef.current;
     const next = !operator;
-    await api.browser.control(sessionId, next ? 'operator' : 'agent');
-    operatorRef.current = next;
-    if (rfbRef.current) rfbRef.current.viewOnly = !next;
-    setOperator(next);
+    busyRef.current = true;
+    try {
+      await api.browser.control(target, next ? 'operator' : 'agent');
+      // Only apply if the same session and the same RFB instance are still live.
+      if (sessionIdRef.current !== target || rfbRef.current !== rfb || !rfb) return;
+      operatorRef.current = next;
+      rfb.viewOnly = !next;
+      setOperator(next);
+    } finally {
+      busyRef.current = false;
+    }
   };
 
   if (!sessionId) return <Empty>No active session.</Empty>;

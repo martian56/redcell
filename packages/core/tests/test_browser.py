@@ -125,18 +125,25 @@ async def test_dispatch_browser_type_passes_submit():
     assert r._browser.calls[-1] == ("type", "#q", "hi", True)
 
 
-async def test_dispatch_browser_screenshot_records_loot_and_strips_blob(monkeypatch):
+async def test_dispatch_browser_screenshot_persists_and_strips_blob(monkeypatch):
     r = _runner_with_browser()
     recorded: list[dict] = []
+    puts: list[tuple] = []
 
     async def fake_loot(args):
         recorded.append(args)
 
+    async def fake_put(bucket, key, data, content_type):
+        puts.append((bucket, key, content_type))
+
     monkeypatch.setattr(r, "_record_loot", fake_loot)
+    monkeypatch.setattr("redcell_core.engine.runner.storage.put", fake_put)
     out = await r._dispatch_browser("browser_screenshot", {})
-    assert out == {"ok": True, "captured": True, "url": None}
+    assert out["ok"] is True and out["captured"] is True
     assert "b64" not in out
-    assert recorded and recorded[0]["kind"] == "file"
+    assert out["artifact"]  # a stable reference the operator can fetch
+    assert puts and puts[0][0].endswith("loot") and puts[0][2] == "image/png"
+    assert recorded and recorded[0]["value"] == out["artifact"]
 
 
 async def test_dispatch_browser_unavailable_returns_error():

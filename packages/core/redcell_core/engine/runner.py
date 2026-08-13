@@ -5,6 +5,7 @@ Imported only in live mode; litellm and langgraph are imported lazily."""
 from __future__ import annotations
 
 import asyncio
+import base64
 import json
 from typing import Any, TypedDict
 
@@ -16,6 +17,7 @@ from ..repositories import agents as agents_repo
 from ..repositories import chat as chat_repo
 from ..repositories import findings as findings_repo
 from ..repositories import hosts as hosts_repo
+from ..repositories import ids
 from ..repositories import listeners as listeners_repo
 from ..repositories import loot as loot_repo
 from ..repositories import provider_credentials as creds_repo
@@ -26,6 +28,7 @@ from ..repositories import sessions as sessions_repo
 from ..repositories import settings as settings_repo
 from ..repositories import shells as shells_repo
 from ..schemas import ExecutionSettings, LlmSettings
+from ..storage import storage
 from .browser import BrowserManager
 from .execution import build_backend
 from .llm import LlmClient
@@ -148,6 +151,8 @@ class LiveRunner:
                 await self._event("orchestrator", "steer",
                                   f"execution backend unavailable ({exc}); using simulated execution")
                 self.backend = SimBackend()
+                if self._browser is not None:
+                    self._browser.backend = self.backend
             if self.kind == "code":
                 await self._prepare_source()
             await self._orchestrate()
@@ -356,15 +361,25 @@ class LiveRunner:
         if name == "browser_screenshot":
             res = await self._browser.screenshot()
             if res.get("ok") and res.get("b64"):
-                # Record the capture as loot evidence; keep the blob out of the agent's context.
-                await self._record_loot({"kind": "file", "label": "browser screenshot",
-                                         "value": "screenshot of the current page", "source": "browser"})
-                return {"ok": True, "captured": True, "url": res.get("url")}
+                # Persist the PNG to the loot bucket and record it as evidence; keep the
+                # blob out of the agent's context and hand back a stable artifact key.
+                key = f"browser/{self.run_id}/{ids.new_id('shot')}.png"
+                try:
+                    await storage.put(settings.bucket_loot, key, base64.b64decode(res["b64"]), "image/png")
+                    await self._record_loot({"kind": "file", "label": "browser screenshot",
+                                             "value": key, "source": "browser"})
+                except Exception as exc:
+                    return {"ok": False, "error": f"screenshot capture ok but store failed: {exc}"[:200]}
+                return {"ok": True, "captured": True, "artifact": key, "url": res.get("url")}
             return res
         return {"error": f"unknown browser tool {name}"}
 
     async def _watch_browser_control(self) -> None:
-        """Flip the browser's control owner when the operator takes or releases it."""
+        """Flip the browser's control owner when the operator takes or releases it.
+        Loads the persisted owner first so a take-control that landed before this
+        subscription is not lost, then follows live updates on the channel."""
+        if self._browser is not None:
+            self._browser.set_owner(await steer.get_browser_owner(self.session_id))
         try:
             async for payload in self.bus.subscribe(browser_channel(self.session_id)):
                 try:
@@ -375,8 +390,8 @@ class LiveRunner:
                     self._browser.set_owner(data["owner"])
         except asyncio.CancelledError:
             raise
-        except Exception:
-            pass
+        except Exception as exc:
+            await self._event("orchestrator", "steer", f"browser control watch ended: {exc}")
 
     # ---- executor sub-agent ----
     async def _delegate(self, agent_name: str, objective: str) -> dict[str, Any]:

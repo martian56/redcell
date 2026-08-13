@@ -10,6 +10,7 @@ from fastapi.testclient import TestClient
 # Ensure admin + providers exist, then release the bootstrap loop's connections.
 from redcell_core import seed  # noqa: E402
 from redcell_core.db import engine  # noqa: E402
+from starlette.websockets import WebSocketDisconnect
 
 
 async def _boot():
@@ -136,7 +137,7 @@ def test_api_smoke():
             try:
                 with fresh.websocket_connect(f"/api/v1/ws/browser/{sid}"):
                     check("ws-browser-auth-guard", False)
-            except Exception:
-                check("ws-browser-auth-guard", True)
+            except WebSocketDisconnect as e:
+                check("ws-browser-auth-guard", e.code == 4401)
 
     assert not failures, f"failed checks: {failures}"

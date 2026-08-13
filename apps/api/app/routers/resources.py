@@ -195,9 +195,9 @@ async def browser_start(sid: str, s: AsyncSession = Depends(db)) -> dict[str, ob
 @router.post("/sessions/{sid}/browser/control")
 async def browser_control(sid: str, body: BrowserControlInput, s: AsyncSession = Depends(db)) -> dict[str, str]:
     await _get_session(s, sid)
-    owner = "operator" if body.owner == "operator" else "agent"
-    await bus.publish_json(browser_channel(sid), {"owner": owner})
-    return {"owner": owner}
+    await steer.set_browser_owner(sid, body.owner)  # durable, so a take before the worker subscribes is not lost
+    await bus.publish_json(browser_channel(sid), {"owner": body.owner})
+    return {"owner": body.owner}
 
 
 # ---- agents ----

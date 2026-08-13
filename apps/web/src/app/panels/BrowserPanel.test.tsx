@@ -15,11 +15,17 @@ vi.mock('@novnc/novnc', () => ({
   },
 }));
 
-const start = vi.fn(async () => ({ ok: true }));
-const control = vi.fn(async () => ({ owner: 'operator' }));
-// Stable object, mirrors the real singleton client, so the effect doesn't re-run every render.
-const apiObj = { browser: { start, control, vncUrl: (id: string) => `ws://x/api/v1/ws/browser/${id}` } };
-vi.mock('@/lib/api', () => ({ useApi: () => apiObj }));
+// vi.hoisted so the spies exist before vi.mock's factory runs (it is hoisted above imports).
+const h = vi.hoisted(() => {
+  const start = vi.fn(async () => ({ ok: true }));
+  const control = vi.fn(async () => ({ owner: 'operator' }));
+  return {
+    start,
+    control,
+    apiObj: { browser: { start, control, vncUrl: (id: string) => `ws://x/api/v1/ws/browser/${id}` } },
+  };
+});
+vi.mock('@/lib/api', () => ({ useApi: () => h.apiObj }));
 vi.mock('@/store/ui', () => ({
   useUI: (sel: (s: { activeSessionId: string }) => unknown) => sel({ activeSessionId: 'ses-1' }),
 }));
@@ -31,9 +37,9 @@ describe('BrowserPanel', () => {
     render(<BrowserPanel />);
     // Auto-connect on mount calls start, then noVNC connects -> Take control shows.
     const takeBtn = await screen.findByRole('button', { name: /take control/i });
-    expect(start).toHaveBeenCalledWith('ses-1');
+    expect(h.start).toHaveBeenCalledWith('ses-1');
     fireEvent.click(takeBtn);
     expect(await screen.findByRole('button', { name: /release control/i })).toBeInTheDocument();
-    expect(control).toHaveBeenCalledWith('ses-1', 'operator');
+    expect(h.control).toHaveBeenCalledWith('ses-1', 'operator');
   });
 });

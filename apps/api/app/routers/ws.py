@@ -100,19 +100,21 @@ async def _bridge(ws: WebSocket, proc: asyncio.subprocess.Process) -> None:
         except (WebSocketDisconnect, Exception):
             return
 
-    t1 = asyncio.create_task(to_ws())
-    t2 = asyncio.create_task(to_proc())
-    _, pending = await asyncio.wait({t1, t2}, return_when=asyncio.FIRST_COMPLETED)
-    for t in pending:
-        t.cancel()
+    tasks = {asyncio.create_task(to_ws()), asyncio.create_task(to_proc())}
     try:
-        proc.kill()
-    except Exception:
-        pass
-    for t in pending:
+        await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
+    finally:
+        # Runs even if the bridge itself is cancelled, so the docker exec never leaks.
+        for t in tasks:
+            t.cancel()
+        await asyncio.gather(*tasks, return_exceptions=True)
         try:
-            await t
-        except (asyncio.CancelledError, Exception):
+            proc.kill()
+        except Exception:
+            pass
+        try:
+            await proc.wait()
+        except Exception:
             pass
 
 
