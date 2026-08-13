@@ -10,10 +10,17 @@ from typing import Any
 
 
 def build_nmap_command(target: str, ports: str | None = None,
-                       service_detection: bool = False, scripts: bool = False) -> str:
+                       service_detection: bool = False, scripts: bool = False,
+                       connect_scan: bool = False) -> str:
     """`nmap -oX -` (XML to stdout) with a curated, shell-quoted flag set. Every
-    argument is quoted so a garbled or hostile target cannot inject shell."""
+    argument is quoted so a garbled or hostile target cannot inject shell.
+
+    connect_scan forces a TCP connect scan (-sT), required when the scan is
+    tunneled through a SOCKS proxy (proxychains), which cannot carry raw SYN
+    packets."""
     parts = ["nmap", "-oX", "-", "-T4", "-Pn"]
+    if connect_scan:
+        parts.append("-sT")
     if service_detection:
         parts.append("-sV")
     if scripts:

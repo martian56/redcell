@@ -29,7 +29,7 @@ from ..repositories import settings as settings_repo
 from ..repositories import shells as shells_repo
 from ..schemas import ExecutionSettings, LlmSettings
 from ..storage import storage
-from . import msf, nmap, webscan
+from . import msf, nmap, pivot, webscan
 from .browser import BrowserManager
 from .execution import build_backend
 from .llm import LlmClient
@@ -136,6 +136,7 @@ class LiveRunner:
         self.server = None  # the chosen remote Server row, or None for local
         self._listener_tasks: list[asyncio.Task] = []
         self._browser: BrowserManager | None = None
+        self._pivot: pivot.PivotManager | None = None
 
     async def run(self) -> None:
         await self._load()
@@ -168,6 +169,11 @@ class LiveRunner:
         finally:
             for t in self._listener_tasks:
                 t.cancel()
+            if self._pivot is not None:
+                try:
+                    await self._pivot.close()
+                except Exception:
+                    pass
             if self._browser is not None:
                 try:
                     await self._browser.stop()
@@ -340,6 +346,10 @@ class LiveRunner:
             return await self._record_host(args)
         if name == "start_listener":
             return await self._start_listener(int(args.get("port", 4444)))
+        if name == "open_pivot":
+            return await self._open_pivot(args.get("shellId") or args.get("shell_id", ""))
+        if name == "close_pivot":
+            return await self._close_pivot()
         if name == "ask_operator":
             return {"operator_reply": await self._ask_operator(args.get("question", ""), args.get("options"))}
         if name == "finish":
@@ -415,9 +425,14 @@ class LiveRunner:
         target = str(args.get("target", "")).strip()
         if not target:
             return {"error": "target required"}
+        pivoting = self._pivot is not None and self._pivot.active
         cmd = nmap.build_nmap_command(target, ports=args.get("ports"),
                                       service_detection=bool(args.get("service_detection")),
-                                      scripts=bool(args.get("scripts")))
+                                      scripts=bool(args.get("scripts")),
+                                      connect_scan=pivoting)
+        # Through a pivot, tunnel the connect scan over the SOCKS proxy so internal
+        # hosts are reachable; discovered hosts are tagged as pivot-sourced.
+        cmd = pivot.proxychains_wrap(cmd, pivoting)
         res = await self.backend.run(cmd)
         hosts = nmap.parse_nmap_xml(getattr(res, "output", "") or "")
         for h in hosts:
@@ -426,7 +441,7 @@ class LiveRunner:
                 "ip": h["ip"],
                 "ports": [{"port": p["port"], "service": p["service"], "version": p["version"]}
                           for p in h["ports"]],
-                "source": "nmap",
+                "source": "pivot" if pivoting else "nmap",
             })
         open_ports = sum(len(h["ports"]) for h in hosts)
         summary = [{"ip": h["ip"], "hostnames": h["hostnames"][:2], "ports": h["ports"][:20]}
@@ -645,6 +660,42 @@ class LiveRunner:
                                         "source": args.get("source", "")})
         await self._event("recon", "net", f"host: {host}")
         return {"recorded": True}
+
+    async def _open_pivot(self, shell_id: str) -> dict[str, Any]:
+        """Route tool traffic through a caught reverse shell so internal hosts
+        become reachable. Needs a docker backend where the shell and the exec
+        container share a host network (the remote/VPS topology)."""
+        if not shell_id:
+            return {"error": "shellId required (the caught reverse shell to pivot through)"}
+        if getattr(self.backend, "kind", "") not in ("local-docker", "remote-docker"):
+            return {"error": "pivoting needs a live docker execution backend"}
+        async with session_scope() as s:
+            shell = await shells_repo.get(s, shell_id)
+        if shell is None or shell.session_id != self.session_id:
+            return {"error": "reverse shell not found in this session"}
+        if shell.kind != "reverse" or shell.status != "running":
+            return {"error": "pivot target must be a running reverse shell"}
+        if self._pivot is not None and self._pivot.active:
+            return {"error": f"a pivot is already active through {self._pivot.shell_id}; close it first"}
+        callback = (self.server.host if self.server is not None
+                    and getattr(self.backend, "kind", "") == "remote-docker"
+                    else settings.callback_host)
+        pm = pivot.PivotManager(self.backend, self.bus, callback)
+        result = await pm.open(shell_id)
+        if result.get("ok"):
+            self._pivot = pm
+            await self._event("orchestrator", "net", f"pivot up through {shell_id} -> {result.get('socks')}")
+        else:
+            await self._event("orchestrator", "steer", f"pivot failed: {result.get('detail', 'unknown')}")
+        return result
+
+    async def _close_pivot(self) -> dict[str, Any]:
+        if self._pivot is None:
+            return {"ok": True, "note": "no active pivot"}
+        await self._pivot.close()
+        self._pivot = None
+        await self._event("orchestrator", "net", "pivot closed")
+        return {"ok": True}
 
     async def _start_listener(self, port: int) -> dict[str, Any]:
         bind = f"0.0.0.0:{port}"

@@ -94,6 +94,28 @@ ORCHESTRATOR_TOOLS = [
     {
         "type": "function",
         "function": {
+            "name": "open_pivot",
+            "description": "Route tool traffic through a caught reverse shell so hosts only reachable from the compromised machine become scannable. Pass the reverse shell's id (from the Terminals panel / the caught-shell event). After this succeeds, delegate executors to scan or reach the internal network; record discovered internal hosts with record_host (source 'pivot').",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "shellId": {"type": "string", "description": "Id of the caught reverse shell to pivot through."},
+                },
+                "required": ["shellId"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "close_pivot",
+            "description": "Tear down the active network pivot and route tool traffic directly again.",
+            "parameters": {"type": "object", "properties": {}},
+        },
+    },
+    {
+        "type": "function",
+        "function": {
             "name": "ask_operator",
             "description": "Pause and ask the human operator a question before a sensitive or scope-affecting action.",
             "parameters": {
@@ -314,6 +336,11 @@ def orchestrator_system(goal: str, scope: list[str], targets: list[str], roe: st
         "Use that address verbatim in your reverse-shell one-liner (do NOT hardcode 127.0.0.1). "
         "Then delegate an executor to trigger the payload via the vulnerability. The caught shell "
         "appears in the operator's Terminals panel.\n\n"
+        "To reach an internal network only visible from a compromised machine, call open_pivot with "
+        "the caught reverse shell's id. That tunnels tool traffic through the foothold; then delegate "
+        "executors to scan or reach the internal hosts (nmap_scan is routed through the pivot "
+        "automatically) and record what you find with record_host (source 'pivot'). Internal hosts "
+        "still need to be in scope. Call close_pivot when the internal work is done.\n\n"
         "The operator may send you steering directives at any time (they appear as '[Operator steer]' "
         "messages); follow them. Call finish when the objective is met or no safe progress remains.\n\n"
         "Write any prose in plain text. Do not use em-dashes; use commas, periods, or parentheses instead."

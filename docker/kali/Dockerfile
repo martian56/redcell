@@ -18,6 +18,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       # network / recon
       nmap masscan \
       subfinder amass dnsrecon whatweb \
+      # pivoting (route tools through a caught foothold)
+      proxychains-ng \
       # web
       sqlmap nikto wpscan \
       gobuster ffuf feroxbuster dirb dirbuster \
@@ -33,6 +35,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # rockyou ships gzipped; unpack it so tools can use it directly.
 RUN [ -f /usr/share/wordlists/rockyou.txt.gz ] && gunzip -f /usr/share/wordlists/rockyou.txt.gz || true
+
+# chisel: a single static binary that tunnels TCP over HTTP. Used to stand up a
+# reverse SOCKS proxy through a caught foothold for network pivoting.
+ARG CHISEL_VERSION=1.10.1
+RUN curl -fsSL "https://github.com/jpillora/chisel/releases/download/v${CHISEL_VERSION}/chisel_${CHISEL_VERSION}_linux_amd64.gz" \
+      | gunzip > /usr/local/bin/chisel \
+ && chmod +x /usr/local/bin/chisel
 
 # Playwright as a CDP client only (drives the apt chromium above), so no browser
 # download is needed. Kali's Python is externally managed, hence --break-system-packages.
