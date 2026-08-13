@@ -26,6 +26,7 @@ from ..repositories import sessions as sessions_repo
 from ..repositories import settings as settings_repo
 from ..repositories import shells as shells_repo
 from ..schemas import ExecutionSettings, LlmSettings
+from .browser import BrowserManager
 from .execution import build_backend
 from .llm import LlmClient
 from .tools import (
@@ -130,6 +131,7 @@ class LiveRunner:
         self.source: str | None = None
         self.server = None  # the chosen remote Server row, or None for local
         self._listener_tasks: list[asyncio.Task] = []
+        self._browser: BrowserManager | None = None
 
     async def run(self) -> None:
         await self._load()
@@ -158,6 +160,11 @@ class LiveRunner:
         finally:
             for t in self._listener_tasks:
                 t.cancel()
+            if self._browser is not None:
+                try:
+                    await self._browser.stop()
+                except Exception:
+                    pass
             if self.backend is not None:
                 await self.backend.close()
 
@@ -213,6 +220,8 @@ class LiveRunner:
             self.backend = build_backend(exec_cfg, server=server, server_secret=server_secret,
                                          proxy_url=proxy_url, name=f"redcell-exec-{self.session_id[:12]}",
                                          mounts=mounts)
+        if self._browser is None and self.kind != "code":
+            self._browser = BrowserManager(self.backend, self.session_id, self.bus)
 
     async def _ensure_orchestrator(self, s) -> str:
         nodes, _ = await agents_repo.graph(s, self.run_id)
@@ -330,6 +339,28 @@ class LiveRunner:
             return {"ok": True}
         return {"error": f"unknown tool {name}"}
 
+    async def _dispatch_browser(self, name: str, args: dict[str, Any]) -> dict[str, Any]:
+        if self._browser is None:
+            return {"error": "browser not available for this session"}
+        if name == "browser_open":
+            return await self._browser.open(args.get("url", ""))
+        if name == "browser_click":
+            return await self._browser.click(args.get("selector", ""))
+        if name == "browser_type":
+            return await self._browser.type(args.get("selector", ""), args.get("text", ""),
+                                            bool(args.get("submit")))
+        if name == "browser_read":
+            return await self._browser.read()
+        if name == "browser_screenshot":
+            res = await self._browser.screenshot()
+            if res.get("ok") and res.get("b64"):
+                # Record the capture as loot evidence; keep the blob out of the agent's context.
+                await self._record_loot({"kind": "file", "label": "browser screenshot",
+                                         "value": "screenshot of the current page", "source": "browser"})
+                return {"ok": True, "captured": True, "url": res.get("url")}
+            return res
+        return {"error": f"unknown browser tool {name}"}
+
     # ---- executor sub-agent ----
     async def _delegate(self, agent_name: str, objective: str) -> dict[str, Any]:
         async with session_scope() as s:
@@ -387,6 +418,15 @@ class LiveRunner:
                         if fnd.get("title"):
                             findings_here.append(fnd["title"])
                     stop = True
+                elif cname.startswith("browser_"):
+                    calls += 1
+                    label = (cargs.get("url") or cargs.get("selector") or "").strip()
+                    async with session_scope() as s:
+                        await agents_repo.update(s, agent_id, action=f"{cname} {label}".strip()[:80], calls=calls)
+                    await self._event(agent_name, "tool", f"[browser] {cname} {label}".strip())
+                    res = await self._dispatch_browser(cname, cargs)
+                    messages.append({"role": "tool", "tool_call_id": call["id"], "name": cname,
+                                     "content": json.dumps(res)[:2000]})
             if stop:
                 break
 

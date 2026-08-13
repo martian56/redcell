@@ -74,3 +74,72 @@ async def test_parse_tolerates_log_noise_before_json():
     m, be = _mgr('boot log line\nanother\n{"ok": true, "url": "u"}')
     out = await m.read()
     assert out["url"] == "u"
+
+
+# ---- runner dispatch routing ----
+
+from redcell_core.engine.runner import LiveRunner  # noqa: E402
+
+
+class FakeBrowser:
+    def __init__(self) -> None:
+        self.calls: list[tuple] = []
+
+    async def open(self, url):
+        self.calls.append(("open", url))
+        return {"ok": True, "url": url}
+
+    async def click(self, selector):
+        self.calls.append(("click", selector))
+        return {"ok": True}
+
+    async def type(self, selector, text, submit=False):
+        self.calls.append(("type", selector, text, submit))
+        return {"ok": True}
+
+    async def read(self):
+        self.calls.append(("read",))
+        return {"ok": True, "text": "hi"}
+
+    async def screenshot(self):
+        self.calls.append(("screenshot",))
+        return {"ok": True, "b64": "AAAA"}
+
+
+def _runner_with_browser():
+    r = LiveRunner(bus=None, run_id="run-1")
+    r._browser = FakeBrowser()
+    return r
+
+
+async def test_dispatch_browser_open_routes():
+    r = _runner_with_browser()
+    out = await r._dispatch_browser("browser_open", {"url": "https://x"})
+    assert out["url"] == "https://x"
+    assert r._browser.calls == [("open", "https://x")]
+
+
+async def test_dispatch_browser_type_passes_submit():
+    r = _runner_with_browser()
+    await r._dispatch_browser("browser_type", {"selector": "#q", "text": "hi", "submit": True})
+    assert r._browser.calls[-1] == ("type", "#q", "hi", True)
+
+
+async def test_dispatch_browser_screenshot_records_loot_and_strips_blob(monkeypatch):
+    r = _runner_with_browser()
+    recorded: list[dict] = []
+
+    async def fake_loot(args):
+        recorded.append(args)
+
+    monkeypatch.setattr(r, "_record_loot", fake_loot)
+    out = await r._dispatch_browser("browser_screenshot", {})
+    assert out == {"ok": True, "captured": True, "url": None}
+    assert "b64" not in out
+    assert recorded and recorded[0]["kind"] == "file"
+
+
+async def test_dispatch_browser_unavailable_returns_error():
+    r = LiveRunner(bus=None, run_id="run-1")
+    out = await r._dispatch_browser("browser_open", {"url": "x"})
+    assert "error" in out

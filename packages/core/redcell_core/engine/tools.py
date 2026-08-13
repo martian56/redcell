@@ -160,6 +160,62 @@ EXECUTOR_TOOLS = [
             },
         },
     },
+    {
+        "type": "function",
+        "function": {
+            "name": "browser_open",
+            "description": "Open a URL in a real browser. Use the browser (not curl) for JS-rendered apps and SPAs, login and multi-step flows, and client-side bugs where raw HTTP cannot see the page.",
+            "parameters": {
+                "type": "object",
+                "properties": {"url": {"type": "string"}},
+                "required": ["url"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "browser_click",
+            "description": "Click the first element matching a CSS selector in the open browser page.",
+            "parameters": {
+                "type": "object",
+                "properties": {"selector": {"type": "string", "description": "CSS selector."}},
+                "required": ["selector"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "browser_type",
+            "description": "Type text into the element matching a CSS selector. Set submit to press Enter after (useful for search boxes and logins).",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "selector": {"type": "string", "description": "CSS selector."},
+                    "text": {"type": "string"},
+                    "submit": {"type": "boolean"},
+                },
+                "required": ["selector", "text"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "browser_read",
+            "description": "Read the current page: visible text plus notable links and input fields. Use it to see what rendered after navigation or a click.",
+            "parameters": {"type": "object", "properties": {}},
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "browser_screenshot",
+            "description": "Capture a screenshot of the current page as evidence.",
+            "parameters": {"type": "object", "properties": {}},
+        },
+    },
 ]
 
 
