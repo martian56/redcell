@@ -216,6 +216,81 @@ EXECUTOR_TOOLS = [
             "parameters": {"type": "object", "properties": {}},
         },
     },
+    {
+        "type": "function",
+        "function": {
+            "name": "nmap_scan",
+            "description": "Port/service scan with nmap. Results are parsed and recorded onto the Attack Surface automatically; you get a concise summary, not raw text. Prefer this over running nmap via run_command.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "target": {"type": "string", "description": "Host, IP, hostname, or CIDR."},
+                    "ports": {"type": "string", "description": "Port spec, e.g. '80,443,8080' or '1-1000'. Optional."},
+                    "service_detection": {"type": "boolean", "description": "Detect service versions (-sV)."},
+                    "scripts": {"type": "boolean", "description": "Run default NSE scripts (-sC)."},
+                },
+                "required": ["target"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "nuclei_scan",
+            "description": "Run nuclei templates against a URL. Matches are recorded as findings (with CVSS where nuclei provides it). Returns a summary.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "target": {"type": "string", "description": "URL to scan, e.g. https://app.example.com."},
+                    "severity": {"type": "string", "description": "Optional filter, e.g. 'critical,high,medium'."},
+                },
+                "required": ["target"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "web_discover",
+            "description": "Directory or vhost discovery with ffuf. Returns the discovered paths (or vhosts) with status codes, structured. Record notable exposures with report/record_finding yourself.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "url": {"type": "string", "description": "Base URL, e.g. https://app.example.com."},
+                    "mode": {"type": "string", "enum": ["dir", "vhost"], "description": "Directory brute force or virtual-host discovery. Default dir."},
+                    "wordlist": {"type": "string", "description": "Optional wordlist path in the container."},
+                },
+                "required": ["url"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "msf_search",
+            "description": "Search Metasploit modules by keyword. Returns matching module paths.",
+            "parameters": {
+                "type": "object",
+                "properties": {"query": {"type": "string", "description": "e.g. 'apache struts' or a CVE id."}},
+                "required": ["query"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "msf_run",
+            "description": "Run a Metasploit module with options and return its output. Use msf_search first to find the exact module path. Set RHOSTS and other options via options.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "module": {"type": "string", "description": "Full module path, e.g. auxiliary/scanner/http/http_version."},
+                    "options": {"type": "object", "description": "Module options, e.g. {\"RHOSTS\": \"10.0.0.5\", \"RPORT\": \"8080\"}."},
+                },
+                "required": ["module"],
+            },
+        },
+    },
 ]
 
 
@@ -249,6 +324,10 @@ def executor_system(name: str, objective: str) -> str:
     return (
         f"You are the '{name}' executor on an authorized red-team engagement. Achieve this "
         f"objective using shell tools: {objective}\n"
+        "Prefer the structured tools when they fit: nmap_scan for port/service discovery (it records the "
+        "attack surface for you), nuclei_scan for template-based vulns (records findings with CVSS), "
+        "web_discover for directory/vhost brute forcing, and msf_search then msf_run for Metasploit "
+        "modules. Use run_command for anything else.\n"
         "Run one command at a time, read the output, and adapt. Do not run destructive or "
         "out-of-scope commands. When done, call report with a concise summary and any finding."
     )

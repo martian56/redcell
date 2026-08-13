@@ -29,6 +29,7 @@ from ..repositories import settings as settings_repo
 from ..repositories import shells as shells_repo
 from ..schemas import ExecutionSettings, LlmSettings
 from ..storage import storage
+from . import msf, nmap, webscan
 from .browser import BrowserManager
 from .execution import build_backend
 from .llm import LlmClient
@@ -396,6 +397,80 @@ class LiveRunner:
         except Exception as exc:
             await self._event("orchestrator", "steer", f"browser control watch ended: {exc}")
 
+    # ---- structured tool integrations ----
+    async def _dispatch_toolset(self, name: str, args: dict[str, Any]) -> dict[str, Any]:
+        if name == "nmap_scan":
+            return await self._run_nmap(args)
+        if name == "nuclei_scan":
+            return await self._run_nuclei(args)
+        if name == "web_discover":
+            return await self._run_web_discover(args)
+        if name == "msf_search":
+            return await self._run_msf_search(args)
+        if name == "msf_run":
+            return await self._run_msf_run(args)
+        return {"error": f"unknown tool {name}"}
+
+    async def _run_nmap(self, args: dict[str, Any]) -> dict[str, Any]:
+        target = str(args.get("target", "")).strip()
+        if not target:
+            return {"error": "target required"}
+        cmd = nmap.build_nmap_command(target, ports=args.get("ports"),
+                                      service_detection=bool(args.get("service_detection")),
+                                      scripts=bool(args.get("scripts")))
+        res = await self.backend.run(cmd)
+        hosts = nmap.parse_nmap_xml(getattr(res, "output", "") or "")
+        for h in hosts:
+            await self._record_host({
+                "host": (h["hostnames"][0] if h["hostnames"] else h["ip"]) or target,
+                "ip": h["ip"],
+                "ports": [{"port": p["port"], "service": p["service"], "version": p["version"]}
+                          for p in h["ports"]],
+                "source": "nmap",
+            })
+        open_ports = sum(len(h["ports"]) for h in hosts)
+        summary = [{"ip": h["ip"], "hostnames": h["hostnames"][:2], "ports": h["ports"][:20]}
+                   for h in hosts[:20]]
+        return {"ok": True, "hosts_up": len(hosts), "open_ports": open_ports, "hosts": summary}
+
+    async def _run_nuclei(self, args: dict[str, Any]) -> dict[str, Any]:
+        target = str(args.get("target", "")).strip()
+        if not target:
+            return {"error": "target required"}
+        cmd = webscan.build_nuclei_command(target, severity=args.get("severity"))
+        res = await self.backend.run(cmd)
+        findings = webscan.parse_nuclei_jsonl(getattr(res, "output", "") or "", target=target)
+        for f in findings:
+            await self._record_finding(f)
+        return {"ok": True, "findings": len(findings), "titles": [f["title"] for f in findings[:20]]}
+
+    async def _run_web_discover(self, args: dict[str, Any]) -> dict[str, Any]:
+        url = str(args.get("url", "")).strip()
+        if not url:
+            return {"error": "url required"}
+        cmd = webscan.build_ffuf_command(url, wordlist=args.get("wordlist"),
+                                         vhost=(args.get("mode") == "vhost"))
+        res = await self.backend.run(cmd)
+        results = webscan.parse_ffuf_json(getattr(res, "output", "") or "")
+        return {"ok": True, "found": len(results), "results": results[:50]}
+
+    async def _run_msf_search(self, args: dict[str, Any]) -> dict[str, Any]:
+        query = str(args.get("query", "")).strip()
+        if not query:
+            return {"error": "query required"}
+        res = await self.backend.run(msf.build_msf_search(query))
+        modules = msf.parse_msf_search(getattr(res, "output", "") or "")
+        return {"ok": True, "count": len(modules), "modules": modules[:40]}
+
+    async def _run_msf_run(self, args: dict[str, Any]) -> dict[str, Any]:
+        module = str(args.get("module", "")).strip()
+        if not msf.valid_module(module):
+            return {"error": "invalid module path"}
+        options = args.get("options") if isinstance(args.get("options"), dict) else {}
+        cmd = msf.build_msf_run(module, {str(k): str(v) for k, v in options.items()})
+        res = await self.backend.run(cmd)
+        return {"ok": True, "output": (getattr(res, "output", "") or "")[-3000:]}
+
     # ---- executor sub-agent ----
     async def _delegate(self, agent_name: str, objective: str) -> dict[str, Any]:
         async with session_scope() as s:
@@ -462,6 +537,16 @@ class LiveRunner:
                     res = await self._dispatch_browser(cname, cargs)
                     messages.append({"role": "tool", "tool_call_id": call["id"], "name": cname,
                                      "content": json.dumps(res)[:2000]})
+                elif cname in ("nmap_scan", "nuclei_scan", "web_discover", "msf_search", "msf_run"):
+                    calls += 1
+                    label = str(cargs.get("target") or cargs.get("url") or cargs.get("query")
+                                or cargs.get("module") or "")[:60]
+                    async with session_scope() as s:
+                        await agents_repo.update(s, agent_id, action=f"{cname} {label}".strip()[:80], calls=calls)
+                    await self._event(agent_name, "tool", f"[{cname}] {label}".strip())
+                    res = await self._dispatch_toolset(cname, cargs)
+                    messages.append({"role": "tool", "tool_call_id": call["id"], "name": cname,
+                                     "content": json.dumps(res)[:4000]})
             if stop:
                 break
 
