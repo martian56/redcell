@@ -123,15 +123,25 @@ class LocalDockerBackend(ExecutionBackend):
             "docker", "exec", *env_args, self.name, "sh", "-c", command,
             stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT,
         )
-        chunks: list[str] = []
+        # Read in fixed chunks, not line-iteration: readline() caps a single line at
+        # 64 KB and raises on longer ones (nmap XML, a nuclei JSON line with a big body).
         assert proc.stdout is not None
-        async for raw in proc.stdout:
-            line = raw.decode(errors="replace")
-            chunks.append(line)
+        raw = bytearray()
+        pending = b""
+        while True:
+            data = await proc.stdout.read(65536)
+            if not data:
+                break
+            raw += data
             if on_output:
-                await on_output(line.rstrip("\n") + "\r\n")
+                pending += data
+                while b"\n" in pending:
+                    line, pending = pending.split(b"\n", 1)
+                    await on_output(line.decode(errors="replace").rstrip("\r") + "\r\n")
+        if on_output and pending:
+            await on_output(pending.decode(errors="replace") + "\r\n")
         await proc.wait()
-        return ExecResult(exit_code=proc.returncode or 0, output="".join(chunks))
+        return ExecResult(exit_code=proc.returncode or 0, output=raw.decode(errors="replace"))
 
     async def close(self) -> None:
         await self._docker("rm", "-f", self.name, check=False)
