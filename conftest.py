@@ -41,6 +41,9 @@ settings.bucket_loot = "test-loot"
 settings.bucket_reports = "test-reports"
 settings.bucket_public = "test-public"
 settings.checkpoint_db = ""
+# Pin tests to sim so the suite never shells out to real Docker, independent of
+# the app's default run mode.
+settings.run_mode = "sim"
 
 
 # 2) Create the test database + schema once, on a throwaway loop. -----------------

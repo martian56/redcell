@@ -89,7 +89,7 @@ cd apps/web    && bun install && bun run dev
 
 Open http://localhost:5183 and sign in with `admin` / `admin`.
 
-Runs default to a safe simulation. To execute real tools, set `REDCELL_RUN_MODE=live` in `.env`, add a provider API key in Settings, and make sure Docker can pull the Kali image (`martian56/kali:latest`).
+Runs execute real tools by default. Add a provider API key in Settings and make sure Docker can pull the Kali image (`martian56/kali:latest`). To dry-run against canned output instead, set `REDCELL_RUN_MODE=sim` in `.env`.
 
 ### Practice targets
 
@@ -104,7 +104,7 @@ docker compose -f docker-compose.targets.yml up -d
 
 Backend config is one root `.env` (see `.env.example`), read by both the API and the worker. The ones worth knowing:
 
-- `REDCELL_RUN_MODE`: `sim` (default) or `live`.
+- `REDCELL_RUN_MODE`: `live` (default) or `sim`.
 - `REDCELL_DATABASE_URL`, `REDCELL_REDIS_URL`, `REDCELL_S3_*`: infrastructure.
 - `REDCELL_SECRET_KEY`: Fernet key for encrypting stored credentials. Set a real one before you go to production.
 
