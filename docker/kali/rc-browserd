@@ -1,0 +1,57 @@
+#!/bin/sh
+# REDCELL in-container browser supervisor. Boots a headed Chromium on a virtual
+# X display with a VNC server, so the agent (over CDP) and the operator (over
+# VNC) drive the same browser. Idempotent start; used by the engine
+# BrowserManager and torn down when a run ends.
+PIDFILE=/tmp/rc-browser.pids
+DISPLAY_NUM=:99
+CDP_PORT=9222
+VNC_PORT=5900
+
+is_up() {
+  curl -s "http://localhost:${CDP_PORT}/json/version" >/dev/null 2>&1
+}
+
+start() {
+  if is_up; then echo "already running"; return 0; fi
+  : > "$PIDFILE"
+  Xvfb "$DISPLAY_NUM" -screen 0 1280x800x24 >/tmp/xvfb.log 2>&1 &
+  echo $! >> "$PIDFILE"
+  sleep 1
+  DISPLAY="$DISPLAY_NUM" chromium \
+    --remote-debugging-port="${CDP_PORT}" \
+    --remote-debugging-address=127.0.0.1 \
+    --no-sandbox --no-first-run --disable-gpu \
+    --disable-dev-shm-usage --window-size=1280,800 about:blank \
+    >/tmp/chromium.log 2>&1 &
+  echo $! >> "$PIDFILE"
+  # x11vnc backgrounds itself; bind to loopback only, no password, no exposed port.
+  x11vnc -display "$DISPLAY_NUM" -localhost -nopw -forever -shared \
+    -rfbport "${VNC_PORT}" -bg -o /tmp/x11vnc.log >/dev/null 2>&1
+  i=0
+  while [ $i -lt 30 ]; do
+    if is_up; then echo "ready"; return 0; fi
+    sleep 0.5
+    i=$((i + 1))
+  done
+  echo "browser failed to start" >&2
+  return 1
+}
+
+stop() {
+  if [ -f "$PIDFILE" ]; then
+    while read -r pid; do
+      [ -n "$pid" ] && kill "$pid" 2>/dev/null
+    done < "$PIDFILE"
+    rm -f "$PIDFILE"
+  fi
+  pkill -f "x11vnc.*${VNC_PORT}" 2>/dev/null
+  return 0
+}
+
+case "$1" in
+  start) start ;;
+  stop) stop ;;
+  status) is_up ;;
+  *) echo "usage: rc-browserd {start|stop|status}" >&2; exit 2 ;;
+esac

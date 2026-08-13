@@ -36,4 +36,20 @@ describe('useWorkspace', () => {
     useWorkspace.getState().showPanel('reports');
     expect(getLeaves(useWorkspace.getState().layout)).toContain('reports');
   });
+
+  it('setLayout prunes duplicate leaves so mosaic never gets a bad tree', () => {
+    useWorkspace.getState().setLayout({
+      direction: 'row',
+      splitPercentage: 50,
+      first: 'findings',
+      second: 'findings',
+    });
+    expect(getLeaves(useWorkspace.getState().layout)).toEqual(['findings']);
+  });
+
+  it('addPanel is a no-op when the panel is already visible', () => {
+    const before = useWorkspace.getState().layout;
+    useWorkspace.getState().addPanel('findings');
+    expect(useWorkspace.getState().layout).toBe(before);
+  });
 });

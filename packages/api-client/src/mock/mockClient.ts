@@ -581,6 +581,17 @@ export function createMockClient(): ApiClient {
         return () => clearInterval(timer);
       },
     },
+    browser: {
+      async start() {
+        return { ok: true };
+      },
+      async control(_sessionId, owner) {
+        return { owner };
+      },
+      vncUrl(sessionId) {
+        return `ws://mock/api/v1/ws/browser/${sessionId}`;
+      },
+    },
   };
 }
 

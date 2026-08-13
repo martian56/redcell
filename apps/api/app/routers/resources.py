@@ -6,7 +6,14 @@ import asyncio
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from redcell_core import queue, steer
-from redcell_core.bus import bus, chat_channel, control_channel, shell_channel, shell_input_channel
+from redcell_core.bus import (
+    browser_channel,
+    bus,
+    chat_channel,
+    control_channel,
+    shell_channel,
+    shell_input_channel,
+)
 from redcell_core.db import session_scope
 from redcell_core.repositories import agents as agents_repo
 from redcell_core.repositories import chat as chat_repo
@@ -23,6 +30,7 @@ from redcell_core.schemas import (
     Agent,
     AgentEdge,
     AgentGraph,
+    BrowserControlInput,
     ChatMessage,
     ChatSendInput,
     CreateRunInput,
@@ -158,6 +166,51 @@ async def stop_run(rid: str, s: AsyncSession = Depends(db)) -> Run:
     await s.commit()
     await bus.publish_json(control_channel(rid), {"action": "stop"})
     return schema
+
+
+@router.post("/sessions/{sid}/browser/start")
+async def browser_start(sid: str, s: AsyncSession = Depends(db)) -> dict[str, object]:
+    """Boot the browser stack in the session's container so the operator can view
+    it even before the agent browses. Needs an active run (the container exists
+    only while a run executes); local sessions only for now."""
+    session = await _get_session(s, sid)
+    if session.server_id:
+        return {"ok": False, "detail": "live browser view is local-only for now"}
+    container = f"redcell-exec-{sid[:12]}"
+    try:
+        proc = await asyncio.create_subprocess_exec(
+            "docker", "exec", container, "rc-browserd", "start",
+            stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT,
+        )
+    except Exception as exc:
+        return {"ok": False, "detail": str(exc)[:200]}
+    try:
+        out, _ = await asyncio.wait_for(proc.communicate(), timeout=30)
+    except TimeoutError:
+        # wait_for cancels communicate() but leaves docker exec running; kill and reap it.
+        try:
+            proc.kill()
+        except Exception:
+            pass
+        await proc.wait()
+        return {"ok": False, "detail": "browser start timed out"}
+    except Exception as exc:
+        return {"ok": False, "detail": str(exc)[:200]}
+    ok = proc.returncode == 0
+    detail = out.decode(errors="replace")[-200:] if out else ""
+    if not ok and "No such container" in detail:
+        detail = "no running container for this session; start a run first"
+    return {"ok": ok, "detail": detail}
+
+
+@router.post("/sessions/{sid}/browser/control")
+async def browser_control(sid: str, body: BrowserControlInput, s: AsyncSession = Depends(db)) -> dict[str, str]:
+    await _get_session(s, sid)
+    if not await steer.set_browser_owner(sid, body.owner):
+        raise HTTPException(503, "could not persist browser control; retry")
+    # Publish only after the durable write succeeds (live update; the worker reads the durable value authoritatively).
+    await bus.publish_json(browser_channel(sid), {"owner": body.owner})
+    return {"owner": body.owner}
 
 
 # ---- agents ----

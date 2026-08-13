@@ -5,17 +5,19 @@ Imported only in live mode; litellm and langgraph are imported lazily."""
 from __future__ import annotations
 
 import asyncio
+import base64
 import json
 from typing import Any, TypedDict
 
 from .. import steer
-from ..bus import Bus, chat_channel, shell_channel, shell_input_channel
+from ..bus import Bus, browser_channel, chat_channel, shell_channel, shell_input_channel
 from ..config import settings
 from ..db import session_scope
 from ..repositories import agents as agents_repo
 from ..repositories import chat as chat_repo
 from ..repositories import findings as findings_repo
 from ..repositories import hosts as hosts_repo
+from ..repositories import ids
 from ..repositories import listeners as listeners_repo
 from ..repositories import loot as loot_repo
 from ..repositories import provider_credentials as creds_repo
@@ -26,6 +28,8 @@ from ..repositories import sessions as sessions_repo
 from ..repositories import settings as settings_repo
 from ..repositories import shells as shells_repo
 from ..schemas import ExecutionSettings, LlmSettings
+from ..storage import storage
+from .browser import BrowserManager
 from .execution import build_backend
 from .llm import LlmClient
 from .tools import (
@@ -130,9 +134,12 @@ class LiveRunner:
         self.source: str | None = None
         self.server = None  # the chosen remote Server row, or None for local
         self._listener_tasks: list[asyncio.Task] = []
+        self._browser: BrowserManager | None = None
 
     async def run(self) -> None:
         await self._load()
+        if self._browser is not None:
+            self._listener_tasks.append(asyncio.create_task(self._watch_browser_control()))
         if self.kind != "code":
             await self._seed_targets()
         try:
@@ -144,6 +151,8 @@ class LiveRunner:
                 await self._event("orchestrator", "steer",
                                   f"execution backend unavailable ({exc}); using simulated execution")
                 self.backend = SimBackend()
+                if self._browser is not None:
+                    self._browser.backend = self.backend
             if self.kind == "code":
                 await self._prepare_source()
             await self._orchestrate()
@@ -158,6 +167,11 @@ class LiveRunner:
         finally:
             for t in self._listener_tasks:
                 t.cancel()
+            if self._browser is not None:
+                try:
+                    await self._browser.stop()
+                except Exception:
+                    pass
             if self.backend is not None:
                 await self.backend.close()
 
@@ -213,6 +227,8 @@ class LiveRunner:
             self.backend = build_backend(exec_cfg, server=server, server_secret=server_secret,
                                          proxy_url=proxy_url, name=f"redcell-exec-{self.session_id[:12]}",
                                          mounts=mounts)
+        if self._browser is None and self.kind != "code":
+            self._browser = BrowserManager(self.backend, self.session_id, self.bus)
 
     async def _ensure_orchestrator(self, s) -> str:
         nodes, _ = await agents_repo.graph(s, self.run_id)
@@ -330,6 +346,56 @@ class LiveRunner:
             return {"ok": True}
         return {"error": f"unknown tool {name}"}
 
+    async def _dispatch_browser(self, name: str, args: dict[str, Any]) -> dict[str, Any]:
+        if self._browser is None:
+            return {"error": "browser not available for this session"}
+        # Authoritative ownership: read the durable value before every action, so a
+        # take/release is honored even if the live subscription missed it.
+        self._browser.set_owner(await steer.get_browser_owner(self.session_id))
+        if name == "browser_open":
+            return await self._browser.open(args.get("url", ""))
+        if name == "browser_click":
+            return await self._browser.click(args.get("selector", ""))
+        if name == "browser_type":
+            return await self._browser.type(args.get("selector", ""), args.get("text", ""),
+                                            bool(args.get("submit")))
+        if name == "browser_read":
+            return await self._browser.read()
+        if name == "browser_screenshot":
+            res = await self._browser.screenshot()
+            if res.get("ok") and res.get("b64"):
+                # Persist the PNG to the loot bucket and record it as evidence; keep the
+                # blob out of the agent's context and hand back a stable artifact key.
+                key = f"browser/{self.run_id}/{ids.new_id('shot')}.png"
+                try:
+                    await storage.put(settings.bucket_loot, key, base64.b64decode(res["b64"]), "image/png")
+                    await self._record_loot({"kind": "file", "label": "browser screenshot",
+                                             "value": key, "source": "browser"})
+                except Exception as exc:
+                    return {"ok": False, "error": f"screenshot capture ok but store failed: {exc}"[:200]}
+                return {"ok": True, "captured": True, "artifact": key, "url": res.get("url")}
+            return res
+        return {"error": f"unknown browser tool {name}"}
+
+    async def _watch_browser_control(self) -> None:
+        """Flip the browser's control owner when the operator takes or releases it.
+        Loads the persisted owner first so a take-control that landed before this
+        subscription is not lost, then follows live updates on the channel."""
+        if self._browser is not None:
+            self._browser.set_owner(await steer.get_browser_owner(self.session_id))
+        try:
+            async for payload in self.bus.subscribe(browser_channel(self.session_id)):
+                try:
+                    data = json.loads(payload)
+                except json.JSONDecodeError:
+                    continue
+                if self._browser is not None and "owner" in data:
+                    self._browser.set_owner(data["owner"])
+        except asyncio.CancelledError:
+            raise
+        except Exception as exc:
+            await self._event("orchestrator", "steer", f"browser control watch ended: {exc}")
+
     # ---- executor sub-agent ----
     async def _delegate(self, agent_name: str, objective: str) -> dict[str, Any]:
         async with session_scope() as s:
@@ -387,6 +453,15 @@ class LiveRunner:
                         if fnd.get("title"):
                             findings_here.append(fnd["title"])
                     stop = True
+                elif cname.startswith("browser_"):
+                    calls += 1
+                    label = (cargs.get("url") or cargs.get("selector") or "").strip()
+                    async with session_scope() as s:
+                        await agents_repo.update(s, agent_id, action=f"{cname} {label}".strip()[:80], calls=calls)
+                    await self._event(agent_name, "tool", f"[browser] {cname} {label}".strip())
+                    res = await self._dispatch_browser(cname, cargs)
+                    messages.append({"role": "tool", "tool_call_id": call["id"], "name": cname,
+                                     "content": json.dumps(res)[:2000]})
             if stop:
                 break
 

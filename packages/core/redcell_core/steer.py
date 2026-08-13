@@ -56,3 +56,24 @@ async def is_awaiting(run_id: str) -> bool:
         return bool(await _r.get(_awaiting_key(run_id)))
     except Exception:
         return False
+
+
+def _browser_owner_key(session_id: str) -> str:
+    return f"browser_owner:{session_id}"
+
+
+async def set_browser_owner(session_id: str, owner: str) -> bool:
+    """Persist who holds the browser (operator/agent). Returns False on failure so
+    the caller does not report a successful take/release that was never stored."""
+    try:
+        await _r.set(_browser_owner_key(session_id), owner, ex=86400)
+        return True
+    except Exception:
+        return False
+
+
+async def get_browser_owner(session_id: str) -> str:
+    try:
+        return (await _r.get(_browser_owner_key(session_id))) or "agent"
+    except Exception:
+        return "agent"

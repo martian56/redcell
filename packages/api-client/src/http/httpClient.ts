@@ -134,5 +134,10 @@ export function createHttpClient(baseUrl: string, wsUrl: string): ApiClient {
       subscribe: (shellId, cb) =>
         subscribe('shell', shellId, (m) => cb(typeof m === 'string' ? m : String(m))),
     },
+    browser: {
+      start: (sessionId) => req(`/sessions/${sessionId}/browser/start`, { method: 'POST' }),
+      control: (sessionId, owner) => req(`/sessions/${sessionId}/browser/control`, json({ owner })),
+      vncUrl: (sessionId) => `${wsUrl}/browser/${encodeURIComponent(sessionId)}`,
+    },
   };
 }

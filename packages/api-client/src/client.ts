@@ -180,4 +180,9 @@ export interface ApiClient {
   shellIO: {
     subscribe(shellId: string, cb: (chunk: string) => void): Unsubscribe;
   };
+  browser: {
+    start(sessionId: string): Promise<{ ok: boolean; detail?: string }>;
+    control(sessionId: string, owner: 'operator' | 'agent'): Promise<{ owner: string }>;
+    vncUrl(sessionId: string): string;
+  };
 }

@@ -12,6 +12,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@novnc/novnc": "1.7.0",
     "@redcell/api-client": "workspace:*",
     "@tanstack/react-query": "^5.59.0",
     "@xterm/addon-fit": "^0.10.0",

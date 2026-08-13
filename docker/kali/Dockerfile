@@ -22,6 +22,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       sqlmap nikto wpscan \
       gobuster ffuf feroxbuster dirb dirbuster \
       nuclei httpx-toolkit \
+      # browser automation (agent-driven + live VNC view)
+      chromium xvfb x11vnc \
       # exploitation / creds
       hydra john hashcat \
       # wordlists
@@ -31,6 +33,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # rockyou ships gzipped; unpack it so tools can use it directly.
 RUN [ -f /usr/share/wordlists/rockyou.txt.gz ] && gunzip -f /usr/share/wordlists/rockyou.txt.gz || true
+
+# Playwright as a CDP client only (drives the apt chromium above), so no browser
+# download is needed. Kali's Python is externally managed, hence --break-system-packages.
+RUN pip3 install --no-cache-dir --break-system-packages playwright
+
+# Agent-driven browser helper + supervisor.
+COPY rc-browserd rc-browser /usr/local/bin/
+RUN chmod +x /usr/local/bin/rc-browserd /usr/local/bin/rc-browser
 
 WORKDIR /root
 CMD ["sleep", "infinity"]
