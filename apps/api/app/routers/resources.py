@@ -6,7 +6,14 @@ import asyncio
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from redcell_core import queue, steer
-from redcell_core.bus import bus, chat_channel, control_channel, shell_channel, shell_input_channel
+from redcell_core.bus import (
+    browser_channel,
+    bus,
+    chat_channel,
+    control_channel,
+    shell_channel,
+    shell_input_channel,
+)
 from redcell_core.db import session_scope
 from redcell_core.repositories import agents as agents_repo
 from redcell_core.repositories import chat as chat_repo
@@ -23,6 +30,7 @@ from redcell_core.schemas import (
     Agent,
     AgentEdge,
     AgentGraph,
+    BrowserControlInput,
     ChatMessage,
     ChatSendInput,
     CreateRunInput,
@@ -158,6 +166,14 @@ async def stop_run(rid: str, s: AsyncSession = Depends(db)) -> Run:
     await s.commit()
     await bus.publish_json(control_channel(rid), {"action": "stop"})
     return schema
+
+
+@router.post("/sessions/{sid}/browser/control")
+async def browser_control(sid: str, body: BrowserControlInput, s: AsyncSession = Depends(db)) -> dict[str, str]:
+    await _get_session(s, sid)
+    owner = "operator" if body.owner == "operator" else "agent"
+    await bus.publish_json(browser_channel(sid), {"owner": owner})
+    return {"owner": owner}
 
 
 # ---- agents ----

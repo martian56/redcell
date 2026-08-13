@@ -220,6 +220,10 @@ class ChatSendInput(Camel):
     text: str
 
 
+class BrowserControlInput(Camel):
+    owner: str  # "operator" to take control, "agent" to release
+
+
 # ---- settings / providers ----
 class LlmSettings(Camel):
     provider: str = "moonshot"

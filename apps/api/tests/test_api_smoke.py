@@ -114,6 +114,10 @@ def test_api_smoke():
         check("run-resume", c.post(f"/api/v1/runs/{rid}/resume").status_code == 200)
         check("run-stop", c.post(f"/api/v1/runs/{rid}/stop").status_code == 200)
 
+        # browser control handoff (publishes the owner to the browser channel)
+        rbc = c.post(f"/api/v1/sessions/{sid}/browser/control", json={"owner": "operator"})
+        check("browser-control", rbc.status_code == 200 and rbc.json()["owner"] == "operator")
+
         # WebSocket chat round-trip (REST publish -> WS receive)
         with c.websocket_connect(f"/api/v1/ws/chat/{rid}") as ws:
             time.sleep(0.3)
@@ -129,5 +133,10 @@ def test_api_smoke():
                     check("ws-auth-guard", False)
             except Exception:
                 check("ws-auth-guard", True)
+            try:
+                with fresh.websocket_connect(f"/api/v1/ws/browser/{sid}"):
+                    check("ws-browser-auth-guard", False)
+            except Exception:
+                check("ws-browser-auth-guard", True)
 
     assert not failures, f"failed checks: {failures}"
