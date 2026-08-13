@@ -56,6 +56,28 @@ const DEFAULT_LAYOUT: Node = {
   second: { direction: 'column', splitPercentage: 52, first: 'findings', second: 'context' },
 };
 
+// react-mosaic crashes if a leaf id appears twice. A bad drag or adding an
+// already-visible panel can produce that, and it persists, so every later render
+// (including a brand-new session) white-screens. These keep the tree valid.
+function hasDuplicateLeaves(node: Node | null): boolean {
+  if (node == null) return false;
+  const leaves = getLeaves(node);
+  return new Set(leaves).size !== leaves.length;
+}
+
+function dedupeLeaves(node: Node | null, seen: Set<PanelId> = new Set()): Node | null {
+  if (node == null) return null;
+  if (typeof node === 'string') {
+    if (seen.has(node)) return null;
+    seen.add(node);
+    return node;
+  }
+  const first = dedupeLeaves(node.first, seen);
+  const second = dedupeLeaves(node.second, seen);
+  if (first && second) return { ...node, first, second };
+  return first ?? second ?? null;
+}
+
 interface WorkspaceState {
   layout: Node | null;
   setLayout: (n: Node | null) => void;
@@ -68,14 +90,19 @@ export const useWorkspace = create<WorkspaceState>()(
   persist(
     (set) => ({
       layout: DEFAULT_LAYOUT,
-      setLayout: (layout) => set({ layout }),
+      setLayout: (layout) =>
+        set({ layout: hasDuplicateLeaves(layout) ? dedupeLeaves(layout) : layout }),
       reset: () => set({ layout: DEFAULT_LAYOUT }),
       addPanel: (id) =>
-        set((s) => ({
-          layout: s.layout
-            ? { direction: 'row', first: s.layout, second: id, splitPercentage: 76 }
-            : id,
-        })),
+        set((s) => {
+          const leaves = s.layout ? getLeaves(s.layout) : [];
+          if (leaves.includes(id)) return {};
+          return {
+            layout: s.layout
+              ? { direction: 'row', first: s.layout, second: id, splitPercentage: 76 }
+              : id,
+          };
+        }),
       showPanel: (id) =>
         set((s) => {
           const leaves = s.layout ? getLeaves(s.layout) : [];
@@ -87,6 +114,19 @@ export const useWorkspace = create<WorkspaceState>()(
           };
         }),
     }),
-    { name: 'redcell.workspace.v3' },
+    {
+      name: 'redcell.workspace.v3',
+      // Heal an already-corrupted persisted layout (duplicate leaves) on load,
+      // so a stuck browser recovers on the next reload instead of crashing.
+      merge: (persisted, current) => {
+        const p = (persisted ?? {}) as Partial<WorkspaceState>;
+        const layout = p.layout !== undefined ? p.layout : current.layout;
+        return {
+          ...current,
+          ...p,
+          layout: hasDuplicateLeaves(layout ?? null) ? dedupeLeaves(layout ?? null) : layout,
+        };
+      },
+    },
   ),
 );
