@@ -1,6 +1,6 @@
-# The API image builds from the repo root (so the uv workspace root + lock are
-# in context). Keep the context small: only the manifests and apps/api/app are
-# actually COPYed.
+# Shared build context for all app images (api, worker, web), which build from
+# the repo root so the uv workspace root + lock and the bun workspace are in
+# context. Each Dockerfile COPYs only what it needs; this keeps the context small.
 **/node_modules/
 **/.venv/
 **/__pycache__/
@@ -13,8 +13,6 @@ coverage/
 *.log
 .playwright-mcp/
 *.png
-apps/web/
-pentest-agents-research/
 docs/
 
 # local durability checkpoint store
