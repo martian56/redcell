@@ -32,6 +32,7 @@ class Settings(BaseSettings):
     s3_secret_key: str = "minioadmin"
     s3_region: str = "us-east-1"
     s3_public_base_url: str | None = None
+    s3_presign_endpoint: str | None = None
 
     # durable checkpoint store for the agent loop, survives restarts. SQLite so it
     # runs on any OS/event loop; business data stays in Postgres.
