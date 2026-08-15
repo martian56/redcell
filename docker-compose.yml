@@ -1,0 +1,116 @@
+name: redcell
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: redcell
+      POSTGRES_PASSWORD: redcell
+      POSTGRES_DB: redcell
+    volumes:
+      - redcell_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U redcell']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  minio:
+    image: minio/minio:RELEASE.2025-04-22T22-12-26Z
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - redcell_minio:/data
+    healthcheck:
+      test: ['CMD-SHELL', 'mc ready local || exit 1']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  migrate:
+    image: ghcr.io/martian56/redcell-api:latest
+    env_file:
+      - .env
+    environment:
+      REDCELL_DATABASE_URL: postgresql+asyncpg://redcell:redcell@postgres:5432/redcell
+      REDCELL_REDIS_URL: redis://redis:6379/0
+      REDCELL_S3_ENDPOINT: http://minio:9000
+    command: ['sh', '-c', 'rc db upgrade && rc seed']
+    restart: 'no'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+
+  api:
+    image: ghcr.io/martian56/redcell-api:latest
+    env_file:
+      - .env
+    environment:
+      REDCELL_DATABASE_URL: postgresql+asyncpg://redcell:redcell@postgres:5432/redcell
+      REDCELL_REDIS_URL: redis://redis:6379/0
+      REDCELL_S3_ENDPOINT: http://minio:9000
+      REDCELL_S3_PRESIGN_ENDPOINT: http://localhost:9000
+    ports:
+      - '8080:8080'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+  worker:
+    image: ghcr.io/martian56/redcell-worker:latest
+    env_file:
+      - .env
+    environment:
+      REDCELL_DATABASE_URL: postgresql+asyncpg://redcell:redcell@postgres:5432/redcell
+      REDCELL_REDIS_URL: redis://redis:6379/0
+      REDCELL_S3_ENDPOINT: http://minio:9000
+      REDCELL_S3_PRESIGN_ENDPOINT: http://localhost:9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+  web:
+    image: ghcr.io/martian56/redcell-web:latest
+    ports:
+      - '5183:80'
+    depends_on:
+      - api
+
+volumes:
+  redcell_pg: {}
+  redcell_minio: {}

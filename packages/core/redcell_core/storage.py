@@ -22,10 +22,10 @@ class Storage:
     def __init__(self) -> None:
         self._session = aioboto3.Session()
 
-    def _client(self):
+    def _client(self, endpoint: str | None = None):
         return self._session.client(
             "s3",
-            endpoint_url=settings.s3_endpoint,
+            endpoint_url=endpoint or settings.s3_endpoint,
             aws_access_key_id=settings.s3_access_key,
             aws_secret_access_key=settings.s3_secret_key,
             region_name=settings.s3_region,
@@ -56,7 +56,7 @@ class Storage:
                 return await stream.read()
 
     async def presign_get(self, bucket: str, key: str, ttl: int | None = None) -> str:
-        async with self._client() as s3:
+        async with self._client(settings.s3_presign_endpoint) as s3:
             return await s3.generate_presigned_url(
                 "get_object",
                 Params={"Bucket": bucket, "Key": key},
