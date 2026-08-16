@@ -16,6 +16,10 @@
   <img alt="LiteLLM" src="https://img.shields.io/badge/models-provider--agnostic-c8102e">
 </p>
 
+<p align="center">
+  <img src="images/in-action.png" alt="REDCELL operator console mid-run against DVWA: agent graph, critical RCE finding, the agent-driven browser, and a caught reverse shell" width="900">
+</p>
+
 > [!WARNING]
 > REDCELL runs real offensive tooling. Only point it at systems you own or are authorized to test. Staying in scope and within the law is on you.
 
