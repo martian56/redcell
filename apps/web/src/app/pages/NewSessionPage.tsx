@@ -21,12 +21,15 @@ type Draft = {
   targets: string[];
   scope: string[];
   roe: string;
+  brief: string;
   source: string;
   serverId: string;
   proxyId: string;
   provider: string;
   model: string;
 };
+
+const apiBase = (import.meta.env.VITE_API_BASE_URL ?? '/api/v1') as string;
 
 function dedupe(a: string[]): string[] {
   return [...new Set(a)];
@@ -135,12 +138,14 @@ export function NewSessionPage() {
     targets: [],
     scope: [],
     roe: '',
+    brief: '',
     source: '',
     serverId: '',
     proxyId: '',
     provider: '',
     model: '',
   });
+  const [files, setFiles] = useState<File[]>([]);
   const [messages, setMessages] = useState<Msg[]>([
     mkMsg(
       'assistant',
@@ -198,6 +203,7 @@ export function NewSessionPage() {
           client: p.client ?? d.client,
           scope: p.scope && p.scope.length ? dedupe(p.scope) : d.scope,
           targets: p.targets && p.targets.length ? dedupe(p.targets) : d.targets,
+          brief: p.brief ?? d.brief,
         }));
       }
     } catch {
@@ -226,11 +232,26 @@ export function NewSessionPage() {
       targets: isCode ? [] : draft.targets,
       scope: isCode ? [] : draft.scope,
       roe: draft.roe.trim() || undefined,
+      brief: draft.brief.trim() || undefined,
       serverId: draft.serverId || undefined,
       proxyId: draft.proxyId || undefined,
       provider: provider || undefined,
       model: model || undefined,
     });
+    for (const f of files) {
+      const fd = new FormData();
+      fd.append('file', f);
+      fd.append('kind', 'assessment');
+      try {
+        await fetch(`${apiBase}/sessions/${created.id}/files`, {
+          method: 'POST',
+          body: fd,
+          credentials: 'include',
+        });
+      } catch {
+        toast(`Could not upload ${f.name}`, 'error');
+      }
+    }
     toast('Session created', 'success');
     nav(`/sessions/${created.id}`);
   };
@@ -377,6 +398,49 @@ export function NewSessionPage() {
                 placeholder="Testing window, no-DoS, exclusions..."
                 className="w-full rounded-[var(--radius)] border border-border2 bg-black px-3 py-2 text-[13px] text-text outline-none placeholder:text-faint focus:border-accent"
               />
+            </Field>
+
+            <Field label="Engagement brief" hint="Objectives and constraints handed to the agents. Drafted from the chat; edit freely.">
+              <textarea
+                value={draft.brief}
+                onChange={(e) => patch({ brief: e.target.value })}
+                rows={4}
+                placeholder="What to focus on, what to skip, the objective..."
+                className="w-full rounded-[var(--radius)] border border-border2 bg-black px-3 py-2 text-[13px] text-text outline-none placeholder:text-faint focus:border-accent"
+              />
+            </Field>
+
+            <Field label="Assessment files" hint="Files the agents work on (a binary, a pcap). Staged in the container at /root/assessment.">
+              <div className="grid gap-1.5">
+                {files.map((f, i) => (
+                  <div
+                    key={`${f.name}-${i}`}
+                    className="flex items-center justify-between rounded-[var(--radius)] border border-border2 bg-black px-2.5 py-1.5 font-mono text-[11px] text-text"
+                  >
+                    <span className="truncate">{f.name}</span>
+                    <button
+                      onClick={() => setFiles((xs) => xs.filter((_, j) => j !== i))}
+                      className="flex-none text-faint hover:text-crit"
+                    >
+                      <Icon name="close" size={12} />
+                    </button>
+                  </div>
+                ))}
+                <label className="flex cursor-pointer items-center justify-center gap-1.5 rounded-[var(--radius)] border border-dashed border-border2 px-2.5 py-2 text-[12px] text-muted hover:border-accent hover:text-text">
+                  <Icon name="plus" size={13} />
+                  Add files
+                  <input
+                    type="file"
+                    multiple
+                    className="hidden"
+                    onChange={(e) => {
+                      const picked = Array.from(e.target.files ?? []);
+                      if (picked.length) setFiles((xs) => [...xs, ...picked]);
+                      e.target.value = '';
+                    }}
+                  />
+                </label>
+              </div>
             </Field>
           </div>
         </div>

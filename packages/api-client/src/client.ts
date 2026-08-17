@@ -45,6 +45,7 @@ export interface CreateSessionInput {
   scope: string[];
   targets: string[];
   roe?: string;
+  brief?: string;
   serverId?: ID;
   proxyId?: ID;
   provider?: string;
