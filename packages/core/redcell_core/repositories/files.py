@@ -19,9 +19,11 @@ async def get(s: AsyncSession, fid: str) -> File | None:
     return await s.get(File, fid)
 
 
-async def list_for_session(s: AsyncSession, sid: str) -> list[File]:
-    return list((await s.scalars(
-        select(File).where(File.session_id == sid).order_by(File.created_at.desc()))).all())
+async def list_for_session(s: AsyncSession, sid: str, *, kind: str | None = None) -> list[File]:
+    stmt = select(File).where(File.session_id == sid)
+    if kind is not None:
+        stmt = stmt.where(File.kind == kind)
+    return list((await s.scalars(stmt.order_by(File.created_at.desc()))).all())
 
 
 async def delete(s: AsyncSession, fid: str) -> bool:

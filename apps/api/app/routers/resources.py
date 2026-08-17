@@ -102,8 +102,8 @@ async def get_session(sid: str, s: AsyncSession = Depends(db)) -> Session:
 async def create_session(body: CreateSessionInput, s: AsyncSession = Depends(db)) -> Session:
     row = await sessions_repo.create(s, {
         "name": body.name, "client": body.client, "kind": body.kind, "source": body.source,
-        "scope": body.scope, "targets": body.targets, "roe": body.roe, "status": "active",
-        "server_id": body.server_id, "proxy_id": body.proxy_id,
+        "scope": body.scope, "targets": body.targets, "roe": body.roe, "brief": body.brief,
+        "status": "active", "server_id": body.server_id, "proxy_id": body.proxy_id,
         "provider": body.provider, "model": body.model,
     })
     return await _session_schema(s, row)
@@ -128,7 +128,7 @@ async def create_run(sid: str, body: CreateRunInput, s: AsyncSession = Depends(d
     await _get_session(s, sid)
     run = await runs_repo.create(s, {"session_id": sid, "name": body.name, "status": "queued",
                                      "phase": "Reconnaissance", "model": body.model,
-                                     "provider": body.provider})
+                                     "provider": body.provider, "instruction": body.instruction})
     await sessions_repo.set_active_run(s, sid, run.id)
     await agents_repo.add(s, {"run_id": run.id, "name": "orchestrator", "role": "root",
                              "status": "running", "action": body.instruction or "planning the engagement",
@@ -414,7 +414,9 @@ async def _answer_chat(rid: str, text: str, running: bool) -> None:
         # operator asked for action; hand the instruction to the orchestrator
         if result.get("kind") == "continue":
             await steer.push_steer(rid, result.get("instruction") or text)
-            if not running:
+            if running:
+                await bus.publish_json(control_channel(rid), {"action": "interrupt"})
+            else:
                 async with session_scope() as s:
                     await runs_repo.set_status(s, rid, "running")
                 await queue.enqueue("run_engagement", rid)

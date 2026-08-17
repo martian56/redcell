@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, Form, HTTPException, UploadFile
 from fastapi.responses import RedirectResponse
 from redcell_core.config import settings
 from redcell_core.repositories import files as files_repo
@@ -18,14 +18,15 @@ router = APIRouter(tags=["files"], dependencies=[Depends(current_user)])
 
 
 @router.post("/sessions/{sid}/files", response_model=FileMeta)
-async def upload(sid: str, file: UploadFile, s: AsyncSession = Depends(db)) -> FileMeta:
+async def upload(sid: str, file: UploadFile, kind: str = Form("upload"),
+                 s: AsyncSession = Depends(db)) -> FileMeta:
     data = await file.read()
     key = f"{sid}/{ids.new_id('f')}/{file.filename}"
     content_type = file.content_type or "application/octet-stream"
     await storage.put(settings.bucket_uploads, key, data, content_type)
     row = await files_repo.create(s, {
         "session_id": sid, "bucket": settings.bucket_uploads, "object_key": key,
-        "filename": file.filename, "kind": "upload", "content_type": content_type,
+        "filename": file.filename, "kind": kind or "upload", "content_type": content_type,
         "size": len(data), "visibility": "private", "source": "operator",
     })
     return FileMeta.model_validate(row)

@@ -9,6 +9,9 @@ Backends stream output line by line through an async callback."""
 from __future__ import annotations
 
 import asyncio
+import os
+import tempfile
+import uuid
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 
@@ -24,6 +27,15 @@ class ExecResult:
     output: str
 
 
+def _job_tag() -> str:
+    return uuid.uuid4().hex[:12]
+
+
+def _write_bytes(fd: int, data: bytes) -> None:
+    with os.fdopen(fd, "wb") as f:
+        f.write(data)
+
+
 class ExecutionBackend:
     kind = "base"
 
@@ -32,6 +44,10 @@ class ExecutionBackend:
 
     async def run(self, command: str, on_output: OnOutput | None = None) -> ExecResult:
         raise NotImplementedError
+
+    async def stage_file(self, path: str, data: bytes) -> None:
+        """Place a file inside the execution environment. No-op by default."""
+        return None
 
     async def close(self) -> None:
         return None
@@ -67,6 +83,7 @@ class LocalDockerBackend(ExecutionBackend):
         self.name = name
         self.proxy_env = proxy_env or {}
         self.mounts = mounts or []  # entries like "/host/path:/src:ro"
+        self._setsid: bool | None = None  # probed once: can we group-kill via setsid?
 
     async def start(self, on_status: OnOutput | None = None) -> None:
         await self._docker("rm", "-f", self.name, check=False)
@@ -116,11 +133,22 @@ class LocalDockerBackend(ExecutionBackend):
             raise RuntimeError(f"docker pull {self.image} failed: {lines[-1] if lines else 'unknown error'}")
 
     async def run(self, command: str, on_output: OnOutput | None = None) -> ExecResult:
+        if self._setsid is None:
+            self._setsid = await self._check("setsid -w true")
         env_args: list[str] = []
         for k, v in self.proxy_env.items():
             env_args += ["-e", f"{k}={v}"]
+        tag = _job_tag()
+        if self._setsid:
+            # New session/process group whose leader pid ($$) we record, so a cancel
+            # can kill the whole tree (the command and its children), not just the client.
+            wrapped = f"echo $$ > /tmp/rc-{tag}.pg; {command}"
+            proc_args = ["exec", *env_args, self.name, "setsid", "-w", "sh", "-c", wrapped]
+        else:
+            wrapped = f": RC_JOB_{tag}; {command}"
+            proc_args = ["exec", *env_args, self.name, "sh", "-c", wrapped]
         proc = await asyncio.create_subprocess_exec(
-            "docker", "exec", *env_args, self.name, "sh", "-c", command,
+            "docker", *proc_args,
             stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT,
         )
         # Read in fixed chunks, not line-iteration: readline() caps a single line at
@@ -128,20 +156,67 @@ class LocalDockerBackend(ExecutionBackend):
         assert proc.stdout is not None
         raw = bytearray()
         pending = b""
-        while True:
-            data = await proc.stdout.read(65536)
-            if not data:
-                break
-            raw += data
-            if on_output:
-                pending += data
-                while b"\n" in pending:
-                    line, pending = pending.split(b"\n", 1)
-                    await on_output(line.decode(errors="replace").rstrip("\r") + "\r\n")
-        if on_output and pending:
-            await on_output(pending.decode(errors="replace") + "\r\n")
-        await proc.wait()
-        return ExecResult(exit_code=proc.returncode or 0, output=raw.decode(errors="replace"))
+        try:
+            while True:
+                data = await proc.stdout.read(65536)
+                if not data:
+                    break
+                raw += data
+                if on_output:
+                    pending += data
+                    while b"\n" in pending:
+                        line, pending = pending.split(b"\n", 1)
+                        await on_output(line.decode(errors="replace").rstrip("\r") + "\r\n")
+            if on_output and pending:
+                await on_output(pending.decode(errors="replace") + "\r\n")
+            await proc.wait()
+            return ExecResult(exit_code=proc.returncode or 0, output=raw.decode(errors="replace"))
+        except asyncio.CancelledError:
+            await self._kill_job(tag)
+            try:
+                proc.kill()
+            except ProcessLookupError:
+                pass
+            raise
+
+    async def stage_file(self, path: str, data: bytes) -> None:
+        directory = path.rsplit("/", 1)[0] or "/"
+        await self._docker("exec", self.name, "mkdir", "-p", directory, check=False)
+        fd, tmp = tempfile.mkstemp(prefix="rc-stage-")
+        try:
+            await asyncio.to_thread(_write_bytes, fd, data)
+            await self._docker("cp", tmp, f"{self.name}:{path}", check=False)
+        finally:
+            try:
+                os.unlink(tmp)
+            except OSError:
+                pass
+
+    async def _kill_job(self, tag: str) -> None:
+        if self._setsid:
+            script = (f'pg=$(cat /tmp/rc-{tag}.pg 2>/dev/null); '
+                      f'[ -n "$pg" ] && {{ kill -TERM -"$pg" 2>/dev/null; sleep 0.2; '
+                      f'kill -KILL -"$pg" 2>/dev/null; }}; rm -f /tmp/rc-{tag}.pg; true')
+        else:
+            script = (f"pkill -TERM -f 'RC_JOB_{tag}' 2>/dev/null; sleep 0.2; "
+                      f"pkill -KILL -f 'RC_JOB_{tag}' 2>/dev/null; true")
+        try:
+            proc = await asyncio.create_subprocess_exec(
+                "docker", "exec", self.name, "sh", "-c", script,
+                stdout=asyncio.subprocess.DEVNULL, stderr=asyncio.subprocess.DEVNULL)
+            await proc.wait()
+        except Exception:
+            pass
+
+    async def _check(self, script: str) -> bool:
+        try:
+            proc = await asyncio.create_subprocess_exec(
+                "docker", "exec", self.name, "sh", "-c", script,
+                stdout=asyncio.subprocess.DEVNULL, stderr=asyncio.subprocess.DEVNULL)
+            await proc.wait()
+            return proc.returncode == 0
+        except Exception:
+            return False
 
     async def close(self) -> None:
         await self._docker("rm", "-f", self.name, check=False)
@@ -195,12 +270,33 @@ class SSHBackend(ExecutionBackend):
         # handle is invalid" on Windows and breaks every SSH command.
         proc = await self._conn.create_process(self._wrap(command), stderr=asyncssh.STDOUT)
         chunks: list[str] = []
-        async for line in proc.stdout:
-            chunks.append(line)
-            if on_output:
-                await on_output(line.rstrip("\n") + "\r\n")
-        result = await proc.wait()
-        return ExecResult(exit_code=result.exit_status or 0, output="".join(chunks))
+        try:
+            async for line in proc.stdout:
+                chunks.append(line)
+                if on_output:
+                    await on_output(line.rstrip("\n") + "\r\n")
+            result = await proc.wait()
+            return ExecResult(exit_code=result.exit_status or 0, output="".join(chunks))
+        except asyncio.CancelledError:
+            try:
+                proc.terminate()
+            except Exception:
+                pass
+            raise
+
+    async def stage_file(self, path: str, data: bytes) -> None:
+        if self._conn is None:
+            await self.start()
+        assert self._conn is not None
+        directory = path.rsplit("/", 1)[0] or "/"
+        inner = f"mkdir -p {_shq(directory)}; cat > {_shq(path)}"
+        proc = await self._conn.create_process(f"sh -c {_shq(inner)}", encoding=None)
+        try:
+            proc.stdin.write(data)
+            proc.stdin.write_eof()
+            await proc.wait()
+        except Exception:
+            pass
 
     async def close(self) -> None:
         if self._conn is not None:
@@ -228,6 +324,7 @@ class RemoteDockerBackend(ExecutionBackend):
         self.proxy_env = proxy_env or {}
         self.mounts = mounts or []
         self._conn = None
+        self._setsid: bool | None = None
 
     async def connection(self):
         if self._conn is None:
@@ -334,16 +431,57 @@ class RemoteDockerBackend(ExecutionBackend):
         import asyncssh
 
         conn = await self.connection()
+        if self._setsid is None:
+            self._setsid = (await self._sh(f"docker exec {self.name} sh -c 'setsid -w true'"))[0] == 0
         envs = "".join(f"-e {_shq(f'{k}={v}')} " for k, v in self.proxy_env.items())
-        full = f"docker exec {envs}{self.name} sh -c {_shq(command)}"
+        tag = _job_tag()
+        if self._setsid:
+            inner = f"echo $$ > /tmp/rc-{tag}.pg; {command}"
+            full = f"docker exec {envs}{self.name} setsid -w sh -c {_shq(inner)}"
+        else:
+            inner = f": RC_JOB_{tag}; {command}"
+            full = f"docker exec {envs}{self.name} sh -c {_shq(inner)}"
         proc = await conn.create_process(full, stderr=asyncssh.STDOUT)
         chunks: list[str] = []
-        async for line in proc.stdout:
-            chunks.append(line)
-            if on_output:
-                await on_output(line.rstrip("\n") + "\r\n")
-        result = await proc.wait()
-        return ExecResult(exit_code=result.exit_status or 0, output="".join(chunks))
+        try:
+            async for line in proc.stdout:
+                chunks.append(line)
+                if on_output:
+                    await on_output(line.rstrip("\n") + "\r\n")
+            result = await proc.wait()
+            return ExecResult(exit_code=result.exit_status or 0, output="".join(chunks))
+        except asyncio.CancelledError:
+            await self._kill_job(tag)
+            try:
+                proc.terminate()
+            except Exception:
+                pass
+            raise
+
+    async def _kill_job(self, tag: str) -> None:
+        if self._setsid:
+            script = (f'pg=$(cat /tmp/rc-{tag}.pg 2>/dev/null); '
+                      f'[ -n "$pg" ] && {{ kill -TERM -"$pg" 2>/dev/null; sleep 0.2; '
+                      f'kill -KILL -"$pg" 2>/dev/null; }}; rm -f /tmp/rc-{tag}.pg; true')
+        else:
+            script = (f"pkill -TERM -f 'RC_JOB_{tag}'; sleep 0.2; pkill -KILL -f 'RC_JOB_{tag}'; true")
+        try:
+            await self._sh(f"docker exec {self.name} sh -c {_shq(script)}")
+        except Exception:
+            pass
+
+    async def stage_file(self, path: str, data: bytes) -> None:
+        conn = await self.connection()
+        directory = path.rsplit("/", 1)[0] or "/"
+        inner = f"mkdir -p {_shq(directory)}; cat > {_shq(path)}"
+        full = f"docker exec -i {self.name} sh -c {_shq(inner)}"
+        proc = await conn.create_process(full, encoding=None)
+        try:
+            proc.stdin.write(data)
+            proc.stdin.write_eof()
+            await proc.wait()
+        except Exception:
+            pass
 
     async def close(self) -> None:
         # Leave the container running on the remote (caught shells / artifacts

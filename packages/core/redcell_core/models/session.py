@@ -18,6 +18,7 @@ class Session(Base):
     targets: Mapped[list] = mapped_column(JSONB, default=list)
     status: Mapped[str] = mapped_column(String, default="active")
     roe: Mapped[str | None] = mapped_column(Text, nullable=True)
+    brief: Mapped[str | None] = mapped_column(Text, nullable=True)
     active_run_id: Mapped[str | None] = mapped_column(String, nullable=True)
     # Where runs execute (a saved Server) and how they egress (a saved Proxy).
     # Null server_id => local execution; null proxy_id => direct (no proxy).
