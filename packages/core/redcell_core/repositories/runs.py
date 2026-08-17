@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..models import Run
@@ -29,6 +29,13 @@ async def create(s: AsyncSession, data: dict) -> Run:
     s.add(row)
     await s.flush()
     return row
+
+
+async def start_if_not_running(s: AsyncSession, rid: str) -> bool:
+    result = await s.execute(
+        update(Run).where(Run.id == rid, Run.status != "running").values(status="running"))
+    await s.flush()
+    return (result.rowcount or 0) > 0
 
 
 async def set_status(s: AsyncSession, rid: str, status: str) -> Run | None:

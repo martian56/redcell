@@ -32,6 +32,7 @@ export interface Session {
   status: 'active' | 'archived';
   /** Rules of engagement. */
   roe?: string;
+  brief?: string;
   createdAt: ISODate;
   activeRunId?: ID;
   /** Saved server where runs execute (undefined = local). */
@@ -50,6 +51,7 @@ export interface Run {
   id: ID;
   sessionId: ID;
   name: string;
+  instruction?: string;
   status: RunStatus;
   phase: string;
   startedAt: ISODate;
@@ -225,6 +227,7 @@ export interface SessionProposal {
   client?: string;
   scope: string[];
   targets: string[];
+  brief?: string;
 }
 
 export interface DraftChatInput {

@@ -7,6 +7,11 @@ from botocore.config import Config as BotoConfig
 
 from .config import settings
 
+
+def safe_filename(name: str | None) -> bool:
+    return bool(name) and name not in (".", "..") and "/" not in name and "\\" not in name
+
+
 _PUBLIC_POLICY = {
     "Version": "2012-10-17",
     "Statement": [{

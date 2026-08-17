@@ -102,8 +102,8 @@ async def get_session(sid: str, s: AsyncSession = Depends(db)) -> Session:
 async def create_session(body: CreateSessionInput, s: AsyncSession = Depends(db)) -> Session:
     row = await sessions_repo.create(s, {
         "name": body.name, "client": body.client, "kind": body.kind, "source": body.source,
-        "scope": body.scope, "targets": body.targets, "roe": body.roe, "status": "active",
-        "server_id": body.server_id, "proxy_id": body.proxy_id,
+        "scope": body.scope, "targets": body.targets, "roe": body.roe, "brief": body.brief,
+        "status": "active", "server_id": body.server_id, "proxy_id": body.proxy_id,
         "provider": body.provider, "model": body.model,
     })
     return await _session_schema(s, row)
@@ -128,7 +128,7 @@ async def create_run(sid: str, body: CreateRunInput, s: AsyncSession = Depends(d
     await _get_session(s, sid)
     run = await runs_repo.create(s, {"session_id": sid, "name": body.name, "status": "queued",
                                      "phase": "Reconnaissance", "model": body.model,
-                                     "provider": body.provider})
+                                     "provider": body.provider, "instruction": body.instruction})
     await sessions_repo.set_active_run(s, sid, run.id)
     await agents_repo.add(s, {"run_id": run.id, "name": "orchestrator", "role": "root",
                              "status": "running", "action": body.instruction or "planning the engagement",
@@ -386,7 +386,7 @@ async def run_events(rid: str, s: AsyncSession = Depends(db), p: ListParams = De
 
 @router.post("/runs/{rid}/chat", response_model=ChatMessage)
 async def chat_send(rid: str, body: ChatSendInput, s: AsyncSession = Depends(db)) -> ChatMessage:
-    run = await _get_run(s, rid)
+    await _get_run(s, rid)
     msg = await chat_repo.create(s, rid, "operator", body.text)
     schema = ChatMessage.model_validate(msg)
     await s.commit()
@@ -397,11 +397,11 @@ async def chat_send(rid: str, body: ChatSendInput, s: AsyncSession = Depends(db)
     if await steer.is_awaiting(rid):
         # orchestrator asked a question; this message is the answer
         return schema
-    asyncio.create_task(_answer_chat(rid, body.text, running=(run.status == "running")))
+    asyncio.create_task(_answer_chat(rid, body.text))
     return schema
 
 
-async def _answer_chat(rid: str, text: str, running: bool) -> None:
+async def _answer_chat(rid: str, text: str) -> None:
     from redcell_core.engine.assistant import answer_run
     try:
         result = await answer_run(rid, text)
@@ -414,9 +414,11 @@ async def _answer_chat(rid: str, text: str, running: bool) -> None:
         # operator asked for action; hand the instruction to the orchestrator
         if result.get("kind") == "continue":
             await steer.push_steer(rid, result.get("instruction") or text)
-            if not running:
-                async with session_scope() as s:
-                    await runs_repo.set_status(s, rid, "running")
+            async with session_scope() as s:
+                transitioned = await runs_repo.start_if_not_running(s, rid)
+            if transitioned:
                 await queue.enqueue("run_engagement", rid)
+            else:
+                await bus.publish_json(control_channel(rid), {"action": "interrupt"})
     except Exception:
         pass

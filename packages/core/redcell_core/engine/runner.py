@@ -10,11 +10,12 @@ import json
 from typing import Any, TypedDict
 
 from .. import steer
-from ..bus import Bus, browser_channel, chat_channel, shell_channel, shell_input_channel
+from ..bus import Bus, browser_channel, chat_channel, control_channel, shell_channel, shell_input_channel
 from ..config import settings
 from ..db import session_scope
 from ..repositories import agents as agents_repo
 from ..repositories import chat as chat_repo
+from ..repositories import files as files_repo
 from ..repositories import findings as findings_repo
 from ..repositories import hosts as hosts_repo
 from ..repositories import ids
@@ -28,10 +29,10 @@ from ..repositories import sessions as sessions_repo
 from ..repositories import settings as settings_repo
 from ..repositories import shells as shells_repo
 from ..schemas import ExecutionSettings, LlmSettings
-from ..storage import storage
+from ..storage import safe_filename, storage
 from . import msf, nmap, pivot, webscan
 from .browser import BrowserManager
-from .execution import build_backend
+from .execution import ExecResult, build_backend
 from .llm import LlmClient
 from .tools import (
     EXECUTOR_TOOLS,
@@ -133,10 +134,17 @@ class LiveRunner:
         self.run_name = ""
         self.kind = "network"
         self.source: str | None = None
+        self.brief: str | None = None
+        self.instruction: str | None = None
+        self.assessment_files: list[str] = []
+        self._assessment_meta: list[tuple[str, str, str]] = []  # (bucket, key, filename)
         self.server = None  # the chosen remote Server row, or None for local
         self._listener_tasks: list[asyncio.Task] = []
         self._browser: BrowserManager | None = None
         self._pivot: pivot.PivotManager | None = None
+        self._current_cmd_task: asyncio.Task | None = None
+        self._interrupted = False
+        self._stop_requested = False
 
     async def run(self) -> None:
         await self._load()
@@ -155,11 +163,16 @@ class LiveRunner:
                 self.backend = SimBackend()
                 if self._browser is not None:
                     self._browser.backend = self.backend
+            self._listener_tasks.append(asyncio.create_task(self._watch_control()))
+            if self._assessment_meta:
+                await self._stage_assessment_files()
             if self.kind == "code":
                 await self._prepare_source()
             await self._orchestrate()
             async with session_scope() as s:
-                await runs_repo.set_status(s, self.run_id, "completed")
+                run = await runs_repo.get(s, self.run_id)
+                if not self._stop_requested and run is not None and run.status != "stopped":
+                    await runs_repo.set_status(s, self.run_id, "completed")
         except asyncio.CancelledError:
             raise
         except Exception as exc:
@@ -196,6 +209,11 @@ class LiveRunner:
             self.run_name = run.name
             self.kind = session.kind or "network"
             self.source = session.source
+            self.brief = session.brief
+            self.instruction = run.instruction
+            afiles = await files_repo.list_for_session(s, session.id, kind="assessment")
+            self.assessment_files = []
+            self._assessment_meta = [(f.bucket, f.object_key, f.filename) for f in afiles]
             base = LlmSettings(**cfg.llm) if cfg.llm else LlmSettings()
             # Run picks provider + model; key comes from that provider's stored
             # credential, falling back to the legacy single key.
@@ -275,7 +293,9 @@ class LiveRunner:
 
         system = (codescan_orchestrator_system(self.run_name, self.source or "")
                   if self.kind == "code"
-                  else orchestrator_system(self.run_name, self.scope, self.targets, self.roe))
+                  else orchestrator_system(self.run_name, self.scope, self.targets, self.roe,
+                                           brief=self.brief, instruction=self.instruction,
+                                           files=self.assessment_files))
         init: _State = {
             "messages": [{"role": "system", "content": system},
                          {"role": "user", "content": "Begin the engagement."}],
@@ -433,7 +453,7 @@ class LiveRunner:
         # Through a pivot, tunnel the connect scan over the SOCKS proxy so internal
         # hosts are reachable; discovered hosts are tagged as pivot-sourced.
         cmd = pivot.proxychains_wrap(cmd, pivoting)
-        res = await self.backend.run(cmd)
+        res = await self._exec(cmd)
         hosts = nmap.parse_nmap_xml(getattr(res, "output", "") or "")
         for h in hosts:
             await self._record_host({
@@ -453,7 +473,7 @@ class LiveRunner:
         if not target:
             return {"error": "target required"}
         cmd = webscan.build_nuclei_command(target, severity=args.get("severity"))
-        res = await self.backend.run(cmd)
+        res = await self._exec(cmd)
         findings = webscan.parse_nuclei_jsonl(getattr(res, "output", "") or "", target=target)
         for f in findings:
             await self._record_finding(f)
@@ -465,7 +485,7 @@ class LiveRunner:
             return {"error": "url required"}
         cmd = webscan.build_ffuf_command(url, wordlist=args.get("wordlist"),
                                          vhost=(args.get("mode") == "vhost"))
-        res = await self.backend.run(cmd)
+        res = await self._exec(cmd)
         results = webscan.parse_ffuf_json(getattr(res, "output", "") or "")
         return {"ok": True, "found": len(results), "results": results[:50]}
 
@@ -473,7 +493,7 @@ class LiveRunner:
         query = str(args.get("query", "")).strip()
         if not query:
             return {"error": "query required"}
-        res = await self.backend.run(msf.build_msf_search(query))
+        res = await self._exec(msf.build_msf_search(query))
         modules = msf.parse_msf_search(getattr(res, "output", "") or "")
         return {"ok": True, "count": len(modules), "modules": modules[:40]}
 
@@ -483,7 +503,7 @@ class LiveRunner:
             return {"error": "invalid module path"}
         options = args.get("options") if isinstance(args.get("options"), dict) else {}
         cmd = msf.build_msf_run(module, {str(k): str(v) for k, v in options.items()})
-        res = await self.backend.run(cmd)
+        res = await self._exec(cmd)
         return {"ok": True, "output": (getattr(res, "output", "") or "")[-3000:]}
 
     # ---- executor sub-agent ----
@@ -531,7 +551,7 @@ class LiveRunner:
                     async with session_scope() as s:
                         await agents_repo.update(s, agent_id, action=cmd[:80], calls=calls)
                     await self._event(agent_name, "tool", f"$ {cmd}")
-                    res = await self.backend.run(cmd, on_output=lambda line: self._shell_out(shell_id, line))
+                    res = await self._exec(cmd, on_output=lambda line: self._shell_out(shell_id, line))
                     outputs.append(f"$ {cmd}\n{res.output}")
                     messages.append({"role": "tool", "tool_call_id": call["id"], "name": cname,
                                      "content": res.output[:4000]})
@@ -562,8 +582,12 @@ class LiveRunner:
                     res = await self._dispatch_toolset(cname, cargs)
                     messages.append({"role": "tool", "tool_call_id": call["id"], "name": cname,
                                      "content": json.dumps(res)[:4000]})
-            if stop:
+            if stop or self._interrupted:
                 break
+
+        if self._interrupted:
+            self._interrupted = False
+            await self._event(agent_name, "steer", "interrupted by operator; returning to the orchestrator")
 
         async with session_scope() as s:
             await agents_repo.update(s, agent_id, status="done")
@@ -604,6 +628,52 @@ class LiveRunner:
             await self._event("orchestrator", "steer", "operator did not answer; proceeding conservatively")
             return None
 
+    async def _watch_control(self) -> None:
+        try:
+            async for raw in self.bus.subscribe(control_channel(self.run_id)):
+                try:
+                    msg = json.loads(raw)
+                except Exception:
+                    continue
+                action = msg.get("action")
+                if action in ("stop", "interrupt"):
+                    if action == "stop":
+                        self._stop_requested = True
+                    task = self._current_cmd_task
+                    if task is not None and not task.done():
+                        task.cancel()
+        except asyncio.CancelledError:
+            raise
+        except Exception:
+            pass
+
+    async def _stage_assessment_files(self) -> None:
+        for bucket, key, name in self._assessment_meta:
+            if not safe_filename(name):
+                await self._event("orchestrator", "steer", f"skipped unsafe assessment filename: {name}")
+                continue
+            try:
+                data = await storage.get_bytes(bucket, key)
+                await self.backend.stage_file(f"/root/assessment/{name}", data)
+            except Exception as exc:
+                await self._event("orchestrator", "steer", f"could not stage {name}: {exc}")
+                continue
+            self.assessment_files.append(name)
+            await self._event("orchestrator", "steer", f"staged assessment file: {name}")
+
+    async def _exec(self, command: str, on_output=None) -> ExecResult:
+        task = asyncio.create_task(self.backend.run(command, on_output=on_output))
+        self._current_cmd_task = task
+        try:
+            return await task
+        except asyncio.CancelledError:
+            if task.cancelled():
+                self._interrupted = True
+                return ExecResult(exit_code=130, output="[interrupted by operator]")
+            raise
+        finally:
+            self._current_cmd_task = None
+
     async def _gate(self) -> None:
         while True:
             async with session_scope() as s:
@@ -614,6 +684,8 @@ class LiveRunner:
             await asyncio.sleep(0.5)
 
     async def _stopped(self) -> bool:
+        if self._stop_requested:
+            return True
         async with session_scope() as s:
             run = await runs_repo.get(s, self.run_id)
         return run is None or run.status == "stopped"
@@ -811,7 +883,7 @@ class LiveRunner:
         if _is_source_url(self.source):
             await self._event("recon", "tool", f"cloning {self.source}")
             try:
-                res = await self.backend.run(
+                res = await self._exec(
                     f"rm -rf /src && git clone --depth 1 {self.source} /src && "
                     f"echo CLONED && (find /src -type f | wc -l) ",
                     on_output=lambda line: self._event("recon", "tool", line.rstrip()))

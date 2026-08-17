@@ -42,6 +42,7 @@ class Session(Camel):
     targets: list[str] = []
     status: str = "active"
     roe: str | None = None
+    brief: str | None = None
     created_at: str
     active_run_id: str | None = None
     server_id: str | None = None
@@ -60,6 +61,7 @@ class CreateSessionInput(Camel):
     scope: list[str] = []
     targets: list[str] = []
     roe: str | None = None
+    brief: str | None = None
     server_id: str | None = None
     proxy_id: str | None = None
     provider: str | None = None
@@ -70,6 +72,7 @@ class Run(Camel):
     id: str
     session_id: str
     name: str
+    instruction: str | None = None
     status: str
     phase: str
     started_at: str
@@ -441,6 +444,7 @@ class SessionProposal(Camel):
     client: str | None = None
     scope: list[str] = []
     targets: list[str] = []
+    brief: str | None = None
 
 
 class DraftChatInput(Camel):

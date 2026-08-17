@@ -21,8 +21,11 @@ _SYSTEM = (
     "assessment. Ask focused questions about the target, the in-scope domains/IPs, and the "
     "rules of engagement. Keep replies short and practical. As soon as you have a reasonable "
     "picture, call propose_session with your best draft (the operator can edit it). Refine the "
-    "proposal as the conversation continues. Only in-scope, authorized targets. "
-    "Write in plain text; do not use em-dashes (use commas, periods, or parentheses instead)."
+    "proposal as the conversation continues. Include a short brief: a few sentences capturing the "
+    "objectives, constraints, and any specifics the operator gave (target type, what to focus on, "
+    "what to skip). The brief is handed to the agents that run the engagement. Only in-scope, "
+    "authorized targets. Write in plain text; do not use em-dashes (use commas, periods, or "
+    "parentheses instead)."
 )
 
 _PROPOSE_TOOL = [{
@@ -37,6 +40,7 @@ _PROPOSE_TOOL = [{
                 "client": {"type": "string", "description": "Client / org name."},
                 "scope": {"type": "array", "items": {"type": "string"}, "description": "In-scope domains, wildcards, or CIDRs."},
                 "targets": {"type": "array", "items": {"type": "string"}, "description": "Concrete target URLs or IPs."},
+                "brief": {"type": "string", "description": "A few sentences: objectives, constraints, and specifics for the agents running the engagement."},
             },
         },
     },
@@ -82,6 +86,7 @@ async def draft_chat(body: DraftChatInput, s: AsyncSession = Depends(db)) -> Dra
             proposal = SessionProposal(
                 name=args.get("name"), client=args.get("client"),
                 scope=args.get("scope") or [], targets=args.get("targets") or [],
+                brief=args.get("brief"),
             )
     if proposal and not reply:
         reply = "I've drafted the session on the right. Review and adjust, or tell me what to change."

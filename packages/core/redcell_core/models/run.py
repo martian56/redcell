@@ -1,4 +1,4 @@
-from sqlalchemy import BigInteger, Float, Integer, String
+from sqlalchemy import BigInteger, Float, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from . import Base
@@ -9,6 +9,7 @@ class Run(Base):
     id: Mapped[str] = mapped_column(String, primary_key=True)
     session_id: Mapped[str] = mapped_column(String, index=True)
     name: Mapped[str] = mapped_column(String)
+    instruction: Mapped[str | None] = mapped_column(Text, nullable=True)
     status: Mapped[str] = mapped_column(String, default="queued")
     phase: Mapped[str] = mapped_column(String, default="Reconnaissance")
     provider: Mapped[str | None] = mapped_column(String, nullable=True)

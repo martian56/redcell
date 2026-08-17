@@ -316,7 +316,22 @@ EXECUTOR_TOOLS = [
 ]
 
 
-def orchestrator_system(goal: str, scope: list[str], targets: list[str], roe: str | None) -> str:
+def orchestrator_system(goal: str, scope: list[str], targets: list[str], roe: str | None,
+                        brief: str | None = None, instruction: str | None = None,
+                        files: list[str] | None = None) -> str:
+    context = ""
+    if brief:
+        context += f"Engagement brief: {brief}\n"
+    if instruction:
+        context += (
+            f"This run's instructions: {instruction}\n"
+            "If this run's instructions conflict with the engagement brief, follow this run's "
+            "instructions.\n")
+    if files:
+        context += (
+            f"Assessment files the operator provided are staged in /root/assessment/: {', '.join(files)}. "
+            "Delegate executors to work on them with tools (file, strings, binwalk, and so on) as the "
+            "task requires.\n")
     return (
         "You are the orchestrator of an authorized red-team engagement. You plan and "
         "delegate; executors do the hands-on work. Stay strictly within scope, honor the "
@@ -325,7 +340,8 @@ def orchestrator_system(goal: str, scope: list[str], targets: list[str], roe: st
         f"Objective: {goal}\n"
         f"Scope: {', '.join(scope) or 'unspecified'}\n"
         f"Targets: {', '.join(targets) or 'unspecified'}\n"
-        f"Rules of engagement: {roe or 'standard, no DoS, no data destruction'}\n\n"
+        f"Rules of engagement: {roe or 'standard, no DoS, no data destruction'}\n"
+        f"{context}\n"
         "Work in small steps. Delegate one objective at a time. As you go, record every "
         "confirmed vulnerability with record_finding (always include a realistic cvss score 0-10), "
         "every credential/hash/token/file you obtain with record_loot, and every host/endpoint/service "
