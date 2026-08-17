@@ -397,20 +397,11 @@ async def chat_send(rid: str, body: ChatSendInput, s: AsyncSession = Depends(db)
     if await steer.is_awaiting(rid):
         # orchestrator asked a question; this message is the answer
         return schema
-    if run.status == "running":
-        # steer the live run; picked up at the next step
-        await steer.push_steer(rid, body.text)
-        ack = await chat_repo.create(s, rid, "assistant", "Got it. Steering the run now.")
-        await s.commit()
-        await bus.publish_json(chat_channel(rid), {"id": ack.id, "runId": rid, "role": "assistant",
-                                                   "text": ack.text, "options": None, "ts": ack.ts})
-        return schema
-    # run inactive; read-only assistant answers
-    asyncio.create_task(_answer_chat(rid, body.text))
+    asyncio.create_task(_answer_chat(rid, body.text, running=(run.status == "running")))
     return schema
 
 
-async def _answer_chat(rid: str, text: str) -> None:
+async def _answer_chat(rid: str, text: str, running: bool) -> None:
     from redcell_core.engine.assistant import answer_run
     try:
         result = await answer_run(rid, text)
@@ -420,11 +411,12 @@ async def _answer_chat(rid: str, text: str) -> None:
             payload = {"id": m.id, "runId": rid, "role": "assistant", "text": reply,
                        "options": None, "ts": m.ts}
         await bus.publish_json(chat_channel(rid), payload)
-        # operator asked for action; hand off to the orchestrator and reopen the run
+        # operator asked for action; hand the instruction to the orchestrator
         if result.get("kind") == "continue":
             await steer.push_steer(rid, result.get("instruction") or text)
-            async with session_scope() as s:
-                await runs_repo.set_status(s, rid, "running")
-            await queue.enqueue("run_engagement", rid)
+            if not running:
+                async with session_scope() as s:
+                    await runs_repo.set_status(s, rid, "running")
+                await queue.enqueue("run_engagement", rid)
     except Exception:
         pass
