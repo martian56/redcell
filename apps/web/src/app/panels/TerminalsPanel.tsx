@@ -3,6 +3,7 @@ import { cn } from '@/lib/cn';
 import { useUI } from '@/store/ui';
 import { useShellList, useOpenShell, useCloseShell } from '@/features/hooks';
 import { useShells } from '@/store/shells';
+import { disposeTerminal, reapTerminals } from '@/lib/terminals';
 import { Terminal } from './Terminal';
 import { Empty, Spinner, StatusDot } from '@/components/ui/primitives';
 import { Icon } from '@/components/ui/Icon';
@@ -31,6 +32,11 @@ export function TerminalsPanel() {
     }
   }, [shells, active, setActive]);
 
+  useEffect(() => {
+    if (!shells) return;
+    reapTerminals(shells.map((s) => s.id));
+  }, [shells]);
+
   const newTerminal = async () => {
     const shell = await openShell.mutateAsync(undefined);
     setActive(shell.id);
@@ -38,6 +44,7 @@ export function TerminalsPanel() {
 
   const closeTab = async (id: string) => {
     await closeShell.mutateAsync(id);
+    disposeTerminal(id);
     if (active === id) setActive(null);
   };
 
