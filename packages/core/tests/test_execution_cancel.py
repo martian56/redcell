@@ -39,6 +39,14 @@ async def test_exec_returns_interrupted_when_current_command_cancelled():
 
 
 @pytest.mark.asyncio
+async def test_stop_request_makes_stopped_true():
+    r = LiveRunner(bus=None, run_id="run-s")
+    assert r._stop_requested is False
+    r._stop_requested = True
+    assert await r._stopped() is True
+
+
+@pytest.mark.asyncio
 async def test_control_interrupt_cancels_the_running_command():
     bus = Bus(settings.redis_url)
     await bus.connect()
@@ -46,12 +54,16 @@ async def test_control_interrupt_cancels_the_running_command():
     r.backend = SleepBackend()
     watcher = asyncio.create_task(r._watch_control())
     call = asyncio.create_task(r._exec("sleep 30"))
-    await asyncio.sleep(0.3)
-    await bus.publish_json(control_channel("run-ctl"), {"action": "interrupt"})
     try:
+        for _ in range(50):
+            if call.done():
+                break
+            await bus.publish_json(control_channel("run-ctl"), {"action": "interrupt"})
+            await asyncio.sleep(0.1)
         res = await asyncio.wait_for(call, timeout=5)
         assert res.exit_code == 130
         assert r.backend.cancelled is True
     finally:
         watcher.cancel()
+        await asyncio.gather(watcher, return_exceptions=True)
         await bus.close()

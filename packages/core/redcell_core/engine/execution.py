@@ -36,6 +36,17 @@ def _write_bytes(fd: int, data: bytes) -> None:
         f.write(data)
 
 
+def _kill_script(tag: str, setsid: bool) -> str:
+    f = f"/tmp/rc-{tag}.pg"
+    if setsid:
+        return (f'pg=$(cat {f} 2>/dev/null); [ -n "$pg" ] && '
+                f'{{ kill -TERM -"$pg" 2>/dev/null; sleep 0.2; kill -KILL -"$pg" 2>/dev/null; }}; '
+                f'rm -f {f}; true')
+    return (f'pg=$(cat {f} 2>/dev/null); [ -n "$pg" ] && '
+            f'{{ pkill -TERM -P "$pg" 2>/dev/null; kill -TERM "$pg" 2>/dev/null; sleep 0.2; '
+            f'pkill -KILL -P "$pg" 2>/dev/null; kill -KILL "$pg" 2>/dev/null; }}; rm -f {f}; true')
+
+
 class ExecutionBackend:
     kind = "base"
 
@@ -139,13 +150,10 @@ class LocalDockerBackend(ExecutionBackend):
         for k, v in self.proxy_env.items():
             env_args += ["-e", f"{k}={v}"]
         tag = _job_tag()
+        wrapped = f"echo $$ > /tmp/rc-{tag}.pg; {command}"
         if self._setsid:
-            # New session/process group whose leader pid ($$) we record, so a cancel
-            # can kill the whole tree (the command and its children), not just the client.
-            wrapped = f"echo $$ > /tmp/rc-{tag}.pg; {command}"
             proc_args = ["exec", *env_args, self.name, "setsid", "-w", "sh", "-c", wrapped]
         else:
-            wrapped = f": RC_JOB_{tag}; {command}"
             proc_args = ["exec", *env_args, self.name, "sh", "-c", wrapped]
         proc = await asyncio.create_subprocess_exec(
             "docker", *proc_args,
@@ -185,7 +193,7 @@ class LocalDockerBackend(ExecutionBackend):
         fd, tmp = tempfile.mkstemp(prefix="rc-stage-")
         try:
             await asyncio.to_thread(_write_bytes, fd, data)
-            await self._docker("cp", tmp, f"{self.name}:{path}", check=False)
+            await self._docker("cp", tmp, f"{self.name}:{path}", check=True)
         finally:
             try:
                 os.unlink(tmp)
@@ -193,13 +201,7 @@ class LocalDockerBackend(ExecutionBackend):
                 pass
 
     async def _kill_job(self, tag: str) -> None:
-        if self._setsid:
-            script = (f'pg=$(cat /tmp/rc-{tag}.pg 2>/dev/null); '
-                      f'[ -n "$pg" ] && {{ kill -TERM -"$pg" 2>/dev/null; sleep 0.2; '
-                      f'kill -KILL -"$pg" 2>/dev/null; }}; rm -f /tmp/rc-{tag}.pg; true')
-        else:
-            script = (f"pkill -TERM -f 'RC_JOB_{tag}' 2>/dev/null; sleep 0.2; "
-                      f"pkill -KILL -f 'RC_JOB_{tag}' 2>/dev/null; true")
+        script = _kill_script(tag, bool(self._setsid))
         try:
             proc = await asyncio.create_subprocess_exec(
                 "docker", "exec", self.name, "sh", "-c", script,
@@ -291,12 +293,11 @@ class SSHBackend(ExecutionBackend):
         directory = path.rsplit("/", 1)[0] or "/"
         inner = f"mkdir -p {_shq(directory)}; cat > {_shq(path)}"
         proc = await self._conn.create_process(f"sh -c {_shq(inner)}", encoding=None)
-        try:
-            proc.stdin.write(data)
-            proc.stdin.write_eof()
-            await proc.wait()
-        except Exception:
-            pass
+        proc.stdin.write(data)
+        proc.stdin.write_eof()
+        result = await proc.wait()
+        if result.exit_status not in (0, None):
+            raise RuntimeError(f"stage_file failed ({result.exit_status})")
 
     async def close(self) -> None:
         if self._conn is not None:
@@ -435,11 +436,10 @@ class RemoteDockerBackend(ExecutionBackend):
             self._setsid = (await self._sh(f"docker exec {self.name} sh -c 'setsid -w true'"))[0] == 0
         envs = "".join(f"-e {_shq(f'{k}={v}')} " for k, v in self.proxy_env.items())
         tag = _job_tag()
+        inner = f"echo $$ > /tmp/rc-{tag}.pg; {command}"
         if self._setsid:
-            inner = f"echo $$ > /tmp/rc-{tag}.pg; {command}"
             full = f"docker exec {envs}{self.name} setsid -w sh -c {_shq(inner)}"
         else:
-            inner = f": RC_JOB_{tag}; {command}"
             full = f"docker exec {envs}{self.name} sh -c {_shq(inner)}"
         proc = await conn.create_process(full, stderr=asyncssh.STDOUT)
         chunks: list[str] = []
@@ -459,12 +459,7 @@ class RemoteDockerBackend(ExecutionBackend):
             raise
 
     async def _kill_job(self, tag: str) -> None:
-        if self._setsid:
-            script = (f'pg=$(cat /tmp/rc-{tag}.pg 2>/dev/null); '
-                      f'[ -n "$pg" ] && {{ kill -TERM -"$pg" 2>/dev/null; sleep 0.2; '
-                      f'kill -KILL -"$pg" 2>/dev/null; }}; rm -f /tmp/rc-{tag}.pg; true')
-        else:
-            script = (f"pkill -TERM -f 'RC_JOB_{tag}'; sleep 0.2; pkill -KILL -f 'RC_JOB_{tag}'; true")
+        script = _kill_script(tag, bool(self._setsid))
         try:
             await self._sh(f"docker exec {self.name} sh -c {_shq(script)}")
         except Exception:
@@ -476,12 +471,11 @@ class RemoteDockerBackend(ExecutionBackend):
         inner = f"mkdir -p {_shq(directory)}; cat > {_shq(path)}"
         full = f"docker exec -i {self.name} sh -c {_shq(inner)}"
         proc = await conn.create_process(full, encoding=None)
-        try:
-            proc.stdin.write(data)
-            proc.stdin.write_eof()
-            await proc.wait()
-        except Exception:
-            pass
+        proc.stdin.write(data)
+        proc.stdin.write_eof()
+        result = await proc.wait()
+        if result.exit_status not in (0, None):
+            raise RuntimeError(f"stage_file failed on remote ({result.exit_status})")
 
     async def close(self) -> None:
         # Leave the container running on the remote (caught shells / artifacts

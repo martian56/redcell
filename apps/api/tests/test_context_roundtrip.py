@@ -43,3 +43,8 @@ def test_brief_instruction_and_assessment_file_roundtrip():
         assert r.status_code == 200 and r.json()["kind"] == "assessment"
         files = c.get(f"/api/v1/sessions/{sid}/files").json()
         assert any(f["filename"] == "challenge.bin" and f["kind"] == "assessment" for f in files)
+
+        bad = c.post(f"/api/v1/sessions/{sid}/files",
+                     files={"file": ("../../evil.sh", b"x", "text/plain")},
+                     data={"kind": "assessment"})
+        assert bad.status_code == 400

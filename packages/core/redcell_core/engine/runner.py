@@ -29,7 +29,7 @@ from ..repositories import sessions as sessions_repo
 from ..repositories import settings as settings_repo
 from ..repositories import shells as shells_repo
 from ..schemas import ExecutionSettings, LlmSettings
-from ..storage import storage
+from ..storage import safe_filename, storage
 from . import msf, nmap, pivot, webscan
 from .browser import BrowserManager
 from .execution import ExecResult, build_backend
@@ -144,6 +144,7 @@ class LiveRunner:
         self._pivot: pivot.PivotManager | None = None
         self._current_cmd_task: asyncio.Task | None = None
         self._interrupted = False
+        self._stop_requested = False
 
     async def run(self) -> None:
         await self._load()
@@ -169,7 +170,9 @@ class LiveRunner:
                 await self._prepare_source()
             await self._orchestrate()
             async with session_scope() as s:
-                await runs_repo.set_status(s, self.run_id, "completed")
+                run = await runs_repo.get(s, self.run_id)
+                if not self._stop_requested and run is not None and run.status != "stopped":
+                    await runs_repo.set_status(s, self.run_id, "completed")
         except asyncio.CancelledError:
             raise
         except Exception as exc:
@@ -209,7 +212,7 @@ class LiveRunner:
             self.brief = session.brief
             self.instruction = run.instruction
             afiles = await files_repo.list_for_session(s, session.id, kind="assessment")
-            self.assessment_files = [f.filename for f in afiles]
+            self.assessment_files = []
             self._assessment_meta = [(f.bucket, f.object_key, f.filename) for f in afiles]
             base = LlmSettings(**cfg.llm) if cfg.llm else LlmSettings()
             # Run picks provider + model; key comes from that provider's stored
@@ -632,7 +635,10 @@ class LiveRunner:
                     msg = json.loads(raw)
                 except Exception:
                     continue
-                if msg.get("action") in ("stop", "interrupt"):
+                action = msg.get("action")
+                if action in ("stop", "interrupt"):
+                    if action == "stop":
+                        self._stop_requested = True
                     task = self._current_cmd_task
                     if task is not None and not task.done():
                         task.cancel()
@@ -643,12 +649,17 @@ class LiveRunner:
 
     async def _stage_assessment_files(self) -> None:
         for bucket, key, name in self._assessment_meta:
+            if not safe_filename(name):
+                await self._event("orchestrator", "steer", f"skipped unsafe assessment filename: {name}")
+                continue
             try:
                 data = await storage.get_bytes(bucket, key)
                 await self.backend.stage_file(f"/root/assessment/{name}", data)
-                await self._event("orchestrator", "steer", f"staged assessment file: {name}")
             except Exception as exc:
                 await self._event("orchestrator", "steer", f"could not stage {name}: {exc}")
+                continue
+            self.assessment_files.append(name)
+            await self._event("orchestrator", "steer", f"staged assessment file: {name}")
 
     async def _exec(self, command: str, on_output=None) -> ExecResult:
         task = asyncio.create_task(self.backend.run(command, on_output=on_output))
@@ -673,6 +684,8 @@ class LiveRunner:
             await asyncio.sleep(0.5)
 
     async def _stopped(self) -> bool:
+        if self._stop_requested:
+            return True
         async with session_scope() as s:
             run = await runs_repo.get(s, self.run_id)
         return run is None or run.status == "stopped"
@@ -870,7 +883,7 @@ class LiveRunner:
         if _is_source_url(self.source):
             await self._event("recon", "tool", f"cloning {self.source}")
             try:
-                res = await self.backend.run(
+                res = await self._exec(
                     f"rm -rf /src && git clone --depth 1 {self.source} /src && "
                     f"echo CLONED && (find /src -type f | wc -l) ",
                     on_output=lambda line: self._event("recon", "tool", line.rstrip()))

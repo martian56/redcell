@@ -243,11 +243,12 @@ export function NewSessionPage() {
       fd.append('file', f);
       fd.append('kind', 'assessment');
       try {
-        await fetch(`${apiBase}/sessions/${created.id}/files`, {
+        const res = await fetch(`${apiBase}/sessions/${created.id}/files`, {
           method: 'POST',
           body: fd,
           credentials: 'include',
         });
+        if (!res.ok) throw new Error(`upload failed: ${res.status}`);
       } catch {
         toast(`Could not upload ${f.name}`, 'error');
       }

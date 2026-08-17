@@ -9,7 +9,7 @@ from redcell_core.repositories import files as files_repo
 from redcell_core.repositories import ids
 from redcell_core.schemas import FileMeta
 from redcell_core.security import current_user
-from redcell_core.storage import storage
+from redcell_core.storage import safe_filename, storage
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..deps import db
@@ -20,6 +20,8 @@ router = APIRouter(tags=["files"], dependencies=[Depends(current_user)])
 @router.post("/sessions/{sid}/files", response_model=FileMeta)
 async def upload(sid: str, file: UploadFile, kind: str = Form("upload"),
                  s: AsyncSession = Depends(db)) -> FileMeta:
+    if not safe_filename(file.filename):
+        raise HTTPException(400, "invalid filename")
     data = await file.read()
     key = f"{sid}/{ids.new_id('f')}/{file.filename}"
     content_type = file.content_type or "application/octet-stream"
