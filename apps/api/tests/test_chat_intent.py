@@ -2,6 +2,7 @@
 "Got it. Steering the run now." steer acknowledgement."""
 
 import asyncio
+import time
 
 from fastapi.testclient import TestClient
 from redcell_core import seed
@@ -34,5 +35,13 @@ def test_live_run_chat_question_is_not_canned_steer():
         r = c.post(f"/api/v1/runs/{rid}/chat", json={"text": "what is the orchestrator doing?"})
         assert r.status_code == 200 and r.json()["role"] == "operator"
 
-        texts = [m["text"] for m in c.get(f"/api/v1/runs/{rid}/chat").json()]
-        assert CANNED not in texts, f"chat returned the canned steer ack for a question: {texts}"
+        assistant_texts = []
+        for _ in range(40):
+            messages = c.get(f"/api/v1/runs/{rid}/chat").json()
+            assistant_texts = [m["text"] for m in messages if m["role"] == "assistant"]
+            if assistant_texts:
+                break
+            time.sleep(0.05)
+
+        assert assistant_texts, "chat did not produce an assistant reply"
+        assert CANNED not in assistant_texts, f"chat returned the canned steer ack for a question: {assistant_texts}"
