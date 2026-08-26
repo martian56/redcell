@@ -26,15 +26,15 @@ async def test_exec_returns_interrupted_when_current_command_cancelled():
     r.backend = SleepBackend()
     call = asyncio.create_task(r._exec("sleep 30"))
     for _ in range(50):
-        if r._current_cmd_task is not None:
+        if r._cmd_tasks:
             break
         await asyncio.sleep(0.01)
-    assert r._current_cmd_task is not None
-    r._current_cmd_task.cancel()
+    assert r._cmd_tasks
+    for t in list(r._cmd_tasks):
+        t.cancel()
     res = await asyncio.wait_for(call, timeout=5)
     assert res.exit_code == 130
     assert "interrupted" in res.output
-    assert r._interrupted is True
     assert r.backend.cancelled is True
 
 

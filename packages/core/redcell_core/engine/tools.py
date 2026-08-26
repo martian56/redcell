@@ -8,7 +8,7 @@ ORCHESTRATOR_TOOLS = [
         "type": "function",
         "function": {
             "name": "delegate",
-            "description": "Assign an objective to a specialised executor agent (recon, web-exploit, auth-tester, idor-hunter, etc.).",
+            "description": "Assign an objective to a specialised executor agent (recon, web-exploit, auth-tester, idor-hunter, etc.). Returns immediately: the executor runs in the background and its report arrives as a later '[Executor ... finished]' message. You may delegate several at once (up to the concurrency limit) and keep planning meanwhile.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -17,6 +17,14 @@ ORCHESTRATOR_TOOLS = [
                 },
                 "required": ["agent", "objective"],
             },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "await_executors",
+            "description": "Block until every running executor has finished and return their reports. Use when you have nothing to do until results come back.",
+            "parameters": {"type": "object", "properties": {}},
         },
     },
     {
@@ -342,7 +350,11 @@ def orchestrator_system(goal: str, scope: list[str], targets: list[str], roe: st
         f"Targets: {', '.join(targets) or 'unspecified'}\n"
         f"Rules of engagement: {roe or 'standard, no DoS, no data destruction'}\n"
         f"{context}\n"
-        "Work in small steps. Delegate one objective at a time. As you go, record every "
+        "Executors run concurrently and in the background: delegate returns immediately and you "
+        "keep planning, so while one executor runs a long scan you can delegate others (OSINT, "
+        "enumerating another surface, auth testing) up to the concurrency limit. Their reports come "
+        "back as '[Executor ... finished]' messages; call await_executors when you have nothing to do "
+        "until results return. As you go, record every "
         "confirmed vulnerability with record_finding (always include a realistic cvss score 0-10), "
         "every credential/hash/token/file you obtain with record_loot, and every host/endpoint/service "
         "you discover with record_host. These populate the operator's Findings, Loot, and Attack "
