@@ -4,6 +4,7 @@ import { useApi } from '@/lib/api';
 import { useSession } from '@/store/session';
 import { toggleTheme } from '@/lib/theme';
 import { CommandPalette } from './CommandPalette';
+import { ConsoleHeader } from './ConsoleHeader';
 
 interface NavItem {
   to: string;
@@ -148,6 +149,8 @@ export function DashboardShell() {
     setMenu(null);
   };
 
+  const consoleMatch = pathname.match(/^\/sessions\/([^/]+)$/);
+  const consoleId = consoleMatch && consoleMatch[1] !== 'new' ? consoleMatch[1] : null;
   const [title, sub] = TITLES[pathname] ?? [pathname.replace('/', '') || 'REDCELL', ''];
   const showNew = pathname === '/overview' || pathname === '/sessions';
 
@@ -245,16 +248,22 @@ export function DashboardShell() {
               <path d="M9 4v16" />
             </svg>
           </button>
-          <h1>{title}</h1>
-          {sub && <span className="sub">{sub}</span>}
-          <div className="grow" />
-          {showNew && (
-            <button className="btn pri" onClick={() => navigate('/sessions/new')}>
-              <svg viewBox="0 0 24 24">
-                <path d="M12 5v14M5 12h14" />
-              </svg>
-              New session
-            </button>
+          {consoleId ? (
+            <ConsoleHeader sessionId={consoleId} />
+          ) : (
+            <>
+              <h1>{title}</h1>
+              {sub && <span className="sub">{sub}</span>}
+              <div className="grow" />
+              {showNew && (
+                <button className="btn pri" onClick={() => navigate('/sessions/new')}>
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 5v14M5 12h14" />
+                  </svg>
+                  New session
+                </button>
+              )}
+            </>
           )}
           <button className="iconbtn" onClick={flipTheme} title="Toggle theme" aria-label="Toggle theme">
             <svg viewBox="0 0 24 24">
@@ -262,7 +271,7 @@ export function DashboardShell() {
             </svg>
           </button>
         </header>
-        <div className="body-normal">
+        <div className={consoleId ? 'console-body' : 'body-normal'}>
           <Outlet />
         </div>
         </section>

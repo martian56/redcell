@@ -290,6 +290,12 @@
   overflow: auto;
   min-height: 0;
 }
+.console-body {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
 .wrap {
   max-width: 1180px;
   margin: 0 auto;

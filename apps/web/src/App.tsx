@@ -1,7 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AuthGate } from '@/app/AuthGate';
 import { DashboardShell } from '@/app/DashboardShell';
-import { SessionShell } from '@/app/SessionShell';
+import { ConsolePage } from '@/app/ConsolePage';
 import { OverviewPage } from '@/app/pages/OverviewPage';
 import { SessionsPage } from '@/app/pages/SessionsPage';
 import { NewSessionPage } from '@/app/pages/NewSessionPage';
@@ -21,11 +21,11 @@ export function App() {
       <AuthGate>
         <LiveNotifier />
         <Routes>
-          <Route path="/sessions/:id" element={<SessionShell />} />
           <Route element={<DashboardShell />}>
             <Route path="/overview" element={<OverviewPage />} />
             <Route path="/sessions" element={<SessionsPage />} />
             <Route path="/sessions/new" element={<NewSessionPage />} />
+            <Route path="/sessions/:id" element={<ConsolePage />} />
             <Route path="/findings" element={<FindingsPage />} />
             <Route path="/reports" element={<ReportsPage />} />
             <Route path="/servers" element={<ServersPage />} />
