@@ -1,10 +1,26 @@
 import { useEffect, useRef, useState } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import type { Session } from '@redcell/api-client';
 import { useApi } from '@/lib/api';
+import { useRun, useSessions } from '@/features/hooks';
 import { useSession } from '@/store/session';
 import { toggleTheme } from '@/lib/theme';
 import { CommandPalette } from './CommandPalette';
 import { ConsoleHeader } from './ConsoleHeader';
+
+function ActiveRunRow({ session, onClick }: { session: Session; onClick: () => void }) {
+  const { data: run } = useRun(session.activeRunId ?? null);
+  const status = run?.status;
+  const cls = status === 'running' ? 'run live' : status === 'paused' ? 'run paused' : 'run';
+  return (
+    <button className={cls} onClick={onClick} title={`${session.name} · ${session.client}`}>
+      <span className="d" />
+      <span className="rt">
+        {session.name} <span style={{ color: 'var(--tx-4)' }}>· {session.client}</span>
+      </span>
+    </button>
+  );
+}
 
 interface NavItem {
   to: string;
@@ -105,6 +121,8 @@ export function DashboardShell() {
   const signOut = useSession((s) => s.signOut);
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { data: sessions } = useSessions();
+  const activeRuns = (sessions ?? []).filter((s) => s.status === 'active' && s.activeRunId).slice(0, 8);
 
   const [collapsed, setCollapsed] = useState(() => {
     try {
@@ -208,6 +226,14 @@ export function DashboardShell() {
               ))}
             </div>
           ))}
+          {activeRuns.length > 0 && (
+            <div className="nav">
+              <div className="sec-h">Active runs</div>
+              {activeRuns.map((s) => (
+                <ActiveRunRow key={s.id} session={s} onClick={() => navigate(`/sessions/${s.id}`)} />
+              ))}
+            </div>
+          )}
         </div>
         <div className="side-foot">
           <span className="menu-wrap" style={{ width: '100%' }} ref={userRef}>

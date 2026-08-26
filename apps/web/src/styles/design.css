@@ -1532,3 +1532,46 @@ svg.chart {
   background: var(--bg-hover);
   color: var(--tx-2);
 }
+
+.run {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  height: 29px;
+  padding: 0 8px;
+  border-radius: var(--r);
+  color: var(--tx-2);
+  font-weight: 450;
+  font-size: 12.5px;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 0.14s ease,
+    color 0.14s ease;
+}
+.run:hover {
+  background: var(--bg-hover);
+  color: var(--tx);
+}
+.run .d {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: none;
+  background: var(--tx-4);
+}
+.run.live .d {
+  background: var(--ok);
+}
+.run.paused .d {
+  background: var(--high);
+}
+.run .rt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
