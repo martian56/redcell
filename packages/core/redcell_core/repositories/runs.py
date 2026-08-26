@@ -52,14 +52,19 @@ async def set_status(s: AsyncSession, rid: str, status: str) -> Run | None:
 async def set_phase(s: AsyncSession, rid: str, phase: str) -> str | None:
     """Advance the run's phase along the engagement pipeline, forward only:
     Reconnaissance -> Exploitation -> Post-Exploitation -> Reporting. Unknown phases
-    and backward moves are ignored. Returns the effective phase, or None if missing."""
+    and backward moves are ignored. Returns the effective phase, or None if missing.
+
+    The advance is one conditional UPDATE that matches only lower-ranked stored
+    phases, so concurrent milestones cannot race the phase backward."""
+    target = _PHASE_RANK.get(phase)
+    if target is not None:
+        lower = [p for p, r in _PHASE_RANK.items() if r < target]
+        await s.execute(update(Run).where(Run.id == rid, Run.phase.in_(lower)).values(phase=phase))
+        await s.flush()
     row = await s.get(Run, rid)
     if row is None:
         return None
-    target = _PHASE_RANK.get(phase)
-    if target is not None and target > _PHASE_RANK.get(row.phase, 0):
-        row.phase = phase
-        await s.flush()
+    await s.refresh(row)
     return row.phase
 
 

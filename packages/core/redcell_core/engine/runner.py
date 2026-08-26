@@ -174,7 +174,10 @@ class LiveRunner:
             await self._orchestrate()
             async with session_scope() as s:
                 run = await runs_repo.get(s, self.run_id)
-                if not self._stop_requested and run is not None and run.status != "stopped":
+                completing = not self._stop_requested and run is not None and run.status != "stopped"
+            if completing:
+                await self._advance_phase("Reporting")
+                async with session_scope() as s:
                     await runs_repo.set_status(s, self.run_id, "completed")
         except asyncio.CancelledError:
             raise
@@ -386,7 +389,6 @@ class LiveRunner:
             return {"operator_reply": await self._ask_operator(args.get("question", ""), args.get("options"))}
         if name == "finish":
             await self._await_executors()
-            await self._advance_phase("Reporting")
             await self._event("orchestrator", "steer", "run finished: " + args.get("summary", ""))
             return {"ok": True}
         return {"error": f"unknown tool {name}"}
