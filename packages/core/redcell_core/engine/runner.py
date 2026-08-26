@@ -30,7 +30,7 @@ from ..repositories import settings as settings_repo
 from ..repositories import shells as shells_repo
 from ..schemas import ExecutionSettings, LlmSettings
 from ..storage import safe_filename, storage
-from . import msf, nmap, pivot, webscan
+from . import msf, nmap, pivot, scope, webscan
 from .browser import BrowserManager
 from .execution import ExecResult, build_backend
 from .llm import LlmClient
@@ -428,6 +428,13 @@ class LiveRunner:
             await self._event("orchestrator", "steer", f"browser control watch ended: {exc}")
 
     # ---- structured tool integrations ----
+    async def _scope_block(self, target: str) -> dict[str, Any] | None:
+        if scope.in_scope(target, self.scope):
+            return None
+        await self._event("orchestrator", "steer", f"blocked out-of-scope target: {target}")
+        return {"error": f"target {target!r} is out of scope ({', '.join(self.scope) or 'unset'}); "
+                         "pick an in-scope target or ask the operator to widen the scope"}
+
     async def _dispatch_toolset(self, name: str, args: dict[str, Any]) -> dict[str, Any]:
         if name == "nmap_scan":
             return await self._run_nmap(args)
@@ -445,6 +452,8 @@ class LiveRunner:
         target = str(args.get("target", "")).strip()
         if not target:
             return {"error": "target required"}
+        if (blocked := await self._scope_block(target)):
+            return blocked
         pivoting = self._pivot is not None and self._pivot.active
         cmd = nmap.build_nmap_command(target, ports=args.get("ports"),
                                       service_detection=bool(args.get("service_detection")),
@@ -472,6 +481,8 @@ class LiveRunner:
         target = str(args.get("target", "")).strip()
         if not target:
             return {"error": "target required"}
+        if (blocked := await self._scope_block(target)):
+            return blocked
         cmd = webscan.build_nuclei_command(target, severity=args.get("severity"))
         res = await self._exec(cmd)
         findings = webscan.parse_nuclei_jsonl(getattr(res, "output", "") or "", target=target)
@@ -483,6 +494,8 @@ class LiveRunner:
         url = str(args.get("url", "")).strip()
         if not url:
             return {"error": "url required"}
+        if (blocked := await self._scope_block(url)):
+            return blocked
         cmd = webscan.build_ffuf_command(url, wordlist=args.get("wordlist"),
                                          vhost=(args.get("mode") == "vhost"))
         res = await self._exec(cmd)
@@ -547,6 +560,11 @@ class LiveRunner:
                 cargs = _parse_args(call["arguments"])
                 if cname == "run_command":
                     cmd = cargs.get("command", "")
+                    if scope.is_destructive(cmd):
+                        await self._event(agent_name, "tool", f"blocked destructive command: {cmd[:80]}")
+                        messages.append({"role": "tool", "tool_call_id": call["id"], "name": cname,
+                                         "content": "blocked: the scope guardrail refused a destructive command"})
+                        continue
                     calls += 1
                     async with session_scope() as s:
                         await agents_repo.update(s, agent_id, action=cmd[:80], calls=calls)
