@@ -59,6 +59,7 @@ class Settings(BaseSettings):
     llm_num_retries: int = 2
     llm_timeout_seconds: float = 120.0
     rate_limit_enabled: bool = True
+    worker_max_jobs: int = 10
 
     admin_username: str = "admin"
     admin_password: str = ""

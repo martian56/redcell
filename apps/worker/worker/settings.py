@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from redcell_core.bus import bus
+from redcell_core.config import settings
 from redcell_core.queue import redis_settings
 from redcell_core.storage import storage
 
@@ -24,7 +25,10 @@ class WorkerSettings:
     on_startup = on_startup
     on_shutdown = on_shutdown
     redis_settings = redis_settings()
-    max_jobs = 50
+    # Concurrently active runs are long-lived asyncio tasks in one loop; keep the
+    # ceiling modest and tunable (REDCELL_WORKER_MAX_JOBS) rather than arq's 10 or
+    # a fixed 50.
+    max_jobs = settings.worker_max_jobs
     # Run jobs stream far longer than arq's 300s default; a day is a ceiling,
     # not an expected duration (restart re-enqueues via resume_running).
     job_timeout = 60 * 60 * 24
