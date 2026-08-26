@@ -46,6 +46,7 @@ from .tools import (
 
 MAX_ORCH_STEPS = 40
 MAX_EXEC_STEPS = 10
+MAX_CONCURRENT_EXECUTORS = 3
 
 # Fallback CVSS when a finding is recorded without a numeric score.
 _CVSS_BY_SEVERITY = {"critical": 9.5, "high": 8.0, "medium": 5.5, "low": 3.1, "info": 0.0}
@@ -143,8 +144,9 @@ class LiveRunner:
         self._listener_tasks: list[asyncio.Task] = []
         self._browser: BrowserManager | None = None
         self._pivot: pivot.PivotManager | None = None
-        self._current_cmd_task: asyncio.Task | None = None
-        self._interrupted = False
+        self._cmd_tasks: set[asyncio.Task] = set()
+        self._executor_tasks: set[asyncio.Task] = set()
+        self._executor_reports: list[dict[str, Any]] = []
         self._stop_requested = False
 
     async def run(self) -> None:
@@ -182,6 +184,8 @@ class LiveRunner:
                 await runs_repo.set_status(s, self.run_id, "failed")
         finally:
             for t in self._listener_tasks:
+                t.cancel()
+            for t in list(self._executor_tasks):
                 t.cancel()
             if self._pivot is not None:
                 try:
@@ -335,6 +339,9 @@ class LiveRunner:
         for d in directives:
             messages_in = messages_in + [{"role": "user", "content": f"[Operator steer] {d}"}]
             await self._event("orchestrator", "steer", f"operator: {d[:80]}")
+        for rep in self._drain_reports():
+            summary = json.dumps(rep["report"])[:1500]
+            messages_in = messages_in + [{"role": "user", "content": f"[Executor {rep['agent']} finished] {summary}"}]
         msg = await self._complete(messages_in, ORCHESTRATOR_TOOLS)
         messages = messages_in + [self._assistant_msg(msg)]
         return {**state, "messages": messages, "steps": state.get("steps", 0) + 1, "pending": msg}
@@ -358,7 +365,9 @@ class LiveRunner:
 
     async def _dispatch(self, name: str, args: dict[str, Any]) -> dict[str, Any]:
         if name == "delegate":
-            return await self._delegate(args.get("agent", "executor"), args.get("objective", ""))
+            return self._launch_executor(args.get("agent", "executor"), args.get("objective", ""))
+        if name == "await_executors":
+            return await self._await_executors()
         if name == "record_finding":
             return await self._record_finding(args)
         if name == "record_loot":
@@ -374,6 +383,7 @@ class LiveRunner:
         if name == "ask_operator":
             return {"operator_reply": await self._ask_operator(args.get("question", ""), args.get("options"))}
         if name == "finish":
+            await self._await_executors()
             await self._event("orchestrator", "steer", "run finished: " + args.get("summary", ""))
             return {"ok": True}
         return {"error": f"unknown tool {name}"}
@@ -464,6 +474,8 @@ class LiveRunner:
         # hosts are reachable; discovered hosts are tagged as pivot-sourced.
         cmd = pivot.proxychains_wrap(cmd, pivoting)
         res = await self._exec(cmd)
+        if self._was_interrupted(res):
+            return {"interrupted": True}
         hosts = nmap.parse_nmap_xml(getattr(res, "output", "") or "")
         for h in hosts:
             await self._record_host({
@@ -486,6 +498,8 @@ class LiveRunner:
             return blocked
         cmd = webscan.build_nuclei_command(target, severity=args.get("severity"))
         res = await self._exec(cmd)
+        if self._was_interrupted(res):
+            return {"interrupted": True}
         findings = webscan.parse_nuclei_jsonl(getattr(res, "output", "") or "", target=target)
         for f in findings:
             await self._record_finding(f)
@@ -500,6 +514,8 @@ class LiveRunner:
         cmd = webscan.build_ffuf_command(url, wordlist=args.get("wordlist"),
                                          vhost=(args.get("mode") == "vhost"))
         res = await self._exec(cmd)
+        if self._was_interrupted(res):
+            return {"interrupted": True}
         results = webscan.parse_ffuf_json(getattr(res, "output", "") or "")
         return {"ok": True, "found": len(results), "results": results[:50]}
 
@@ -508,6 +524,8 @@ class LiveRunner:
         if not query:
             return {"error": "query required"}
         res = await self._exec(msf.build_msf_search(query))
+        if self._was_interrupted(res):
+            return {"interrupted": True}
         modules = msf.parse_msf_search(getattr(res, "output", "") or "")
         return {"ok": True, "count": len(modules), "modules": modules[:40]}
 
@@ -518,9 +536,45 @@ class LiveRunner:
         options = args.get("options") if isinstance(args.get("options"), dict) else {}
         cmd = msf.build_msf_run(module, {str(k): str(v) for k, v in options.items()})
         res = await self._exec(cmd)
+        if self._was_interrupted(res):
+            return {"interrupted": True}
         return {"ok": True, "output": (getattr(res, "output", "") or "")[-3000:]}
 
     # ---- executor sub-agent ----
+    def _launch_executor(self, agent_name: str, objective: str) -> dict[str, Any]:
+        running = [t for t in self._executor_tasks if not t.done()]
+        if len(running) >= MAX_CONCURRENT_EXECUTORS:
+            return {"at_capacity": True,
+                    "note": f"{len(running)} executors already running (max {MAX_CONCURRENT_EXECUTORS}); "
+                            "wait for one to finish (call await_executors) before delegating more"}
+        task = asyncio.create_task(self._run_executor(agent_name, objective))
+        self._executor_tasks.add(task)
+        task.add_done_callback(self._executor_tasks.discard)
+        return {"launched": agent_name, "objective": objective,
+                "note": "running in the background; its report arrives as a later message"}
+
+    async def _run_executor(self, agent_name: str, objective: str) -> None:
+        try:
+            report = await self._delegate(agent_name, objective)
+        except asyncio.CancelledError:
+            raise
+        except Exception as exc:
+            get_logger("engine.executor").exception("executor %s failed", agent_name)
+            report = {"executor": agent_name, "summary": f"executor error: {exc}"}
+        self._executor_reports.append({"agent": agent_name, "report": report})
+
+    def _drain_reports(self) -> list[dict[str, Any]]:
+        reports = self._executor_reports
+        self._executor_reports = []
+        return reports
+
+    async def _await_executors(self) -> dict[str, Any]:
+        running = [t for t in self._executor_tasks if not t.done()]
+        if running:
+            await asyncio.gather(*running, return_exceptions=True)
+        reports = self._drain_reports()
+        return {"executor_reports": reports} if reports else {"note": "no executor reports pending"}
+
     async def _delegate(self, agent_name: str, objective: str) -> dict[str, Any]:
         async with session_scope() as s:
             agent = await agents_repo.add(s, {"run_id": self.run_id, "name": agent_name, "role": "executor",
@@ -540,6 +594,7 @@ class LiveRunner:
         outputs: list[str] = []
         findings_here: list[str] = []
         calls = 0
+        interrupted = False
         for i in range(MAX_EXEC_STEPS):
             await self._gate()
             if await self._stopped():
@@ -574,6 +629,9 @@ class LiveRunner:
                     outputs.append(f"$ {cmd}\n{res.output}")
                     messages.append({"role": "tool", "tool_call_id": call["id"], "name": cname,
                                      "content": res.output[:4000]})
+                    if self._was_interrupted(res):
+                        interrupted = True
+                        break
                 elif cname == "report":
                     report = cargs
                     fnd = cargs.get("finding")
@@ -601,11 +659,13 @@ class LiveRunner:
                     res = await self._dispatch_toolset(cname, cargs)
                     messages.append({"role": "tool", "tool_call_id": call["id"], "name": cname,
                                      "content": json.dumps(res)[:4000]})
-            if stop or self._interrupted:
+                    if res.get("interrupted"):
+                        interrupted = True
+                        break
+            if stop or interrupted:
                 break
 
-        if self._interrupted:
-            self._interrupted = False
+        if interrupted:
             await self._event(agent_name, "steer", "interrupted by operator; returning to the orchestrator")
 
         async with session_scope() as s:
@@ -658,9 +718,9 @@ class LiveRunner:
                 if action in ("stop", "interrupt"):
                     if action == "stop":
                         self._stop_requested = True
-                    task = self._current_cmd_task
-                    if task is not None and not task.done():
-                        task.cancel()
+                    for task in list(self._cmd_tasks):
+                        if not task.done():
+                            task.cancel()
         except asyncio.CancelledError:
             raise
         except Exception:
@@ -680,18 +740,23 @@ class LiveRunner:
             self.assessment_files.append(name)
             await self._event("orchestrator", "steer", f"staged assessment file: {name}")
 
+    _INTERRUPT_MARK = "[interrupted by operator]"
+
     async def _exec(self, command: str, on_output=None) -> ExecResult:
         task = asyncio.create_task(self.backend.run(command, on_output=on_output))
-        self._current_cmd_task = task
+        self._cmd_tasks.add(task)
         try:
             return await task
         except asyncio.CancelledError:
             if task.cancelled():
-                self._interrupted = True
-                return ExecResult(exit_code=130, output="[interrupted by operator]")
+                return ExecResult(exit_code=130, output=self._INTERRUPT_MARK)
             raise
         finally:
-            self._current_cmd_task = None
+            self._cmd_tasks.discard(task)
+
+    @classmethod
+    def _was_interrupted(cls, res) -> bool:
+        return getattr(res, "exit_code", 0) == 130 and getattr(res, "output", "").startswith(cls._INTERRUPT_MARK)
 
     async def _gate(self) -> None:
         while True:
