@@ -3,9 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { getLeaves } from 'react-mosaic-component';
 import { useRun, useRunControls, useSession } from '@/features/hooks';
 import { PANEL_LABELS, SWAPPABLE, useWorkspace } from '@/store/workspace';
-import { fmtTokens } from '@/lib/format';
+import { fmtElapsed, fmtTokens } from '@/lib/format';
 import { Dropdown } from '@/components/ui/Dropdown';
 import { NewRunDialog } from './NewRunDialog';
+
+function Metric({ k, v }: { k: string; v: string }) {
+  return (
+    <span className="cmetric">
+      <span className="k">{k}</span>
+      <span className="v">{v}</span>
+    </span>
+  );
+}
 
 export function ConsoleHeader({ sessionId }: { sessionId: string | null }) {
   const nav = useNavigate();
@@ -57,6 +66,12 @@ export function ConsoleHeader({ sessionId }: { sessionId: string | null }) {
         </span>
       )}
       <div className="grow" />
+      {run && (
+        <>
+          <Metric k="Elapsed" v={fmtElapsed(run.elapsedSec)} />
+          <Metric k="Model" v={run.model} />
+        </>
+      )}
       {run && (
         <span className="spend tab">
           {fmtTokens(run.tokens)} tok · <b>${run.costUsd.toFixed(2)}</b>

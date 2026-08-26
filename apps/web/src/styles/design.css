@@ -1360,3 +1360,85 @@ svg.chart {
   font-size: 10.5px;
   color: var(--tx-4);
 }
+
+.cmetric {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.cmetric .k {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--tx-4);
+  font-weight: 600;
+}
+.cmetric .v {
+  font-size: 11.5px;
+  color: var(--tx-2);
+  font-family: var(--mono);
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-shell {
+  transition: grid-template-columns 0.2s ease;
+}
+.ni,
+.btn,
+.chip,
+.iconbtn,
+.menu-item,
+.ws,
+.userbtn,
+.search,
+.ptab,
+.kind,
+.fmt,
+.fitem,
+.subnav button,
+.prow,
+.node,
+.seg button,
+.toggle,
+.toggle i {
+  transition:
+    background-color 0.14s ease,
+    color 0.14s ease,
+    border-color 0.14s ease,
+    filter 0.14s ease;
+}
+.tbl tr.row td {
+  transition: background-color 0.12s ease;
+}
+@keyframes rc-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.menu {
+  transform-origin: top;
+  animation: rc-menu-in 0.12s ease-out;
+}
+.menu.up {
+  transform-origin: bottom;
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-shell,
+  .menu,
+  .ni,
+  .btn,
+  .chip,
+  .iconbtn,
+  .menu-item {
+    transition: none !important;
+    animation: none !important;
+  }
+}
