@@ -1,30 +1,78 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSessions } from '@/features/hooks';
-import { Button } from '@/components/ui/primitives';
-import { Icon } from '@/components/ui/Icon';
-import { PageShell } from './PageShell';
-import { SessionCard } from './parts';
+import { SessionRow, FilterMenu } from './shared';
 
 export function SessionsPage() {
   const nav = useNavigate();
   const { data: sessions } = useSessions();
+  const [status, setStatus] = useState('all');
+  const [kind, setKind] = useState('all');
+
+  const rows = (sessions ?? []).filter(
+    (s) => (status === 'all' || s.status === status) && (kind === 'all' || s.kind === kind),
+  );
 
   return (
-    <PageShell
-      title="Sessions"
-      subtitle="All red-team operations"
-      actions={
-        <Button variant="primary" onClick={() => nav('/sessions/new')}>
-          <Icon name="plus" size={14} />
+    <div className="wrap">
+      <div className="filters">
+        <FilterMenu
+          prefix="Status: "
+          value={status}
+          onChange={setStatus}
+          icon
+          options={[
+            { value: 'all', label: 'All' },
+            { value: 'active', label: 'Active' },
+            { value: 'archived', label: 'Archived' },
+          ]}
+        />
+        <FilterMenu
+          prefix="Type: "
+          value={kind}
+          onChange={setKind}
+          options={[
+            { value: 'all', label: 'All' },
+            { value: 'network', label: 'Network' },
+            { value: 'code', label: 'Code scan' },
+          ]}
+        />
+        <div className="grow" />
+        <button className="btn pri sm" onClick={() => nav('/sessions/new')}>
+          <svg viewBox="0 0 24 24">
+            <path d="M12 5v14M5 12h14" />
+          </svg>
           New session
-        </Button>
-      }
-    >
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-4 p-5">
-        {(sessions ?? []).map((s) => (
-          <SessionCard key={s.id} s={s} onClick={() => nav(`/sessions/${s.id}`)} />
-        ))}
+        </button>
       </div>
-    </PageShell>
+      <div className="card">
+        <div className="card-b" style={{ padding: '12px 2px 4px' }}>
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th>Session</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Findings</th>
+                <th>Targets</th>
+                <th>Model</th>
+                <th className="tright">Last active</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="meta" style={{ padding: '22px', textAlign: 'center' }}>
+                    No sessions match.
+                  </td>
+                </tr>
+              ) : (
+                rows.map((s) => <SessionRow key={s.id} s={s} onOpen={() => nav(`/sessions/${s.id}`)} />)
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   );
 }

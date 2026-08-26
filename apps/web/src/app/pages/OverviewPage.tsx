@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import type { Session, Severity } from '@redcell/api-client';
+import type { Severity } from '@redcell/api-client';
 import { useSessions } from '@/features/hooks';
 import { SEVERITIES, sevVar, timeAgo } from '@/lib/format';
 import { AreaChart } from '@/components/ui/AreaChart';
+import { SessionRow } from './shared';
 
 const SEV_LABEL: Record<Severity, string> = {
   critical: 'Critical',
@@ -11,49 +12,6 @@ const SEV_LABEL: Record<Severity, string> = {
   low: 'Low',
   info: 'Info',
 };
-
-function sevBar(counts: Record<Severity, number>) {
-  const bars = (['critical', 'high', 'medium', 'low'] as Severity[])
-    .filter((s) => counts[s] > 0)
-    .map((s) => (
-      <i key={s} style={{ width: `${Math.min(counts[s] * 6 + 2, 40)}px`, background: sevVar(s) }} />
-    ));
-  return bars.length ? bars : <span className="z">·</span>;
-}
-
-function SessionRow({ s, onOpen }: { s: Session; onOpen: () => void }) {
-  const dot = s.status === 'active' ? 'live' : 'done';
-  return (
-    <tr className="row" onClick={onOpen}>
-      <td>
-        <div className="name">
-          <span className={`sd ${dot}`} />
-          <span>
-            <span className="nn">{s.name}</span> <span className="cl">/ {s.client}</span>
-          </span>
-        </div>
-      </td>
-      <td>
-        <span className="kind" style={{ textTransform: 'capitalize' }}>
-          {s.kind}
-        </span>
-      </td>
-      <td>
-        <span className={`status${s.status === 'active' ? ' live' : ''}`} style={{ textTransform: 'capitalize' }}>
-          {s.status}
-        </span>
-      </td>
-      <td>
-        <div className="sevbar">{sevBar(s.severityCounts)}</div>
-      </td>
-      <td className="meta mono">{s.targets.length || '—'}</td>
-      <td>
-        <span className="model">{s.model ?? '—'}</span>
-      </td>
-      <td className="tright meta">{timeAgo(s.createdAt)}</td>
-    </tr>
-  );
-}
 
 export function OverviewPage() {
   const nav = useNavigate();

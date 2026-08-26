@@ -1,14 +1,27 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import type { Proxy, ProxyHealth } from '@redcell/api-client';
 import { useCreateProxy, useProxies, useTestProxy } from '@/features/hooks';
-import { Button, StatusDot } from '@/components/ui/primitives';
+import { Button } from '@/components/ui/primitives';
 import { Dialog } from '@/components/ui/Dialog';
 import { Field, Segmented, TextInput } from '@/components/ui/fields';
-import { Icon } from '@/components/ui/Icon';
 import { toast } from '@/components/ui/toast';
-import { PageShell } from './PageShell';
-import { proxyTone, th } from './parts';
-import type { Proxy } from '@redcell/api-client';
+
+function proxyBadge(status: ProxyHealth) {
+  if (status === 'healthy')
+    return (
+      <span className="badge ok">
+        <span className="hd ok" />
+        Healthy
+      </span>
+    );
+  return (
+    <span className="badge off">
+      <span className={`hd ${status === 'dead' ? 'bad' : 'un'}`} />
+      {status === 'dead' ? 'Dead' : 'Unknown'}
+    </span>
+  );
+}
 
 export function ProxiesPage() {
   const nav = useNavigate();
@@ -19,7 +32,10 @@ export function ProxiesPage() {
 
   const runTest = async (id: string) => {
     const r = await test.mutateAsync(id);
-    toast(r.ok ? `Healthy (${r.latencyMs ?? '?'} ms, egress ${r.egressIp ?? '?'})` : `Proxy dead: ${r.error ?? 'unknown'}`, r.ok ? 'success' : 'error');
+    toast(
+      r.ok ? `Healthy (${r.latencyMs ?? '?'} ms, egress ${r.egressIp ?? '?'})` : `Proxy dead: ${r.error ?? 'unknown'}`,
+      r.ok ? 'success' : 'error',
+    );
   };
   const [form, setForm] = useState<{
     label: string;
@@ -28,14 +44,7 @@ export function ProxiesPage() {
     auth: 'open' | 'credentials';
     username: string;
     password: string;
-  }>({
-    label: '',
-    url: '',
-    kind: 'http',
-    auth: 'open',
-    username: '',
-    password: '',
-  });
+  }>({ label: '', url: '', kind: 'http', auth: 'open', username: '', password: '' });
 
   const submit = async () => {
     if (!form.label.trim() || !form.url.trim()) return;
@@ -52,71 +61,63 @@ export function ProxiesPage() {
     toast('Proxy added', 'success');
   };
 
+  const list = proxies ?? [];
+
   return (
-    <PageShell
-      title="Proxies"
-      subtitle="Upstream proxy pool for tool traffic"
-      actions={
-        <Button variant="primary" onClick={() => setOpen(true)}>
-          <Icon name="plus" size={14} />
+    <div className="wrap">
+      <div className="filters">
+        <div className="grow" />
+        <button className="btn pri sm" onClick={() => setOpen(true)}>
+          <svg viewBox="0 0 24 24">
+            <path d="M12 5v14M5 12h14" />
+          </svg>
           Add proxy
-        </Button>
-      }
-    >
-      <div className="p-5">
-        <div className="overflow-hidden rounded-[var(--radius)] border border-border">
-          <table className="w-full border-collapse text-xs">
+        </button>
+      </div>
+      <div className="card">
+        <div className="card-b" style={{ padding: '12px 2px 4px' }}>
+          <table className="tbl">
             <thead>
               <tr>
-                <th className={th}>Label</th>
-                <th className={th}>URL</th>
-                <th className={th}>Kind</th>
-                <th className={th}>Status</th>
-                <th className={th}>Latency</th>
-                <th className={th} />
+                <th>Label</th>
+                <th>Endpoint</th>
+                <th>Kind</th>
+                <th>Status</th>
+                <th>Latency</th>
+                <th className="tright" />
               </tr>
             </thead>
             <tbody>
-              {(proxies ?? []).length === 0 ? (
+              {list.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-3 py-8 text-center text-faint">
+                  <td colSpan={6} className="meta" style={{ padding: '22px', textAlign: 'center' }}>
                     No proxies yet. Add one, then test that it forwards traffic.
                   </td>
                 </tr>
-              ) : null}
-              {(proxies ?? []).map((p) => (
-                <tr
-                  key={p.id}
-                  onClick={() => nav(`/proxies/${p.id}`)}
-                  className="cursor-pointer border-b border-border hover:bg-panel2"
-                >
-                  <td className="px-3 py-2.5 font-mono text-text">{p.label}</td>
-                  <td className="px-3 py-2.5 font-mono text-faint">{p.url}</td>
-                  <td className="px-3 py-2.5 font-mono uppercase text-muted">{p.kind}</td>
-                  <td className="px-3 py-2.5">
-                    <span className="inline-flex items-center gap-2 font-mono text-[11px]">
-                      <StatusDot color={proxyTone(p.status)} glow={p.status === 'healthy'} />
-                      {p.status}
-                    </span>
-                  </td>
-                  <td className="px-3 py-2.5 font-mono tabular-nums text-muted">
-                    {p.latencyMs ? `${p.latencyMs}ms` : '—'}
-                  </td>
-                  <td className="px-3 py-2.5 text-right" onClick={(e) => e.stopPropagation()}>
-                    <div className="flex items-center justify-end gap-1.5">
-                      <button
-                        onClick={() => void runTest(p.id)}
-                        disabled={test.isPending}
-                        className="rounded-[var(--radius)] border border-border2 px-2 py-1 text-[11px] font-semibold text-muted hover:bg-elev hover:text-text disabled:opacity-40"
-                        title="Test proxy"
-                      >
+              ) : (
+                list.map((p) => (
+                  <tr key={p.id} className="row" onClick={() => nav(`/proxies/${p.id}`)}>
+                    <td>
+                      <span className="nn" style={{ fontWeight: 510 }}>
+                        {p.label}
+                      </span>
+                    </td>
+                    <td className="mono meta">{p.url}</td>
+                    <td>
+                      <span className="kind" style={{ textTransform: 'uppercase' }}>
+                        {p.kind}
+                      </span>
+                    </td>
+                    <td>{proxyBadge(p.status)}</td>
+                    <td className="mono meta">{p.latencyMs ? `${p.latencyMs} ms` : '—'}</td>
+                    <td className="tright" onClick={(e) => e.stopPropagation()}>
+                      <button className="btn sm ghost" disabled={test.isPending} onClick={() => void runTest(p.id)}>
                         Test
                       </button>
-                      <Icon name="chevronRight" size={14} className="text-faint" />
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -137,10 +138,19 @@ export function ProxiesPage() {
       >
         <div className="grid gap-3.5">
           <Field label="Label">
-            <TextInput autoFocus value={form.label} placeholder="residential-eu-2" onChange={(e) => setForm((f) => ({ ...f, label: e.target.value }))} />
+            <TextInput
+              autoFocus
+              value={form.label}
+              placeholder="residential-eu-2"
+              onChange={(e) => setForm((f) => ({ ...f, label: e.target.value }))}
+            />
           </Field>
           <Field label="URL">
-            <TextInput value={form.url} placeholder="http://host:8080 or socks5://host:1080" onChange={(e) => setForm((f) => ({ ...f, url: e.target.value }))} />
+            <TextInput
+              value={form.url}
+              placeholder="http://host:8080 or socks5://host:1080"
+              onChange={(e) => setForm((f) => ({ ...f, url: e.target.value }))}
+            />
           </Field>
           <Field label="Kind">
             <Segmented
@@ -169,12 +179,16 @@ export function ProxiesPage() {
                 <TextInput value={form.username} onChange={(e) => setForm((f) => ({ ...f, username: e.target.value }))} />
               </Field>
               <Field label="Password">
-                <TextInput type="password" value={form.password} onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))} />
+                <TextInput
+                  type="password"
+                  value={form.password}
+                  onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
+                />
               </Field>
             </div>
           ) : null}
         </div>
       </Dialog>
-    </PageShell>
+    </div>
   );
 }
