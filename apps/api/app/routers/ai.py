@@ -13,6 +13,7 @@ from redcell_core.security import current_user
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..deps import db
+from ..ratelimit import rate_limit
 
 router = APIRouter(tags=["ai"], dependencies=[Depends(current_user)])
 
@@ -47,7 +48,8 @@ _PROPOSE_TOOL = [{
 }]
 
 
-@router.post("/sessions/draft/chat", response_model=DraftChatOutput)
+@router.post("/sessions/draft/chat", response_model=DraftChatOutput,
+             dependencies=[Depends(rate_limit("draft-chat", 20, 60))])
 async def draft_chat(body: DraftChatInput, s: AsyncSession = Depends(db)) -> DraftChatOutput:
     cfg = await settings_repo.get(s)
     base = LlmSettings(**cfg.llm) if cfg.llm else LlmSettings()
