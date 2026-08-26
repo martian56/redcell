@@ -44,3 +44,6 @@ pentest-agents-research/
 # ---- Claude Code specs, plans, and local tooling (not for the public repo) ----
 .claude/
 docs/superpowers/
+
+# dev-only generated secrets (never committed)
+.redcell-dev-secrets/

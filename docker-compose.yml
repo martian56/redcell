@@ -9,10 +9,15 @@ x-app-env: &app-env
   REDCELL_S3_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
   REDCELL_S3_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
   REDCELL_S3_REGION: ${REDCELL_S3_REGION:-us-east-1}
-  REDCELL_SECRET_KEY: ${REDCELL_SECRET_KEY:-bRaPZZwSP-Bt9ziZ-iGjxLnQM5mlE-iOW2bMCoyUUp4=}
-  REDCELL_JWT_SECRET: ${REDCELL_JWT_SECRET:-dev-insecure-change-me-in-production-0123456789}
+  REDCELL_ENV: ${REDCELL_ENV:-production}
+  REDCELL_SECRET_KEY: ${REDCELL_SECRET_KEY:-}
+  REDCELL_SECRET_KEY_FILE: /run/redcell/secret_key
+  REDCELL_JWT_SECRET: ${REDCELL_JWT_SECRET:-}
+  REDCELL_JWT_SECRET_FILE: /run/redcell/jwt_secret
   REDCELL_ADMIN_USERNAME: ${REDCELL_ADMIN_USERNAME:-admin}
-  REDCELL_ADMIN_PASSWORD: ${REDCELL_ADMIN_PASSWORD:-admin}
+  REDCELL_ADMIN_PASSWORD: ${REDCELL_ADMIN_PASSWORD:-}
+  REDCELL_ADMIN_PASSWORD_FILE: /run/redcell/admin_password
+  REDCELL_COOKIE_SECURE: ${REDCELL_COOKIE_SECURE:-false}
   REDCELL_CORS_ORIGINS: ${REDCELL_CORS_ORIGINS:-http://localhost:5183}
 
 services:
@@ -55,12 +60,38 @@ services:
       timeout: 3s
       retries: 10
 
+  init-secrets:
+    image: ghcr.io/martian56/redcell-api:latest
+    entrypoint: ['sh', '-c']
+    command:
+      - |
+        set -e
+        d=/run/redcell
+        mkdir -p "$$d"
+        [ -s "$$d/secret_key" ] || (umask 077; python -c 'from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())' > "$$d/secret_key")
+        [ -s "$$d/jwt_secret" ] || (umask 077; python -c 'import secrets; print(secrets.token_urlsafe(48))' > "$$d/jwt_secret")
+        if [ ! -s "$$d/admin_password" ]; then
+          umask 077; python -c 'import secrets; print(secrets.token_urlsafe(18))' > "$$d/admin_password"
+          echo "=================================================================="
+          echo " REDCELL first run: generated an admin password:"
+          echo "     $$(cat "$$d/admin_password")"
+          echo " Stored in the redcell_secrets volume. Log in and change it."
+          echo "=================================================================="
+        fi
+    volumes:
+      - redcell_secrets:/run/redcell
+    restart: 'no'
+
   migrate:
     image: ghcr.io/martian56/redcell-api:latest
     environment: *app-env
     command: ['sh', '-c', 'rc db upgrade && rc seed']
     restart: 'no'
+    volumes:
+      - redcell_secrets:/run/redcell:ro
     depends_on:
+      init-secrets:
+        condition: service_completed_successfully
       postgres:
         condition: service_healthy
       minio:
@@ -73,6 +104,7 @@ services:
       - '8080:8080'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - redcell_secrets:/run/redcell:ro
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     depends_on:
@@ -90,6 +122,7 @@ services:
     environment: *app-env
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - redcell_secrets:/run/redcell:ro
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     depends_on:
@@ -112,3 +145,4 @@ services:
 volumes:
   redcell_pg: {}
   redcell_minio: {}
+  redcell_secrets: {}
