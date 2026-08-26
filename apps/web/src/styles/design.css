@@ -1442,3 +1442,93 @@ svg.chart {
     animation: none !important;
   }
 }
+
+.tiletb {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+}
+.tiletb .ptabs {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  overflow-x: auto;
+  padding: 0 2px;
+  scrollbar-width: none;
+}
+.tiletb .ptabs::-webkit-scrollbar {
+  display: none;
+}
+.ptab {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  color: var(--tx-3);
+  font-weight: 500;
+  font-size: 12px;
+  border: none;
+  background: transparent;
+  border-bottom: 1.5px solid transparent;
+  margin-bottom: -1px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 0.14s ease,
+    border-color 0.14s ease;
+}
+.ptab:hover {
+  color: var(--tx);
+}
+.ptab.on {
+  color: var(--tx);
+  border-bottom-color: var(--acc);
+}
+.ptab .tabx {
+  display: inline-grid;
+  place-items: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  color: var(--tx-4);
+  opacity: 0;
+  transition:
+    opacity 0.12s ease,
+    background-color 0.12s ease,
+    color 0.12s ease;
+}
+.ptab:hover .tabx,
+.ptab.on .tabx {
+  opacity: 1;
+}
+.ptab .tabx:hover {
+  color: var(--tx);
+  background: var(--bg-active);
+}
+.tiletb-ctl {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  padding-right: 4px;
+  flex: none;
+}
+.tiletb-btn {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  color: var(--tx-4);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition:
+    background-color 0.14s ease,
+    color 0.14s ease;
+}
+.tiletb-btn:hover {
+  background: var(--bg-hover);
+  color: var(--tx-2);
+}

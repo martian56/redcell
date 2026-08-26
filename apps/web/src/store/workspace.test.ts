@@ -1,55 +1,58 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { getLeaves } from 'react-mosaic-component';
-import { useWorkspace } from './workspace';
+import { useWorkspace, usedPanels } from './workspace';
 
-// Start every case from the default tiling layout.
 beforeEach(() => useWorkspace.getState().reset());
 
 describe('useWorkspace', () => {
-  it('resets to a layout that contains the default panels', () => {
-    const leaves = getLeaves(useWorkspace.getState().layout);
-    expect(leaves).toContain('agents');
-    expect(leaves).toContain('findings');
+  it('resets to tiles that contain the default panels', () => {
+    const used = usedPanels(useWorkspace.getState().tiles);
+    expect(used.has('agents')).toBe(true);
+    expect(used.has('findings')).toBe(true);
+    expect(getLeaves(useWorkspace.getState().layout).length).toBeGreaterThan(0);
   });
 
-  it('addPanel grafts a new tile onto the existing layout', () => {
+  it('addPanelAsTile grafts a new tile for an unused panel', () => {
+    useWorkspace.getState().addPanelAsTile('reports');
+    const s = useWorkspace.getState();
+    expect(usedPanels(s.tiles).has('reports')).toBe(true);
+    const entry = Object.entries(s.tiles).find(([, t]) => t.panels.includes('reports'));
+    expect(entry?.[1].panels).toEqual(['reports']);
+    expect(getLeaves(s.layout)).toContain(entry?.[0]);
+  });
+
+  it('addPanelAsTile is a no-op when the panel is already visible', () => {
     const before = useWorkspace.getState().layout;
-    useWorkspace.getState().addPanel('loot');
-    const layout = useWorkspace.getState().layout;
-    expect(layout).toEqual({ direction: 'row', first: before, second: 'loot', splitPercentage: 76 });
-    expect(getLeaves(layout)).toContain('loot');
-  });
-
-  it('addPanel seeds the layout from empty when there is none', () => {
-    useWorkspace.getState().setLayout(null);
-    useWorkspace.getState().addPanel('proxy');
-    expect(useWorkspace.getState().layout).toBe('proxy');
-  });
-
-  it('showPanel is a no-op when the panel is already visible', () => {
-    const before = useWorkspace.getState().layout;
-    useWorkspace.getState().showPanel('agents');
+    useWorkspace.getState().addPanelAsTile('findings');
     expect(useWorkspace.getState().layout).toBe(before);
   });
 
-  it('showPanel adds a panel that is not yet visible', () => {
-    useWorkspace.getState().showPanel('reports');
-    expect(getLeaves(useWorkspace.getState().layout)).toContain('reports');
+  it('addTab adds a panel as a tab to an existing tile and activates it', () => {
+    useWorkspace.getState().addTab('t_agents', 'reports');
+    const t = useWorkspace.getState().tiles['t_agents']!;
+    expect(t.panels).toContain('reports');
+    expect(t.active).toBe('reports');
+  });
+
+  it('setActive switches the active tab', () => {
+    useWorkspace.getState().setActive('t_data', 'loot');
+    expect(useWorkspace.getState().tiles['t_data']!.active).toBe('loot');
+  });
+
+  it('closeTab removes a panel but keeps the tile while others remain', () => {
+    useWorkspace.getState().closeTab('t_data', 'proxy');
+    const t = useWorkspace.getState().tiles['t_data']!;
+    expect(t.panels).not.toContain('proxy');
+    expect(t.panels.length).toBeGreaterThan(0);
   });
 
   it('setLayout prunes duplicate leaves so mosaic never gets a bad tree', () => {
-    useWorkspace.getState().setLayout({
-      direction: 'row',
-      splitPercentage: 50,
-      first: 'findings',
-      second: 'findings',
-    });
-    expect(getLeaves(useWorkspace.getState().layout)).toEqual(['findings']);
+    useWorkspace.getState().setLayout({ direction: 'row', splitPercentage: 50, first: 't_agents', second: 't_agents' });
+    expect(getLeaves(useWorkspace.getState().layout)).toEqual(['t_agents']);
   });
 
-  it('addPanel is a no-op when the panel is already visible', () => {
-    const before = useWorkspace.getState().layout;
-    useWorkspace.getState().addPanel('findings');
-    expect(useWorkspace.getState().layout).toBe(before);
+  it('setLayout prunes tiles that are no longer in the layout', () => {
+    useWorkspace.getState().setLayout('t_agents');
+    expect(Object.keys(useWorkspace.getState().tiles)).toEqual(['t_agents']);
   });
 });

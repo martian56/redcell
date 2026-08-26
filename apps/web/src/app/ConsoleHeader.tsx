@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getLeaves } from 'react-mosaic-component';
 import { useRun, useRunControls, useSession } from '@/features/hooks';
-import { PANEL_LABELS, SWAPPABLE, useWorkspace } from '@/store/workspace';
+import { PANEL_LABELS, SWAPPABLE, useWorkspace, usedPanels, type PanelId } from '@/store/workspace';
 import { fmtElapsed, fmtTokens } from '@/lib/format';
 import { Dropdown } from '@/components/ui/Dropdown';
 import { NewRunDialog } from './NewRunDialog';
@@ -22,13 +21,12 @@ export function ConsoleHeader({ sessionId }: { sessionId: string | null }) {
   const runId = session?.activeRunId ?? null;
   const { data: run } = useRun(runId);
   const controls = useRunControls();
-  const layout = useWorkspace((s) => s.layout);
-  const addPanel = useWorkspace((s) => s.addPanel);
+  const tiles = useWorkspace((s) => s.tiles);
+  const addPanelAsTile = useWorkspace((s) => s.addPanelAsTile);
   const reset = useWorkspace((s) => s.reset);
   const [newRun, setNewRun] = useState(false);
 
-  const visible = new Set(layout ? getLeaves(layout) : []);
-  const addable = SWAPPABLE.filter((id) => !visible.has(id));
+  const addable = SWAPPABLE.filter((id) => !usedPanels(tiles).has(id));
 
   const status = run?.status ?? 'queued';
   const isRunning = status === 'running';
@@ -107,7 +105,7 @@ export function ConsoleHeader({ sessionId }: { sessionId: string | null }) {
           ...addable.map((id) => ({ value: id, label: `Add ${PANEL_LABELS[id]}` })),
           { value: '__reset', label: 'Reset layout' },
         ]}
-        onChange={(v) => (v === '__reset' ? reset() : addPanel(v as (typeof SWAPPABLE)[number]))}
+        onChange={(v) => (v === '__reset' ? reset() : addPanelAsTile(v as PanelId))}
         trigger={
           <span className="iconbtn" title="Layout & panels">
             <svg viewBox="0 0 24 24">
