@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from ..config import settings
 from ..schemas import LlmSettings
 
 # provider id -> LiteLLM model prefix. Providers LiteLLM does not route natively
@@ -50,6 +51,8 @@ class LlmClient:
             kw["api_base"] = "http://localhost:11434"
         if self.cfg.reasoning_effort and self.cfg.provider in ("openai", "anthropic"):
             kw["reasoning_effort"] = self.cfg.reasoning_effort
+        kw["num_retries"] = settings.llm_num_retries
+        kw["timeout"] = settings.llm_timeout_seconds
         return kw
 
     async def complete(

@@ -56,6 +56,8 @@ class Settings(BaseSettings):
     # reverse-shell callback address. listener runs on the worker host; a Docker
     # target reaches it via host.docker.internal.
     callback_host: str = "host.docker.internal"
+    llm_num_retries: int = 2
+    llm_timeout_seconds: float = 120.0
 
     admin_username: str = "admin"
     admin_password: str = ""
