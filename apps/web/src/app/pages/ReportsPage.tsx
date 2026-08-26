@@ -11,7 +11,7 @@ const sevRank: Record<Severity, number> = { critical: 0, high: 1, medium: 2, low
 
 export function ReportsPage() {
   const { data: sessions } = useSessions();
-  const list = sessions ?? [];
+  const list = useMemo(() => sessions ?? [], [sessions]);
   const [sessionId, setSessionId] = useState('');
 
   useEffect(() => {

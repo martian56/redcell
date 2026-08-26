@@ -17,7 +17,7 @@ const shortId = (id: string) => id.replace(/^find-|^f-/, '').slice(0, 6);
 
 export function FindingsPage() {
   const { data: sessions } = useSessions();
-  const list = sessions ?? [];
+  const list = useMemo(() => sessions ?? [], [sessions]);
 
   const [sessionId, setSessionId] = useState('');
   const [sev, setSev] = useState('all');
