@@ -8,6 +8,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from redcell_core.bus import bus
 from redcell_core.config import settings
+from redcell_core.logs import configure as configure_logging
 
 from .routers import ai, auth, files, infra, reports, resources, ws
 from .routers import settings as settings_router
@@ -15,6 +16,7 @@ from .routers import settings as settings_router
 
 @contextlib.asynccontextmanager
 async def lifespan(app: FastAPI):
+    configure_logging()
     await bus.connect()
     try:
         yield

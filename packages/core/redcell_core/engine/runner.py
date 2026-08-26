@@ -13,6 +13,7 @@ from .. import steer
 from ..bus import Bus, browser_channel, chat_channel, control_channel, shell_channel, shell_input_channel
 from ..config import settings
 from ..db import session_scope
+from ..logs import get_logger
 from ..repositories import agents as agents_repo
 from ..repositories import chat as chat_repo
 from ..repositories import files as files_repo
@@ -663,7 +664,7 @@ class LiveRunner:
         except asyncio.CancelledError:
             raise
         except Exception:
-            pass
+            get_logger("engine.control").exception("control watch error for run %s", self.run_id)
 
     async def _stage_assessment_files(self) -> None:
         for bucket, key, name in self._assessment_meta:
