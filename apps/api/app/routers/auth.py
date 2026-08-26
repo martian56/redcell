@@ -10,6 +10,7 @@ from redcell_core.security import clear_cookie, current_user, issue_cookie, veri
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..deps import db
+from ..ratelimit import rate_limit
 
 router = APIRouter(tags=["auth"])
 
@@ -20,7 +21,7 @@ async def first_run() -> FirstRun:
     return FirstRun(needs_setup=False, admin_password_hint=hint)
 
 
-@router.post("/auth/login", response_model=User)
+@router.post("/auth/login", response_model=User, dependencies=[Depends(rate_limit("login", 10, 60))])
 async def login(body: LoginInput, response: Response, s: AsyncSession = Depends(db)) -> User:
     user = await users_repo.get_by_username(s, body.username)
     if user is None or not verify_password(body.password, user.password_hash):

@@ -44,6 +44,9 @@ settings.checkpoint_db = ""
 # Pin tests to sim so the suite never shells out to real Docker, independent of
 # the app's default run mode.
 settings.run_mode = "sim"
+# The suite logs in many times from one client; rate limiting would cause spurious
+# 429s. The dedicated rate-limit test re-enables it explicitly.
+settings.rate_limit_enabled = False
 
 
 # 2) Create the test database + schema once, on a throwaway loop. -----------------
