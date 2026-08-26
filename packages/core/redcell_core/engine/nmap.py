@@ -18,7 +18,7 @@ def build_nmap_command(target: str, ports: str | None = None,
     connect_scan forces a TCP connect scan (-sT), required when the scan is
     tunneled through a SOCKS proxy (proxychains), which cannot carry raw SYN
     packets."""
-    parts = ["nmap", "-oX", "-", "-T4", "-Pn"]
+    parts = ["nmap", "-oX", "-", "-T4", "-Pn", "--max-retries", "2", "--host-timeout", "10m"]
     if connect_scan:
         parts.append("-sT")
     if service_detection:
