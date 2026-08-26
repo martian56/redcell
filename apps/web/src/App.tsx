@@ -5,6 +5,8 @@ import { SessionShell } from '@/app/SessionShell';
 import { OverviewPage } from '@/app/pages/OverviewPage';
 import { SessionsPage } from '@/app/pages/SessionsPage';
 import { NewSessionPage } from '@/app/pages/NewSessionPage';
+import { FindingsPage } from '@/app/pages/FindingsPage';
+import { ReportsPage } from '@/app/pages/ReportsPage';
 import { ServersPage } from '@/app/pages/ServersPage';
 import { ServerDetailPage } from '@/app/pages/ServerDetailPage';
 import { ProxiesPage } from '@/app/pages/ProxiesPage';
@@ -24,6 +26,8 @@ export function App() {
             <Route path="/overview" element={<OverviewPage />} />
             <Route path="/sessions" element={<SessionsPage />} />
             <Route path="/sessions/new" element={<NewSessionPage />} />
+            <Route path="/findings" element={<FindingsPage />} />
+            <Route path="/reports" element={<ReportsPage />} />
             <Route path="/servers" element={<ServersPage />} />
             <Route path="/servers/:id" element={<ServerDetailPage />} />
             <Route path="/proxies" element={<ProxiesPage />} />

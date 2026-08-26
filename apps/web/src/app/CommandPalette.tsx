@@ -11,6 +11,8 @@ const CMDS: Cmd[] = [
   { to: '/overview', label: 'Overview', path: 'M3 3h8v8H3zM13 3h8v5h-8zM13 11h8v10h-8zM3 14h8v7H3z' },
   { to: '/sessions', label: 'Sessions', path: 'M4 6h16M4 12h16M4 18h16' },
   { to: '/sessions/new', label: 'New session', path: 'M12 5v14M5 12h14' },
+  { to: '/findings', label: 'Findings', path: 'M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z' },
+  { to: '/reports', label: 'Reports', path: 'M6 3h9l4 4v14H6z' },
   { to: '/servers', label: 'Servers', path: 'M3 4h18v7H3zM3 13h18v7H3z' },
   { to: '/proxies', label: 'Proxies', path: 'M4 12h16' },
   { to: '/settings', label: 'Settings', path: 'M12 9a3 3 0 100 6 3 3 0 000-6z' },

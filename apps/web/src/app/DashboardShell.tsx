@@ -44,6 +44,17 @@ const I = {
       <path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2" />
     </svg>
   ),
+  findings: (
+    <svg viewBox="0 0 24 24">
+      <path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z" />
+    </svg>
+  ),
+  reports: (
+    <svg viewBox="0 0 24 24">
+      <path d="M6 3h9l4 4v14H6z" />
+      <path d="M14 3v5h5" />
+    </svg>
+  ),
 };
 
 const GROUPS: { label?: string; items: NavItem[] }[] = [
@@ -51,6 +62,8 @@ const GROUPS: { label?: string; items: NavItem[] }[] = [
     items: [
       { to: '/overview', label: 'Overview', icon: I.overview },
       { to: '/sessions', label: 'Sessions', icon: I.sessions, end: true },
+      { to: '/findings', label: 'Findings', icon: I.findings },
+      { to: '/reports', label: 'Reports', icon: I.reports },
     ],
   },
   {
@@ -67,6 +80,8 @@ const TITLES: Record<string, [string, string]> = {
   '/overview': ['Overview', '· all engagements'],
   '/sessions': ['Sessions', '· engagements'],
   '/sessions/new': ['New session', '· plan an assessment'],
+  '/findings': ['Findings', '· triage'],
+  '/reports': ['Reports', '· export & hand off'],
   '/servers': ['Servers', '· execution hosts'],
   '/proxies': ['Proxies', '· egress'],
   '/settings': ['Settings', ''],
