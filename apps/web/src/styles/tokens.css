@@ -1,37 +1,36 @@
 @import 'tailwindcss';
 
-/* Steel design tokens. These become both Tailwind color utilities
+/* Design tokens. These become both Tailwind color utilities
    (bg-panel, text-muted, border-border2, ...) and raw CSS variables
    (var(--color-accent)) for hand-written CSS. */
 @theme {
-  --color-bg: #0b0e13;
-  --color-bg2: #0e1219;
-  --color-panel: #131922;
-  --color-panel2: #18202b;
-  --color-elev: #202b39;
+  --color-bg: #0a0b0c;
+  --color-bg2: #0d0e10;
+  --color-panel: #0f1012;
+  --color-panel2: #141518;
+  --color-elev: #191a1d;
 
-  --color-border: #233042;
-  --color-border2: #31445c;
+  --color-border: #212226;
+  --color-border2: #2c2e33;
 
-  --color-text: #eef3fa;
-  --color-muted: #a1b2c6;
-  --color-faint: #5f7286;
+  --color-text: #f7f8f8;
+  --color-muted: #b0b4bb;
+  --color-faint: #868b93;
 
-  --color-accent: #ff3344;
-  --color-accent-ink: #ffd9dd;
-  --color-accent-dim: #5a121a;
+  --color-accent: #7c88e8;
+  --color-accent-ink: #c6ccf7;
+  --color-accent-dim: #1c1f33;
 
-  --color-live: #31d0c0;
-  --color-crit: #ff3344;
-  --color-high: #ff9147;
-  --color-med: #ffcf4a;
-  --color-low: #5ab0ff;
-  --color-info: #8ea0b6;
+  --color-live: #4cb782;
+  --color-crit: #f26d6d;
+  --color-high: #e69a4c;
+  --color-med: #d9c05a;
+  --color-low: #7c88e8;
+  --color-info: #868b93;
 
-  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-    sans-serif;
-  --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, 'Liberation Mono',
-    monospace;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
 
   --radius: 6px;
 }
