@@ -91,6 +91,9 @@ cd apps/worker && uv run arq worker.settings.WorkerSettings
 cd apps/web    && bun install && bun run dev
 ```
 
+Or start all three at once with a process manager (they are declared in the
+`Procfile`): `pipx install honcho` then `honcho start`.
+
 Open http://localhost:5183 and sign in with `admin` / `admin`.
 
 Runs execute real tools by default. Add a provider API key in Settings and make sure Docker can pull the Kali image (`martian56/kali:latest`). To dry-run against canned output instead, set `REDCELL_RUN_MODE=sim` in `.env`.
@@ -128,6 +131,11 @@ docker/                Kali execution image
 docker-compose.dev.yml       Postgres + Redis + MinIO
 docker-compose.targets.yml   local vulnerable targets
 ```
+
+## Documentation
+
+- [Architecture](docs/ARCHITECTURE.md) — the components, how a run flows, cross-process coordination.
+- [Hardening & threat model](docs/HARDENING.md) — deploy safely, secrets, scope, and data retention. Read this before running REDCELL anywhere but your own machine.
 
 ## Contributing
 
