@@ -231,7 +231,8 @@ export function DashboardShell() {
         </div>
       </aside>
 
-      <section className="main">
+      <div className="main-pad">
+        <section className="main-card">
         <header className="head">
           <button
             className="iconbtn"
@@ -264,7 +265,8 @@ export function DashboardShell() {
         <div className="body-normal">
           <Outlet />
         </div>
-      </section>
+        </section>
+      </div>
 
       <CommandPalette open={palette} onClose={() => setPalette(false)} />
     </div>
