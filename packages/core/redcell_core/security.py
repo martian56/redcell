@@ -37,7 +37,7 @@ def issue_cookie(response: Response, username: str, role: str = "admin") -> None
     }
     token = jwt.encode(payload, settings.jwt_secret, algorithm=_ALGO)
     response.set_cookie(
-        COOKIE_NAME, token, httponly=True, samesite="lax", secure=False,
+        COOKIE_NAME, token, httponly=True, samesite="lax", secure=settings.secure_cookies,
         max_age=settings.jwt_ttl_hours * 3600, path="/",
     )
 
