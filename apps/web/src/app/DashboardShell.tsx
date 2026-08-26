@@ -1,19 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useQueries } from '@tanstack/react-query';
 import type { Session } from '@redcell/api-client';
 import { useApi } from '@/lib/api';
-import { useRun, useSessions } from '@/features/hooks';
+import { useSessions } from '@/features/hooks';
 import { useSession } from '@/store/session';
 import { toggleTheme } from '@/lib/theme';
 import { CommandPalette } from './CommandPalette';
 import { ConsoleHeader } from './ConsoleHeader';
 
 function ActiveRunRow({ session, onClick }: { session: Session; onClick: () => void }) {
-  const { data: run } = useRun(session.activeRunId ?? null);
-  const status = run?.status;
-  const cls = status === 'running' ? 'run live' : status === 'paused' ? 'run paused' : 'run';
   return (
-    <button className={cls} onClick={onClick} title={`${session.name} · ${session.client}`}>
+    <button className="run live" onClick={onClick} title={`${session.name} · ${session.client}`}>
       <span className="d" />
       <span className="rt">
         {session.name} <span style={{ color: 'var(--tx-4)' }}>· {session.client}</span>
@@ -122,7 +120,16 @@ export function DashboardShell() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { data: sessions } = useSessions();
-  const activeRuns = (sessions ?? []).filter((s) => s.status === 'active' && s.activeRunId).slice(0, 8);
+  const candidates = (sessions ?? []).filter((s) => s.status === 'active' && s.activeRunId);
+  const runQueries = useQueries({
+    queries: candidates.map((s) => ({
+      queryKey: ['run', s.activeRunId],
+      queryFn: () => api.runs.get(s.activeRunId as string),
+      enabled: !!s.activeRunId,
+      refetchInterval: 5000,
+    })),
+  });
+  const activeRuns = candidates.filter((_, i) => runQueries[i]?.data?.status === 'running').slice(0, 8);
 
   const [collapsed, setCollapsed] = useState(() => {
     try {
