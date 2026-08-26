@@ -1,94 +1,257 @@
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { cn } from '@/lib/cn';
+import { useEffect, useRef, useState } from 'react';
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useApi } from '@/lib/api';
 import { useSession } from '@/store/session';
-import { Icon, type IconName } from '@/components/ui/Icon';
+import { toggleTheme } from '@/lib/theme';
+import { CommandPalette } from './CommandPalette';
 
-const NAV: { to: string; icon: IconName; label: string }[] = [
-  { to: '/overview', icon: 'overview', label: 'Overview' },
-  { to: '/sessions', icon: 'engagements', label: 'Sessions' },
-  { to: '/servers', icon: 'server', label: 'Servers' },
-  { to: '/proxies', icon: 'proxy', label: 'Proxies' },
-];
-
-function Logo() {
-  return (
-    <span
-      className="h-[22px] w-[22px] flex-none"
-      style={{
-        background: 'radial-gradient(120% 120% at 30% 20%, var(--color-accent), var(--color-accent-dim))',
-        clipPath: 'polygon(50% 0, 100% 38%, 82% 100%, 18% 100%, 0 38%)',
-        boxShadow: '0 0 14px rgba(255,51,68,0.3)',
-      }}
-    />
-  );
+interface NavItem {
+  to: string;
+  label: string;
+  icon: JSX.Element;
+  end?: boolean;
 }
 
-function Item({ to, icon, label }: { to: string; icon: IconName; label: string }) {
-  return (
-    <NavLink
-      to={to}
-      className={({ isActive }) =>
-        cn(
-          'flex w-full items-center gap-2.5 rounded-[var(--radius)] px-2.5 py-2 text-xs font-medium transition',
-          isActive
-            ? 'bg-accent-dim font-semibold text-accent-ink'
-            : 'text-muted hover:bg-panel hover:text-text',
-        )
-      }
-    >
-      <Icon name={icon} size={17} />
-      <span>{label}</span>
-    </NavLink>
-  );
+const I = {
+  overview: (
+    <svg viewBox="0 0 24 24">
+      <rect x="3" y="3" width="8" height="8" rx="1.5" />
+      <rect x="13" y="3" width="8" height="5" rx="1.5" />
+      <rect x="13" y="11" width="8" height="10" rx="1.5" />
+      <rect x="3" y="14" width="8" height="7" rx="1.5" />
+    </svg>
+  ),
+  sessions: (
+    <svg viewBox="0 0 24 24">
+      <path d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  ),
+  servers: (
+    <svg viewBox="0 0 24 24">
+      <rect x="3" y="4" width="18" height="7" rx="1.5" />
+      <rect x="3" y="13" width="18" height="7" rx="1.5" />
+      <path d="M7 7.5h.01M7 16.5h.01" />
+    </svg>
+  ),
+  proxies: (
+    <svg viewBox="0 0 24 24">
+      <path d="M4 12h16M4 12a8 8 0 0 1 8-8M20 12a8 8 0 0 1-8 8" />
+    </svg>
+  ),
+  settings: (
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="3" />
+      <path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2" />
+    </svg>
+  ),
+};
+
+const GROUPS: { label?: string; items: NavItem[] }[] = [
+  {
+    items: [
+      { to: '/overview', label: 'Overview', icon: I.overview },
+      { to: '/sessions', label: 'Sessions', icon: I.sessions, end: true },
+    ],
+  },
+  {
+    label: 'Infrastructure',
+    items: [
+      { to: '/servers', label: 'Servers', icon: I.servers },
+      { to: '/proxies', label: 'Proxies', icon: I.proxies },
+      { to: '/settings', label: 'Settings', icon: I.settings },
+    ],
+  },
+];
+
+const TITLES: Record<string, [string, string]> = {
+  '/overview': ['Overview', '· all engagements'],
+  '/sessions': ['Sessions', '· engagements'],
+  '/sessions/new': ['New session', '· plan an assessment'],
+  '/servers': ['Servers', '· execution hosts'],
+  '/proxies': ['Proxies', '· egress'],
+  '/settings': ['Settings', ''],
+};
+
+function useOutside(onClose: () => void) {
+  const ref = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const h = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) onClose();
+    };
+    document.addEventListener('mousedown', h);
+    return () => document.removeEventListener('mousedown', h);
+  }, [onClose]);
+  return ref;
 }
 
 export function DashboardShell() {
   const api = useApi();
   const signOut = useSession((s) => s.signOut);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const [collapsed, setCollapsed] = useState(() => {
+    try {
+      return localStorage.getItem('rc-sidebar') === 'collapsed';
+    } catch {
+      return false;
+    }
+  });
+  const [palette, setPalette] = useState(false);
+  const [menu, setMenu] = useState<'ws' | 'user' | null>(null);
+  const [, force] = useState(0);
+  const wsRef = useOutside(() => setMenu((m) => (m === 'ws' ? null : m)));
+  const userRef = useOutside(() => setMenu((m) => (m === 'user' ? null : m)));
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('rc-sidebar', collapsed ? 'collapsed' : 'expanded');
+    } catch {
+      // ignore
+    }
+  }, [collapsed]);
+
+  useEffect(() => {
+    const h = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setPalette(true);
+      }
+    };
+    document.addEventListener('keydown', h);
+    return () => document.removeEventListener('keydown', h);
+  }, []);
 
   const onSignOut = async () => {
     await api.auth.logout().catch(() => undefined);
     signOut();
     navigate('/overview');
   };
+  const flipTheme = () => {
+    toggleTheme();
+    force((n) => n + 1);
+    setMenu(null);
+  };
+
+  const [title, sub] = TITLES[pathname] ?? [pathname.replace('/', '') || 'REDCELL', ''];
+  const showNew = pathname === '/overview' || pathname === '/sessions';
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden">
-      <aside className="flex w-[220px] flex-none flex-col border-r border-border bg-bg2">
-        <div className="flex h-[52px] flex-none items-center gap-2.5 border-b border-border px-4">
-          <Logo />
-          <span className="font-mono text-[13px] font-extrabold tracking-[0.2em]">
-            RED<span className="text-accent">CELL</span>
+    <div className={`app-shell${collapsed ? ' collapsed' : ''}`}>
+      <aside className="side">
+        <div className="ws">
+          <span className="logo" />
+          <span className="nm">REDCELL</span>
+          <span className="menu-wrap" ref={wsRef}>
+            <button
+              className="iconbtn"
+              style={{ width: 24, height: 24, color: 'var(--tx-3)' }}
+              onClick={() => setMenu((m) => (m === 'ws' ? null : 'ws'))}
+              aria-label="Workspace menu"
+            >
+              <svg className="caret" viewBox="0 0 24 24">
+                <path d="M8 9l4 4 4-4" />
+              </svg>
+            </button>
+            <div className={`menu${menu === 'ws' ? '' : ''}`} style={{ display: menu === 'ws' ? 'block' : 'none' }}>
+              <div className="menu-label">Workspace</div>
+              <button className="menu-item sel">
+                REDCELL<span className="ck">✓</span>
+              </button>
+              <div className="menu-sep" />
+              <button className="menu-item" onClick={flipTheme}>
+                Toggle theme
+              </button>
+            </div>
           </span>
         </div>
-        <nav className="min-h-0 flex-1 overflow-auto p-2">
-          {NAV.map((n) => (
-            <Item key={n.to} {...n} />
+        <button className="search" onClick={() => setPalette(true)}>
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M20 20l-3-3" />
+          </svg>
+          Search
+          <span className="kbd">⌘K</span>
+        </button>
+        <div className="side-scroll">
+          {GROUPS.map((g, i) => (
+            <div key={g.label ?? i} className="nav">
+              {g.label && <div className="sec-h">{g.label}</div>}
+              {g.items.map((n) => (
+                <NavLink
+                  key={n.to}
+                  to={n.to}
+                  end={n.end}
+                  className={({ isActive }) => `ni${isActive ? ' on' : ''}`}
+                >
+                  {n.icon}
+                  {n.label}
+                </NavLink>
+              ))}
+            </div>
           ))}
-        </nav>
-        <div className="flex-none border-t border-border p-2">
-          <Item to="/settings" icon="settings" label="Settings" />
-          <div className="mt-1 flex items-center gap-2.5 rounded-[var(--radius)] px-2.5 py-2">
-            <span
-              className="h-6 w-6 flex-none rounded-[5px]"
-              style={{ background: 'conic-gradient(from 210deg, var(--color-accent), var(--color-faint))' }}
-            />
-            <span className="text-xs font-semibold text-muted">admin</span>
-            <button
-              onClick={onSignOut}
-              title="Sign out"
-              className="ml-auto grid h-7 w-7 place-items-center rounded-[var(--radius)] text-faint hover:bg-panel hover:text-text"
-            >
-              <Icon name="logout" size={15} />
+        </div>
+        <div className="side-foot">
+          <span className="menu-wrap" style={{ width: '100%' }} ref={userRef}>
+            <button className="userbtn" onClick={() => setMenu((m) => (m === 'user' ? null : 'user'))}>
+              <span className="avatar" />
+              <div style={{ flex: 1 }}>
+                <div className="u">admin</div>
+                <div className="e">operator</div>
+              </div>
+              <svg className="caret" viewBox="0 0 24 24">
+                <path d="M8 15l4-4 4 4" />
+              </svg>
             </button>
-          </div>
+            <div className="menu up" style={{ display: menu === 'user' ? 'block' : 'none', width: '100%' }}>
+              <button className="menu-item" onClick={flipTheme}>
+                Toggle theme
+              </button>
+              <div className="menu-sep" />
+              <button className="menu-item" onClick={onSignOut}>
+                Sign out
+              </button>
+            </div>
+          </span>
         </div>
       </aside>
-      <main className="min-w-0 flex-1 overflow-hidden">
-        <Outlet />
-      </main>
+
+      <section className="main">
+        <header className="head">
+          <button
+            className="iconbtn"
+            onClick={() => setCollapsed((v) => !v)}
+            title={collapsed ? 'Show sidebar' : 'Hide sidebar'}
+            aria-label={collapsed ? 'Show sidebar' : 'Hide sidebar'}
+          >
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="16" rx="2" />
+              <path d="M9 4v16" />
+            </svg>
+          </button>
+          <h1>{title}</h1>
+          {sub && <span className="sub">{sub}</span>}
+          <div className="grow" />
+          {showNew && (
+            <button className="btn pri" onClick={() => navigate('/sessions/new')}>
+              <svg viewBox="0 0 24 24">
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+              New session
+            </button>
+          )}
+          <button className="iconbtn" onClick={flipTheme} title="Toggle theme" aria-label="Toggle theme">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 3v2M12 19v2M5 5l1.5 1.5M17.5 17.5L19 19M3 12h2M19 12h2M5 19l1.5-1.5M17.5 6.5L19 5M12 8a4 4 0 100 8 4 4 0 000-8z" />
+            </svg>
+          </button>
+        </header>
+        <div className="body-normal">
+          <Outlet />
+        </div>
+      </section>
+
+      <CommandPalette open={palette} onClose={() => setPalette(false)} />
     </div>
   );
 }

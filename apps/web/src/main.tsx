@@ -8,6 +8,14 @@ import '@/styles/tokens.css';
 import 'react-mosaic-component/react-mosaic-component.css';
 import '@xterm/xterm/css/xterm.css';
 import '@/styles/global.css';
+import '@/styles/design.css';
+
+try {
+  const saved = localStorage.getItem('rc-theme');
+  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+} catch {
+  // ignore
+}
 
 const el = document.getElementById('root');
 if (!el) throw new Error('#root not found');

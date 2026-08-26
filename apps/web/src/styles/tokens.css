@@ -1,36 +1,120 @@
 @import 'tailwindcss';
 
-/* Design tokens. These become both Tailwind color utilities
-   (bg-panel, text-muted, border-border2, ...) and raw CSS variables
-   (var(--color-accent)) for hand-written CSS. */
-@theme {
-  --color-bg: #0a0b0c;
-  --color-bg2: #0d0e10;
-  --color-panel: #0f1012;
-  --color-panel2: #141518;
-  --color-elev: #191a1d;
+:root {
+  --bg: #ffffff;
+  --bg-sub: #f7f8f8;
+  --bg-side: #f4f5f6;
+  --bg-hover: #f0f1f3;
+  --bg-active: #e9ebee;
+  --line: #e6e7e9;
+  --line-soft: #edeef0;
+  --tx: #17181a;
+  --tx-2: #5f636b;
+  --tx-3: #868b93;
+  --tx-4: #a6abb2;
+  --acc: #5e6ad2;
+  --acc-fg: #ffffff;
+  --acc-soft: #eceefb;
+  --acc-fill: rgba(94, 106, 210, 0.14);
+  --crit: #e5484d;
+  --high: #e0801f;
+  --med: #c99a20;
+  --low: #5e6ad2;
+  --info: #868b93;
+  --ok: #3fa46a;
+  --ok-soft: #e6f4ec;
+  --dead: #e5484d;
+  --overlay: rgba(20, 22, 28, 0.42);
+  --shadow: 0 8px 30px rgba(20, 22, 30, 0.14), 0 2px 6px rgba(20, 22, 30, 0.08);
+  --r: 8px;
+  --radius: var(--r);
+  --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
 
-  --color-border: #212226;
-  --color-border2: #2c2e33;
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #0e0f11;
+    --bg-sub: #0a0b0c;
+    --bg-side: #090a0b;
+    --bg-hover: #191a1d;
+    --bg-active: #212226;
+    --line: #212226;
+    --line-soft: #1a1b1e;
+    --tx: #f7f8f8;
+    --tx-2: #b0b4bb;
+    --tx-3: #868b93;
+    --tx-4: #5c6067;
+    --acc: #7c88e8;
+    --acc-fg: #ffffff;
+    --acc-soft: #191b2c;
+    --acc-fill: rgba(124, 136, 232, 0.16);
+    --crit: #f26d6d;
+    --high: #e69a4c;
+    --med: #d9c05a;
+    --low: #7c88e8;
+    --info: #868b93;
+    --ok: #4cb782;
+    --ok-soft: #122019;
+    --dead: #f26d6d;
+    --overlay: rgba(0, 0, 0, 0.55);
+    --shadow: 0 12px 40px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+}
 
-  --color-text: #f7f8f8;
-  --color-muted: #b0b4bb;
-  --color-faint: #868b93;
+[data-theme='dark'] {
+  --bg: #0e0f11;
+  --bg-sub: #0a0b0c;
+  --bg-side: #090a0b;
+  --bg-hover: #191a1d;
+  --bg-active: #212226;
+  --line: #212226;
+  --line-soft: #1a1b1e;
+  --tx: #f7f8f8;
+  --tx-2: #b0b4bb;
+  --tx-3: #868b93;
+  --tx-4: #5c6067;
+  --acc: #7c88e8;
+  --acc-fg: #ffffff;
+  --acc-soft: #191b2c;
+  --acc-fill: rgba(124, 136, 232, 0.16);
+  --crit: #f26d6d;
+  --high: #e69a4c;
+  --med: #d9c05a;
+  --low: #7c88e8;
+  --info: #868b93;
+  --ok: #4cb782;
+  --ok-soft: #122019;
+  --dead: #f26d6d;
+  --overlay: rgba(0, 0, 0, 0.55);
+  --shadow: 0 12px 40px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4);
+}
 
-  --color-accent: #7c88e8;
-  --color-accent-ink: #c6ccf7;
-  --color-accent-dim: #1c1f33;
-
-  --color-live: #4cb782;
-  --color-crit: #f26d6d;
-  --color-high: #e69a4c;
-  --color-med: #d9c05a;
-  --color-low: #7c88e8;
-  --color-info: #868b93;
-
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
-    Arial, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
-
-  --radius: 6px;
+@theme inline {
+  --color-bg: var(--bg-sub);
+  --color-bg2: var(--bg);
+  --color-panel: var(--bg);
+  --color-panel2: var(--bg-hover);
+  --color-elev: var(--bg-active);
+  --color-side: var(--bg-side);
+  --color-border: var(--line);
+  --color-border2: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-text: var(--tx);
+  --color-muted: var(--tx-2);
+  --color-faint: var(--tx-3);
+  --color-faint2: var(--tx-4);
+  --color-accent: var(--acc);
+  --color-accent-fg: var(--acc-fg);
+  --color-accent-ink: var(--acc);
+  --color-accent-dim: var(--acc-soft);
+  --color-live: var(--ok);
+  --color-crit: var(--crit);
+  --color-high: var(--high);
+  --color-med: var(--med);
+  --color-low: var(--low);
+  --color-info: var(--info);
+  --font-sans: var(--sans);
+  --font-mono: var(--mono);
+  --radius: var(--r);
 }
