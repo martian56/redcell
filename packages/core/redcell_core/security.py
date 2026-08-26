@@ -9,6 +9,8 @@ import jwt
 from fastapi import Cookie, HTTPException, Response
 
 from .config import settings
+from .db import session_scope
+from .repositories import users as users_repo
 from .schemas import User
 
 COOKIE_NAME = "rc_session"
@@ -46,11 +48,16 @@ def clear_cookie(response: Response) -> None:
     response.delete_cookie(COOKIE_NAME, path="/")
 
 
-def current_user(rc_session: str | None = Cookie(default=None)) -> User:
+async def current_user(rc_session: str | None = Cookie(default=None)) -> User:
     if not rc_session:
         raise HTTPException(status_code=401, detail="not authenticated")
     try:
         payload = jwt.decode(rc_session, settings.jwt_secret, algorithms=[_ALGO])
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="invalid session") from None
-    return User(id="u-1", username=payload.get("sub", "admin"), role=payload.get("role", "admin"))
+    sub = payload.get("sub")
+    async with session_scope() as s:
+        user = await users_repo.get_by_username(s, sub) if sub else None
+    if user is None:
+        raise HTTPException(status_code=401, detail="invalid session")
+    return User(id=user.id, username=user.username, role=user.role)
