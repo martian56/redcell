@@ -33,6 +33,15 @@ def test_non_dev_rejects_default_admin_password():
     assert "REDCELL_ADMIN_PASSWORD" in str(exc.value)
 
 
+def test_non_dev_rejects_whitespace_secrets():
+    with pytest.raises(ValidationError) as exc:
+        Settings(env="production", secret_key="   ", jwt_secret="\t", admin_password="  admin  ")
+    msg = str(exc.value)
+    assert "REDCELL_SECRET_KEY" in msg
+    assert "REDCELL_JWT_SECRET" in msg
+    assert "REDCELL_ADMIN_PASSWORD" in msg
+
+
 def test_non_dev_accepts_real_secrets():
     s = Settings(env="production", jwt_secret="a-real-jwt-secret",
                  secret_key="a-real-fernet-key", admin_password="a-strong-password")

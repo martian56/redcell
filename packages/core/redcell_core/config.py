@@ -91,6 +91,9 @@ class Settings(BaseSettings):
 
     @model_validator(mode="after")
     def _resolve_secrets(self) -> "Settings":
+        self.secret_key = self.secret_key.strip()
+        self.jwt_secret = self.jwt_secret.strip()
+        self.admin_password = self.admin_password.strip()
         if not self.secret_key:
             self.secret_key = _read_file(self.secret_key_file) or (
                 _dev_secret("secret_key", _gen_fernet) if self.env == "dev" else "")
