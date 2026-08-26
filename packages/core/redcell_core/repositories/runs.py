@@ -6,6 +6,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from ..models import Run
 from . import ids
 
+PHASES = ["Reconnaissance", "Exploitation", "Post-Exploitation", "Reporting"]
+_PHASE_RANK = {p: i for i, p in enumerate(PHASES)}
+
 
 async def list_for_session(s: AsyncSession, sid: str, *, status: str | None = None,
                            q: str | None = None, limit: int | None = None, offset: int = 0) -> list[Run]:
@@ -44,6 +47,25 @@ async def set_status(s: AsyncSession, rid: str, status: str) -> Run | None:
         row.status = status
         await s.flush()
     return row
+
+
+async def set_phase(s: AsyncSession, rid: str, phase: str) -> str | None:
+    """Advance the run's phase along the engagement pipeline, forward only:
+    Reconnaissance -> Exploitation -> Post-Exploitation -> Reporting. Unknown phases
+    and backward moves are ignored. Returns the effective phase, or None if missing.
+
+    The advance is one conditional UPDATE that matches only lower-ranked stored
+    phases, so concurrent milestones cannot race the phase backward."""
+    target = _PHASE_RANK.get(phase)
+    if target is not None:
+        lower = [p for p, r in _PHASE_RANK.items() if r < target]
+        await s.execute(update(Run).where(Run.id == rid, Run.phase.in_(lower)).values(phase=phase))
+        await s.flush()
+    row = await s.get(Run, rid)
+    if row is None:
+        return None
+    await s.refresh(row)
+    return row.phase
 
 
 async def set_meters(s: AsyncSession, rid: str, tokens_delta: int, cost_delta: float, elapsed_delta: int) -> None:
