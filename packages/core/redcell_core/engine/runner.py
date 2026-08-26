@@ -366,6 +366,8 @@ class LiveRunner:
     async def _dispatch(self, name: str, args: dict[str, Any]) -> dict[str, Any]:
         if name == "delegate":
             return self._launch_executor(args.get("agent", "executor"), args.get("objective", ""))
+        if name == "set_phase":
+            return {"phase": await self._advance_phase(str(args.get("phase", "")))}
         if name == "await_executors":
             return await self._await_executors()
         if name == "record_finding":
@@ -384,6 +386,7 @@ class LiveRunner:
             return {"operator_reply": await self._ask_operator(args.get("question", ""), args.get("options"))}
         if name == "finish":
             await self._await_executors()
+            await self._advance_phase("Reporting")
             await self._event("orchestrator", "steer", "run finished: " + args.get("summary", ""))
             return {"ok": True}
         return {"error": f"unknown tool {name}"}
@@ -791,6 +794,8 @@ class LiveRunner:
             })
             fid, sev = finding.id, finding.severity
         await self._event("orchestrator", "finding", f"[{sev}] {title} @ {loc}")
+        if self.kind != "code":
+            await self._advance_phase("Exploitation")
         return {"id": fid, "recorded": True}
 
     async def _record_loot(self, args: dict[str, Any]) -> dict[str, Any]:
@@ -840,6 +845,7 @@ class LiveRunner:
         result = await pm.open(shell_id)
         if result.get("ok"):
             self._pivot = pm
+            await self._advance_phase("Post-Exploitation")
             await self._event("orchestrator", "net", f"pivot up through {shell_id} -> {result.get('socks')}")
         else:
             await self._event("orchestrator", "steer", f"pivot failed: {result.get('detail', 'unknown')}")
@@ -870,6 +876,7 @@ class LiveRunner:
             status = await get_listener_manager().start(lid)
             callback = f"{settings.callback_host}:{port}"
         await self._event("listener", "net", f"listener {bind} ({status}); reverse-shell callback -> {callback}")
+        await self._advance_phase("Post-Exploitation")
         return {"listenerId": lid, "bind": bind, "status": status, "callback": callback,
                 "note": "Use this callback address (host:port) in the reverse-shell payload."}
 
@@ -937,6 +944,7 @@ class LiveRunner:
                                 lst.sessions_count += 1
                         await self._event("listener", "net",
                                           f"caught reverse shell from {remote} on {self.server.host}:{port}")
+                        await self._advance_phase("Post-Exploitation")
 
         out_t = asyncio.create_task(pump_out())
         in_t = asyncio.create_task(pump_in())
@@ -1001,6 +1009,16 @@ class LiveRunner:
             async with session_scope() as s:
                 await runs_repo.set_meters(s, self.run_id, tok, cost, 0)
         return out
+
+    async def _advance_phase(self, phase: str) -> str | None:
+        """Move the operator-visible engagement phase forward and log the transition."""
+        async with session_scope() as s:
+            run = await runs_repo.get(s, self.run_id)
+            before = run.phase if run else None
+            effective = await runs_repo.set_phase(s, self.run_id, phase)
+        if effective and effective != before:
+            await self._event("orchestrator", "steer", f"phase: {effective}")
+        return effective
 
     async def _status(self, text: str) -> None:
         await self._event("orchestrator", "steer", text)

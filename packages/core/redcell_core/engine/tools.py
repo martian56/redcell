@@ -22,6 +22,21 @@ ORCHESTRATOR_TOOLS = [
     {
         "type": "function",
         "function": {
+            "name": "set_phase",
+            "description": "Update the engagement phase shown on the operator's console. Phases only move forward (Reconnaissance -> Exploitation -> Post-Exploitation -> Reporting); call it as the engagement progresses, e.g. mark Exploitation once you start attacking a confirmed weakness.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "phase": {"type": "string",
+                              "enum": ["Reconnaissance", "Exploitation", "Post-Exploitation", "Reporting"]},
+                },
+                "required": ["phase"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
             "name": "await_executors",
             "description": "Block until every running executor has finished and return their reports. Use when you have nothing to do until results come back.",
             "parameters": {"type": "object", "properties": {}},
@@ -369,6 +384,8 @@ def orchestrator_system(goal: str, scope: list[str], targets: list[str], roe: st
         "executors to scan or reach the internal hosts (nmap_scan is routed through the pivot "
         "automatically) and record what you find with record_host (source 'pivot'). Internal hosts "
         "still need to be in scope. Call close_pivot when the internal work is done.\n\n"
+        "Keep the operator's phase indicator current with set_phase as the engagement moves from "
+        "Reconnaissance to Exploitation, Post-Exploitation, and Reporting (it only moves forward).\n\n"
         "The operator may send you steering directives at any time (they appear as '[Operator steer]' "
         "messages); follow them. Call finish when the objective is met or no safe progress remains.\n\n"
         "Write any prose in plain text. Do not use em-dashes; use commas, periods, or parentheses instead."
