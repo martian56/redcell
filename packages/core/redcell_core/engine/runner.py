@@ -7,6 +7,7 @@ from __future__ import annotations
 import asyncio
 import base64
 import json
+import re
 from typing import Any, TypedDict
 
 from .. import steer
@@ -171,6 +172,8 @@ class LiveRunner:
                 await self._stage_assessment_files()
             if self.kind == "code":
                 await self._prepare_source()
+            else:
+                await self._seed_hosts()
             await self._orchestrate()
             async with session_scope() as s:
                 run = await runs_repo.get(s, self.run_id)
@@ -796,7 +799,7 @@ class LiveRunner:
             })
             fid, sev = finding.id, finding.severity
         await self._event("orchestrator", "finding", f"[{sev}] {title} @ {loc}")
-        if self.kind != "code":
+        if self.kind != "code" and str(sev).lower() != "info":
             await self._advance_phase("Exploitation")
         return {"id": fid, "recorded": True}
 
@@ -988,6 +991,45 @@ class LiveRunner:
                 await self._event("orchestrator", "steer", f"clone failed: {exc}")
         else:
             await self._event("recon", "steer", f"reviewing mounted source at /src ({self.source})")
+
+    _HOSTNAME_RE = re.compile(r"^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$")
+
+    async def _seed_hosts(self) -> None:
+        """Make the engagement's named hosts resolvable in the execution environment.
+        Many lab targets are name-based virtual hosts reachable only after an
+        /etc/hosts entry (the classic TryHackMe 'add x.thm to /etc/hosts' step). Seed
+        it from the session when the host->IP mapping is unambiguous: a single IP
+        across scope and targets, mapped to every named host. getent-guarded so it is
+        idempotent across a session's runs and never shadows a name that already
+        resolves."""
+        import ipaddress
+        hostnames: list[str] = []
+        ips: list[str] = []
+        for entry in list(self.scope) + list(self.targets):
+            host = scope.target_host(entry)
+            if not host:
+                continue
+            if host.startswith("*."):
+                host = host[2:]
+            try:
+                ipaddress.ip_address(host)
+                if host not in ips:
+                    ips.append(host)
+                continue
+            except ValueError:
+                pass
+            if host != "localhost" and self._HOSTNAME_RE.match(host) and host not in hostnames:
+                hostnames.append(host)
+        if len(ips) != 1 or not hostnames:
+            return
+        ip, hs = ips[0], " ".join(hostnames)
+        cmd = (f'for h in {hs}; do getent hosts "$h" >/dev/null 2>&1 || '
+               f'echo "{ip} $h" >> /etc/hosts; done')
+        try:
+            await self._exec(cmd)
+            await self._event("orchestrator", "net", f"seeded /etc/hosts: {ip} -> {hs}")
+        except Exception as exc:
+            await self._event("orchestrator", "steer", f"could not seed /etc/hosts: {exc}")
 
     async def _seed_targets(self) -> None:
         """Seed the attack surface with the in-scope targets."""
