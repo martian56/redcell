@@ -1,0 +1,7 @@
+# Localhost over http. Opt in explicitly:
+#   docker compose -f docker-compose.yml -f docker-compose.local.yml up
+# The default `docker compose up` keeps secure cookies on (serve behind HTTPS).
+services:
+  api:
+    environment:
+      REDCELL_COOKIE_SECURE: "false"

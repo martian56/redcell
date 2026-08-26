@@ -1,4 +1,0 @@
-services:
-  api:
-    environment:
-      REDCELL_COOKIE_SECURE: "false"
