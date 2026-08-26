@@ -9,6 +9,7 @@ from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from redcell_core.bus import bus, chat_channel, events_channel, shell_channel
 from redcell_core.config import settings
 from redcell_core.db import session_scope
+from redcell_core.logs import get_logger
 from redcell_core.repositories import sessions as sessions_repo
 from redcell_core.security import COOKIE_NAME
 
@@ -97,7 +98,10 @@ async def _bridge(ws: WebSocket, proc: asyncio.subprocess.Process) -> None:
                 data = await ws.receive_bytes()
                 proc.stdin.write(data)
                 await proc.stdin.drain()
-        except (WebSocketDisconnect, Exception):
+        except WebSocketDisconnect:
+            return
+        except Exception:
+            get_logger("api.ws").exception("noVNC bridge write error")
             return
 
     tasks = {asyncio.create_task(to_ws()), asyncio.create_task(to_proc())}

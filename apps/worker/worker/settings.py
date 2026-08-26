@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from redcell_core.bus import bus
+from redcell_core.logs import configure as configure_logging
 from redcell_core.queue import redis_settings
 from redcell_core.storage import storage
 
@@ -10,6 +11,7 @@ from .tasks import generate_report, operate_shell, resume_running, run_engagemen
 
 
 async def on_startup(ctx) -> None:
+    configure_logging()
     await bus.connect()
     await storage.ensure_buckets()
     await ctx["redis"].enqueue_job("resume_running")

@@ -15,6 +15,7 @@ from redcell_core.bus import (
     shell_input_channel,
 )
 from redcell_core.db import session_scope
+from redcell_core.logs import get_logger
 from redcell_core.repositories import agents as agents_repo
 from redcell_core.repositories import chat as chat_repo
 from redcell_core.repositories import events as events_repo
@@ -421,4 +422,4 @@ async def _answer_chat(rid: str, text: str) -> None:
             else:
                 await bus.publish_json(control_channel(rid), {"action": "interrupt"})
     except Exception:
-        pass
+        get_logger("api.chat").exception("chat answer failed for run %s", rid)
