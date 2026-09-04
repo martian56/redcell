@@ -83,3 +83,5 @@ Keep a **free-text input** as a fallback when there is no list to choose from (f
 - New run: the model picker.
 
 ## This change
+
+Issue #79 replaced the native Provider and Model selects in Settings with the combobox, so both are searchable and match the rest of the console.
