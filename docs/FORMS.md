@@ -5,3 +5,5 @@ The console uses a small set of custom form controls so inputs look and behave c
 ## The controls
 
 - **Text input / textarea** - styled fields with theme-aware borders and focus.
+
+- **Segmented buttons** - a small set of mutually exclusive options shown inline.
