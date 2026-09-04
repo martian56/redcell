@@ -115,3 +115,9 @@ Everything else (5432, 6379, 9000) stays on the internal network and should not 
 Browsers treat `http://localhost` as a secure context, so a local `docker compose up` still logs in even with a secure cookie. A plain-HTTP deploy on a public IP does not, which is why mode 1 uses `false`.
 
 ## First login
+
+The first run generates an admin password. Read it with:
+
+```bash
+docker compose logs init-secrets
+```
