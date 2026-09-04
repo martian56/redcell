@@ -239,3 +239,5 @@ After a long wait with no progress the panel gives up and shows an error so you 
 The panel is a labelled dialog with an aria-live region, so state changes are announced.
 
 Actions are ordinary buttons, reachable and operable by keyboard.
+
+Backdrop dismissal is only enabled once the update is done or failed, so a click does not close it mid-apply.
