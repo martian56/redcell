@@ -13,3 +13,5 @@ Postgres, Redis, MinIO, the API, and the web app stay on the internal Docker net
 Stored files (reports, loot, uploads) are streamed through the API, so MinIO never needs a public route.
 
 ## What gets deployed
+
+- **postgres** — application database (named volume `redcell_pg`).
