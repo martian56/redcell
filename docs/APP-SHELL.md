@@ -153,3 +153,5 @@ Menus sit above the shell chrome and the main card. The workspace menu uses a hi
 - **Main card** - the floating content area to the right of the sidebar.
 
 - **Workspace switcher** - the header control that opens the workspace menu.
+
+- **Dropdown / menu** - a small floating list anchored to a trigger.
