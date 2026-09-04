@@ -121,7 +121,7 @@ export function OverviewPage() {
         <div className="card-h">
           <h3>Recent sessions</h3>
           <span className="cs">· {list.length}</span>
-          <button className="btn sm" style={{ marginLeft: 'auto' }} onClick={() => nav('/sessions')}>
+          <button type="button" className="btn sm" style={{ marginLeft: 'auto' }} onClick={() => nav('/sessions')}>
             View all
           </button>
         </div>
