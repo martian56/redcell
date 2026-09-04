@@ -363,3 +363,5 @@ The flip keeps the list on screen near the bottom of a page.
 Outside-click covers both the trigger and the portaled popover.
 
 Escape remains a quick way to dismiss it.
+
+The popover width tracks the field for a clean, aligned look.
