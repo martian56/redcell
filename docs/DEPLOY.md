@@ -187,6 +187,8 @@ curl -so /dev/null -w '%{http_code}\n' "$BASE_URL/api/v1/sessions"
 
 Secrets are generated per deployment and stored in the `redcell_secrets` volume. There are no usable default credentials outside dev.
 
+In proxy mode the origin serves plain HTTP on :80, so a client reaching the server IP directly would bypass the proxy's TLS. Restrict the origin to the proxy: firewall ports 80 and 443 to the proxy's source ranges (for Cloudflare, its published IP ranges, ideally with Authenticated Origin Pulls), or bind the server to a private network the proxy reaches.
+
 REDCELL runs offensive tooling. Only point it at systems you are authorized to test. See [HARDENING.md](HARDENING.md).
 
 ## Removing it
