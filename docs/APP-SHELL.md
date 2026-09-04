@@ -318,3 +318,5 @@ Confirm the header does not overflow: logo, name, version, and pill should all f
 **What does clicking the pill do?** It takes you to Settings to apply the update; a later change opens an in-place progress panel.
 
 **Can I hide the version?** It is intentionally always visible after login; there is no toggle.
+
+### References
