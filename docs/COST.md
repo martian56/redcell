@@ -131,3 +131,5 @@ Output tokens usually cost more than input, which is why the table prices them s
 5. The header reflects the new totals on the next update.
 
 ## Controlling cost
+
+- Pick a cheaper model for routine work; reserve flagship models for hard steps.
