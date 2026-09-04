@@ -237,3 +237,5 @@ When an update is available, an Update pill appears next to the version. Its too
 Clicking the pill takes you to Settings, where the update can be applied. (A follow-up wires it to an in-place progress panel.)
 
 The version query refetches periodically, so the pill appears on its own shortly after a new release is published.
+
+The latest-release lookup is cached briefly on the server, so a brand-new release can take a few minutes to surface. See [UPDATING.md](UPDATING.md).
