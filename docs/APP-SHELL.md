@@ -177,3 +177,5 @@ Sidebar plus floating card. Menus stay inside their region, above the content, a
 ## Note on stacking contexts
 
 A dropdown is clipped or hidden by an ancestor with `overflow: hidden` or a higher stacking context. Anchor menus so their box stays inside the visible region rather than fighting the clip.
+
+The sidebar is a fixed 236px, so a menu that spans the header is a predictable width and never depends on the viewport.
