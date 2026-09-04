@@ -127,3 +127,5 @@ Verify in a browser; the popover, search, and pagination are layout behavior.
 **Popover is too narrow.** Pass block for form fields, or set width for a floating trigger.
 
 ## FAQ
+
+**Why not a native select?** Native selects are not searchable and are hard to style consistently across platforms.
