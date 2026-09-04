@@ -29,3 +29,5 @@ In development, when the admin password is still the default, a hint block expla
 ## HTTP headers
 
 Responses should not carry a version or framework banner. Avoid `X-Powered-By` and a descriptive `Server` header on public responses.
+
+Behind a reverse proxy you can strip or rewrite server-identifying headers at the edge as a second layer.
