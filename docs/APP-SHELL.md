@@ -416,3 +416,5 @@ Re-rendering the header with the same version data produces the same output, avo
 Settings remains the full update surface; the sidebar is a shortcut to it.
 
 Surfacing updates in the always-visible sidebar makes them hard to miss.
+
+That is the sidebar version indicator: quiet when current, a clear nudge when an update is ready.
