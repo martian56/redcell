@@ -9,3 +9,5 @@ Press Cmd+K (macOS) or Ctrl+K (Windows and Linux) from anywhere in the console.
 Press Escape or click outside to close it.
 
 ## What it searches
+
+- **Pages** - Overview, Sessions, Findings, Reports, Servers, Proxies, Settings.
