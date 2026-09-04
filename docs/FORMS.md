@@ -203,3 +203,5 @@ To avoid this, the combobox popover is rendered in a portal on `document.body` w
 The position is computed from the trigger's bounding rect: the popover opens just below the trigger, aligned to its left, and matches its width in block mode.
 
 When there is not enough room below, it flips to open above the trigger instead of running off the screen.
+
+It repositions on scroll and resize while open, so it stays anchored to the trigger as the page moves.
