@@ -136,3 +136,5 @@ Operators still need the version. Expose it only after authentication (Settings)
 **Where can I see the version now?** After signing in. A future change exposes it in Settings for authenticated operators.
 
 **Why did the login page show credentials?** Only in dev, when the admin password is still the default. Set `REDCELL_ADMIN_*` for production and the hint disappears.
+
+**Did the console really bind to 127.0.0.1?** In some local setups, but not behind the deploy's reverse proxy. The static notice was misleading, so it was removed.
