@@ -145,3 +145,5 @@ Output tokens usually cost more than input, which is why the table prices them s
 - Provider keys and model selection live in Settings; see the README configuration notes.
 
 ## Glossary
+
+- **per 1M tokens** - prices are quoted per one million tokens; divide token counts by 1,000,000 before multiplying.
