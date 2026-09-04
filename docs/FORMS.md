@@ -219,3 +219,5 @@ On open, the trigger's rect is measured and the popover's fixed coordinates are 
 The popover is rendered through a portal, so it lives at the end of the body rather than inside the clipped card.
 
 A capture-phase scroll listener and a resize listener re-measure and reposition while the popover is open.
+
+Two refs, one on the trigger wrapper and one on the popover, let the outside-click handler treat both as inside.
