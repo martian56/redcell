@@ -193,3 +193,5 @@ The active-runs list is hidden entirely when nothing is running, keeping the sid
 Sidebar collapse and theme both persist across reloads; the palette query state does not, by design.
 
 When changing any menu or the sidebar, re-check in a browser at a couple of widths and in both themes.
+
+That is the shell: predictable layout, contained menus, verified in a real browser.
