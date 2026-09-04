@@ -325,3 +325,5 @@ The width is read from the trigger in block mode, so the popover never looks nar
 For non-block usage a fixed width is used, which suits a compact trigger like a header button.
 
 The change is backward compatible: the component's props are unchanged.
+
+Existing usages, like the New run model picker, keep working without edits.
