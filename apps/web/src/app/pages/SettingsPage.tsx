@@ -86,7 +86,7 @@ export function SettingsPage() {
       <div className="settings">
         <div className="subnav">
           {TABS.map((t) => (
-            <button key={t.id} className={tab === t.id ? 'on' : ''} onClick={() => setTab(t.id)}>
+            <button type="button" key={t.id} className={tab === t.id ? 'on' : ''} onClick={() => setTab(t.id)}>
               {t.label}
             </button>
           ))}
@@ -137,13 +137,13 @@ export function SettingsPage() {
                     <span className="label">Reasoning effort</span>
                     <div className="seg" style={{ width: 'fit-content' }}>
                       {(['low', 'medium', 'high', 'xhigh'] as const).map((v) => (
-                        <button key={v} className={draft.llm.reasoningEffort === v ? 'on' : ''} onClick={() => setLLM({ reasoningEffort: v })}>
+                        <button type="button" key={v} className={draft.llm.reasoningEffort === v ? 'on' : ''} onClick={() => setLLM({ reasoningEffort: v })}>
                           {v === 'xhigh' ? 'xHigh' : v[0]!.toUpperCase() + v.slice(1)}
                         </button>
                       ))}
                     </div>
                   </div>
-                  <button className="btn pri" style={{ marginTop: 14 }} disabled={save.isPending} onClick={onSave}>
+                  <button type="button" className="btn pri" style={{ marginTop: 14 }} disabled={save.isPending} onClick={onSave}>
                     Save
                   </button>
                 </div>
@@ -177,7 +177,7 @@ export function SettingsPage() {
                           <span className="badge off">Keyless</span>
                         )}
                         {p.needsKey && (
-                          <button
+                          <button type="button"
                             className="btn sm"
                             onClick={() => {
                               setKeyFor(p);
@@ -188,7 +188,7 @@ export function SettingsPage() {
                           </button>
                         )}
                         {has && (
-                          <button
+                          <button type="button"
                             className="btn sm danger"
                             disabled={removeKey.isPending}
                             onClick={() =>
@@ -219,7 +219,7 @@ export function SettingsPage() {
                   <span className="label">Kali image</span>
                   <input className="input mono" value={draft.execution.dockerImage} onChange={(e) => setExec({ dockerImage: e.target.value })} />
                 </label>
-                <button className="btn pri" disabled={save.isPending} onClick={onSave}>
+                <button type="button" className="btn pri" disabled={save.isPending} onClick={onSave}>
                   Save
                 </button>
               </div>
@@ -238,7 +238,7 @@ export function SettingsPage() {
                     <div className="ft">Allow private / loopback targets</div>
                     <div className="fd">Permit tool commands against RFC1918 and loopback hosts.</div>
                   </div>
-                  <button
+                  <button type="button"
                     className={`toggle${draft.scope.allowPrivateTargets ? ' on' : ''}`}
                     role="switch"
                     aria-checked={draft.scope.allowPrivateTargets}
@@ -258,7 +258,7 @@ export function SettingsPage() {
                     onChange={(e) => setScope({ requestsPerSecond: Number(e.target.value) || 0 })}
                   />
                 </label>
-                <button className="btn pri" disabled={save.isPending} onClick={onSave}>
+                <button type="button" className="btn pri" disabled={save.isPending} onClick={onSave}>
                   Save
                 </button>
               </div>
@@ -292,7 +292,7 @@ export function SettingsPage() {
                     onChange={(e) => setReport({ contact: e.target.value })}
                   />
                 </label>
-                <button className="btn pri" disabled={save.isPending} onClick={onSave}>
+                <button type="button" className="btn pri" disabled={save.isPending} onClick={onSave}>
                   Save branding
                 </button>
               </div>
@@ -307,10 +307,10 @@ export function SettingsPage() {
         title={keyFor ? `${keyFor.label} API key` : 'API key'}
         footer={
           <>
-            <button className="btn" onClick={() => setKeyFor(null)}>
+            <button type="button" className="btn" onClick={() => setKeyFor(null)}>
               Cancel
             </button>
-            <button className="btn pri" disabled={!keyInput.trim() || setKey.isPending} onClick={saveKey}>
+            <button type="button" className="btn pri" disabled={!keyInput.trim() || setKey.isPending} onClick={saveKey}>
               Save key
             </button>
           </>
