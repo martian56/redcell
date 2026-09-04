@@ -183,3 +183,7 @@ REDCELL has one operator account, which is the admin, so the admin gate means th
 ## Watching the updater
 
 The updater runs as its own container; `docker ps` shows it briefly, and its logs show the pull and recreate.
+
+## Latest is cached
+
+The latest-release lookup is cached for a few minutes, so a brand-new release can take a moment to appear in the banner.
