@@ -121,3 +121,5 @@ Everything is reachable by keyboard; no result requires the mouse.
 - The fastest path to a session is Cmd/Ctrl+K, a few letters, Enter.
 
 - With no query, the palette is a quick page switcher.
+
+## FAQ
