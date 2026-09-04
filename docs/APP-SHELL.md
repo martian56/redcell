@@ -103,3 +103,5 @@ Verify layout changes in a browser, not only with a build. Positioning, clipping
 - `.ws` - the brand header (logo and name)
 
 - `.search` - opens the command palette
+
+- `.side-scroll` - the scrollable navigation area
