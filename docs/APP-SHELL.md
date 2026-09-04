@@ -45,3 +45,5 @@ The header toggle hides the sidebar (grid column to 0). The choice is stored in 
 The main card header shows the page title (or the console header on a session) and page actions such as New session and the theme toggle. The first button toggles the sidebar.
 
 ## Theme
+
+Theme can be toggled from the header or the user menu. The choice is applied via a data attribute, persisted, and re-applied before paint to avoid a flash.
