@@ -25,3 +25,5 @@ Stored files (reports, loot, uploads) are streamed through the API, so MinIO nev
 - **caddy** — the reverse proxy and TLS terminator (named volumes `caddy_data`, `caddy_config`).
 
 ## Prerequisites
+
+- A Linux server you can SSH into as root (or a sudo user). 2 GB RAM is enough to start; more helps when engagements run.
