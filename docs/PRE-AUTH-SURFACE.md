@@ -16,3 +16,4 @@ What an unauthenticated client can observe from a REDCELL deployment, and the pr
 - **`GET /api/v1/auth/first-run`** reports whether the instance is on its default admin password so the UI can prompt a change. It does not return the password itself.
 - **`POST /api/v1/auth/login`** accepts credentials and sets a session cookie. Rate limited.
 - **`GET /api/v1/health`** returns a liveness signal for orchestration. It carries no version or build detail.
+- Every other API route requires a valid session; unauthenticated calls return 401.
