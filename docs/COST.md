@@ -57,3 +57,5 @@ For non-OpenRouter providers the number is an estimate. It is only as accurate a
 Prompt caching, batch discounts, and provider promotions are not modeled in the table, so estimated cost can run high or low.
 
 If a provider omits usage, tokens and cost for that call are 0.
+
+## Budgets
