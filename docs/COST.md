@@ -9,3 +9,5 @@ Native LLM APIs (OpenAI, Anthropic, Google, DeepSeek, and so on) return token us
 The exception is OpenRouter, which can return the actual charge in `usage.cost` when the request asks for it. REDCELL uses that real number when available.
 
 ## How cost is resolved
+
+For each LLM call, cost is resolved in order:
