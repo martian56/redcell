@@ -49,7 +49,7 @@ has_domain=$(ask "Do you have a domain pointing at this server? [y/N]: " "n")
 case "$has_domain" in
   y|Y|yes|YES)
     domain=""
-    while [ -z "$domain" ]; do
+    while ! printf '%s' "$domain" | grep -qE '^[A-Za-z0-9][A-Za-z0-9.-]*$'; do
       domain=$(ask "  Domain (e.g. redcell.example.com): " "")
     done
     set_env "SITE_ADDRESS" "$domain"
@@ -62,14 +62,22 @@ case "$has_domain" in
     say "Caddy will request a TLS certificate automatically on first request."
     ;;
   *)
+    say ""
+    say "WARNING: without a domain, REDCELL is served over plain HTTP."
+    say "Login credentials and session cookies are not encrypted in transit."
+    ok=$(ask "Continue with an insecure HTTP deployment? [y/N]: " "n")
+    case "$ok" in
+      y|Y|yes|YES) ;;
+      *) say "Aborted. Re-run and choose a domain for automatic HTTPS."; exit 1 ;;
+    esac
     ip=$(curl -fsS https://api.ipify.org 2>/dev/null || hostname -I 2>/dev/null | awk '{print $1}' || echo "your-server-ip")
+    host="$ip"
+    case "$ip" in *:*) host="[$ip]" ;; esac
     set_env "SITE_ADDRESS" ":80"
     set_env "REDCELL_COOKIE_SECURE" "false"
-    set_env "REDCELL_CORS_ORIGINS" "http://${ip}"
+    set_env "REDCELL_CORS_ORIGINS" "http://${host}"
     set_env "REDCELL_ENV" "production"
-    url="http://${ip}"
-    say ""
-    say "No domain: serving over plain HTTP. Set up a domain later for HTTPS."
+    url="http://${host}"
     ;;
 esac
 

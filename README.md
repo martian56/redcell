@@ -117,7 +117,7 @@ cd redcell
 ./deploy.sh
 ```
 
-The script installs Docker if it is missing, then asks whether you have a domain. With one, Caddy provisions a TLS certificate automatically (point an A record at the server first) and serves `https://your-domain`. Without one, it serves plain HTTP on the server IP. It writes your answers to `.env`, pulls the images, and starts the stack. Read the generated admin password with `docker compose logs init-secrets`, then sign in as `admin` and change it.
+The script installs Docker if it is missing, then asks whether you have a domain. With one, Caddy provisions a TLS certificate automatically (point an A or AAAA record at the server first) and serves `https://your-domain`. Without one, it serves plain HTTP on the server IP. It writes your answers to `.env`, pulls the images, and starts the stack. Read the generated admin password with `docker compose logs init-secrets`, then sign in as `admin` and change it.
 
 Only ports 80 and 443 are published; Postgres, Redis, MinIO, the API, and the web app stay on the internal network. Stored files are streamed through the API, so object storage is never exposed.
 
