@@ -159,11 +159,12 @@ Check every container is up and the infra ones are healthy:
 docker compose ps
 ```
 
-The web app should return 200 and the API should return 401 (auth required) on the same origin:
+The web app should return 200 and the API should return 401 (auth required) on the same origin. Use your deployment's base URL: `https://your-domain` for modes 2 and 3, or `http://SERVER_IP` for mode 1.
 
 ```bash
-curl -sI https://your-domain/
-curl -so /dev/null -w '%{http_code}\n' https://your-domain/api/v1/sessions
+BASE_URL=https://your-domain   # mode 1: http://SERVER_IP
+curl -sI "$BASE_URL/"
+curl -so /dev/null -w '%{http_code}\n' "$BASE_URL/api/v1/sessions"
 ```
 
 ## Troubleshooting
