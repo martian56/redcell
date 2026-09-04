@@ -74,3 +74,4 @@ USD per 1M tokens as (input, output). Estimates for the fallback table; OpenRout
 - `gpt-5.6` - 5.0 / 15.0
 - `gpt-5.5` - 3.0 / 10.0
 - `gpt-5.4` - 2.5 / 8.0
+- `gpt-5.4-mini` - 0.4 / 1.6
