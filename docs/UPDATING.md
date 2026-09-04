@@ -247,3 +247,5 @@ Backdrop dismissal is only enabled once the update is done or failed, so a click
 The panel is `apps/web/src/app/UpdateDialog.tsx`; it takes an open flag, an onClose, and the target version.
 
 Render it wherever an update can be triggered and pass the latest version as the target; it handles the request and polling itself.
+
+It treats the update as done when the version endpoint reports the target version or no longer reports an update available.
