@@ -71,7 +71,7 @@ export function ReportsPanel() {
           />
           <div className="flex flex-wrap items-center gap-2">
             {ALL_FORMATS.map((f) => (
-              <button
+              <button type="button"
                 key={f}
                 onClick={() => toggle(f)}
                 className={cn(
@@ -111,7 +111,7 @@ export function ReportsPanel() {
                       {new Date(r.createdAt).toLocaleString()}
                     </div>
                   </div>
-                  <button
+                  <button type="button"
                     onClick={() => del.mutate(r.id)}
                     title="Delete report"
                     className="flex-none p-1 text-faint hover:text-crit"
