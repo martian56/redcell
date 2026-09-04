@@ -285,3 +285,5 @@ On a real deployment the same panel reflects the actual restart and version flip
 **What if I click twice?** A guard prevents starting the update more than once while the panel is open.
 
 ### References
+
+- `apps/web/src/app/UpdateDialog.tsx` - the panel.
