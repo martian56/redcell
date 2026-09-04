@@ -22,6 +22,13 @@ function statusBadge(status: ServerStatus) {
         Provisioning
       </span>
     );
+  if (status === 'unchecked')
+    return (
+      <span className="badge off">
+        <span className="hd un" />
+        Unchecked
+      </span>
+    );
   return (
     <span className="badge off">
       <span className="hd bad" />
@@ -37,11 +44,15 @@ export function ServersPage() {
   const test = useTestServer();
 
   const runTest = async (id: string) => {
-    const r = await test.mutateAsync(id);
-    toast(
-      r.ok ? `Connected (${r.latencyMs ?? '?'} ms)` : `Connection failed: ${r.error ?? 'unknown'}`,
-      r.ok ? 'success' : 'error',
-    );
+    try {
+      const r = await test.mutateAsync(id);
+      toast(
+        r.ok ? `Connected (${r.latencyMs ?? '?'} ms)` : `Connection failed: ${r.error ?? 'unknown'}`,
+        r.ok ? 'success' : 'error',
+      );
+    } catch {
+      toast('Could not test the server', 'error');
+    }
   };
 
   const [open, setOpen] = useState(false);
