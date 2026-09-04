@@ -25,3 +25,5 @@ It previously held a workspace switcher, but that only listed a single workspace
 The Search button opens the command palette (Cmd/Ctrl+K). See [SHORTCUTS.md](SHORTCUTS.md).
 
 ## Navigation
+
+Navigation is grouped (Overview, Sessions, Findings, Reports, and an Infrastructure group for Servers, Proxies, and Settings). The active route is highlighted.
