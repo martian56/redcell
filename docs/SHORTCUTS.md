@@ -105,3 +105,5 @@ Searching real entities turns it into a jump-to-anything tool, which is what a c
 The palette is a labelled dialog. Focus moves to the search input on open.
 
 Everything is reachable by keyboard; no result requires the mouse.
+
+## What each search returns
