@@ -45,3 +45,5 @@ There is a few-second gap while the api, worker, and web containers restart. The
 ## Security
 
 The docker socket is root-equivalent on the host. The update endpoint is a real privilege boundary.
+
+Only an admin can trigger an update, and only when `REDCELL_COMPOSE_DIR` is set. If you do not want in-app updates, leave it unset.
