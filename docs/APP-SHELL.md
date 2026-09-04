@@ -67,3 +67,5 @@ Menu triggers use `aria-haspopup` and `aria-expanded`; menus use a menu role. Fo
 Icon-only buttons carry an `aria-label`.
 
 ## Fix: the workspace dropdown
+
+The dropdown was positioned from the caret with `left: 0`, so a 180px menu started near the right of the sidebar and ran ~60px past its edge.
