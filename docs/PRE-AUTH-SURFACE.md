@@ -168,3 +168,5 @@ A brute-force attacker is slowed by rate limiting and generic errors, and should
 ## Logging
 
 Log authentication events (success and failure) with source IP so brute force and credential stuffing are visible.
+
+Never log passwords, tokens, or session cookies.
