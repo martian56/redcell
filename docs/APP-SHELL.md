@@ -63,3 +63,5 @@ The footer shows the operator and opens an upward menu with a theme toggle and s
 ## Accessibility
 
 Menu triggers use `aria-haspopup` and `aria-expanded`; menus use a menu role. Focus and keyboard access are preserved.
+
+Icon-only buttons carry an `aria-label`.
