@@ -1,0 +1,20 @@
+(app) {
+	encode gzip zstd
+
+	handle /api/* {
+		reverse_proxy api:8080
+	}
+
+	handle {
+		reverse_proxy web:80
+	}
+}
+
+http://{$SITE_ADDRESS} {
+	import app
+}
+
+https://{$SITE_ADDRESS} {
+	tls internal
+	import app
+}
