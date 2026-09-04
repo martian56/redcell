@@ -322,3 +322,5 @@ Confirm the header does not overflow: logo, name, version, and pill should all f
 ### References
 
 - `apps/web/src/app/DashboardShell.tsx` - the sidebar header and version display.
+
+- `apps/web/src/features/hooks.ts` - `useVersion`.
