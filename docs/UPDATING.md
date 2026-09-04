@@ -341,3 +341,5 @@ Triggering from Settings keeps the update near the version information there.
 The same admin gate applies on the server no matter where the panel was opened.
 
 The panel is safe to open again after a failure to retry the update.
+
+There is no partial state persisted; each open starts a fresh attempt.
