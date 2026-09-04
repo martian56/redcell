@@ -319,3 +319,5 @@ The footer shows a reassurance while applying, a Reload now button when done, an
 The panel does not block the rest of the app from finishing in-flight work; it only reflects the update.
 
 Because the check compares versions numerically, it recognizes completion even across a multi-part version bump.
+
+If the version endpoint briefly returns the old version right after the request, the panel simply keeps showing applying.
