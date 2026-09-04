@@ -153,3 +153,4 @@ Search is case-insensitive; capitalization never matters.
 ## References
 
 - `apps/web/src/app/CommandPalette.tsx` - the palette component.
+- `apps/web/src/styles/design.css` - the palette, group, and sublabel styles.
