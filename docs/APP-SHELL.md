@@ -201,3 +201,7 @@ Shell colors come from CSS variables, so both themes and the light/dark toggle w
 ## Fixed sidebar width
 
 The 236px sidebar is fixed, so sidebar content has a predictable width and never depends on the viewport.
+
+## Consistent controls
+
+The shell avoids native popovers; menus are custom so they match the theme and behave consistently.
