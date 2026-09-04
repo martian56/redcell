@@ -359,3 +359,5 @@ The panel does not attempt to stream container logs; it infers progress from obs
 This keeps it robust: it works even though the api that serves it restarts mid-update.
 
 The reconnect handling is why the panel survives the very restart it is reporting on.
+
+For a no-op update (already current), the panel reaches done almost immediately.
