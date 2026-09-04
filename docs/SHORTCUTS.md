@@ -14,3 +14,4 @@ Press Escape or click outside to close it.
 - **Actions** - New session, and other quick actions.
 - **Sessions** - by name, client, or a target in scope.
 - **Servers** - by name or host.
+- **Proxies** - by label or url.
