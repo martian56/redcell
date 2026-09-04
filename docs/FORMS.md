@@ -35,3 +35,5 @@ It lives in `apps/web/src/components/ui/Combobox.tsx`.
 - `onSelect` - called with the chosen option.
 
 - `trigger` - the element that opens the popover; use `SelectTrigger` for a select look.
+
+- `placeholder` - the search field placeholder.
