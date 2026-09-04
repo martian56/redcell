@@ -66,3 +66,5 @@ This is the same set of steps the button runs, plus a `git pull` to refresh the 
 Pin the image tags to a previous version (for example `:0.3.2`) in an override, or check out the matching commit and `docker compose up -d`.
 
 ## Verifying an update
+
+After the restart, the Settings banner shows the new version and reads Up to date.
