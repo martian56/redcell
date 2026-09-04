@@ -337,3 +337,5 @@ The panel closes on its own only by reloading when done; otherwise you dismiss i
 Triggering from the sidebar keeps you on your current page while the update runs.
 
 Triggering from Settings keeps the update near the version information there.
+
+The same admin gate applies on the server no matter where the panel was opened.
