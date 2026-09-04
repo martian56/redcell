@@ -57,3 +57,5 @@ Wrap it in a field with a label, pass `block`, and give it a `SelectTrigger` sho
 Clicking the trigger opens the popover and focuses the search field.
 
 Typing filters options by label and sublabel, case-insensitively.
+
+Long lists paginate; prev/next controls appear when there is more than one page.
