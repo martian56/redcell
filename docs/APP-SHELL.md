@@ -217,3 +217,7 @@ Cmd/Ctrl+K opens the palette from anywhere via a document key listener, in addit
 ## Sign out
 
 Signing out from the user menu clears the session and returns to Overview (which redirects to login).
+
+## Operator identity
+
+The footer shows the operator name and role; there is a single operator account.
