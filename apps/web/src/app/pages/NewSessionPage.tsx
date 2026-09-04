@@ -285,7 +285,7 @@ export function NewSessionPage() {
 
             <div className="field">
               <span className="label">
-                Assessment files <span className="opt">— staged at /root/assessment</span>
+                Assessment files <span className="opt">(staged at /root/assessment)</span>
               </span>
               <div style={{ display: 'grid', gap: 6 }}>
                 {files.map((f, i) => (
