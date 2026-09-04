@@ -49,3 +49,5 @@ cd redcell
 | 1. Direct, no domain | `:80` | `Caddyfile` | false |
 | 2. Domain, direct | `your-domain` | `Caddyfile` | true |
 | 3. Domain, behind a proxy | `your-domain` | `Caddyfile.proxy` | true |
+
+### 1. This server directly, no domain
