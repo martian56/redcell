@@ -185,3 +185,5 @@ Keeping selectors consistent makes the settings feel of a piece with the rest of
 ## Summary
 
 Prefer the searchable combobox over native selects; it is consistent, keyboard friendly, and scales to long lists, with free text as the fallback.
+
+## See also
