@@ -201,3 +201,5 @@ REDCELL runs offensive tooling. Only point it at systems you are authorized to t
 **Where do the images come from?** They are published to GHCR from tagged releases; `docker compose pull` fetches the latest.
 
 **How do I move to a new domain?** Re-run `./deploy.sh`, choose the mode, and enter the new domain. The stack restarts with the new certificate.
+
+## More
