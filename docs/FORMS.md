@@ -237,3 +237,5 @@ Keep the popover's z-index above dialogs so it is usable from within a modal.
 Measure the trigger rect on open and on every reposition, not once, so the popover tracks layout changes.
 
 Include the popover in the outside-click check, or clicking an option will close the popover before the click registers.
+
+### Troubleshooting
