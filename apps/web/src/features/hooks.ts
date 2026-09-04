@@ -444,3 +444,18 @@ export function useRunEvents(runId: string | null, max = 60) {
   }, [api, runId, max]);
   return events;
 }
+
+export function useVersion() {
+  const api = useApi();
+  return useQuery({
+    queryKey: ['system', 'version'],
+    queryFn: () => api.system.version(),
+    refetchInterval: 60_000,
+    staleTime: 30_000,
+  });
+}
+
+export function useSelfUpdate() {
+  const api = useApi();
+  return useMutation({ mutationFn: () => api.system.update() });
+}
