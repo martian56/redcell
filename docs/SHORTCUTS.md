@@ -127,3 +127,5 @@ Everything is reachable by keyboard; no result requires the mouse.
 **Why do I only see pages at first?** With an empty query the palette shows pages and actions. Start typing to search sessions, servers, and proxies.
 
 **A session I expect is missing.** Check the spelling, and note that only loaded sessions are searchable; refresh if the list is stale.
+
+**Can I search findings?** Not globally yet, because findings are per session. Open the session and use its Findings panel.
