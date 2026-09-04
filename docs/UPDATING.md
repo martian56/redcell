@@ -110,3 +110,5 @@ Both require a valid session; update additionally requires the admin role.
 - `REDCELL_VERSION` - baked into the image at build; the running version.
 
 ## End to end
+
+1. The banner polls the version endpoint and compares against the latest release.
