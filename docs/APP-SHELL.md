@@ -129,3 +129,5 @@ For a dropdown, measure its bounding box against the sidebar's to confirm it sta
 - Header-spanning: the workspace menu spans the sidebar header width, anchored to `.ws`.
 
 ## Structure at a glance
+
+- `.ws` - workspace header (positioning context for its menu)
