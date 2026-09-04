@@ -371,3 +371,5 @@ The z-index keeps it above cards and dialogs.
 The change is small, shared, and verified in a browser.
 
 In short: portal dropdowns out of clipped containers, and they just work.
+
+The Settings comboboxes are the first beneficiary; the New run picker keeps working.
