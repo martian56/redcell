@@ -77,3 +77,5 @@ The menu is now anchored to the `.ws` header and spans within the sidebar, with 
 ## For contributors
 
 The shell is `apps/web/src/app/DashboardShell.tsx`; its styles are in `apps/web/src/styles/design.css`.
+
+- Add a nav item by extending the groups list with a route, label, and icon.
