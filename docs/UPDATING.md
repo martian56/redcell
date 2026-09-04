@@ -122,3 +122,5 @@ Both require a valid session; update additionally requires the admin role.
 The api, worker, and web images update to the new release. Postgres, Redis, and MinIO stay on their pinned versions.
 
 Your data in the named volumes is preserved across the update.
+
+## FAQ
