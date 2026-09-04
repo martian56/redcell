@@ -610,6 +610,16 @@ export function createMockClient(): ApiClient {
         return `ws://mock/api/v1/ws/browser/${sessionId}`;
       },
     },
+    system: {
+      async version() {
+        await delay();
+        return { current: '0.3.2', latest: '0.3.3', updateAvailable: true };
+      },
+      async update() {
+        await delay(300);
+        return { started: true, detail: 'Update started (mock).' };
+      },
+    },
   };
 }
 

@@ -379,3 +379,14 @@ export interface ProxyTestResult {
   output: string;
   error?: string;
 }
+
+export interface SystemVersion {
+  current: string;
+  latest?: string | null;
+  updateAvailable: boolean;
+}
+
+export interface UpdateStarted {
+  started: boolean;
+  detail: string;
+}
