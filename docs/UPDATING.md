@@ -167,3 +167,7 @@ This feature ships in a release; a deployment must be updated once (by shell) to
 ## Tip
 
 To watch an update happen, keep Settings open: the banner flips from Update available to the new version once the stack comes back.
+
+## Summary
+
+Baked version in, latest release out, an admin button that runs compose in a side container. Data is kept; migrations run; the app restarts.
