@@ -291,3 +291,5 @@ Any floating UI that can appear inside a scrolling or clipped container should p
 Menus that live in a known, unclipped place (like the sidebar footer) can stay in place, but a control reused across the app should not assume its container.
 
 When in doubt, portal; it is the safer default for dropdowns.
+
+The popover opens 4px below the trigger for a small, consistent gap.
