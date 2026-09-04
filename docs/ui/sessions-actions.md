@@ -32,3 +32,4 @@ screen exposes a single New session entry point.
 - r28: The regression test asserts the page renders no New session button.
 - r29: The regression test asserts both filters remain present.
 - r30: Header ownership keeps the action visible across list screens.
+- r31: Consistency between Overview and Sessions comes from the shared header.
