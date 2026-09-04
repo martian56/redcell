@@ -96,3 +96,4 @@ Searching real entities turns it into a jump-to-anything tool, which is what a c
 - **Sessions** - the list of engagements; open one for its console.
 - **Findings** - triage across findings.
 - **Reports** - generate and download engagement reports.
+- **Servers** - execution servers and their health.
