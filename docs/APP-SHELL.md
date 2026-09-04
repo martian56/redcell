@@ -310,3 +310,5 @@ Confirm the header does not overflow: logo, name, version, and pill should all f
 **Header looks crowded.** A very long version string plus the pill could wrap; the version is compact by design to avoid this.
 
 ### FAQ
+
+**Where does the number come from?** The image's baked `REDCELL_VERSION`, surfaced by the API and read by the sidebar.
