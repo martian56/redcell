@@ -412,3 +412,5 @@ The wordmark and version never truncate at the default width; only extreme custo
 The pill is a styled button, not a native control, matching the rest of the console.
 
 Re-rendering the header with the same version data produces the same output, avoiding flicker.
+
+Settings remains the full update surface; the sidebar is a shortcut to it.
