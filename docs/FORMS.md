@@ -73,3 +73,5 @@ When nothing matches, the popover shows a no-matches message.
 Use the **combobox** when the list is more than a handful of options or benefits from search (providers, models).
 
 A short, fixed set that never needs search can stay a simple control, but prefer the combobox for consistency.
+
+Keep a **free-text input** as a fallback when there is no list to choose from (for example a provider that lists no models).
