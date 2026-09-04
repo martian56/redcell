@@ -107,3 +107,5 @@ Let DNS propagate before the first request so the certificate can be issued. `ge
 Only Caddy publishes ports: 80 and 443 (plus 443/udp for HTTP/3). Open both in any cloud firewall or security group.
 
 Everything else (5432, 6379, 9000) stays on the internal network and should not be opened.
+
+## Cookies and HTTPS
