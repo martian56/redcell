@@ -83,7 +83,7 @@ export function Toaster() {
           }}
           style={{ borderLeftColor: TONE_ACCENT[t.tone] }}
           className={cn(
-            'toast-in pointer-events-auto w-full rounded-[var(--radius)] border border-border2 border-l-2 bg-panel2 px-3.5 py-2.5 text-left shadow-[0_12px_32px_rgba(0,0,0,0.55)]',
+            'toast-in pointer-events-auto w-full rounded-[var(--radius)] border border-border2 border-l-2 bg-panel2 px-3.5 py-2.5 text-left shadow-[var(--shadow)]',
             t.tone === 'critical' && 'toast-pulse',
           )}
         >
