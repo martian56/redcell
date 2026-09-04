@@ -85,3 +85,4 @@ screen exposes a single New session entry point.
 - r81: showNew in DashboardShell gates the header button to the two list screens.
 - r82: A screen should present one primary call to action, not two identical ones.
 - r83: Duplicate CTAs split attention and make the active action ambiguous.
+- r84: The Sessions page keeps its Status and Type filters as its own local controls.
