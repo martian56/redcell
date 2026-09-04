@@ -337,3 +337,5 @@ The Settings Default model card clips its contents, which is what exposed the bu
 Cards clip for tidy rounded corners, so removing their overflow was not the right fix.
 
 Portaling the popover keeps the cards tidy and the dropdown visible.
+
+The fix was verified by measuring the popover against the card: it now extends past the card and is not clipped.
