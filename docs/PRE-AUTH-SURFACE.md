@@ -174,3 +174,5 @@ Never log passwords, tokens, or session cookies.
 ## Session lifetime
 
 Sessions expire, so a leaked cookie does not grant indefinite access. Sign out on shared machines.
+
+## If you suspect compromise
