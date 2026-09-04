@@ -87,3 +87,5 @@ Verify layout changes in a browser, not only with a build. Positioning, clipping
 **Sidebar content peeks out when collapsed.** Something inside the sidebar escapes `overflow: hidden`; keep sidebar content within the column.
 
 **Collapse state resets on reload.** localStorage may be blocked; the shell falls back to expanded.
+
+## FAQ
