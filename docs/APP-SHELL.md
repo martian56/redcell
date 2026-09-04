@@ -189,3 +189,7 @@ Navigation uses the router's active state to highlight the current page; the Ove
 ## Palette mounting
 
 The command palette is mounted only while open, so its data queries fire on open rather than during normal dashboard use.
+
+## Console header
+
+On a session route the card header is replaced by the console header (status, metrics, run controls); elsewhere it shows the page title and actions.
