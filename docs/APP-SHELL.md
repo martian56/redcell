@@ -155,3 +155,5 @@ The brand header is now a plain label, so it no longer needs a positioning conte
 The user menu is the only dropdown in the sidebar, and it opens upward within the footer width.
 
 When collapsed, the brand header disappears with the rest of the sidebar.
+
+The brand header is a natural place to surface the running version and update state; that is tracked separately.
