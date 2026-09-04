@@ -134,3 +134,5 @@ Your data in the named volumes is preserved across the update.
 **How do I disable it?** Leave `REDCELL_COMPOSE_DIR` unset. The endpoint then refuses and the button does nothing useful.
 
 **Why not Watchtower?** Watchtower recreates containers but does not re-run the compose one-shots, so migrations would be skipped. Running compose keeps migrations in the loop.
+
+**Can it auto-update on a schedule?** Not yet; updates are on demand from the button.
