@@ -382,3 +382,5 @@ The same version value powers both the sidebar and the Settings display, so they
 Applying the update is admin-gated on the server, independent of where the click originates.
 
 Seeing the version flip after an update is a quick confirmation the update succeeded.
+
+The update flow reloads the app so the new web bundle and version are picked up.
