@@ -253,3 +253,5 @@ It treats the update as done when the version endpoint reports the target versio
 A ref guards against starting the update twice if the effect re-runs while open.
 
 A cancelled flag stops polling and the reload if the panel closes mid-flight.
+
+### Verifying
