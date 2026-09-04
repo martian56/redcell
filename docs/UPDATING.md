@@ -21,3 +21,5 @@ An update is offered when the latest release compares greater than the running v
 It calls an admin-only endpoint that launches a one-shot updater container on the host.
 
 The updater runs `docker compose pull` then `docker compose up -d` against this deployment's compose file.
+
+`up -d` re-runs the one-shot `migrate` service, so database migrations in the new version are applied automatically.
