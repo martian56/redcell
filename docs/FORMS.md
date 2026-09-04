@@ -41,3 +41,5 @@ It lives in `apps/web/src/components/ui/Combobox.tsx`.
 - `pageSize` - how many options per page before paging controls appear.
 
 - `width` - popover width when not full-width.
+
+- `block` - make the trigger and popover full-width, for form fields.
