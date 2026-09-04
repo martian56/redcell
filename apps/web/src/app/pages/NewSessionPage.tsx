@@ -169,7 +169,7 @@ export function NewSessionPage() {
               onKeyDown={(e) => e.key === 'Enter' && void send()}
               placeholder="Describe the target…"
             />
-            <button className="csend" aria-label="Send" onClick={send} disabled={!input.trim() || busy}>
+            <button type="button" className="csend" aria-label="Send" onClick={send} disabled={!input.trim() || busy}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path d="M4 12l16-7-7 16-2-7-7-2z" />
               </svg>
@@ -191,10 +191,10 @@ export function NewSessionPage() {
               <div className="field">
                 <span className="label">Type</span>
                 <div className="seg">
-                  <button className={draft.kind === 'network' ? 'on' : ''} onClick={() => patch({ kind: 'network' })}>
+                  <button type="button" className={draft.kind === 'network' ? 'on' : ''} onClick={() => patch({ kind: 'network' })}>
                     Network
                   </button>
-                  <button className={draft.kind === 'code' ? 'on' : ''} onClick={() => patch({ kind: 'code' })}>
+                  <button type="button" className={draft.kind === 'code' ? 'on' : ''} onClick={() => patch({ kind: 'code' })}>
                     Code
                   </button>
                 </div>
@@ -291,7 +291,7 @@ export function NewSessionPage() {
                 {files.map((f, i) => (
                   <div key={`${f.name}-${i}`} className="formrow" style={{ padding: '8px 0' }}>
                     <span className="mono meta">{f.name}</span>
-                    <button className="btn sm ghost" onClick={() => setFiles((xs) => xs.filter((_, j) => j !== i))}>
+                    <button type="button" className="btn sm ghost" onClick={() => setFiles((xs) => xs.filter((_, j) => j !== i))}>
                       Remove
                     </button>
                   </div>
@@ -316,10 +316,10 @@ export function NewSessionPage() {
             </div>
 
             <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
-              <button className="btn pri" style={{ flex: 1, justifyContent: 'center' }} disabled={!canCreate || create.isPending} onClick={onCreate}>
+              <button type="button" className="btn pri" style={{ flex: 1, justifyContent: 'center' }} disabled={!canCreate || create.isPending} onClick={onCreate}>
                 Create session
               </button>
-              <button className="btn" onClick={() => nav('/sessions')}>
+              <button type="button" className="btn" onClick={() => nav('/sessions')}>
                 Cancel
               </button>
             </div>
