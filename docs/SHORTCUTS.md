@@ -28,3 +28,5 @@ Matches are grouped under Actions, Pages, Sessions, Servers, and Proxies, each w
 - Hovering a result highlights it, so mouse and keyboard stay in sync.
 
 ## How matching works
+
+Typing filters by a case-insensitive match across each item's label, secondary text, and keywords (a session's client and targets, a server's host, a proxy's url).
