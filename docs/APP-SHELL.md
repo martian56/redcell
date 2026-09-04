@@ -41,3 +41,5 @@ The sidebar's `overflow: hidden` is what makes the collapse look clean, which is
 ## Header
 
 The main card header shows the page title (or the console header on a session) and page actions such as New session and the theme toggle.
+
+The first header button toggles the sidebar.
