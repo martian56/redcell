@@ -377,3 +377,5 @@ The Settings comboboxes are the first beneficiary; the New run picker keeps work
 Any new selector can adopt the combobox and inherit correct positioning for free.
 
 This closes the clipping issue for the current selectors.
+
+And it sets a clear pattern for the next one.
