@@ -299,3 +299,5 @@ In flip mode it anchors its bottom just above the trigger, so it grows upward fr
 The list has a bounded max height, so a huge catalog scrolls inside the popover instead of covering the page.
 
 Pagination keeps each page short even when the list is long.
+
+The search field is focused on open, so you can type immediately.
