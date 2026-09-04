@@ -17,3 +17,5 @@ The latest version comes from the GitHub Releases API for the repository, cached
 An update is offered when the latest release compares greater than the running version. A `dev` build never shows an update.
 
 ## What the button does
+
+It calls an admin-only endpoint that launches a one-shot updater container on the host.
