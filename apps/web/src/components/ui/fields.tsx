@@ -74,7 +74,7 @@ export function Segmented<T extends string>({
   return (
     <div className="inline-flex rounded-[var(--radius)] border border-border2 bg-panel2 p-1">
       {options.map((o) => (
-        <button
+        <button type="button"
           key={o.value}
           type="button"
           onClick={() => onChange(o.value)}
