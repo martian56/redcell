@@ -185,3 +185,5 @@ curl -so /dev/null -w '%{http_code}\n' https://your-domain/api/v1/sessions
 Secrets are generated per deployment and stored in the `redcell_secrets` volume. There are no usable default credentials outside dev.
 
 REDCELL runs offensive tooling. Only point it at systems you are authorized to test. See [HARDENING.md](HARDENING.md).
+
+## Removing it
