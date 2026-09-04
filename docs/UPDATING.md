@@ -273,3 +273,5 @@ On a real deployment the same panel reflects the actual restart and version flip
 **Did not reload.** Use the Reload now button; the new bundle loads on the next full load.
 
 ### Panel FAQ
+
+**Can I close it and keep working?** Yes, once it is done or failed. The update itself runs server-side regardless.
