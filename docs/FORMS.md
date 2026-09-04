@@ -197,3 +197,5 @@ That is the combobox: search, pick, done, consistent everywhere it appears.
 ## Popover positioning
 
 A dropdown positioned inside its container is clipped when an ancestor uses `overflow: hidden` or scrolls. On the Settings page the cards clip their contents, which cut the combobox list off at the card's bottom edge.
+
+To avoid this, the combobox popover is rendered in a portal on `document.body` with fixed positioning, so it escapes every overflow-hidden or scrolling ancestor.
