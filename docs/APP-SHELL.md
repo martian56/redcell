@@ -360,3 +360,5 @@ The pill's tooltip reads "Update available: <version>", so hovering confirms the
 If the latest release cannot be determined, no update is offered and only the current version shows.
 
 When current equals latest, there is no pill; the sidebar just shows the version.
+
+The indicator only appears for a newer release, never for an older one.
