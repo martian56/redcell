@@ -263,3 +263,5 @@ Verify the panel in a browser: open it, watch the steps check off, and confirm i
 On a real deployment the same panel reflects the actual restart and version flip.
 
 ### Troubleshooting
+
+**Panel does not open.** The trigger only appears when an update is available; otherwise there is nothing to apply.
