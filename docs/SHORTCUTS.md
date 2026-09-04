@@ -17,3 +17,5 @@ Press Escape or click outside to close it.
 - **Proxies** - by label or url.
 
 ## Results are grouped
+
+Matches are grouped under Actions, Pages, Sessions, Servers, and Proxies, each with its own header, so a long list stays readable.
