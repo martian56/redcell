@@ -97,3 +97,5 @@ Append `?demo=1` to skip auth and load the shell with demo data for quick visual
 For a dropdown, measure its bounding box against the sidebar's to confirm it stays inside and is not clipped.
 
 ## Troubleshooting
+
+**A sidebar dropdown looks cut off.** It extends past the 236px sidebar and is clipped by `overflow: hidden`. Anchor it so it stays within the sidebar.
