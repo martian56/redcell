@@ -46,7 +46,7 @@ export function ReportsPanel() {
     if (!sid || formats.length === 0) return;
     await create.mutateAsync({ title: title.trim() || defaultTitle, formats });
     setTitle('');
-    toast('Generating report...', 'success');
+    toast('Generating report…', 'success');
   };
 
   return (
