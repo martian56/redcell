@@ -133,3 +133,5 @@ Everything is reachable by keyboard; no result requires the mouse.
 **Can I add my own commands?** Yes; see Extending the palette above.
 
 ## Troubleshooting
+
+**Nothing matches.** The query matches label, secondary text, and keywords. Try a shorter or different term.
