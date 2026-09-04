@@ -328,3 +328,5 @@ Confirm the header does not overflow: logo, name, version, and pill should all f
 - `apps/api/app/routers/system.py` - the version endpoint.
 
 - [UPDATING.md](UPDATING.md) - how updates work end to end.
+
+- Issue #77 - the sidebar version and update indicator.
