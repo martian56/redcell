@@ -77,3 +77,9 @@ The deploy supports automatic HTTPS for a direct domain and a proxy mode for a f
 ## Verifying
 
 Load the login page and confirm no version string appears in the page or its assets.
+
+Check response headers do not advertise a version:
+
+```bash
+curl -sI https://your-domain/ | grep -iE 'server|x-powered-by' || echo "no banner"
+```
