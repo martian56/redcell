@@ -327,3 +327,5 @@ For non-block usage a fixed width is used, which suits a compact trigger like a 
 The change is backward compatible: the component's props are unchanged.
 
 Existing usages, like the New run model picker, keep working without edits.
+
+Only the internal positioning changed, from absolute-in-container to fixed-in-body.
