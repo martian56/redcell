@@ -215,3 +215,5 @@ While the update is applying the panel stays put; you can dismiss it once it is 
 The update runs server-side, so closing or navigating away does not stop it; the panel just visualizes it.
 
 ### Panel states
+
+**Starting** - the update request is being sent to the server.
