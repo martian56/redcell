@@ -97,3 +97,4 @@ Searching real entities turns it into a jump-to-anything tool, which is what a c
 - **Findings** - triage across findings.
 - **Reports** - generate and download engagement reports.
 - **Servers** - execution servers and their health.
+- **Proxies** - egress proxies and their health.
