@@ -123,3 +123,5 @@ USD per 1M tokens as (input, output). Estimates for the fallback table; OpenRout
 Output tokens usually cost more than input, which is why the table prices them separately.
 
 ## How a call is metered
+
+1. The client calls the provider and receives the message plus a usage block.
