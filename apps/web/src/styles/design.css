@@ -88,7 +88,7 @@
 .search svg {
   width: 15px;
   height: 15px;
-  stroke: currentColor;
+  stroke: currentcolor;
   fill: none;
   stroke-width: 1.6;
 }
@@ -129,7 +129,7 @@
 .ni svg {
   width: 16px;
   height: 16px;
-  stroke: currentColor;
+  stroke: currentcolor;
   fill: none;
   stroke-width: 1.5;
   flex: none;
@@ -280,7 +280,7 @@
 .iconbtn svg {
   width: 16px;
   height: 16px;
-  stroke: currentColor;
+  stroke: currentcolor;
   fill: none;
   stroke-width: 1.6;
 }
@@ -325,7 +325,7 @@
 .btn svg {
   width: 14px;
   height: 14px;
-  stroke: currentColor;
+  stroke: currentcolor;
   fill: none;
   stroke-width: 1.7;
 }
@@ -379,7 +379,7 @@
 .chip svg {
   width: 13px;
   height: 13px;
-  stroke: currentColor;
+  stroke: currentcolor;
   fill: none;
   stroke-width: 1.7;
 }
@@ -447,7 +447,7 @@
 .menu-item svg {
   width: 15px;
   height: 15px;
-  stroke: currentColor;
+  stroke: currentcolor;
   fill: none;
   stroke-width: 1.6;
 }
@@ -467,7 +467,7 @@
 .caret {
   width: 13px;
   height: 13px;
-  stroke: currentColor;
+  stroke: currentcolor;
   fill: none;
   stroke-width: 1.7;
   color: var(--tx-4);
@@ -985,7 +985,7 @@ svg.chart {
 .csend svg {
   width: 16px;
   height: 16px;
-  stroke: currentColor;
+  stroke: currentcolor;
   fill: none;
   stroke-width: 1.8;
 }
@@ -1349,7 +1349,7 @@ svg.chart {
 .palette-item svg {
   width: 16px;
   height: 16px;
-  stroke: currentColor;
+  stroke: currentcolor;
   fill: none;
   stroke-width: 1.6;
   color: var(--tx-3);
