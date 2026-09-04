@@ -85,3 +85,5 @@ Verify layout changes in a browser, not only with a build. Positioning, clipping
 **A menu will not close on outside click.** The outside-click ref is on the trigger only, not the wrapper that includes the menu.
 
 **Sidebar content peeks out when collapsed.** Something inside the sidebar escapes `overflow: hidden`; keep sidebar content within the column.
+
+**Collapse state resets on reload.** localStorage may be blocked; the shell falls back to expanded.
