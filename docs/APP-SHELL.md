@@ -109,3 +109,5 @@ For a dropdown, measure its bounding box against the sidebar's to confirm it sta
 **Collapse state resets on reload.** localStorage may be blocked; the shell falls back to expanded.
 
 ## FAQ
+
+**Can I have multiple workspaces?** The switcher is built for it; today there is a single REDCELL workspace.
