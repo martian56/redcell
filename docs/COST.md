@@ -141,3 +141,5 @@ Output tokens usually cost more than input, which is why the table prices them s
 - OpenRouter gives you real per-call cost, which makes tuning spend easier.
 
 ## Related
+
+- Provider keys and model selection live in Settings; see the README configuration notes.
