@@ -335,3 +335,5 @@ That single change removes a whole class of clipping bugs for every combobox.
 The Settings Default model card clips its contents, which is what exposed the bug.
 
 Cards clip for tidy rounded corners, so removing their overflow was not the right fix.
+
+Portaling the popover keeps the cards tidy and the dropdown visible.
