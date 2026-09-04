@@ -37,3 +37,5 @@ Below the navigation, sessions whose run is currently running are listed for qui
 The footer shows the operator and opens an upward menu with a theme toggle and sign out. It spans the footer width, staying inside the sidebar, and closes on Escape or an outside click.
 
 ## Collapsing the sidebar
+
+The header toggle hides the sidebar (grid column to 0). The choice is stored in localStorage and restored on load. The sidebar's `overflow: hidden` makes the collapse look clean.
