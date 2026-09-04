@@ -193,3 +193,5 @@ Prefer the searchable combobox over native selects; it is consistent, keyboard f
 The goal is simple: choosing a provider or model should feel as quick as searching for it.
 
 That is the combobox: search, pick, done, consistent everywhere it appears.
+
+## Popover positioning
