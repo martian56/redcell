@@ -165,3 +165,5 @@ The model field falls back to free text so unusual or self-hosted model names ca
 Because it is one shared component, improvements to search or keyboard handling benefit every usage at once.
 
 The control is theme-aware; its popover, borders, and text use the same tokens as the rest of the console.
+
+It closes on outside click, so it behaves like other menus in the app.
