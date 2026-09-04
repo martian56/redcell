@@ -25,3 +25,4 @@ screen exposes a single New session entry point.
 - r21: Filters are page-scoped state; the primary action is shell-scoped.
 - r22: Removing the in-content button leaves the filter row left aligned by default.
 - r23: The header button and the command palette both route to /sessions/new.
+- r24: Keeping one entry point simplifies future mobile layouts.
