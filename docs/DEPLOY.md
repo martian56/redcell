@@ -95,3 +95,5 @@ If Coolify, Traefik, nginx, or a cloud load balancer terminates TLS and forwards
 The app marks its login cookie `Secure` based on `REDCELL_COOKIE_SECURE`, not the request scheme, so cookies work even though the proxy reaches the origin over HTTP. Mode 3 sets this to `true` for you.
 
 ## DNS
+
+For a direct domain (mode 2), create an `A` record for the domain pointing at the server's IPv4 address.
