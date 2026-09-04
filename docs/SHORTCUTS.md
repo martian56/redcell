@@ -1,0 +1,1 @@
+# Command palette and shortcuts
