@@ -339,3 +339,5 @@ Cards clip for tidy rounded corners, so removing their overflow was not the righ
 Portaling the popover keeps the cards tidy and the dropdown visible.
 
 The fix was verified by measuring the popover against the card: it now extends past the card and is not clipped.
+
+It was also confirmed to render as a child of the body with fixed positioning.
