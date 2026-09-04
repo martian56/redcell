@@ -33,3 +33,5 @@ Navigation is grouped (Overview, Sessions, Findings, Reports, and an Infrastruct
 Below the navigation, sessions whose run is currently running are listed for quick access. The list is capped and polls run status, and is hidden when nothing is running.
 
 ## User menu
+
+The footer shows the operator and opens an upward menu with a theme toggle and sign out. It spans the footer width, staying inside the sidebar, and closes on Escape or an outside click.
