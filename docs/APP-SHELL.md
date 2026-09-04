@@ -235,3 +235,5 @@ The version comes from `/system/version` via the `useVersion` query, which also 
 When an update is available, an Update pill appears next to the version. Its tooltip names the target version.
 
 Clicking the pill takes you to Settings, where the update can be applied. (A follow-up wires it to an in-place progress panel.)
+
+The version query refetches periodically, so the pill appears on its own shortly after a new release is published.
