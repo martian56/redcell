@@ -173,3 +173,7 @@ A small generic hook attaches a `mousedown` listener and closes the menu when th
 ## Escape to close
 
 A document-level `keydown` listener closes any open shell menu on Escape while a menu is open.
+
+## Collapse persistence
+
+The collapse flag is read from localStorage on first render and written whenever it changes, wrapped in try/catch so a blocked storage does not break the shell.
