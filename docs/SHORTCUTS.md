@@ -30,3 +30,5 @@ Matches are grouped under Actions, Pages, Sessions, Servers, and Proxies, each w
 ## How matching works
 
 Typing filters by a case-insensitive match across each item's label, secondary text, and keywords (a session's client and targets, a server's host, a proxy's url).
+
+With an empty query the palette shows just the pages and actions, so it opens fast and uncluttered.
