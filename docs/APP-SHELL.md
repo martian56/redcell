@@ -123,3 +123,5 @@ For a dropdown, measure its bounding box against the sidebar's to confirm it sta
 - Default: opens below the trigger, left-aligned.
 
 - Right-aligned: aligns the menu's right edge to the trigger, opening leftward.
+
+- Upward: opens above the trigger (used by the footer user menu).
