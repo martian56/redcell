@@ -243,3 +243,5 @@ Actions are ordinary buttons, reachable and operable by keyboard.
 Backdrop dismissal is only enabled once the update is done or failed, so a click does not close it mid-apply.
 
 ### For contributors
+
+The panel is `apps/web/src/app/UpdateDialog.tsx`; it takes an open flag, an onClose, and the target version.
