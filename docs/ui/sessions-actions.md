@@ -94,3 +94,4 @@ screen exposes a single New session entry point.
 - r90: A single source of truth for the New session action reduces drift.
 - r91: SessionRow still navigates to a session on open.
 - r92: The regression test asserts the page renders no New session button.
+- r93: The regression test asserts both filters remain present.
