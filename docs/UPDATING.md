@@ -39,3 +39,5 @@ There is a few-second gap while the api, worker, and web containers restart. The
 - The api container needs the docker socket (it already mounts it to run tools).
 
 - The updater image (`REDCELL_UPDATER_IMAGE`, default `docker:cli`) needs the docker compose plugin.
+
+- Compose tracks `:latest`, so a pull fetches the new build.
