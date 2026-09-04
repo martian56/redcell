@@ -105,3 +105,5 @@ Because the combobox is generic, pass your option type directly and supply getKe
 Pass current so the active option is highlighted; it is matched by getKey.
 
 Render the current value inside SelectTrigger so the closed state shows the selection.
+
+Use block inside form fields so the control fills the column.
