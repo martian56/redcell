@@ -281,3 +281,5 @@ Issue #86: the Settings comboboxes were clipped by the card. Portaling the popov
 - `apps/web/src/components/ui/Combobox.tsx` - the portaled popover.
 
 - `.card` in `design.css` uses `overflow: hidden`, which is why the portal is needed.
+
+- Issue #86 - the clipping fix.
