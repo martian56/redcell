@@ -28,7 +28,7 @@ function TileToolbar({ tileId, path }: { tileId: TileId; path: MosaicBranch[] })
       <div className="ptabs">
         {tile.panels.map((p) => (
           <span key={p} className={`ptab${p === tile.active ? ' on' : ''}`}>
-            <button
+            <button type="button"
               type="button"
               className="ptab-label"
               onMouseDown={(e) => e.stopPropagation()}
@@ -36,7 +36,7 @@ function TileToolbar({ tileId, path }: { tileId: TileId; path: MosaicBranch[] })
             >
               {PANEL_LABELS[p]}
             </button>
-            <button
+            <button type="button"
               type="button"
               className="tabx"
               aria-label={`Close ${PANEL_LABELS[p]}`}
@@ -66,7 +66,7 @@ function TileToolbar({ tileId, path }: { tileId: TileId; path: MosaicBranch[] })
             }
           />
         )}
-        <button className="tiletb-btn" title="Close panel" onClick={closeTile}>
+        <button type="button" className="tiletb-btn" title="Close panel" onClick={closeTile}>
           <Icon name="close" size={13} />
         </button>
       </div>
