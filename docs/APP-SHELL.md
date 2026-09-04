@@ -115,3 +115,5 @@ For a dropdown, measure its bounding box against the sidebar's to confirm it sta
 **Where is the theme stored?** It is applied via a data attribute on the root and persisted, and re-applied before paint to avoid a flash.
 
 **Does collapsing hide the workspace switcher?** Yes; the whole sidebar is hidden when collapsed.
+
+**Is the shell responsive?** The main content is fluid; the sidebar is a fixed width you can collapse.
