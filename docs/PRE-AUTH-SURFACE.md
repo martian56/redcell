@@ -122,3 +122,5 @@ Issue #63 removed two pre-auth disclosures from the login page.
 - [ ] Login is rate limited.
 - [ ] Served over HTTPS with a Secure session cookie.
 - [ ] All data routes return 401 without a session.
+
+## Why version disclosure matters
