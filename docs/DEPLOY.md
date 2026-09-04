@@ -78,7 +78,7 @@ This mode mounts `docker/caddy/Caddyfile.proxy` by setting `CADDYFILE=Caddyfile.
 
 When a domain's DNS record is proxied (the orange cloud), it resolves to Cloudflare, not your server. Choose mode 3.
 
-Set the Cloudflare SSL/TLS mode to **Full**. Cloudflare then connects to the origin over HTTPS and accepts the self-signed certificate Caddy serves.
+Set the Cloudflare SSL/TLS mode to **Full**. Cloudflare then connects to the origin over HTTPS and accepts the self-signed certificate Caddy serves. Note that **Full** encrypts the origin hop but does not authenticate it (the self-signed certificate is not validated). If you need the origin authenticated, install a Cloudflare Origin Certificate and use **Full (strict)**.
 
 **Flexible** also works: Cloudflare connects to the origin over plain HTTP on :80, which the proxy config serves too.
 
