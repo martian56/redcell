@@ -9,3 +9,5 @@ The shell is a two-column grid: a fixed 236px sidebar and the main area. Collaps
 The main area is a floating card with its own header and body, padded away from the edges.
 
 ## Sidebar
+
+The sidebar uses `overflow: hidden` so it clips cleanly when collapsed. Anything inside it must stay within its width.
