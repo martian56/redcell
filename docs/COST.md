@@ -117,3 +117,5 @@ USD per 1M tokens as (input, output). Estimates for the fallback table; OpenRout
 **Prompt (input) tokens** are everything sent to the model: system prompt, prior turns, tool definitions, and the current message.
 
 **Completion (output) tokens** are what the model generates, including tool-call arguments.
+
+**Total** is prompt plus completion. When a provider omits the total, REDCELL derives it from the two parts.
