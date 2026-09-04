@@ -274,3 +274,5 @@ When the sidebar is collapsed, the version and pill are hidden with the rest of 
 If the version endpoint is unreachable, the header simply omits the version rather than showing an error.
 
 ### Accessibility
+
+The Update pill is a real button with a descriptive title naming the target version, so its purpose is clear on hover and to assistive tech.
