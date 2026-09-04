@@ -299,3 +299,5 @@ On a real deployment the same panel reflects the actual restart and version flip
 Both triggers render the same panel component, so the experience is identical wherever you start.
 
 The target version passed to the panel is the latest release, used to detect completion precisely.
+
+Polling is capped so a broken update surfaces as an error instead of polling forever.
