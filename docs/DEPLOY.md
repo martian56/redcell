@@ -51,3 +51,5 @@ cd redcell
 | 3. Domain, behind a proxy | `your-domain` | `Caddyfile.proxy` | true |
 
 ### 1. This server directly, no domain
+
+Serves plain HTTP on the server IP. Good for a quick trial or a trusted private network.
