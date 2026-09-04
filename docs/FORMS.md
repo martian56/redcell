@@ -179,3 +179,5 @@ Keeping selectors consistent makes the settings feel of a piece with the rest of
 ## Related
 
 - [APP-SHELL.md](APP-SHELL.md) - menus and dropdown behavior.
+
+- [SHORTCUTS.md](SHORTCUTS.md) - the command palette, which is also a searchable popover.
