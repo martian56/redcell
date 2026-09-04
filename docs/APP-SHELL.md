@@ -49,3 +49,5 @@ The first header button toggles the sidebar.
 Theme can be toggled from the header, the workspace menu, or the user menu. The choice is applied via a data attribute and persisted.
 
 ## Search
+
+The Search button opens the command palette (Cmd/Ctrl+K). See [SHORTCUTS.md](SHORTCUTS.md).
