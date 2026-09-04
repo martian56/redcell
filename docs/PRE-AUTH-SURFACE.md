@@ -83,3 +83,9 @@ Check response headers do not advertise a version:
 ```bash
 curl -sI https://your-domain/ | grep -iE 'server|x-powered-by' || echo "no banner"
 ```
+
+Confirm protected routes reject anonymous access:
+
+```bash
+curl -so /dev/null -w '%{http_code}\n' https://your-domain/api/v1/sessions
+```
