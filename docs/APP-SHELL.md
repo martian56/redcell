@@ -61,3 +61,5 @@ Below the navigation, sessions whose run is currently running are listed for qui
 The footer shows the operator and opens an upward menu with a theme toggle and sign out. It spans the footer width, staying inside the sidebar.
 
 ## Accessibility
+
+Menu triggers use `aria-haspopup` and `aria-expanded`; menus use a menu role. Focus and keyboard access are preserved.
