@@ -231,3 +231,5 @@ The logo is a small accent square next to the REDCELL wordmark; it is decorative
 The brand header shows the running version next to REDCELL, for example `v0.3.5`. A locally built image without a baked version reads `dev`.
 
 The version comes from `/system/version` via the `useVersion` query, which also reports the latest release and whether an update is available.
+
+When an update is available, an Update pill appears next to the version. Its tooltip names the target version.
