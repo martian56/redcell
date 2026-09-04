@@ -144,3 +144,5 @@ Your data in the named volumes is preserved across the update.
 - Take a database dump first for anything important.
 
 - Verify the new version in Settings after the restart.
+
+- Pin a version if you need change control rather than always tracking latest.
