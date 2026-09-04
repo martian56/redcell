@@ -19,3 +19,5 @@ Press Escape or click outside to close it.
 ## Results are grouped
 
 Matches are grouped under Actions, Pages, Sessions, Servers, and Proxies, each with its own header, so a long list stays readable.
+
+## Keyboard navigation
