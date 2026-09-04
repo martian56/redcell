@@ -43,3 +43,5 @@ There is a few-second gap while the api, worker, and web containers restart. The
 - Compose tracks `:latest`, so a pull fetches the new build.
 
 ## Security
+
+The docker socket is root-equivalent on the host. The update endpoint is a real privilege boundary.
