@@ -377,3 +377,5 @@ No configuration is needed to use the panel beyond the in-app update being enabl
 If in-app update is disabled, opening the panel surfaces that clearly rather than failing silently.
 
 The panel is theme-aware and reads well in both light and dark.
+
+It is small enough not to obscure the whole screen, so context stays visible behind it.
