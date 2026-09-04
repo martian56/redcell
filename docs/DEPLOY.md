@@ -193,3 +193,5 @@ REDCELL runs offensive tooling. Only point it at systems you are authorized to t
 ## FAQ
 
 **Can I run it locally to try it?** Yes: `docker compose up` serves it at `http://localhost`. Secure cookies work because browsers trust localhost.
+
+**Can I use a subdomain?** Yes, `redcell.example.com` works exactly like a bare domain in modes 2 and 3.
