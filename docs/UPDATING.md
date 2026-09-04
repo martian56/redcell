@@ -140,3 +140,5 @@ Your data in the named volumes is preserved across the update.
 ## Best practices
 
 - Update in a quiet window, not during a live run.
+
+- Take a database dump first for anything important.
