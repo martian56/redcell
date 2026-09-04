@@ -53,3 +53,5 @@ Theme can be toggled from the header, the workspace menu, or the user menu. The 
 The Search button opens the command palette (Cmd/Ctrl+K). See [SHORTCUTS.md](SHORTCUTS.md).
 
 ## Active runs
+
+Below the navigation, sessions whose run is currently running are listed for quick access. The list is capped and polls run status.
