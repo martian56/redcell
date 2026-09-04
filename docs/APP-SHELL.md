@@ -368,3 +368,5 @@ Only the latest published release is considered; drafts and prereleases are igno
 A transient network error during the version check leaves the last known state until the next refetch.
 
 The header renders immediately; the version fills in when its query resolves.
+
+Logo, wordmark, version, and pill are sized to fit the 236px sidebar without wrapping.
