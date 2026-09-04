@@ -17,3 +17,5 @@ The combobox is a button that opens a popover with a search field and a filtered
 It replaces the native select so the list is searchable, styled to match the app, and consistent across the console.
 
 It is generic over the option type: you provide the items and functions to derive a key, a label, and an optional sublabel.
+
+It lives in `apps/web/src/components/ui/Combobox.tsx`.
