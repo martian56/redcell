@@ -279,3 +279,5 @@ On a real deployment the same panel reflects the actual restart and version flip
 **Is the progress real?** The steps reflect real transitions (request, restart, version flip); it is not a fake timer.
 
 **Why does it reload?** The web bundle is part of the update, so a reload loads the new frontend.
+
+**Do I get logged out?** No; the session cookie persists across the restart and reload.
