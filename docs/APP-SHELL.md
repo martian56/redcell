@@ -81,3 +81,5 @@ Verify layout changes in a browser, not only with a build. Positioning, clipping
 **A sidebar menu looks cut off.** It extends past the 236px sidebar and is clipped by `overflow: hidden`. Anchor it so it stays within the sidebar.
 
 **A menu appears under the main content.** Its z-index is too low, or it overflows into the main area. Raise the z-index and keep it inside its region.
+
+**A menu will not close on outside click.** The outside-click ref is on the trigger only, not the wrapper that includes the menu.
