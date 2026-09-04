@@ -1360,6 +1360,27 @@ svg.chart {
   font-size: 10.5px;
   color: var(--tx-4);
 }
+.palette-group {
+  padding: 9px 11px 4px;
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--tx-4);
+}
+.palette-item .txt {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.25;
+}
+.palette-item .sub {
+  font-size: 11px;
+  color: var(--tx-4);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .cmetric {
   display: flex;
