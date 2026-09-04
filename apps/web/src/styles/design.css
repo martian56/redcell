@@ -56,6 +56,27 @@
   margin-left: auto;
   color: var(--tx-3);
 }
+.ws .ver {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  color: var(--tx-4);
+}
+.upd-badge {
+  margin-left: auto;
+  border: none;
+  background: var(--acc-soft);
+  color: var(--acc);
+  font-size: 10px;
+  font-weight: 640;
+  letter-spacing: 0.02em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.upd-badge:hover {
+  background: var(--acc-fill);
+}
 .kbd {
   margin-left: auto;
   font-family: var(--mono);
