@@ -129,3 +129,5 @@ Everything is reachable by keyboard; no result requires the mouse.
 **A session I expect is missing.** Check the spelling, and note that only loaded sessions are searchable; refresh if the list is stale.
 
 **Can I search findings?** Not globally yet, because findings are per session. Open the session and use its Findings panel.
+
+**Can I add my own commands?** Yes; see Extending the palette above.
