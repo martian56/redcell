@@ -143,3 +143,5 @@ Everything is reachable by keyboard; no result requires the mouse.
 ## Notes
 
 Selection wraps: pressing Arrow Up on the first result jumps to the last, and Arrow Down on the last jumps to the first.
+
+The first result is selected as you type, so Enter opens the best match without any arrow keys.
