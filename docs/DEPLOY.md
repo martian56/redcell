@@ -87,3 +87,5 @@ Set the Cloudflare SSL/TLS mode to **Full**. Cloudflare then connects to the ori
 A Cloudflare **521** means the origin refused the connection on the port Cloudflare tried. Usually the deploy is still in IP mode (:80 only) while Cloudflare is set to Full and reaching for :443. Re-run `deploy.sh` and choose mode 3.
 
 To skip Cloudflare's proxy entirely, set the DNS record to DNS-only (grey cloud) pointing at the server and use mode 2 for a direct Let's Encrypt certificate.
+
+## Behind Coolify or another reverse proxy
