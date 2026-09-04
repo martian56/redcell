@@ -245,3 +245,5 @@ The version is always shown; only the Update pill is conditional. This keeps the
 The version sits right after the REDCELL wordmark; the Update pill is pushed to the right of the header.
 
 The version uses the monospace font in a muted color; the pill uses the accent color so it reads as an action.
+
+### Why show the version
