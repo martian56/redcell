@@ -55,3 +55,5 @@ Wrap it in a field with a label, pass `block`, and give it a `SelectTrigger` sho
 ## Behavior
 
 Clicking the trigger opens the popover and focuses the search field.
+
+Typing filters options by label and sublabel, case-insensitively.
