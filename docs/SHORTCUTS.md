@@ -48,3 +48,5 @@ Results are capped so a very large workspace does not render a huge list at once
 - Type a page name (for example "settings") to go there.
 
 ## Icons
+
+Each result carries an icon for its kind: a grid for Overview, a target for a session, a rack for servers, a relay for proxies, a gear for Settings, and so on. The icons are distinct so you can scan by shape.
