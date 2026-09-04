@@ -203,3 +203,6 @@ REDCELL runs offensive tooling. Only point it at systems you are authorized to t
 **How do I move to a new domain?** Re-run `./deploy.sh`, choose the mode, and enter the new domain. The stack restarts with the new certificate.
 
 ## More
+
+- [Architecture](ARCHITECTURE.md) — how the components fit together.
+- [Hardening](HARDENING.md) — secrets, scope, and data retention.
