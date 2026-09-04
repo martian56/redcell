@@ -257,3 +257,5 @@ A cancelled flag stops polling and the reload if the panel closes mid-flight.
 ### Verifying
 
 In mock mode the updater is stateful: after the update call the version flips to the target, so the panel walks through to done.
+
+Verify the panel in a browser: open it, watch the steps check off, and confirm it reloads.
