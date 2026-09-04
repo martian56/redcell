@@ -243,3 +243,5 @@ Include the popover in the outside-click check, or clicking an option will close
 **Dropdown is cut off.** It is being clipped by an overflow-hidden ancestor; it should be portaled to the body, not positioned inside the container.
 
 **Dropdown is in the wrong place.** The trigger rect was not re-measured; reposition on open and on scroll/resize.
+
+**Dropdown closes when clicking an option.** The outside-click check does not include the portaled popover; add its ref to the check.
