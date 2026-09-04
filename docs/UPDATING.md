@@ -76,3 +76,5 @@ curl -s https://your-domain/api/v1/system/version
 ```
 
 `docker compose ps` should show the app containers recently recreated.
+
+## Troubleshooting
