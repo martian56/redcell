@@ -21,3 +21,5 @@ It is generic over the option type: you provide the items and functions to deriv
 It lives in `apps/web/src/components/ui/Combobox.tsx`.
 
 ## Combobox API
+
+- `items` - the array of options.
