@@ -321,3 +321,5 @@ Because it is fixed, it is unaffected by the card's own scroll position.
 The reposition listener uses capture so it catches scrolling in any ancestor, not just the window.
 
 The width is read from the trigger in block mode, so the popover never looks narrower than the field.
+
+For non-block usage a fixed width is used, which suits a compact trigger like a header button.
