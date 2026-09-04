@@ -1464,35 +1464,39 @@ svg.chart {
 .ptab {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 0 8px;
+  gap: 2px;
+  padding: 0 4px 0 8px;
+  border-bottom: 1.5px solid transparent;
+  margin-bottom: -1px;
+  white-space: nowrap;
+}
+.ptab.on {
+  border-bottom-color: var(--acc);
+}
+.ptab-label {
   color: var(--tx-3);
   font-weight: 500;
   font-size: 12px;
   border: none;
   background: transparent;
-  border-bottom: 1.5px solid transparent;
-  margin-bottom: -1px;
-  white-space: nowrap;
   cursor: pointer;
-  transition:
-    color 0.14s ease,
-    border-color 0.14s ease;
+  padding: 0;
+  transition: color 0.14s ease;
 }
-.ptab:hover {
+.ptab:hover .ptab-label,
+.ptab.on .ptab-label {
   color: var(--tx);
-}
-.ptab.on {
-  color: var(--tx);
-  border-bottom-color: var(--acc);
 }
 .ptab .tabx {
-  display: inline-grid;
+  display: grid;
   place-items: center;
   width: 15px;
   height: 15px;
   border-radius: 3px;
   color: var(--tx-4);
+  background: transparent;
+  border: none;
+  cursor: pointer;
   opacity: 0;
   transition:
     opacity 0.12s ease,
