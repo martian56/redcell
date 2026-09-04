@@ -149,3 +149,5 @@ Output tokens usually cost more than input, which is why the table prices them s
 - **per 1M tokens** - prices are quoted per one million tokens; divide token counts by 1,000,000 before multiplying.
 
 - **usage** - the accounting block a provider returns alongside the message.
+
+- **metered call** - an LLM call whose tokens and cost are booked onto the run.
