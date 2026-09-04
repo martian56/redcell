@@ -183,3 +183,5 @@ Keeping selectors consistent makes the settings feel of a piece with the rest of
 - [SHORTCUTS.md](SHORTCUTS.md) - the command palette, which is also a searchable popover.
 
 ## Summary
+
+Prefer the searchable combobox over native selects; it is consistent, keyboard friendly, and scales to long lists, with free text as the fallback.
