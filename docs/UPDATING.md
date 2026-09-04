@@ -118,3 +118,5 @@ Both require a valid session; update additionally requires the admin role.
 5. The app restarts; the banner shows the new version.
 
 ## What updates
+
+The api, worker, and web images update to the new release. Postgres, Redis, and MinIO stay on their pinned versions.
