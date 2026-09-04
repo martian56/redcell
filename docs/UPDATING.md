@@ -349,3 +349,5 @@ The panel is a thin client over the version and update endpoints, with no extra 
 Keeping the panel open is fine; it does not consume server resources beyond the light version poll.
 
 The panel's polling stops as soon as it reaches done or error, or when it is closed.
+
+A reload after done is the cleanest way to guarantee the new assets are in use.
