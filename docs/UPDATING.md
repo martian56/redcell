@@ -84,3 +84,5 @@ curl -s https://your-domain/api/v1/system/version
 **"In-app update is not available on this deployment."** `REDCELL_COMPOSE_DIR` is not set. `deploy.sh` sets it; add it to `.env` and `docker compose up -d`.
 
 **Updater cannot run compose.** The updater image lacks the compose plugin. Set `REDCELL_UPDATER_IMAGE` to an image that includes it.
+
+**Update did not apply.** Confirm compose tracks `:latest` and that the new images were published. Check `docker compose logs` for the pull.
