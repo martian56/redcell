@@ -154,3 +154,5 @@ Running the update when already current is harmless: the pull finds nothing new 
 This feature ships in a release; a deployment must be updated once (by shell) to pick it up before the button exists.
 
 ## References
+
+- `apps/api/app/routers/system.py` - the version and update endpoints.
