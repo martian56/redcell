@@ -186,7 +186,7 @@ export function ServerDetailPage() {
                     onChange={(e) => setForm((f) => ({ ...f, privateKey: e.target.value }))}
                     rows={3}
                     placeholder="-----BEGIN OPENSSH PRIVATE KEY-----"
-                    className="w-full rounded-[var(--radius)] border border-border2 bg-black px-3 py-2 font-mono text-[12px] text-text outline-none placeholder:text-faint focus:border-accent"
+                    className="w-full rounded-[var(--radius)] border border-border2 bg-bg px-3 py-2 font-mono text-[12px] text-text outline-none placeholder:text-faint focus:border-accent"
                   />
                 </Field>
               )}
