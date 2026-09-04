@@ -259,3 +259,4 @@ A released image bakes its version in, so the sidebar shows `vX.Y.Z`. A local or
 ### The update flow from the sidebar
 
 1. The version query reports `updateAvailable`.
+2. The Update pill appears next to the version.
