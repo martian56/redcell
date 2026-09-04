@@ -370,3 +370,5 @@ A transient network error during the version check leaves the last known state u
 The header renders immediately; the version fills in when its query resolves.
 
 Logo, wordmark, version, and pill are sized to fit the 236px sidebar without wrapping.
+
+Both the muted version and the accent pill use theme tokens, so they adapt to light and dark.
