@@ -138,3 +138,5 @@ Operators still need the version. Expose it only after authentication (Settings)
 **Why did the login page show credentials?** Only in dev, when the admin password is still the default. Set `REDCELL_ADMIN_*` for production and the hint disappears.
 
 **Did the console really bind to 127.0.0.1?** In some local setups, but not behind the deploy's reverse proxy. The static notice was misleading, so it was removed.
+
+**Is it safe to expose the login publicly?** Safer with these measures, but a VPN or identity-aware proxy in front is stronger. Treat public exposure as a deliberate choice.
