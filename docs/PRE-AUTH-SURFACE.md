@@ -33,3 +33,5 @@ Responses should not carry a version or framework banner. Avoid `X-Powered-By` a
 Behind a reverse proxy you can strip or rewrite server-identifying headers at the edge as a second layer.
 
 ## Authentication errors
+
+A failed login returns a generic message. The UI shows "Invalid credentials." for both an unknown username and a wrong password, so the response does not confirm which usernames exist.
