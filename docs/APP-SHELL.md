@@ -398,3 +398,5 @@ Placing the version in the header, not the footer, keeps it near the product ide
 Only two small elements were added; the header stays uncluttered.
 
 If multiple workspaces ever return, the version can sit alongside a workspace label here.
+
+Layout is verified in a browser; the value and pill logic can be checked in mock mode.
