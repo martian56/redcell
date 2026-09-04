@@ -13,3 +13,4 @@ Press Escape or click outside to close it.
 - **Pages** - Overview, Sessions, Findings, Reports, Servers, Proxies, Settings.
 - **Actions** - New session, and other quick actions.
 - **Sessions** - by name, client, or a target in scope.
+- **Servers** - by name or host.
