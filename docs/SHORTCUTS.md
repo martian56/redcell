@@ -91,3 +91,5 @@ Searching real entities turns it into a jump-to-anything tool, which is what a c
 | Escape | Close the palette |
 
 ## Pages at a glance
+
+- **Overview** - KPIs, activity, and recent sessions.
