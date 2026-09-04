@@ -115,3 +115,5 @@ Open the control, type to filter, and confirm selecting an option updates the fi
 Verify in a browser; the popover, search, and pagination are layout behavior.
 
 ## Troubleshooting
+
+**Popover does not open.** The trigger must be inside the combobox; pass it via the trigger prop, not as a sibling.
