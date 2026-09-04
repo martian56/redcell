@@ -247,3 +247,5 @@ The version sits right after the REDCELL wordmark; the Update pill is pushed to 
 The version uses the monospace font in a muted color; the pill uses the accent color so it reads as an action.
 
 ### Why show the version
+
+Operators need to know what build is running when reporting an issue or confirming an update landed. Putting it in the sidebar makes it visible on every screen.
