@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/primitives';
 import { Dialog } from '@/components/ui/Dialog';
 import { Field, Segmented, TextInput } from '@/components/ui/fields';
 import { toast } from '@/components/ui/toast';
+import { onActivate } from './shared';
 
 function statusBadge(status: ServerStatus) {
   if (status === 'connected')
@@ -117,7 +118,13 @@ export function ServersPage() {
                 </tr>
               ) : (
                 list.map((s) => (
-                  <tr key={s.id} className="row" onClick={() => nav(`/servers/${s.id}`)}>
+                  <tr
+                    key={s.id}
+                    className="row"
+                    tabIndex={0}
+                    onClick={() => nav(`/servers/${s.id}`)}
+                    onKeyDown={onActivate(() => nav(`/servers/${s.id}`))}
+                  >
                     <td>
                       <div className="name">
                         <span className="nn">{s.name}</span>
