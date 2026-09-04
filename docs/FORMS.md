@@ -45,3 +45,5 @@ It lives in `apps/web/src/components/ui/Combobox.tsx`.
 - `block` - make the trigger and popover full-width, for form fields.
 
 ## SelectTrigger
+
+`SelectTrigger` (in `components/ui/fields`) renders a select-styled box with a chevron, so a combobox reads as a dropdown.
