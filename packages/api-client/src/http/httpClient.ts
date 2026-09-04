@@ -150,5 +150,9 @@ export function createHttpClient(baseUrl: string, rawWsUrl: string): ApiClient {
       control: (sessionId, owner) => req(`/sessions/${sessionId}/browser/control`, json({ owner })),
       vncUrl: (sessionId) => `${wsUrl}/browser/${encodeURIComponent(sessionId)}`,
     },
+    system: {
+      version: () => req('/system/version'),
+      update: () => req('/system/update', { method: 'POST' }),
+    },
   };
 }

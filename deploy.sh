@@ -111,6 +111,8 @@ case "$mode" in
     ;;
 esac
 
+set_env REDCELL_COMPOSE_DIR "$(pwd)"
+
 say ""
 say "Pulling images..."
 docker compose pull

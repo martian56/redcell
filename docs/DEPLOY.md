@@ -137,6 +137,8 @@ docker compose up -d
 
 Because the deploy mode lives entirely in `.env`, a `git pull` never conflicts with local changes. Your mode is preserved across updates.
 
+You can also update from the console: see [UPDATING.md](UPDATING.md) for the in-app Update button.
+
 ## Changing how it is reached
 
 Re-run `./deploy.sh` and pick a different option, or edit `SITE_ADDRESS`, `CADDYFILE`, `REDCELL_COOKIE_SECURE`, and `REDCELL_CORS_ORIGINS` in `.env` and run `docker compose up -d`.

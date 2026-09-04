@@ -33,6 +33,8 @@ import type {
   Settings,
   Shell,
   User,
+  SystemVersion,
+  UpdateStarted,
 } from './types';
 
 export type Unsubscribe = () => void;
@@ -189,5 +191,9 @@ export interface ApiClient {
     start(sessionId: string): Promise<{ ok: boolean; detail?: string }>;
     control(sessionId: string, owner: 'operator' | 'agent'): Promise<{ owner: string }>;
     vncUrl(sessionId: string): string;
+  };
+  system: {
+    version(): Promise<SystemVersion>;
+    update(): Promise<UpdateStarted>;
   };
 }

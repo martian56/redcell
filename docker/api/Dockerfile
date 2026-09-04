@@ -19,6 +19,8 @@ COPY apps/api ./apps/api
 RUN uv sync --frozen --group live
 
 ENV PATH="/app/.venv/bin:$PATH"
+ARG VERSION=dev
+ENV REDCELL_VERSION=$VERSION
 WORKDIR /app/apps/api
 EXPOSE 8080
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
