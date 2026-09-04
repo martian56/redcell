@@ -57,3 +57,5 @@ Serves plain HTTP on the server IP. Good for a quick trial or a trusted private 
 Credentials travel unencrypted, so `deploy.sh` asks you to confirm. Do not use this over the public internet for anything real.
 
 You reach it at `http://SERVER_IP`.
+
+### 2. A domain pointed straight at this server
