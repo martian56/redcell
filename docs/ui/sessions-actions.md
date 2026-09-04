@@ -88,3 +88,4 @@ screen exposes a single New session entry point.
 - r84: The Sessions page keeps its Status and Type filters as its own local controls.
 - r85: Filters are page-scoped state; the primary action is shell-scoped.
 - r86: Removing the in-content button leaves the filter row left aligned by default.
+- r87: The header button and the command palette both route to /sessions/new.
