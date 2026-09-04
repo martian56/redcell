@@ -227,3 +227,5 @@ The footer shows the operator name and role; there is a single operator account.
 The logo is a small accent square next to the REDCELL wordmark; it is decorative.
 
 ## Version and updates in the sidebar
+
+The brand header shows the running version next to REDCELL, for example `v0.3.5`. A locally built image without a baked version reads `dev`.
