@@ -133,3 +133,5 @@ For a dropdown, measure its bounding box against the sidebar's to confirm it sta
 - `.ws` - workspace header (positioning context for its menu)
 
 - `.search` - opens the command palette
+
+- `.side-scroll` - the scrollable navigation area
