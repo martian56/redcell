@@ -111,3 +111,5 @@ USD per 1M tokens as (input, output). Estimates for the fallback table; OpenRout
 - `packages/core/redcell_core/engine/pricing.py` - the price table and estimator.
 - `packages/core/redcell_core/engine/llm.py` - cost resolution order.
 - Issue #64 - the \$0.00 bug this documents.
+
+## Tokens explained
