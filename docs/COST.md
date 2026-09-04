@@ -91,3 +91,4 @@ USD per 1M tokens as (input, output). Estimates for the fallback table; OpenRout
 - `glm-5.2` - 0.5 / 1.8
 - `glm-4.6` - 0.4 / 1.6
 - `glm-4.5-air` - 0.2 / 1.1
+- `llama-4-70b` - 0.6 / 0.9
