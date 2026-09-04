@@ -63,3 +63,5 @@ Long lists paginate; prev/next controls appear when there is more than one page.
 Selecting an option calls onSelect and closes the popover.
 
 The popover closes on Escape or a click outside.
+
+The current selection is highlighted in the list.
