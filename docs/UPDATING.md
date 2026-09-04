@@ -269,3 +269,5 @@ On a real deployment the same panel reflects the actual restart and version flip
 **"Could not start the update."** In-app update is disabled (no compose dir set) or the server rejected it; check the deployment.
 
 **Stuck on reconnecting.** The api is taking a while to come back; give it time, then reload manually if needed.
+
+**Did not reload.** Use the Reload now button; the new bundle loads on the next full load.
