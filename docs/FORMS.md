@@ -275,3 +275,5 @@ Issue #86: the Settings comboboxes were clipped by the card. Portaling the popov
 **Does it work in a dialog?** Yes; the portal sits above the dialog overlay via its z-index.
 
 **Is repositioning expensive?** It is a cheap rect read and style update, only while the popover is open.
+
+### References
