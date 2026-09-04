@@ -28,3 +28,4 @@ screen exposes a single New session entry point.
 - r24: Keeping one entry point simplifies future mobile layouts.
 - r25: On mobile the primary action moves into the compact top bar.
 - r26: A single source of truth for the New session action reduces drift.
+- r27: SessionRow still navigates to a session on open.
