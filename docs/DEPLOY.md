@@ -15,3 +15,4 @@ Stored files (reports, loot, uploads) are streamed through the API, so MinIO nev
 ## What gets deployed
 
 - **postgres** — application database (named volume `redcell_pg`).
+- **redis** — job queue and pub/sub for live updates.
