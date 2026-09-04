@@ -95,3 +95,5 @@ The free-text model input is kept for providers that list no models.
 The trigger is a button with an expanded state; the popover is a listbox and options carry a selected state.
 
 Focus moves to the search field on open, and the list is reachable by keyboard.
+
+Escape closes the popover and returns control to the page.
