@@ -43,3 +43,6 @@ cd redcell
 ## Deployment modes
 
 `deploy.sh` offers three ways to reach REDCELL. Each writes a matching set of values to `.env`; nothing else needs editing.
+
+| Mode | SITE_ADDRESS | CADDYFILE | Cookie secure |
+| --- | --- | --- | --- |
