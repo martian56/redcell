@@ -161,3 +161,7 @@ The brand header is a natural place to surface the running version and update st
 ## See also
 
 - [DEPLOY.md](DEPLOY.md) for running the console.
+
+## Summary
+
+Sidebar plus floating card. The header is a plain brand label; the only sidebar menu is the user menu. Verify layout in a browser.
