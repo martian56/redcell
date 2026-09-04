@@ -295,3 +295,5 @@ On a real deployment the same panel reflects the actual restart and version flip
 - Issue #78 - the update progress panel.
 
 ### Notes
+
+Both triggers render the same panel component, so the experience is identical wherever you start.
