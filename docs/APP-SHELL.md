@@ -177,3 +177,7 @@ A document-level `keydown` listener closes any open shell menu on Escape while a
 ## Collapse persistence
 
 The collapse flag is read from localStorage on first render and written whenever it changes, wrapped in try/catch so a blocked storage does not break the shell.
+
+## Active runs source
+
+The list comes from active sessions with a running run; each run's status is polled, and only running ones are shown.
