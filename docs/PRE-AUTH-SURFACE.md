@@ -51,3 +51,5 @@ The session cookie is HttpOnly so page scripts cannot read it.
 Over HTTPS the cookie is marked Secure (`REDCELL_COOKIE_SECURE=true`), so it is never sent over plain HTTP.
 
 The cookie uses a SameSite policy to limit cross-site submission.
+
+## Transport
