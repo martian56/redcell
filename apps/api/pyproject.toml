@@ -1,6 +1,6 @@
 [project]
 name = "redcell-api"
-version = "0.3.3"
+version = "0.3.4"
 description = "REDCELL red-team platform API (FastAPI)"
 requires-python = ">=3.12"
 dependencies = [
