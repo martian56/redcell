@@ -61,3 +61,5 @@ Typing filters options by label and sublabel, case-insensitively.
 Long lists paginate; prev/next controls appear when there is more than one page.
 
 Selecting an option calls onSelect and closes the popover.
+
+The popover closes on Escape or a click outside.
