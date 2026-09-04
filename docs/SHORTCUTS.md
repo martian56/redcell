@@ -147,3 +147,5 @@ Selection wraps: pressing Arrow Up on the first result jumps to the last, and Ar
 The first result is selected as you type, so Enter opens the best match without any arrow keys.
 
 The query resets each time the palette opens, so you always start from a clean search.
+
+Search is case-insensitive; capitalization never matters.
