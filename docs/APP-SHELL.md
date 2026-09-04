@@ -197,3 +197,7 @@ On a session route the card header is replaced by the console header (status, me
 ## Theme tokens
 
 Shell colors come from CSS variables, so both themes and the light/dark toggle work without per-component overrides.
+
+## Fixed sidebar width
+
+The 236px sidebar is fixed, so sidebar content has a predictable width and never depends on the viewport.
