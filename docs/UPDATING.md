@@ -29,3 +29,5 @@ The updater runs `docker compose pull` then `docker compose up -d` against this 
 The api container cannot cleanly recreate itself: `up -d` would kill the process mid-update. A separate one-shot container is not part of the recreate, so it survives and finishes the job.
 
 ## Downtime
+
+There is a few-second gap while the api, worker, and web containers restart. The UI reconnects on its own; the version banner then shows the new version.
