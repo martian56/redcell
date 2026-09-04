@@ -42,3 +42,5 @@ Results are capped so a very large workspace does not render a huge list at once
 - Type a target domain or IP to find the session that has it in scope.
 
 - Type a server's hostname to open that server.
+
+- Type part of a proxy url to open that proxy.
