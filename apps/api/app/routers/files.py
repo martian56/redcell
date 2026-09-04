@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+from urllib.parse import quote
+
 from fastapi import APIRouter, Depends, Form, HTTPException, UploadFile
-from fastapi.responses import Response
+from fastapi.responses import StreamingResponse
 from redcell_core.config import settings
 from redcell_core.repositories import files as files_repo
 from redcell_core.repositories import ids
@@ -44,14 +46,16 @@ async def download(fid: str, s: AsyncSession = Depends(db)):
     row = await files_repo.get(s, fid)
     if row is None:
         raise HTTPException(404, "file not found")
-    data = await storage.get_bytes(row.bucket, row.object_key)
-    name = (row.filename or fid).replace("\r", "").replace("\n", "").replace('"', "")
-    return Response(
-        content=data,
+    raw = row.filename or fid
+    ascii_name = raw.encode("ascii", "ignore").decode().replace('"', "").replace("\r", "").replace("\n", "") or "download"
+    disposition = f"attachment; filename=\"{ascii_name}\"; filename*=UTF-8''{quote(raw)}"
+    return StreamingResponse(
+        storage.stream_get(row.bucket, row.object_key),
         media_type=row.content_type or "application/octet-stream",
         headers={
-            "Content-Disposition": f'attachment; filename="{name}"',
+            "Content-Disposition": disposition,
             "X-Content-Type-Options": "nosniff",
+            "Cache-Control": "no-store",
         },
     )
 

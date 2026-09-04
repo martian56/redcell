@@ -98,7 +98,7 @@ def test_api_smoke():
         check("file-upload", r.status_code == 200 and r.json()["filename"] == "t.txt")
         fid = r.json()["id"]
         check("file-list", any(f["id"] == fid for f in c.get(f"/api/v1/sessions/{sid}/files").json()))
-        dl = c.get(f"/api/v1/files/{fid}")
+        dl = c.get(f"/api/v1/files/{fid}", follow_redirects=False)
         check("file-download", dl.status_code == 200 and dl.content == b"hello"
               and "attachment" in dl.headers.get("content-disposition", ""))
         check("file-delete", c.delete(f"/api/v1/files/{fid}").status_code == 204)
