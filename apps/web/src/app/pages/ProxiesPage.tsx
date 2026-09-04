@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/primitives';
 import { Dialog } from '@/components/ui/Dialog';
 import { Field, Segmented, TextInput } from '@/components/ui/fields';
 import { toast } from '@/components/ui/toast';
+import { onActivate } from './shared';
 
 function proxyBadge(status: ProxyHealth) {
   if (status === 'healthy')
@@ -100,7 +101,13 @@ export function ProxiesPage() {
                 </tr>
               ) : (
                 list.map((p) => (
-                  <tr key={p.id} className="row" onClick={() => nav(`/proxies/${p.id}`)}>
+                  <tr
+                    key={p.id}
+                    className="row"
+                    tabIndex={0}
+                    onClick={() => nav(`/proxies/${p.id}`)}
+                    onKeyDown={onActivate(() => nav(`/proxies/${p.id}`))}
+                  >
                     <td>
                       <span className="nn" style={{ fontWeight: 510 }}>
                         {p.label}
