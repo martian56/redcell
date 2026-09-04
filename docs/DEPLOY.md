@@ -156,3 +156,10 @@ Check every container is up and the infra ones are healthy:
 ```bash
 docker compose ps
 ```
+
+The web app should return 200 and the API should return 401 (auth required) on the same origin:
+
+```bash
+curl -sI https://your-domain/
+curl -so /dev/null -w '%{http_code}\n' https://your-domain/api/v1/sessions
+```
