@@ -305,3 +305,5 @@ Polling is capped so a broken update surfaces as an error instead of polling for
 Seeing reconnecting briefly is normal; it means the app services are being recreated.
 
 Only the app services restart during an update, so the proxy stays up and the panel can keep polling through it.
+
+The panel's title changes with state: Updating REDCELL while in progress, Updated when done, Update failed on error.
