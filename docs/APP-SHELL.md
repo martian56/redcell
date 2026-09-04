@@ -260,3 +260,4 @@ A released image bakes its version in, so the sidebar shows `vX.Y.Z`. A local or
 
 1. The version query reports `updateAvailable`.
 2. The Update pill appears next to the version.
+3. Selecting it opens the update path (Settings today, an in-place panel next).
