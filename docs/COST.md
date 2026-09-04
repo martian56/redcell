@@ -97,3 +97,5 @@ USD per 1M tokens as (input, output). Estimates for the fallback table; OpenRout
 - Ollama / local models - 0 (self-hosted, no API charge)
 
 ## FAQ
+
+**Why is it an estimate?** Because most providers do not return a dollar figure; REDCELL multiplies reported tokens by a price. OpenRouter is the exception and returns a real charge.
