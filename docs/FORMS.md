@@ -277,3 +277,5 @@ Issue #86: the Settings comboboxes were clipped by the card. Portaling the popov
 **Is repositioning expensive?** It is a cheap rect read and style update, only while the popover is open.
 
 ### References
+
+- `apps/web/src/components/ui/Combobox.tsx` - the portaled popover.
