@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import type { ReportFormat, Severity } from '@redcell/api-client';
 import { useCreateReport, useFindings, useReports, useSessions } from '@/features/hooks';
 import { fileDownloadUrl } from '@/lib/api';
@@ -12,14 +13,20 @@ const sevRank: Record<Severity, number> = { critical: 0, high: 1, medium: 2, low
 export function ReportsPage() {
   const { data: sessions } = useSessions();
   const list = useMemo(() => sessions ?? [], [sessions]);
-  const [sessionId, setSessionId] = useState('');
+  const [params] = useSearchParams();
+  const [sessionId, setSessionId] = useState(() => params.get('session') ?? '');
 
   useEffect(() => {
     if (!sessionId && list.length) {
+      const fromParam = params.get('session');
+      if (fromParam && list.some((s) => s.id === fromParam)) {
+        setSessionId(fromParam);
+        return;
+      }
       const best = [...list].sort((a, b) => b.findingsCount - a.findingsCount)[0];
       if (best) setSessionId(best.id);
     }
-  }, [list, sessionId]);
+  }, [list, sessionId, params]);
 
   const { data: reports } = useReports(sessionId || null);
   const { data: findings } = useFindings(sessionId || null);
