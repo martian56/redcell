@@ -99,3 +99,5 @@ USD per 1M tokens as (input, output). Estimates for the fallback table; OpenRout
 ## FAQ
 
 **Why is it an estimate?** Because most providers do not return a dollar figure; REDCELL multiplies reported tokens by a price. OpenRouter is the exception and returns a real charge.
+
+**The cost looks off.** Check the price-table entry for the model, and remember caching and discounts are not modeled.
