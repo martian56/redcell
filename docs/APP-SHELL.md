@@ -167,3 +167,5 @@ Menus sit above the shell chrome and the main card. The workspace menu uses a hi
 - [SHORTCUTS.md](SHORTCUTS.md) - the command palette and keyboard navigation.
 
 ## See also
+
+- [DEPLOY.md](DEPLOY.md) and [UPDATING.md](UPDATING.md) for running and updating the console.
