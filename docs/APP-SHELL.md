@@ -330,3 +330,5 @@ Confirm the header does not overflow: logo, name, version, and pill should all f
 - [UPDATING.md](UPDATING.md) - how updates work end to end.
 
 - Issue #77 - the sidebar version and update indicator.
+
+### Notes
