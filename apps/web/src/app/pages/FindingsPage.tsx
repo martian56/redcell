@@ -3,7 +3,7 @@ import type { Finding, Severity } from '@redcell/api-client';
 import { useFindings, useSessions, useSetFindingStatus } from '@/features/hooks';
 import { SEVERITIES, sevVar } from '@/lib/format';
 import { toast } from '@/components/ui/toast';
-import { FilterMenu } from './shared';
+import { FilterMenu, onActivate } from './shared';
 
 const SEV_LABEL: Record<Severity, string> = {
   critical: 'Critical',
@@ -113,7 +113,10 @@ export function FindingsPage() {
                     {head}
                     <div
                       className={`fitem${f.id === selId ? ' sel' : ''}${f.status === 'dismissed' ? ' dismissed' : ''}`}
+                      role="button"
+                      tabIndex={0}
                       onClick={() => setSelId(f.id)}
+                      onKeyDown={onActivate(() => setSelId(f.id))}
                     >
                       <span className={`sev ${f.severity}`} />
                       <span className="fid mono">{shortId(f.id)}</span>
