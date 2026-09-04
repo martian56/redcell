@@ -100,3 +100,5 @@ curl -s https://your-domain/api/v1/system/version
 - `POST /api/v1/system/update` (admin) starts the update and returns `{ started, detail }`.
 
 Both require a valid session; update additionally requires the admin role.
+
+## Configuration
