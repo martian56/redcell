@@ -27,3 +27,5 @@ The caret rotates when the menu is open, and the button carries `aria-haspopup` 
 A menu opens from its trigger and closes on Escape, on selecting an item, or on a click outside (a shared outside-click hook).
 
 Menus are absolutely positioned relative to their trigger's wrapper. By default a menu opens below-left; modifiers open it right-aligned or upward.
+
+Because the sidebar clips overflow, a sidebar menu must be anchored so it stays inside the sidebar. The workspace menu spans the header width; the user menu spans the footer width.
