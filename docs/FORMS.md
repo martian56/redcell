@@ -375,3 +375,5 @@ In short: portal dropdowns out of clipped containers, and they just work.
 The Settings comboboxes are the first beneficiary; the New run picker keeps working.
 
 Any new selector can adopt the combobox and inherit correct positioning for free.
+
+This closes the clipping issue for the current selectors.
