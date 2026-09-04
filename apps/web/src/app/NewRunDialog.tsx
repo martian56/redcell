@@ -39,16 +39,20 @@ export function NewRunDialog({
 
   const submit = async () => {
     if (!sessionId || !name.trim() || !selected) return;
-    const run = await create.mutateAsync({
-      sessionId,
-      name: name.trim(),
-      model: selected.model,
-      provider: selected.provider,
-      instruction,
-    });
-    setActiveRun(run.id);
-    onClose();
-    toast('Run started', 'success');
+    try {
+      const run = await create.mutateAsync({
+        sessionId,
+        name: name.trim(),
+        model: selected.model,
+        provider: selected.provider,
+        instruction,
+      });
+      setActiveRun(run.id);
+      onClose();
+      toast('Run started', 'success');
+    } catch {
+      toast('Could not start the run', 'error');
+    }
   };
 
   return (
