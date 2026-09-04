@@ -137,3 +137,5 @@ For a dropdown, measure its bounding box against the sidebar's to confirm it sta
 - `.side-scroll` - the scrollable navigation area
 
 - `.side-foot` - the user menu
+
+- `.main-pad` / `.main-card` - the floating content card
