@@ -5,3 +5,4 @@ What an unauthenticated client can observe from a REDCELL deployment, and the pr
 ## Principles
 
 - Reveal as little as possible before authentication. Nothing that helps an attacker fingerprint or target the instance.
+- No version or build identifier is shown before login. Knowing the exact version lets an attacker match it to known issues.
