@@ -305,3 +305,5 @@ The search field is focused on open, so you can type immediately.
 Filtering resets to the first page so the top results are visible.
 
 The current selection is highlighted wherever it lands in the list.
+
+Selecting closes the popover and reports the choice to the parent.
