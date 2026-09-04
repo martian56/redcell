@@ -178,3 +178,5 @@ Sessions expire, so a leaked cookie does not grant indefinite access. Sign out o
 ## If you suspect compromise
 
 Rotate `REDCELL_JWT_SECRET` (invalidates existing sessions) and `REDCELL_SECRET_KEY`, and change the admin password.
+
+Review recent logins, sessions, and any runs that were started, then restore from a known-good backup if needed.
