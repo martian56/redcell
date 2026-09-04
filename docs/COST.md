@@ -33,3 +33,5 @@ The console header shows the running totals next to Elapsed and Model.
 `engine/pricing.py` maps a model to `(input, output)` in USD per 1M tokens. Cost is `prompt/1e6 * input + completion/1e6 * output`.
 
 Lookup is by the last path segment, lowercased, so `z-ai/glm-5.2` and `glm-5.2` resolve the same.
+
+An unknown variant falls back to its family (for example an unlisted `glm-5.x` uses a listed GLM price), so a new model still gets a sensible estimate.
