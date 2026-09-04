@@ -270,3 +270,5 @@ The query refetches on an interval and is cached, so it does not hammer the endp
 Until the first version response arrives, neither the version nor the pill is shown, so there is no flicker of placeholder text.
 
 When the sidebar is collapsed, the version and pill are hidden with the rest of the header.
+
+If the version endpoint is unreachable, the header simply omits the version rather than showing an error.
