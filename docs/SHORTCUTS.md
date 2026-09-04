@@ -131,3 +131,5 @@ Everything is reachable by keyboard; no result requires the mouse.
 **Can I search findings?** Not globally yet, because findings are per session. Open the session and use its Findings panel.
 
 **Can I add my own commands?** Yes; see Extending the palette above.
+
+## Troubleshooting
