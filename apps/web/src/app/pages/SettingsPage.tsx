@@ -10,6 +10,8 @@ import {
 } from '@/features/hooks';
 import { Spinner } from '@/components/ui/primitives';
 import { Dialog } from '@/components/ui/Dialog';
+import { Combobox } from '@/components/ui/Combobox';
+import { SelectTrigger } from '@/components/ui/fields';
 import { toast } from '@/components/ui/toast';
 
 type Tab = 'providers' | 'execution' | 'scope' | 'branding';
@@ -101,37 +103,36 @@ export function SettingsPage() {
                 </div>
                 <div className="card-b">
                   <div className="grid2">
-                    <label className="field">
+                    <div className="field">
                       <span className="label">Provider</span>
-                      <select
-                        className="selectn"
-                        value={draft.llm.provider}
-                        onChange={(e) => {
-                          const p = providers.find((x) => x.id === e.target.value);
-                          setLLM({ provider: e.target.value, model: p?.models[0] ?? draft.llm.model });
-                        }}
-                      >
-                        {providers.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.label}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <label className="field">
+                      <Combobox
+                        block
+                        items={providers}
+                        current={provider}
+                        getKey={(p) => p.id}
+                        getLabel={(p) => p.label}
+                        onSelect={(p) => setLLM({ provider: p.id, model: p.models[0] ?? draft.llm.model })}
+                        placeholder="Search providers…"
+                        trigger={<SelectTrigger>{provider?.label ?? draft.llm.provider}</SelectTrigger>}
+                      />
+                    </div>
+                    <div className="field">
                       <span className="label">Model</span>
                       {models.length > 0 ? (
-                        <select className="selectn" value={draft.llm.model} onChange={(e) => setLLM({ model: e.target.value })}>
-                          {models.map((m) => (
-                            <option key={m} value={m}>
-                              {m}
-                            </option>
-                          ))}
-                        </select>
+                        <Combobox
+                          block
+                          items={models}
+                          current={draft.llm.model}
+                          getKey={(m) => m}
+                          getLabel={(m) => m}
+                          onSelect={(m) => setLLM({ model: m })}
+                          placeholder="Search models…"
+                          trigger={<SelectTrigger>{draft.llm.model || 'select model'}</SelectTrigger>}
+                        />
                       ) : (
                         <input className="input mono" value={draft.llm.model} onChange={(e) => setLLM({ model: e.target.value })} />
                       )}
-                    </label>
+                    </div>
                   </div>
                   <div className="field" style={{ margin: 0 }}>
                     <span className="label">Reasoning effort</span>

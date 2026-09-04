@@ -162,7 +162,8 @@ deploy.sh                    interactive self-host deploy
 - [Cost & token accounting](docs/COST.md) — how run spend is measured, the price table, and OpenRouter real cost.
 - [Command palette & shortcuts](docs/SHORTCUTS.md) — Cmd/Ctrl+K to search sessions, servers, and proxies, and keyboard navigation.
 - [Updating](docs/UPDATING.md) — the in-app Update button and updating from the shell.
-- [Console shell](docs/APP-SHELL.md) — the sidebar, workspace switcher, menus, and dropdown positioning rules.
+- [Console shell](docs/APP-SHELL.md) — the sidebar, menus, and dropdown positioning rules.
+- [Form controls](docs/FORMS.md) — the searchable combobox and when to use it over a native select.
 
 ## Contributing
 
