@@ -23,3 +23,5 @@ Stored files (reports, loot, uploads) are streamed through the API, so MinIO nev
 - **worker** — the arq worker that runs engagements and generates reports.
 - **web** — the built React console served by nginx.
 - **caddy** — the reverse proxy and TLS terminator (named volumes `caddy_data`, `caddy_config`).
+
+## Prerequisites
