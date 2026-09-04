@@ -31,7 +31,7 @@ ask_domain() {
 }
 
 server_ip() {
-  curl -fsS https://api.ipify.org 2>/dev/null || hostname -I 2>/dev/null | awk '{print $1}' || echo "your-server-ip"
+  curl -fsS --connect-timeout 5 --max-time 8 https://api.ipify.org 2>/dev/null || hostname -I 2>/dev/null | awk '{print $1}' || echo "your-server-ip"
 }
 
 if ! command -v docker >/dev/null 2>&1; then
