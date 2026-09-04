@@ -77,3 +77,5 @@ A short, fixed set that never needs search can stay a simple control, but prefer
 Keep a **free-text input** as a fallback when there is no list to choose from (for example a provider that lists no models).
 
 ## Where it is used
+
+- Settings: the Provider and Model selectors for the default model.
