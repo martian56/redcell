@@ -11,7 +11,7 @@ import { ConsoleHeader } from './ConsoleHeader';
 
 function ActiveRunRow({ session, onClick }: { session: Session; onClick: () => void }) {
   return (
-    <button className="run live" onClick={onClick} title={`${session.name} · ${session.client}`}>
+    <button type="button" className="run live" onClick={onClick} title={`${session.name} · ${session.client}`}>
       <span className="d" />
       <span className="rt">
         {session.name} <span style={{ color: 'var(--tx-4)' }}>· {session.client}</span>
@@ -191,7 +191,7 @@ export function DashboardShell() {
           <span className="logo" />
           <span className="nm">REDCELL</span>
           <span className="menu-wrap" ref={wsRef}>
-            <button
+            <button type="button"
               className="iconbtn"
               style={{ width: 24, height: 24, color: 'var(--tx-3)' }}
               onClick={() => setMenu((m) => (m === 'ws' ? null : 'ws'))}
@@ -203,17 +203,17 @@ export function DashboardShell() {
             </button>
             <div className={`menu${menu === 'ws' ? '' : ''}`} style={{ display: menu === 'ws' ? 'block' : 'none' }}>
               <div className="menu-label">Workspace</div>
-              <button className="menu-item sel">
+              <button type="button" className="menu-item sel">
                 REDCELL<span className="ck">✓</span>
               </button>
               <div className="menu-sep" />
-              <button className="menu-item" onClick={flipTheme}>
+              <button type="button" className="menu-item" onClick={flipTheme}>
                 Toggle theme
               </button>
             </div>
           </span>
         </div>
-        <button className="search" onClick={() => setPalette(true)}>
+        <button type="button" className="search" onClick={() => setPalette(true)}>
           <svg viewBox="0 0 24 24">
             <circle cx="11" cy="11" r="7" />
             <path d="M20 20l-3-3" />
@@ -249,7 +249,7 @@ export function DashboardShell() {
         </div>
         <div className="side-foot">
           <span className="menu-wrap" style={{ width: '100%' }} ref={userRef}>
-            <button className="userbtn" onClick={() => setMenu((m) => (m === 'user' ? null : 'user'))}>
+            <button type="button" className="userbtn" onClick={() => setMenu((m) => (m === 'user' ? null : 'user'))}>
               <span className="avatar" />
               <div style={{ flex: 1 }}>
                 <div className="u">admin</div>
@@ -260,11 +260,11 @@ export function DashboardShell() {
               </svg>
             </button>
             <div className="menu up" style={{ display: menu === 'user' ? 'block' : 'none', width: '100%' }}>
-              <button className="menu-item" onClick={flipTheme}>
+              <button type="button" className="menu-item" onClick={flipTheme}>
                 Toggle theme
               </button>
               <div className="menu-sep" />
-              <button className="menu-item" onClick={onSignOut}>
+              <button type="button" className="menu-item" onClick={onSignOut}>
                 Sign out
               </button>
             </div>
@@ -275,7 +275,7 @@ export function DashboardShell() {
       <div className="main-pad">
         <section className="main-card">
         <header className="head">
-          <button
+          <button type="button"
             className="iconbtn"
             onClick={() => setCollapsed((v) => !v)}
             title={collapsed ? 'Show sidebar' : 'Hide sidebar'}
@@ -294,7 +294,7 @@ export function DashboardShell() {
               {sub && <span className="sub">{sub}</span>}
               <div className="grow" />
               {showNew && (
-                <button className="btn pri" onClick={() => navigate('/sessions/new')}>
+                <button type="button" className="btn pri" onClick={() => navigate('/sessions/new')}>
                   <svg viewBox="0 0 24 24">
                     <path d="M12 5v14M5 12h14" />
                   </svg>
@@ -303,7 +303,7 @@ export function DashboardShell() {
               )}
             </>
           )}
-          <button className="iconbtn" onClick={flipTheme} title="Toggle theme" aria-label="Toggle theme">
+          <button type="button" className="iconbtn" onClick={flipTheme} title="Toggle theme" aria-label="Toggle theme">
             <svg viewBox="0 0 24 24">
               <path d="M12 3v2M12 19v2M5 5l1.5 1.5M17.5 17.5L19 19M3 12h2M19 12h2M5 19l1.5-1.5M17.5 6.5L19 5M12 8a4 4 0 100 8 4 4 0 000-8z" />
             </svg>
