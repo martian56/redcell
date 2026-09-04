@@ -10,3 +10,4 @@ screen exposes a single New session entry point.
 - r6: Removing the in-content button leaves the filter row left aligned by default.
 - r7: The header button and the command palette both route to /sessions/new.
 - r8: Keeping one entry point simplifies future mobile layouts.
+- r9: On mobile the primary action moves into the compact top bar.
