@@ -367,3 +367,5 @@ Escape remains a quick way to dismiss it.
 The popover width tracks the field for a clean, aligned look.
 
 The z-index keeps it above cards and dialogs.
+
+The change is small, shared, and verified in a browser.
