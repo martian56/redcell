@@ -218,7 +218,7 @@ export function NewSessionPage() {
                 </label>
                 <label className="field">
                   <span className="label">
-                    Targets <span className="opt">— concrete URLs / IPs</span>
+                    Targets <span className="opt">(concrete URLs / IPs)</span>
                   </span>
                   <textarea className="textarea mono" value={draft.targets} placeholder={'https://app.example.com'} onChange={(e) => patch({ targets: e.target.value })} />
                 </label>
