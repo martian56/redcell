@@ -134,3 +134,5 @@ Operators still need the version. Expose it only after authentication (Settings)
 ## FAQ
 
 **Where can I see the version now?** After signing in. A future change exposes it in Settings for authenticated operators.
+
+**Why did the login page show credentials?** Only in dev, when the admin password is still the default. Set `REDCELL_ADMIN_*` for production and the hint disappears.
