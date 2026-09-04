@@ -47,3 +47,5 @@ It lives in `apps/web/src/components/ui/Combobox.tsx`.
 ## SelectTrigger
 
 `SelectTrigger` (in `components/ui/fields`) renders a select-styled box with a chevron, so a combobox reads as a dropdown.
+
+## Using it in a form field
