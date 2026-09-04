@@ -69,8 +69,8 @@ export function SettingsPage() {
   const models = provider?.models ?? [];
 
   const saveKey = async () => {
-    if (!keyFor || !keyInput.trim()) return;
-    const apiBase = (keys ?? []).find((k) => k.providerId === keyFor.id)?.apiBase ?? null;
+    if (!keyFor || !keyInput.trim() || !keys) return;
+    const apiBase = keys.find((k) => k.providerId === keyFor.id)?.apiBase ?? null;
     try {
       await setKey.mutateAsync({ providerId: keyFor.id, apiKey: keyInput.trim(), apiBase });
       setKeyFor(null);
@@ -179,6 +179,7 @@ export function SettingsPage() {
                         {p.needsKey && (
                           <button type="button"
                             className="btn sm"
+                            disabled={!keys}
                             onClick={() => {
                               setKeyFor(p);
                               setKeyInput('');
@@ -310,7 +311,7 @@ export function SettingsPage() {
             <button type="button" className="btn" onClick={() => setKeyFor(null)}>
               Cancel
             </button>
-            <button type="button" className="btn pri" disabled={!keyInput.trim() || setKey.isPending} onClick={saveKey}>
+            <button type="button" className="btn pri" disabled={!keyInput.trim() || setKey.isPending || !keys} onClick={saveKey}>
               Save key
             </button>
           </>
