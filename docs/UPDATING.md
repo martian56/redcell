@@ -241,3 +241,5 @@ The panel is a labelled dialog with an aria-live region, so state changes are an
 Actions are ordinary buttons, reachable and operable by keyboard.
 
 Backdrop dismissal is only enabled once the update is done or failed, so a click does not close it mid-apply.
+
+### For contributors
