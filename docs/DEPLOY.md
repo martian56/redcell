@@ -59,3 +59,5 @@ Credentials travel unencrypted, so `deploy.sh` asks you to confirm. Do not use t
 You reach it at `http://SERVER_IP`.
 
 ### 2. A domain pointed straight at this server
+
+Caddy obtains a Let's Encrypt certificate automatically and serves `https://your-domain`. This is the simplest way to get real HTTPS.
