@@ -117,9 +117,15 @@ cd redcell
 ./deploy.sh
 ```
 
-The script installs Docker if it is missing, then asks whether you have a domain. With one, Caddy provisions a TLS certificate automatically (point an A or AAAA record at the server first) and serves `https://your-domain`. Without one, it serves plain HTTP on the server IP. It writes your answers to `.env`, pulls the images, and starts the stack. Read the generated admin password with `docker compose logs init-secrets`, then sign in as `admin` and change it.
+The script installs Docker if it is missing, then asks how REDCELL will be reached:
 
-Only ports 80 and 443 are published; Postgres, Redis, MinIO, the API, and the web app stay on the internal network. Stored files are streamed through the API, so object storage is never exposed.
+1. **This server directly, no domain** — plain HTTP on the server IP. Good for a quick trial or a private network.
+2. **A domain pointed straight at this server** — Caddy provisions a Let's Encrypt certificate automatically (point an A or AAAA record at the server first) and serves `https://your-domain`.
+3. **A domain behind Cloudflare, Coolify, or another proxy or CDN** — the proxy provides the public HTTPS certificate and forwards to this server. The origin serves both plain HTTP (:80) and a self-signed HTTPS (:443), so it works with a proxy that connects over HTTP or one that accepts the origin's certificate (for Cloudflare, SSL mode Full; Full (strict) needs a Cloudflare Origin Certificate).
+
+It writes your answers to `.env`, pulls the images, and starts the stack. Read the generated admin password with `docker compose logs init-secrets`, then sign in as `admin` and change it. To change how it is reached later, just re-run `./deploy.sh` and pick a different option.
+
+Only ports 80 and 443 are published; Postgres, Redis, MinIO, the API, and the web app stay on the internal network. Stored files are streamed through the API, so object storage is never exposed. See [docs/DEPLOY.md](docs/DEPLOY.md) for the details of each mode.
 
 ## Configuration
 
