@@ -23,3 +23,5 @@ It lives in `apps/web/src/components/ui/Combobox.tsx`.
 ## Combobox API
 
 - `items` - the array of options.
+
+- `current` - the selected option (used to highlight it).
