@@ -285,3 +285,5 @@ Issue #86: the Settings comboboxes were clipped by the card. Portaling the popov
 - Issue #86 - the clipping fix.
 
 ### General rule
+
+Any floating UI that can appear inside a scrolling or clipped container should portal out and position from its anchor.
