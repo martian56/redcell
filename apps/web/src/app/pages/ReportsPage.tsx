@@ -66,7 +66,7 @@ export function ReportsPage() {
           <div className="card-h">
             <h3>Reports</h3>
             <span className="cs">· {rows.length}</span>
-            <button className="btn pri sm" style={{ marginLeft: 'auto' }} disabled={!sessionId || create.isPending} onClick={generate}>
+            <button type="button" className="btn pri sm" style={{ marginLeft: 'auto' }} disabled={!sessionId || create.isPending} onClick={generate}>
               <svg viewBox="0 0 24 24">
                 <path d="M12 5v14M5 12h14" />
               </svg>
