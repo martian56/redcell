@@ -388,3 +388,5 @@ The update flow reloads the app so the new web bundle and version are picked up.
 The server caches the latest-release lookup for a few minutes to respect API rate limits.
 
 A dev build never nags for updates, which keeps local development quiet.
+
+Because the query is shared and cached, multiple views do not multiply the number of checks.
