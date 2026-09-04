@@ -319,3 +319,5 @@ The popover inherits theme tokens, so it matches light and dark.
 Because it is fixed, it is unaffected by the card's own scroll position.
 
 The reposition listener uses capture so it catches scrolling in any ancestor, not just the window.
+
+The width is read from the trigger in block mode, so the popover never looks narrower than the field.
