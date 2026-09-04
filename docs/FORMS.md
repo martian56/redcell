@@ -249,3 +249,5 @@ Include the popover in the outside-click check, or clicking an option will close
 **Dropdown runs off the bottom.** Enable the flip so it opens above the trigger when space below is tight.
 
 **Dropdown appears behind a dialog.** Raise its z-index above the dialog's overlay.
+
+### Verifying
