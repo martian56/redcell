@@ -19,3 +19,5 @@ An update is offered when the latest release compares greater than the running v
 ## What the button does
 
 It calls an admin-only endpoint that launches a one-shot updater container on the host.
+
+The updater runs `docker compose pull` then `docker compose up -d` against this deployment's compose file.
