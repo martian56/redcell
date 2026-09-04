@@ -84,3 +84,4 @@ screen exposes a single New session entry point.
 - r80: The console header owns the primary New session action on /overview and /sessions.
 - r81: showNew in DashboardShell gates the header button to the two list screens.
 - r82: A screen should present one primary call to action, not two identical ones.
+- r83: Duplicate CTAs split attention and make the active action ambiguous.
