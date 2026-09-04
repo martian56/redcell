@@ -113,3 +113,5 @@ Everything is reachable by keyboard; no result requires the mouse.
 - A **proxy** result opens `/proxies/<id>`, that proxy's detail page.
 
 ## Tips
+
+- Searching a client name lists all that client's sessions.
