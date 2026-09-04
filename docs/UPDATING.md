@@ -229,3 +229,5 @@ The update runs server-side, so closing or navigating away does not stop it; the
 ### Timing
 
 The panel polls every few seconds, so it advances within seconds of each real transition.
+
+There is a brief window where the api is down during recreate; the panel shows reconnecting rather than an error.
