@@ -212,7 +212,7 @@ export function NewSessionPage() {
               <>
                 <label className="field">
                   <span className="label">
-                    Scope <span className="opt">— domains, wildcards, CIDRs</span>
+                    Scope <span className="opt">(domains, wildcards, CIDRs)</span>
                   </span>
                   <textarea className="textarea mono" value={draft.scope} placeholder={'*.example.com\n10.0.0.0/24'} onChange={(e) => patch({ scope: e.target.value })} />
                 </label>
