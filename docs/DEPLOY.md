@@ -20,3 +20,4 @@ Stored files (reports, loot, uploads) are streamed through the API, so MinIO nev
 - **init-secrets** — generates the secret key, JWT secret, and first admin password on first run.
 - **migrate** — applies database migrations and seeds the provider catalog, then exits.
 - **api** — the FastAPI backend.
+- **worker** — the arq worker that runs engagements and generates reports.
