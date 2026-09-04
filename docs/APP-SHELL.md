@@ -280,3 +280,5 @@ The Update pill is a real button with a descriptive title naming the target vers
 It is keyboard focusable and activates on Enter or Space like any button.
 
 ### For contributors
+
+The version comes from `useVersion` in `apps/web/src/features/hooks.ts`; the display lives in the `.ws` header in `DashboardShell.tsx`.
