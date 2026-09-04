@@ -181,3 +181,5 @@ curl -so /dev/null -w '%{http_code}\n' https://your-domain/api/v1/sessions
 **Something is failing.** Read the logs of a service, for example `docker compose logs api` or `docker compose logs caddy`.
 
 ## Security notes
+
+Secrets are generated per deployment and stored in the `redcell_secrets` volume. There are no usable default credentials outside dev.
