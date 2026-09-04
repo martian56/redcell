@@ -89,3 +89,5 @@ Confirm protected routes reject anonymous access:
 ```bash
 curl -so /dev/null -w '%{http_code}\n' https://your-domain/api/v1/sessions
 ```
+
+Confirm a bad login returns a generic error and does not reveal whether the username exists.
