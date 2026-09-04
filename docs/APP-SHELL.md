@@ -169,3 +169,7 @@ Sidebar plus floating card. The header is a plain brand label; the only sidebar 
 ## Outside-click hook
 
 A small generic hook attaches a `mousedown` listener and closes the menu when the click falls outside the wrapping element. Put its ref on the element that contains both the trigger and the menu.
+
+## Escape to close
+
+A document-level `keydown` listener closes any open shell menu on Escape while a menu is open.
