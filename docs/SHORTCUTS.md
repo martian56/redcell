@@ -155,3 +155,4 @@ Search is case-insensitive; capitalization never matters.
 - `apps/web/src/app/CommandPalette.tsx` - the palette component.
 - `apps/web/src/styles/design.css` - the palette, group, and sublabel styles.
 - `apps/web/src/app/DashboardShell.tsx` - mounts the palette and its open shortcut.
+- Issue #65 - the weak search and wrong icons this addresses.
