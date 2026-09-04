@@ -333,3 +333,5 @@ The spinner respects reduced-motion preferences.
 The steps are a fixed sequence, so their order is predictable and easy to scan.
 
 The panel closes on its own only by reloading when done; otherwise you dismiss it.
+
+Triggering from the sidebar keeps you on your current page while the update runs.
