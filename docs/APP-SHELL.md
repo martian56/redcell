@@ -181,3 +181,7 @@ The collapse flag is read from localStorage on first render and written whenever
 ## Active runs source
 
 The list comes from active sessions with a running run; each run's status is polled, and only running ones are shown.
+
+## Active link styling
+
+Navigation uses the router's active state to highlight the current page; the Overview link matches exactly so it does not stay highlighted on sub-routes.
