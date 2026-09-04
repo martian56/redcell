@@ -63,3 +63,5 @@ If a provider omits usage, tokens and cost for that call are 0.
 A run can carry a `budget_tokens` ceiling. Track spend against it to stop a run before it runs away.
 
 ## Verifying
+
+Start a live run and watch the header: tokens and dollars should climb as calls complete.
