@@ -13,3 +13,4 @@ The exception is OpenRouter, which can return the actual charge in `usage.cost` 
 For each LLM call, cost is resolved in order:
 
 1. **OpenRouter real cost** - for the `openrouter` provider, the request sets `usage.include`, and the response's `usage.cost` is the charge.
+2. **LiteLLM price map** - `litellm.completion_cost` multiplies the returned tokens by LiteLLM's own prices for models it knows.
