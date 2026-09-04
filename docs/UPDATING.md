@@ -303,3 +303,5 @@ The target version passed to the panel is the latest release, used to detect com
 Polling is capped so a broken update surfaces as an error instead of polling forever.
 
 Seeing reconnecting briefly is normal; it means the app services are being recreated.
+
+Only the app services restart during an update, so the proxy stays up and the panel can keep polling through it.
