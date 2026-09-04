@@ -141,3 +141,5 @@ For a dropdown, measure its bounding box against the sidebar's to confirm it sta
 - `.main-pad` / `.main-card` - the floating content card
 
 - `.head` - the card header with title and actions
+
+## Z-index notes
