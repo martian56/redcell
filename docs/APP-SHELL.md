@@ -406,3 +406,5 @@ In short: the sidebar always shows the running version, and offers a one-click p
 The Update pill participates in normal tab order, so keyboard users reach it after the header controls.
 
 In dark mode the accent pill keeps sufficient contrast against the sidebar background.
+
+The wordmark and version never truncate at the default width; only extreme custom fonts would risk it.
