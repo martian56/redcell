@@ -69,3 +69,5 @@ The current selection is highlighted in the list.
 When nothing matches, the popover shows a no-matches message.
 
 ## Combobox vs native select vs free text
+
+Use the **combobox** when the list is more than a handful of options or benefits from search (providers, models).
