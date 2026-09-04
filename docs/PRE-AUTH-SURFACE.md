@@ -176,3 +176,5 @@ Never log passwords, tokens, or session cookies.
 Sessions expire, so a leaked cookie does not grant indefinite access. Sign out on shared machines.
 
 ## If you suspect compromise
+
+Rotate `REDCELL_JWT_SECRET` (invalidates existing sessions) and `REDCELL_SECRET_KEY`, and change the admin password.
