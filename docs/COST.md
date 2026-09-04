@@ -121,3 +121,5 @@ USD per 1M tokens as (input, output). Estimates for the fallback table; OpenRout
 **Total** is prompt plus completion. When a provider omits the total, REDCELL derives it from the two parts.
 
 Output tokens usually cost more than input, which is why the table prices them separately.
+
+## How a call is metered
