@@ -171,3 +171,7 @@ To watch an update happen, keep Settings open: the banner flips from Update avai
 ## Summary
 
 Baked version in, latest release out, an admin button that runs compose in a side container. Data is kept; migrations run; the app restarts.
+
+## Reconnecting
+
+If the page shows a connection error during the restart, wait a few seconds; it reconnects automatically once the api is back.
