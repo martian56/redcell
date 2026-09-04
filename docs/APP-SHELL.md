@@ -334,3 +334,5 @@ Confirm the header does not overflow: logo, name, version, and pill should all f
 ### Notes
 
 The version is deliberately understated so it informs without competing with navigation.
+
+The Update pill is the one accent element in the header, drawing the eye only when action is useful.
