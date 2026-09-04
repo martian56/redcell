@@ -89,3 +89,5 @@ The shell is `apps/web/src/app/DashboardShell.tsx`; its styles are in `apps/web/
 - Reuse the outside-click hook and put its ref on the element that wraps both the trigger and the menu.
 
 ## Verifying shell changes
+
+Verify layout changes in a browser, not only with a build. Positioning, clipping, and z-index cannot be checked by type or unit tests.
