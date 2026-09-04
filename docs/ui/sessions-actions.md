@@ -62,3 +62,4 @@ screen exposes a single New session entry point.
 - r58: A single source of truth for the New session action reduces drift.
 - r59: SessionRow still navigates to a session on open.
 - r60: The regression test asserts the page renders no New session button.
+- r61: The regression test asserts both filters remain present.
