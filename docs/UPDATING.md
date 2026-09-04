@@ -175,3 +175,7 @@ Baked version in, latest release out, an admin button that runs compose in a sid
 ## Reconnecting
 
 If the page shows a connection error during the restart, wait a few seconds; it reconnects automatically once the api is back.
+
+## Single operator
+
+REDCELL has one operator account, which is the admin, so the admin gate means the signed-in operator.
