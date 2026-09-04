@@ -247,3 +247,5 @@ Include the popover in the outside-click check, or clicking an option will close
 **Dropdown closes when clicking an option.** The outside-click check does not include the portaled popover; add its ref to the check.
 
 **Dropdown runs off the bottom.** Enable the flip so it opens above the trigger when space below is tight.
+
+**Dropdown appears behind a dialog.** Raise its z-index above the dialog's overlay.
