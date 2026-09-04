@@ -265,3 +265,5 @@ Selecting an option should update the field and close the popover.
 Issue #86: the Settings comboboxes were clipped by the card. Portaling the popover fixed it, and every combobox benefits since it is shared.
 
 ### Popover FAQ
+
+**Why portal instead of raising z-index?** z-index does not help against `overflow: hidden`; the element is clipped regardless of stacking. A portal removes it from the clipped subtree.
