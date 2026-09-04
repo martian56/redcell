@@ -89,7 +89,7 @@ export function ServersPage() {
     <div className="wrap">
       <div className="filters">
         <div className="grow" />
-        <button className="btn pri sm" onClick={() => setOpen(true)}>
+        <button type="button" className="btn pri sm" onClick={() => setOpen(true)}>
           <svg viewBox="0 0 24 24">
             <path d="M12 5v14M5 12h14" />
           </svg>
@@ -138,7 +138,7 @@ export function ServersPage() {
                     <td className="meta tab">{s.runningSessions}</td>
                     <td className="mono meta">{s.latencyMs != null ? `${s.latencyMs} ms` : '—'}</td>
                     <td className="tright" onClick={(e) => e.stopPropagation()}>
-                      <button className="btn sm ghost" disabled={test.isPending} onClick={() => void runTest(s.id)}>
+                      <button type="button" className="btn sm ghost" disabled={test.isPending} onClick={() => void runTest(s.id)}>
                         Test
                       </button>
                     </td>
