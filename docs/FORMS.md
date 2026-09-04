@@ -215,3 +215,5 @@ This is why the same combobox works both on the Settings page and inside the New
 ### How it works
 
 On open, the trigger's rect is measured and the popover's fixed coordinates are set from it.
+
+The popover is rendered through a portal, so it lives at the end of the body rather than inside the clipped card.
