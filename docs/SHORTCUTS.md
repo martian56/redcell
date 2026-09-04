@@ -115,3 +115,5 @@ Everything is reachable by keyboard; no result requires the mouse.
 ## Tips
 
 - Searching a client name lists all that client's sessions.
+
+- Add more of the name to narrow a long list quickly.
