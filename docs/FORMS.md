@@ -287,3 +287,5 @@ Issue #86: the Settings comboboxes were clipped by the card. Portaling the popov
 ### General rule
 
 Any floating UI that can appear inside a scrolling or clipped container should portal out and position from its anchor.
+
+Menus that live in a known, unclipped place (like the sidebar footer) can stay in place, but a control reused across the app should not assume its container.
