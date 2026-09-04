@@ -35,3 +35,5 @@ Below the navigation, sessions whose run is currently running are listed for qui
 ## User menu
 
 The footer shows the operator and opens an upward menu with a theme toggle and sign out. It spans the footer width, staying inside the sidebar, and closes on Escape or an outside click.
+
+## Collapsing the sidebar
