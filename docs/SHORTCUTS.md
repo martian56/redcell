@@ -34,3 +34,5 @@ Typing filters by a case-insensitive match across each item's label, secondary t
 With an empty query the palette shows just the pages and actions, so it opens fast and uncluttered.
 
 Results are capped so a very large workspace does not render a huge list at once. Narrow the query to find a specific item.
+
+## Examples
