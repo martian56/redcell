@@ -283,7 +283,7 @@ export function SettingsPage() {
                 </div>
                 <label className="field">
                   <span className="label">
-                    Prepared by / contact <span className="opt">— shown on the cover</span>
+                    Prepared by / contact <span className="opt">(shown on the cover)</span>
                   </span>
                   <input
                     className="input"
