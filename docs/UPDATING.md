@@ -277,3 +277,5 @@ On a real deployment the same panel reflects the actual restart and version flip
 **Can I close it and keep working?** Yes, once it is done or failed. The update itself runs server-side regardless.
 
 **Is the progress real?** The steps reflect real transitions (request, restart, version flip); it is not a fake timer.
+
+**Why does it reload?** The web bundle is part of the update, so a reload loads the new frontend.
