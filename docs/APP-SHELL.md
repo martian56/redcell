@@ -266,3 +266,5 @@ A released image bakes its version in, so the sidebar shows `vX.Y.Z`. A local or
 ### Behavior details
 
 The query refetches on an interval and is cached, so it does not hammer the endpoint but still notices a new release quickly.
+
+Until the first version response arrives, neither the version nor the pill is shown, so there is no flicker of placeholder text.
