@@ -129,3 +129,5 @@ Verify in a browser; the popover, search, and pagination are layout behavior.
 ## FAQ
 
 **Why not a native select?** Native selects are not searchable and are hard to style consistently across platforms.
+
+**Does it handle long lists?** Yes; it paginates and filters, so hundreds of options stay usable.
