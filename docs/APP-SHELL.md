@@ -338,3 +338,5 @@ The version is deliberately understated so it informs without competing with nav
 The Update pill is the one accent element in the header, drawing the eye only when action is useful.
 
 Because there is a single operator, any signed-in user is the admin who can apply the update.
+
+The `v` prefix is added in the UI; the API reports the bare number, and the latest release tag keeps its own `v`.
