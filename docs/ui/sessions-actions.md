@@ -90,3 +90,4 @@ screen exposes a single New session entry point.
 - r86: Removing the in-content button leaves the filter row left aligned by default.
 - r87: The header button and the command palette both route to /sessions/new.
 - r88: Keeping one entry point simplifies future mobile layouts.
+- r89: On mobile the primary action moves into the compact top bar.
