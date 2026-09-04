@@ -19,3 +19,5 @@ What an unauthenticated client can observe from a REDCELL deployment, and the pr
 - Every other API route requires a valid session; unauthenticated calls return 401.
 
 ## What the login page shows
+
+The login page shows only the product name and the sign-in form. It does not show a version string.
