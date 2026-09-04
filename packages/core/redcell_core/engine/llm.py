@@ -7,6 +7,7 @@ from typing import Any
 
 from ..config import settings
 from ..schemas import LlmSettings
+from .pricing import estimate_cost
 
 # provider id -> LiteLLM model prefix. Providers LiteLLM does not route natively
 # fall back to an OpenAI-compatible base URL from settings.
@@ -67,6 +68,9 @@ class LlmClient:
         if tools:
             kwargs["tools"] = tools
             kwargs["tool_choice"] = tool_choice
+        # Ask OpenRouter to report the actual charge in usage.cost.
+        if self.cfg.provider == "openrouter":
+            kwargs.setdefault("extra_body", {})["usage"] = {"include": True}
         resp = await litellm.acompletion(model=self._model(), messages=messages, **kwargs)
         choice = resp["choices"][0]["message"]
         out: dict[str, Any] = {"role": "assistant", "content": choice.get("content") or ""}
@@ -76,21 +80,68 @@ class LlmClient:
                 {"id": tc["id"], "name": tc["function"]["name"], "arguments": tc["function"]["arguments"]}
                 for tc in tcs
             ]
-        out["usage_tokens"] = _usage_total(resp)
-        try:
-            out["cost"] = float(litellm.completion_cost(completion_response=resp) or 0.0)
-        except Exception:
-            out["cost"] = 0.0
+        total, prompt, completion = _usage(resp)
+        out["usage_tokens"] = total
+        out["cost"] = self._cost(resp, prompt, completion)
         return out
 
+    def _cost(self, resp: Any, prompt_tokens: int, completion_tokens: int) -> float:
+        # 1. OpenRouter reports the real charge in usage.cost when include is set.
+        if self.cfg.provider == "openrouter":
+            direct = _usage_cost(resp)
+            if direct:
+                return direct
+        # 2. LiteLLM's price map, accurate for models it knows.
+        try:
+            import litellm
 
-def _usage_total(resp: Any) -> int:
-    usage = resp.get("usage") if hasattr(resp, "get") else None
-    if usage is None:
-        return 0
-    if hasattr(usage, "total_tokens"):
-        return int(usage.total_tokens or 0)
+            metered = float(litellm.completion_cost(completion_response=resp) or 0.0)
+            if metered:
+                return metered
+        except Exception:
+            pass
+        # 3. Our fallback table for the catalog models.
+        return estimate_cost(self.cfg.model, prompt_tokens, completion_tokens, self.cfg.provider)
+
+
+def _usage_obj(resp: Any) -> Any:
+    if resp is None:
+        return None
+    if hasattr(resp, "get"):
+        return resp.get("usage")
+    return getattr(resp, "usage", None)
+
+
+def _field(obj: Any, name: str) -> Any:
+    if obj is None:
+        return None
+    if hasattr(obj, name):
+        return getattr(obj, name)
+    if hasattr(obj, "get"):
+        return obj.get(name)
+    return None
+
+
+def _int(v: Any) -> int:
     try:
-        return int(usage.get("total_tokens") or 0)
+        return int(v or 0)
     except Exception:
         return 0
+
+
+def _usage(resp: Any) -> tuple[int, int, int]:
+    u = _usage_obj(resp)
+    total = _int(_field(u, "total_tokens"))
+    prompt = _int(_field(u, "prompt_tokens"))
+    completion = _int(_field(u, "completion_tokens"))
+    if not total:
+        total = prompt + completion
+    return total, prompt, completion
+
+
+def _usage_cost(resp: Any) -> float:
+    u = _usage_obj(resp)
+    try:
+        return float(_field(u, "cost") or 0.0)
+    except Exception:
+        return 0.0
