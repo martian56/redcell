@@ -104,3 +104,5 @@ Both require a valid session; update additionally requires the admin role.
 ## Configuration
 
 - `REDCELL_COMPOSE_DIR` - host path of the checkout; enables the button.
+
+- `REDCELL_UPDATER_IMAGE` - image for the one-shot updater (default `docker:cli`).
