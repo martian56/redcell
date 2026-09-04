@@ -132,3 +132,5 @@ Your data in the named volumes is preserved across the update.
 **Does it need internet?** Yes, to check the latest release and to pull new images.
 
 **How do I disable it?** Leave `REDCELL_COMPOSE_DIR` unset. The endpoint then refuses and the button does nothing useful.
+
+**Why not Watchtower?** Watchtower recreates containers but does not re-run the compose one-shots, so migrations would be skipped. Running compose keeps migrations in the loop.
