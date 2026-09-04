@@ -15,3 +15,5 @@ The running version is baked into the api and worker images at build time as `RE
 The latest version comes from the GitHub Releases API for the repository, cached briefly to avoid rate limits.
 
 An update is offered when the latest release compares greater than the running version. A `dev` build never shows an update.
+
+## What the button does
