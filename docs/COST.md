@@ -79,3 +79,4 @@ USD per 1M tokens as (input, output). Estimates for the fallback table; OpenRout
 - `claude-opus-5` - 15.0 / 75.0
 - `claude-sonnet-5` - 3.0 / 15.0
 - `claude-haiku-4-5` - 0.8 / 4.0
+- `gemini-3.1-pro` - 2.5 / 10.0
