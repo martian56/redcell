@@ -271,3 +271,5 @@ Issue #86: the Settings comboboxes were clipped by the card. Portaling the popov
 **Why fixed positioning?** Fixed coordinates are relative to the viewport, which matches a body-level portal and is simple to compute from the trigger rect.
 
 **What about scrolling?** The popover repositions on scroll so it tracks the trigger; closing on scroll would also be reasonable, but tracking feels smoother here.
+
+**Does it work in a dialog?** Yes; the portal sits above the dialog overlay via its z-index.
