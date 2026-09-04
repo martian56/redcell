@@ -134,3 +134,5 @@ docker compose up -d
 ```
 
 Because the deploy mode lives entirely in `.env`, a `git pull` never conflicts with local changes. Your mode is preserved across updates.
+
+## Changing how it is reached
