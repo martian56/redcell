@@ -163,3 +163,5 @@ Selecting a provider also resets the model to that provider's first model, keepi
 The model field falls back to free text so unusual or self-hosted model names can still be entered.
 
 Because it is one shared component, improvements to search or keyboard handling benefit every usage at once.
+
+The control is theme-aware; its popover, borders, and text use the same tokens as the rest of the console.
