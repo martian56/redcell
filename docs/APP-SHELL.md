@@ -101,3 +101,5 @@ Verify layout changes in a browser, not only with a build. Positioning, clipping
 ## Structure at a glance
 
 - `.ws` - the brand header (logo and name)
+
+- `.search` - opens the command palette
