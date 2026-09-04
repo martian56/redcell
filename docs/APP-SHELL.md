@@ -47,3 +47,5 @@ The main card header shows the page title (or the console header on a session) a
 ## Theme
 
 Theme can be toggled from the header or the user menu. The choice is applied via a data attribute, persisted, and re-applied before paint to avoid a flash.
+
+## Menus and dropdowns
