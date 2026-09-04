@@ -361,3 +361,5 @@ The reposition on scroll keeps the popover glued to the field during a scroll.
 The flip keeps the list on screen near the bottom of a page.
 
 Outside-click covers both the trigger and the portaled popover.
+
+Escape remains a quick way to dismiss it.
