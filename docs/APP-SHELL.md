@@ -340,3 +340,5 @@ The Update pill is the one accent element in the header, drawing the eye only wh
 Because there is a single operator, any signed-in user is the admin who can apply the update.
 
 The `v` prefix is added in the UI; the API reports the bare number, and the latest release tag keeps its own `v`.
+
+Comparison is numeric per version segment, so `v0.10.0` is correctly newer than `v0.9.0`.
