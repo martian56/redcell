@@ -313,3 +313,5 @@ Escape closes the popover without changing the selection.
 A click anywhere outside the trigger and popover closes it.
 
 The trigger keeps its own styling; only the popover is portaled.
+
+The popover inherits theme tokens, so it matches light and dark.
