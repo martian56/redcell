@@ -125,3 +125,5 @@ For a dropdown, measure its bounding box against the sidebar's to confirm it sta
 - Right-aligned: aligns the menu's right edge to the trigger, opening leftward.
 
 - Upward: opens above the trigger (used by the footer user menu).
+
+- Header-spanning: the workspace menu spans the sidebar header width, anchored to `.ws`.
