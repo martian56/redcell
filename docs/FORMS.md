@@ -155,3 +155,5 @@ Sublabels are handy for disambiguating similar options, like a model's provider.
 Pagination keeps the popover short even with a large catalog.
 
 Filtering resets to the first page so results are always visible.
+
+The trigger and popover share the field width in block mode, so they line up with other inputs.
