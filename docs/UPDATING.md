@@ -309,3 +309,5 @@ Only the app services restart during an update, so the proxy stays up and the pa
 The panel's title changes with state: Updating REDCELL while in progress, Updated when done, Update failed on error.
 
 Each step shows a spinner while active, a check when complete, and a marker if the update failed at that point.
+
+The target version is shown next to the title so you can confirm what you are updating to.
