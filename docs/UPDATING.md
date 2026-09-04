@@ -381,3 +381,7 @@ The panel is theme-aware and reads well in both light and dark.
 It is small enough not to obscure the whole screen, so context stays visible behind it.
 
 That is the update panel: honest, staged progress that survives the restart and lands on the new version.
+
+### See also
+
+- The sidebar version indicator opens this panel; see [APP-SHELL.md](APP-SHELL.md).
