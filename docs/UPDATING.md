@@ -345,3 +345,5 @@ The panel is safe to open again after a failure to retry the update.
 There is no partial state persisted; each open starts a fresh attempt.
 
 The panel is a thin client over the version and update endpoints, with no extra server support needed.
+
+Keeping the panel open is fine; it does not consume server resources beyond the light version poll.
