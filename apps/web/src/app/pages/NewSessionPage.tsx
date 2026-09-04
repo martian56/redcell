@@ -204,7 +204,7 @@ export function NewSessionPage() {
             {isCode ? (
               <label className="field">
                 <span className="label">
-                  Source <span className="opt">— git URL or local folder</span>
+                  Source <span className="opt">(git URL or local folder)</span>
                 </span>
                 <input className="input mono" value={draft.source} placeholder="https://github.com/org/repo" onChange={(e) => patch({ source: e.target.value })} />
               </label>
