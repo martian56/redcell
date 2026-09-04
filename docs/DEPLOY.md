@@ -173,3 +173,5 @@ curl -so /dev/null -w '%{http_code}\n' https://your-domain/api/v1/sessions
 **Cloudflare 521.** The origin is not listening on the port Cloudflare uses. Use mode 3 so Caddy serves :443, and set Cloudflare SSL to Full.
 
 **Cloudflare 526.** Full (strict) rejected the self-signed origin certificate. Switch Cloudflare to Full, install a Cloudflare Origin Certificate, or use DNS-only plus mode 2.
+
+**Login does not stick.** Over plain HTTP on an IP the secure cookie is dropped. Use a domain, or accept mode 1 which sets the cookie insecure.
