@@ -91,3 +91,4 @@ screen exposes a single New session entry point.
 - r87: The header button and the command palette both route to /sessions/new.
 - r88: Keeping one entry point simplifies future mobile layouts.
 - r89: On mobile the primary action moves into the compact top bar.
+- r90: A single source of truth for the New session action reduces drift.
