@@ -128,7 +128,7 @@ export function ReportsPage() {
         </div>
 
         <div className="doc">
-          <h4>{session ? `${session.client} — ${session.name}` : 'Assessment report'}</h4>
+          <h4>{session ? `${session.client} / ${session.name}` : 'Assessment report'}</h4>
           <div className="by">
             Prepared by REDCELL · {session ? `${session.findingsCount} findings` : '—'}
           </div>
