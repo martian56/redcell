@@ -19,6 +19,8 @@ x-app-env: &app-env
   REDCELL_ADMIN_PASSWORD_FILE: /run/redcell/admin_password
   REDCELL_COOKIE_SECURE: ${REDCELL_COOKIE_SECURE:-true}
   REDCELL_CORS_ORIGINS: ${REDCELL_CORS_ORIGINS:-http://localhost:5183}
+  REDCELL_COMPOSE_DIR: ${REDCELL_COMPOSE_DIR:-}
+  REDCELL_UPDATER_IMAGE: ${REDCELL_UPDATER_IMAGE:-docker:cli}
 
 services:
   postgres:

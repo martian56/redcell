@@ -86,6 +86,8 @@ jobs:
           context: ${{ matrix.context }}
           file: ${{ matrix.file }}
           push: true
+          build-args: |
+            VERSION=${{ steps.v.outputs.version }}
           tags: |
             ${{ steps.v.outputs.image }}:${{ steps.v.outputs.version }}
             ${{ steps.v.outputs.image }}:latest

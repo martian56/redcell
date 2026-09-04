@@ -19,5 +19,7 @@ COPY apps/worker ./apps/worker
 RUN uv sync --frozen --group live
 
 ENV PATH="/app/.venv/bin:$PATH"
+ARG VERSION=dev
+ENV REDCELL_VERSION=$VERSION
 WORKDIR /app/apps/worker
 CMD ["arq", "worker.settings.WorkerSettings"]
