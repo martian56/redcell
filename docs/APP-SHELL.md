@@ -93,3 +93,5 @@ Verify layout changes in a browser, not only with a build. Positioning, clipping
 **What happened to the workspace switcher?** It was a placeholder for a single workspace and was removed. If multi-workspace support lands later, a switcher can return.
 
 **Where is the theme stored?** It is applied via a data attribute on the root and persisted, and re-applied before paint to avoid a flash.
+
+**Does collapsing hide the brand header?** Yes; the whole sidebar is hidden when collapsed.
