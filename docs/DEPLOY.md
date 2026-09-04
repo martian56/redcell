@@ -103,3 +103,5 @@ Add an `AAAA` record too if the server has a public IPv6 address; otherwise an I
 Let DNS propagate before the first request so the certificate can be issued. `getent hosts your-domain` on the server should return the server's own IP.
 
 ## Ports and firewall
+
+Only Caddy publishes ports: 80 and 443 (plus 443/udp for HTTP/3). Open both in any cloud firewall or security group.
