@@ -332,3 +332,5 @@ Confirm the header does not overflow: logo, name, version, and pill should all f
 - Issue #77 - the sidebar version and update indicator.
 
 ### Notes
+
+The version is deliberately understated so it informs without competing with navigation.
