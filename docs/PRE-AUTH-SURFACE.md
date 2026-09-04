@@ -13,3 +13,4 @@ What an unauthenticated client can observe from a REDCELL deployment, and the pr
 ## Reachable without authentication
 
 - **The login page** (`/`, static assets). Serves the console shell; the app data behind it requires a session cookie.
+- **`GET /api/v1/auth/first-run`** reports whether the instance is on its default admin password so the UI can prompt a change. It does not return the password itself.
