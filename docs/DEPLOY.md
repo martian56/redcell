@@ -31,3 +31,9 @@ Stored files (reports, loot, uploads) are streamed through the API, so MinIO nev
 - Ports 80 and 443 free on the host (nothing else bound to them).
 
 ## Quick start
+
+```bash
+git clone https://github.com/martian56/redcell.git
+cd redcell
+./deploy.sh
+```
