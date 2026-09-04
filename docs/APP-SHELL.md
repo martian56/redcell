@@ -169,3 +169,7 @@ Menus sit above the shell chrome and the main card. The workspace menu uses a hi
 ## See also
 
 - [DEPLOY.md](DEPLOY.md) and [UPDATING.md](UPDATING.md) for running and updating the console.
+
+## Summary
+
+Sidebar plus floating card. Menus stay inside their region, above the content, and close on outside click. Verify layout in a browser.
