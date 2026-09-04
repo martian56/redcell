@@ -55,3 +55,5 @@ A menu opens from its trigger and closes on Escape, on selecting an item, or on 
 Because the sidebar clips overflow, a sidebar menu must be anchored so it stays inside the sidebar. The user menu spans the footer width and opens upward.
 
 Menus sit above surrounding content via z-index; keep a menu's z-index above the main card so an overlapping menu is never painted under it.
+
+## Accessibility
