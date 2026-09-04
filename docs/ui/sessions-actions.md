@@ -24,3 +24,4 @@ screen exposes a single New session entry point.
 - r20: The Sessions page keeps its Status and Type filters as its own local controls.
 - r21: Filters are page-scoped state; the primary action is shell-scoped.
 - r22: Removing the in-content button leaves the filter row left aligned by default.
+- r23: The header button and the command palette both route to /sessions/new.
