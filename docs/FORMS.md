@@ -177,3 +177,5 @@ The combobox is small and composable, so new selectors can adopt it with a few l
 Keeping selectors consistent makes the settings feel of a piece with the rest of the console.
 
 ## Related
+
+- [APP-SHELL.md](APP-SHELL.md) - menus and dropdown behavior.
