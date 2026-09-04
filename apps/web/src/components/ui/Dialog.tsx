@@ -38,7 +38,7 @@ export function Dialog({
       >
         <div className="flex items-center gap-2 border-b border-border px-4 py-3">
           <h2 className="text-sm font-bold">{title}</h2>
-          <button className="ml-auto text-faint hover:text-text" onClick={onClose} aria-label="Close">
+          <button type="button" className="ml-auto text-faint hover:text-text" onClick={onClose} aria-label="Close">
             <Icon name="close" size={16} />
           </button>
         </div>
