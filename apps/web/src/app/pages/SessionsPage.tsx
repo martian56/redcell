@@ -5,7 +5,7 @@ import { SessionRow, FilterMenu } from './shared';
 
 export function SessionsPage() {
   const nav = useNavigate();
-  const { data: sessions } = useSessions();
+  const { data: sessions, isLoading } = useSessions();
   const [status, setStatus] = useState('all');
   const [kind, setKind] = useState('all');
 
@@ -60,7 +60,13 @@ export function SessionsPage() {
               </tr>
             </thead>
             <tbody>
-              {rows.length === 0 ? (
+              {isLoading ? (
+                <tr>
+                  <td colSpan={7} className="meta" style={{ padding: '22px', textAlign: 'center' }}>
+                    Loading sessions…
+                  </td>
+                </tr>
+              ) : rows.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="meta" style={{ padding: '22px', textAlign: 'center' }}>
                     No sessions match.
