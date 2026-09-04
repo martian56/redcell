@@ -99,3 +99,4 @@ screen exposes a single New session entry point.
 - r95: Consistency between Overview and Sessions comes from the shared header.
 - r96: The console header owns the primary New session action on /overview and /sessions.
 - r97: showNew in DashboardShell gates the header button to the two list screens.
+- r98: A screen should present one primary call to action, not two identical ones.
