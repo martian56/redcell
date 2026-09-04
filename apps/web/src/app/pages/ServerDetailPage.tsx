@@ -89,7 +89,7 @@ export function ServerDetailPage() {
             Servers
           </button>
           <Button variant="primary" disabled={test.isPending} onClick={() => void runTest()}>
-            {test.isPending ? 'Testing...' : 'Test connection'}
+            {test.isPending ? 'Testing…' : 'Test connection'}
           </Button>
           <Button onClick={() => void del()}>Delete</Button>
         </>
