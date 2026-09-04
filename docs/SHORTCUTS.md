@@ -123,3 +123,5 @@ Everything is reachable by keyboard; no result requires the mouse.
 - With no query, the palette is a quick page switcher.
 
 ## FAQ
+
+**Why do I only see pages at first?** With an empty query the palette shows pages and actions. Start typing to search sessions, servers, and proxies.
