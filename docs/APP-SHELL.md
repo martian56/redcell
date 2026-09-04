@@ -95,3 +95,5 @@ Verify layout changes in a browser, not only with a build. Positioning, clipping
 Append `?demo=1` to skip auth and load the shell with demo data for quick visual checks.
 
 For a dropdown, measure its bounding box against the sidebar's to confirm it stays inside and is not clipped.
+
+## Troubleshooting
