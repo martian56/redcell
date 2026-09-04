@@ -1,4 +1,4 @@
-{$SITE_ADDRESS} {
+(app) {
 	encode gzip zstd
 
 	handle /api/* {
@@ -8,4 +8,8 @@
 	handle {
 		reverse_proxy web:80
 	}
+}
+
+{$SITE_ADDRESS} {
+	import app
 }
