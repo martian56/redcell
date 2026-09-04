@@ -88,3 +88,4 @@ Searching real entities turns it into a jump-to-anything tool, which is what a c
 | Arrow Down | Next result |
 | Arrow Up | Previous result |
 | Enter | Open the selection |
+| Escape | Close the palette |
