@@ -36,3 +36,5 @@ With an empty query the palette shows just the pages and actions, so it opens fa
 Results are capped so a very large workspace does not render a huge list at once. Narrow the query to find a specific item.
 
 ## Examples
+
+- Type part of a session name or its client to jump into that session's console.
