@@ -195,3 +195,5 @@ You can trigger the same update from the shell with the compose commands above; 
 ## Where the version comes from
 
 The banner's current version is whatever `REDCELL_VERSION` the running image was built with; a locally built image without the build-arg reports `dev`.
+
+## The update panel
