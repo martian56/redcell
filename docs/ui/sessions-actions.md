@@ -95,3 +95,4 @@ screen exposes a single New session entry point.
 - r91: SessionRow still navigates to a session on open.
 - r92: The regression test asserts the page renders no New session button.
 - r93: The regression test asserts both filters remain present.
+- r94: Header ownership keeps the action visible across list screens.
