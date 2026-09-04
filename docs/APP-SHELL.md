@@ -296,3 +296,5 @@ In mock mode the version query returns a sample with an update available, so the
 On a real deployment, the pill appears once a newer release is published and the server's cached lookup refreshes.
 
 Confirm the header does not overflow: logo, name, version, and pill should all fit within the 236px sidebar.
+
+### Troubleshooting the version display
