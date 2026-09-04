@@ -144,3 +144,5 @@ Operators still need the version. Expose it only after authentication (Settings)
 ## Threat model notes
 
 The anonymous attacker sees only the login page, the first-run flag, the health check, and generic login errors. That is the intended surface.
+
+A network attacker without TLS could read credentials in transit; HTTPS closes this. Enforce it.
