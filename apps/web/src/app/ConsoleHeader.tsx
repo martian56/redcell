@@ -76,7 +76,7 @@ export function ConsoleHeader({ sessionId }: { sessionId: string | null }) {
         </span>
       )}
       {run && (
-        <button
+        <button type="button"
           className="btn"
           disabled={busy || (!isRunning && !canResume) || !runId}
           onClick={() => runId && (isRunning ? controls.pause.mutate(runId) : controls.resume.mutate(runId))}
@@ -85,17 +85,17 @@ export function ConsoleHeader({ sessionId }: { sessionId: string | null }) {
         </button>
       )}
       {run && (
-        <button className="btn danger" disabled={busy || !canStop || !runId} onClick={() => runId && controls.stop.mutate(runId)}>
+        <button type="button" className="btn danger" disabled={busy || !canStop || !runId} onClick={() => runId && controls.stop.mutate(runId)}>
           Stop
         </button>
       )}
-      <button className="btn pri" onClick={() => setNewRun(true)}>
+      <button type="button" className="btn pri" onClick={() => setNewRun(true)}>
         <svg viewBox="0 0 24 24">
           <path d="M12 5v14M5 12h14" />
         </svg>
         New run
       </button>
-      <button className="btn" onClick={() => nav(sessionId ? `/reports?session=${sessionId}` : '/reports')}>
+      <button type="button" className="btn" onClick={() => nav(sessionId ? `/reports?session=${sessionId}` : '/reports')}>
         Report
       </button>
       <Dropdown
