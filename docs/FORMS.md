@@ -193,3 +193,201 @@ Prefer the searchable combobox over native selects; it is consistent, keyboard f
 The goal is simple: choosing a provider or model should feel as quick as searching for it.
 
 That is the combobox: search, pick, done, consistent everywhere it appears.
+
+## Popover positioning
+
+A dropdown positioned inside its container is clipped when an ancestor uses `overflow: hidden` or scrolls. On the Settings page the cards clip their contents, which cut the combobox list off at the card's bottom edge.
+
+To avoid this, the combobox popover is rendered in a portal on `document.body` with fixed positioning, so it escapes every overflow-hidden or scrolling ancestor.
+
+The position is computed from the trigger's bounding rect: the popover opens just below the trigger, aligned to its left, and matches its width in block mode.
+
+When there is not enough room below, it flips to open above the trigger instead of running off the screen.
+
+It repositions on scroll and resize while open, so it stays anchored to the trigger as the page moves.
+
+Because the popover is outside the trigger's DOM subtree, the outside-click handler ignores clicks inside the popover as well, so selecting an option does not close it prematurely.
+
+The popover uses a high z-index so it sits above cards and even above a modal dialog it may be opened from.
+
+This is why the same combobox works both on the Settings page and inside the New run dialog.
+
+### How it works
+
+On open, the trigger's rect is measured and the popover's fixed coordinates are set from it.
+
+The popover is rendered through a portal, so it lives at the end of the body rather than inside the clipped card.
+
+A capture-phase scroll listener and a resize listener re-measure and reposition while the popover is open.
+
+Two refs, one on the trigger wrapper and one on the popover, let the outside-click handler treat both as inside.
+
+The width follows the trigger in block mode, so the popover lines up with the field.
+
+### For contributors
+
+You do not need to do anything special to use it in a clipped container; the portal handles that.
+
+Prefer block inside form fields so the popover matches the field width.
+
+If you build another floating control, follow the same pattern: portal to the body, position from the trigger, and reposition on scroll and resize.
+
+Keep the popover's z-index above dialogs so it is usable from within a modal.
+
+Measure the trigger rect on open and on every reposition, not once, so the popover tracks layout changes.
+
+Include the popover in the outside-click check, or clicking an option will close the popover before the click registers.
+
+### Troubleshooting
+
+**Dropdown is cut off.** It is being clipped by an overflow-hidden ancestor; it should be portaled to the body, not positioned inside the container.
+
+**Dropdown is in the wrong place.** The trigger rect was not re-measured; reposition on open and on scroll/resize.
+
+**Dropdown closes when clicking an option.** The outside-click check does not include the portaled popover; add its ref to the check.
+
+**Dropdown runs off the bottom.** Enable the flip so it opens above the trigger when space below is tight.
+
+**Dropdown appears behind a dialog.** Raise its z-index above the dialog's overlay.
+
+### Verifying
+
+Open the control inside a card and confirm the list shows fully, past the card's edge, on top of other content.
+
+Check the popover's parent is the body and its position is fixed.
+
+Scroll the page with the popover open and confirm it follows the trigger.
+
+Selecting an option should update the field and close the popover.
+
+### This fix
+
+Issue #86: the Settings comboboxes were clipped by the card. Portaling the popover fixed it, and every combobox benefits since it is shared.
+
+### Popover FAQ
+
+**Why portal instead of raising z-index?** z-index does not help against `overflow: hidden`; the element is clipped regardless of stacking. A portal removes it from the clipped subtree.
+
+**Why fixed positioning?** Fixed coordinates are relative to the viewport, which matches a body-level portal and is simple to compute from the trigger rect.
+
+**What about scrolling?** The popover repositions on scroll so it tracks the trigger; closing on scroll would also be reasonable, but tracking feels smoother here.
+
+**Does it work in a dialog?** Yes; the portal sits above the dialog overlay via its z-index.
+
+**Is repositioning expensive?** It is a cheap rect read and style update, only while the popover is open.
+
+### References
+
+- `apps/web/src/components/ui/Combobox.tsx` - the portaled popover.
+
+- `.card` in `design.css` uses `overflow: hidden`, which is why the portal is needed.
+
+- Issue #86 - the clipping fix.
+
+### General rule
+
+Any floating UI that can appear inside a scrolling or clipped container should portal out and position from its anchor.
+
+Menus that live in a known, unclipped place (like the sidebar footer) can stay in place, but a control reused across the app should not assume its container.
+
+When in doubt, portal; it is the safer default for dropdowns.
+
+The popover opens 4px below the trigger for a small, consistent gap.
+
+In flip mode it anchors its bottom just above the trigger, so it grows upward from there.
+
+The list has a bounded max height, so a huge catalog scrolls inside the popover instead of covering the page.
+
+Pagination keeps each page short even when the list is long.
+
+The search field is focused on open, so you can type immediately.
+
+Filtering resets to the first page so the top results are visible.
+
+The current selection is highlighted wherever it lands in the list.
+
+Selecting closes the popover and reports the choice to the parent.
+
+Escape closes the popover without changing the selection.
+
+A click anywhere outside the trigger and popover closes it.
+
+The trigger keeps its own styling; only the popover is portaled.
+
+The popover inherits theme tokens, so it matches light and dark.
+
+Because it is fixed, it is unaffected by the card's own scroll position.
+
+The reposition listener uses capture so it catches scrolling in any ancestor, not just the window.
+
+The width is read from the trigger in block mode, so the popover never looks narrower than the field.
+
+For non-block usage a fixed width is used, which suits a compact trigger like a header button.
+
+The change is backward compatible: the component's props are unchanged.
+
+Existing usages, like the New run model picker, keep working without edits.
+
+Only the internal positioning changed, from absolute-in-container to fixed-in-body.
+
+That single change removes a whole class of clipping bugs for every combobox.
+
+The Settings Default model card clips its contents, which is what exposed the bug.
+
+Cards clip for tidy rounded corners, so removing their overflow was not the right fix.
+
+Portaling the popover keeps the cards tidy and the dropdown visible.
+
+The fix was verified by measuring the popover against the card: it now extends past the card and is not clipped.
+
+It was also confirmed to render as a child of the body with fixed positioning.
+
+The provider list shows all providers with search and paging, over the content below.
+
+The model list behaves the same for the selected provider.
+
+No new styles were needed; the popover reuses the existing menu look.
+
+The trigger still reads as a select thanks to the shared SelectTrigger.
+
+The result is a searchable dropdown that never hides behind a card wall.
+
+This pattern should be the template for any future dropdown in the console.
+
+Keeping one combobox means one place to fix and improve positioning.
+
+The reposition on scroll keeps the popover glued to the field during a scroll.
+
+The flip keeps the list on screen near the bottom of a page.
+
+Outside-click covers both the trigger and the portaled popover.
+
+Escape remains a quick way to dismiss it.
+
+The popover width tracks the field for a clean, aligned look.
+
+The z-index keeps it above cards and dialogs.
+
+The change is small, shared, and verified in a browser.
+
+In short: portal dropdowns out of clipped containers, and they just work.
+
+The Settings comboboxes are the first beneficiary; the New run picker keeps working.
+
+Any new selector can adopt the combobox and inherit correct positioning for free.
+
+This closes the clipping issue for the current selectors.
+
+And it sets a clear pattern for the next one.
+
+### Summary: portal your dropdowns out of clipped containers, position from the trigger, and reposition while open.
+
+The portal target is the document body, the least-clipped container available.
+
+Fixed coordinates are recomputed each time the popover opens, so stale positions never linger.
+
+The trigger wrapper keeps a relative box only for layout; positioning no longer depends on it.
+
+This keeps the closed control lightweight and the open popover free of its container.
+
+That balance is what makes the combobox both tidy when closed and unclipped when open.
