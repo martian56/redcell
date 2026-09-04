@@ -133,3 +133,5 @@ Menus sit above the shell chrome and the main card so an open menu is never obsc
 - **Dropdown / menu** - a small floating list anchored to a trigger.
 
 ## References
+
+- `apps/web/src/app/DashboardShell.tsx` - the shell component.
