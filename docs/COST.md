@@ -67,3 +67,7 @@ A run can carry a `budget_tokens` ceiling. Track spend against it to stop a run 
 Start a live run and watch the header: tokens and dollars should climb as calls complete.
 
 On OpenRouter, compare the shown cost against your OpenRouter dashboard for the same period; they should track closely.
+
+## Model price reference
+
+USD per 1M tokens as (input, output). Estimates for the fallback table; OpenRouter reports its own.
