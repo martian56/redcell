@@ -308,3 +308,5 @@ Confirm the header does not overflow: logo, name, version, and pill should all f
 **Pill stays after updating.** The app may be showing a stale query; a reload after the update clears it, and the update flow reloads for you.
 
 **Header looks crowded.** A very long version string plus the pill could wrap; the version is compact by design to avoid this.
+
+### FAQ
