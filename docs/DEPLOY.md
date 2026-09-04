@@ -150,3 +150,9 @@ docker compose exec -T postgres pg_dump -U redcell redcell > redcell.sql
 ```
 
 ## Verifying the deployment
+
+Check every container is up and the infra ones are healthy:
+
+```bash
+docker compose ps
+```
