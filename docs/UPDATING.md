@@ -351,3 +351,5 @@ Keeping the panel open is fine; it does not consume server resources beyond the 
 The panel's polling stops as soon as it reaches done or error, or when it is closed.
 
 A reload after done is the cleanest way to guarantee the new assets are in use.
+
+If you dismiss the done state without reloading, the app keeps the old bundle until the next full load.
