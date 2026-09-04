@@ -84,7 +84,7 @@ export function FilterMenu({
   const active = options.find((o) => o.value === value);
   return (
     <span className="menu-wrap" ref={ref}>
-      <button className="chip" onClick={() => setOpen((v) => !v)}>
+      <button type="button" className="chip" onClick={() => setOpen((v) => !v)}>
         {icon && (
           <svg viewBox="0 0 24 24">
             <path d="M4 6h16M7 12h10M10 18h4" />
@@ -100,7 +100,7 @@ export function FilterMenu({
       </button>
       <div className="menu" style={{ display: open ? 'block' : 'none' }}>
         {options.map((o) => (
-          <button
+          <button type="button"
             key={o.value}
             className={`menu-item${o.value === value ? ' sel' : ''}`}
             onClick={() => {
