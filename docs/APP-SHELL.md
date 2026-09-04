@@ -336,3 +336,5 @@ Confirm the header does not overflow: logo, name, version, and pill should all f
 The version is deliberately understated so it informs without competing with navigation.
 
 The Update pill is the one accent element in the header, drawing the eye only when action is useful.
+
+Because there is a single operator, any signed-in user is the admin who can apply the update.
