@@ -117,3 +117,5 @@ Verify layout changes in a browser, not only with a build. Positioning, clipping
 - Default: opens below the trigger, left-aligned.
 
 - Right-aligned: aligns the menu's right edge to the trigger.
+
+- Upward: opens above the trigger (used by the footer user menu).
