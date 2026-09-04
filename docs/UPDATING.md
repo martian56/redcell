@@ -102,3 +102,5 @@ curl -s https://your-domain/api/v1/system/version
 Both require a valid session; update additionally requires the admin role.
 
 ## Configuration
+
+- `REDCELL_COMPOSE_DIR` - host path of the checkout; enables the button.
