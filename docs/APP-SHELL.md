@@ -63,3 +63,5 @@ Menu triggers use `aria-haspopup` and `aria-expanded`, and menus use a menu role
 Icon-only buttons carry an `aria-label`.
 
 ## For contributors
+
+The shell is `apps/web/src/app/DashboardShell.tsx`; its styles are in `apps/web/src/styles/design.css`.
