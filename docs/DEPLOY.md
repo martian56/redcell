@@ -67,3 +67,5 @@ Point an `A` record (and `AAAA` if you use IPv6) for the domain at the server be
 Ports 80 and 443 must be reachable from the internet; Let's Encrypt validates over them.
 
 ### 3. A domain behind Cloudflare, Coolify, or another proxy
+
+A proxy or CDN in front holds the public certificate and forwards traffic to this server. Caddy here serves both plain HTTP on :80 and its own self-signed HTTPS on :443, so it answers whichever way the proxy connects.
