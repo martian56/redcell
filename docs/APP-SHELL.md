@@ -95,3 +95,5 @@ Verify layout changes in a browser, not only with a build. Positioning, clipping
 **Where is the theme stored?** It is applied via a data attribute on the root and persisted, and re-applied before paint to avoid a flash.
 
 **Does collapsing hide the brand header?** Yes; the whole sidebar is hidden when collapsed.
+
+**Is the shell responsive?** The main content is fluid; the sidebar is a fixed width you can collapse.
