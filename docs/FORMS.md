@@ -89,3 +89,5 @@ Issue #79 replaced the native Provider and Model selects in Settings with the co
 It reuses the existing combobox rather than adding a new one, so there is a single component to maintain.
 
 The free-text model input is kept for providers that list no models.
+
+## Accessibility
