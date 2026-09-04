@@ -23,3 +23,5 @@ What an unauthenticated client can observe from a REDCELL deployment, and the pr
 The login page shows only the product name and the sign-in form. It does not show a version string.
 
 It does not claim a bind address. Where the console binds is a deployment detail, not something to advertise on the login screen.
+
+In development, when the admin password is still the default, a hint block explains how to change it. Set real `REDCELL_ADMIN_*` values (or let the deploy generate them) so no hint is shown in production.
