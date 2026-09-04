@@ -92,3 +92,5 @@ curl -s https://your-domain/api/v1/system/version
 **Permission denied on the socket.** The api container must have access to `/var/run/docker.sock`. The compose file mounts it by default.
 
 **Stuck updating.** The pull may be slow on a large image. Give it time, then check `docker compose ps` and logs.
+
+## API
