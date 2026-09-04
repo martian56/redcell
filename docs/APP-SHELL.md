@@ -257,3 +257,5 @@ The version is only shown after login; the login page never reveals it. See [PRE
 A released image bakes its version in, so the sidebar shows `vX.Y.Z`. A local or unversioned build shows `dev`, and no update is ever offered for a `dev` build.
 
 ### The update flow from the sidebar
+
+1. The version query reports `updateAvailable`.
