@@ -89,7 +89,8 @@ async def start_update(user: User = Depends(current_user)) -> UpdateStarted:
         "-v", f"{repo_dir}:/repo",
         "-w", "/repo",
         image,
-        "sh", "-c", "docker compose pull && docker compose up -d",
+        "sh", "-c",
+        "docker compose pull api worker web && docker compose up -d migrate api worker web",
     ]
     try:
         proc = await asyncio.create_subprocess_exec(
