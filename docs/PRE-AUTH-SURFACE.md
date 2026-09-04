@@ -142,3 +142,5 @@ Operators still need the version. Expose it only after authentication (Settings)
 **Is it safe to expose the login publicly?** Safer with these measures, but a VPN or identity-aware proxy in front is stronger. Treat public exposure as a deliberate choice.
 
 ## Threat model notes
+
+The anonymous attacker sees only the login page, the first-run flag, the health check, and generic login errors. That is the intended surface.
