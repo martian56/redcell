@@ -253,3 +253,5 @@ Operators need to know what build is running when reporting an issue or confirmi
 The version is only shown after login; the login page never reveals it. See [PRE-AUTH-SURFACE.md](PRE-AUTH-SURFACE.md).
 
 ### dev vs a release build
+
+A released image bakes its version in, so the sidebar shows `vX.Y.Z`. A local or unversioned build shows `dev`, and no update is ever offered for a `dev` build.
