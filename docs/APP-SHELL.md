@@ -19,3 +19,5 @@ Top to bottom: the workspace header, the search button, the navigation groups, t
 The header shows the workspace name with a caret. The caret opens a small menu (the workspace and a theme toggle).
 
 The menu is anchored to the header (`.ws` is the positioning context) and spans within the sidebar, so it never extends into the main content or gets clipped.
+
+The caret rotates when the menu is open, and the button carries `aria-haspopup` and `aria-expanded`.
