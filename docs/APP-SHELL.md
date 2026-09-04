@@ -141,3 +141,5 @@ Menus sit above the shell chrome and the main card so an open menu is never obsc
 - [SHORTCUTS.md](SHORTCUTS.md) - the command palette and keyboard navigation.
 
 - [UPDATING.md](UPDATING.md) - in-app updates.
+
+- Issue #76 - removing the placeholder workspace switcher.
