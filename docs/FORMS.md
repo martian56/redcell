@@ -25,3 +25,5 @@ It lives in `apps/web/src/components/ui/Combobox.tsx`.
 - `items` - the array of options.
 
 - `current` - the selected option (used to highlight it).
+
+- `getKey` - a stable key for each option.
