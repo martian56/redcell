@@ -123,3 +123,5 @@ Verify layout changes in a browser, not only with a build. Positioning, clipping
 ## Z-index notes
 
 Menus sit above the shell chrome and the main card so an open menu is never obscured.
+
+## Glossary
