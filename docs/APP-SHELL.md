@@ -57,3 +57,5 @@ The Search button opens the command palette (Cmd/Ctrl+K). See [SHORTCUTS.md](SHO
 Below the navigation, sessions whose run is currently running are listed for quick access. The list is capped and polls run status.
 
 ## User menu
+
+The footer shows the operator and opens an upward menu with a theme toggle and sign out. It spans the footer width, staying inside the sidebar.
