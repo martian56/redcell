@@ -326,3 +326,5 @@ Confirm the header does not overflow: logo, name, version, and pill should all f
 - `apps/web/src/features/hooks.ts` - `useVersion`.
 
 - `apps/api/app/routers/system.py` - the version endpoint.
+
+- [UPDATING.md](UPDATING.md) - how updates work end to end.
