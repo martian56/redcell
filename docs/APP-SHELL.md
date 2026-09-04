@@ -185,3 +185,5 @@ While the workspace menu is open the header keeps its hover highlight, which rea
 Pressing Escape or clicking anywhere outside the switcher closes the menu.
 
 The caret rotates to point up while the menu is open, and animates back on close.
+
+The theme toggle appears in both the workspace and user menus for convenience; the header has a dedicated toggle too.
