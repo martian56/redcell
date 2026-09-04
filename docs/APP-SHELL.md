@@ -125,3 +125,5 @@ Verify layout changes in a browser, not only with a build. Positioning, clipping
 Menus sit above the shell chrome and the main card so an open menu is never obscured.
 
 ## Glossary
+
+- **Shell** - the persistent sidebar and header around every page.
