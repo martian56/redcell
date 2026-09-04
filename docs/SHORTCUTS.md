@@ -151,3 +151,5 @@ The query resets each time the palette opens, so you always start from a clean s
 Search is case-insensitive; capitalization never matters.
 
 ## References
+
+- `apps/web/src/app/CommandPalette.tsx` - the palette component.
