@@ -225,8 +225,11 @@ export interface DraftMessage {
 export interface SessionProposal {
   name?: string;
   client?: string;
+  kind?: SessionKind;
+  source?: string;
   scope: string[];
   targets: string[];
+  roe?: string;
   brief?: string;
 }
 

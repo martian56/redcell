@@ -96,10 +96,13 @@ export function NewSessionPage() {
       if (p) {
         setDraft((d) => ({
           ...d,
+          kind: p.kind ?? d.kind,
           name: p.name ?? d.name,
           client: p.client ?? d.client,
+          source: p.source ?? d.source,
           scope: p.scope && p.scope.length ? p.scope.join('\n') : d.scope,
           targets: p.targets && p.targets.length ? p.targets.join('\n') : d.targets,
+          roe: p.roe ?? d.roe,
           brief: p.brief ?? d.brief,
         }));
       }
