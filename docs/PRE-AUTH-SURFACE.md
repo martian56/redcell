@@ -101,3 +101,5 @@ Issue #63 removed two pre-auth disclosures from the login page.
 - The `Console binds to 127.0.0.1` notice is gone. It was inaccurate behind a proxy and described internal topology.
 
 - A regression test (`AuthGate.test.tsx`) asserts the login page contains no version pattern and no bind address.
+
+## Related surfaces to keep clean
