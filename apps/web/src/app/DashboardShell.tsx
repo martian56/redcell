@@ -163,6 +163,15 @@ export function DashboardShell() {
     return () => document.removeEventListener('keydown', h);
   }, []);
 
+  useEffect(() => {
+    if (!menu) return;
+    const h = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenu(null);
+    };
+    document.addEventListener('keydown', h);
+    return () => document.removeEventListener('keydown', h);
+  }, [menu]);
+
   const onSignOut = async () => {
     await api.auth.logout().catch(() => undefined);
     signOut();
@@ -249,7 +258,11 @@ export function DashboardShell() {
         </div>
         <div className="side-foot">
           <span className="menu-wrap" style={{ width: '100%' }} ref={userRef}>
-            <button type="button" className="userbtn" onClick={() => setMenu((m) => (m === 'user' ? null : 'user'))}>
+            <button type="button" className="userbtn"
+              onClick={() => setMenu((m) => (m === 'user' ? null : 'user'))}
+              aria-haspopup="menu"
+              aria-expanded={menu === 'user'}
+            >
               <span className="avatar" />
               <div style={{ flex: 1 }}>
                 <div className="u">admin</div>
@@ -259,7 +272,7 @@ export function DashboardShell() {
                 <path d="M8 15l4-4 4 4" />
               </svg>
             </button>
-            <div className="menu up" style={{ display: menu === 'user' ? 'block' : 'none', width: '100%' }}>
+            <div className="menu up" role="menu" style={{ display: menu === 'user' ? 'block' : 'none', width: '100%' }}>
               <button type="button" className="menu-item" onClick={flipTheme}>
                 Toggle theme
               </button>
