@@ -135,3 +135,5 @@ Menus sit above the shell chrome and the main card so an open menu is never obsc
 ## References
 
 - `apps/web/src/app/DashboardShell.tsx` - the shell component.
+
+- `apps/web/src/styles/design.css` - shell, sidebar, and menu styles.
