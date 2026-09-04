@@ -72,7 +72,7 @@ export function ChatPanel() {
                 {m.options?.length ? (
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {m.options.map((opt) => (
-                      <button
+                      <button type="button"
                         key={opt}
                         disabled={answered}
                         onClick={() => submit(opt)}
