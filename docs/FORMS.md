@@ -121,3 +121,5 @@ Verify in a browser; the popover, search, and pagination are layout behavior.
 **Search does not filter.** getLabel (and getSublabel) feed the filter; make sure they return the searchable text.
 
 **Selection is not highlighted.** current must be an item whose getKey matches an option in the list.
+
+**Popover is clipped.** It opens within the surrounding card; keep the field away from the very bottom, or the card should allow it to show.
