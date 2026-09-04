@@ -4,18 +4,14 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '@/lib/query';
 import { ApiProvider } from '@/lib/api';
 import { App } from '@/App';
+import { applyStoredTheme } from '@/lib/theme';
 import '@/styles/tokens.css';
 import 'react-mosaic-component/react-mosaic-component.css';
 import '@xterm/xterm/css/xterm.css';
 import '@/styles/global.css';
 import '@/styles/design.css';
 
-try {
-  const saved = localStorage.getItem('rc-theme');
-  if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
-} catch {
-  // ignore
-}
+applyStoredTheme();
 
 const el = document.getElementById('root');
 if (!el) throw new Error('#root not found');

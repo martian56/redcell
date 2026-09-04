@@ -20,3 +20,12 @@ export function toggleTheme(): Theme {
   setTheme(next);
   return next;
 }
+
+export function applyStoredTheme(): void {
+  try {
+    const saved = localStorage.getItem('rc-theme');
+    document.documentElement.setAttribute('data-theme', saved === 'light' ? 'light' : 'dark');
+  } catch {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+}
