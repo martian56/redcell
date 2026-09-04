@@ -253,3 +253,5 @@ Include the popover in the outside-click check, or clicking an option will close
 ### Verifying
 
 Open the control inside a card and confirm the list shows fully, past the card's edge, on top of other content.
+
+Check the popover's parent is the body and its position is fixed.
