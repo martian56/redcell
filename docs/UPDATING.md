@@ -9,3 +9,5 @@ Settings shows a version banner. When a newer release exists, an admin sees an U
 The banner shows the running version and, when available, the latest release to update to.
 
 ## How the version is known
+
+The running version is baked into the api and worker images at build time as `REDCELL_VERSION`, set from the release tag.
