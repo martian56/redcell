@@ -53,3 +53,5 @@ Over HTTPS the cookie is marked Secure (`REDCELL_COOKIE_SECURE=true`), so it is 
 The cookie uses a SameSite policy to limit cross-site submission.
 
 ## Transport
+
+Serve the console over HTTPS in any real deployment. Plain HTTP exposes credentials and the session cookie in transit.
