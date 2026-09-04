@@ -287,3 +287,5 @@ On a real deployment the same panel reflects the actual restart and version flip
 ### References
 
 - `apps/web/src/app/UpdateDialog.tsx` - the panel.
+
+- `apps/web/src/app/DashboardShell.tsx` - the sidebar trigger.
