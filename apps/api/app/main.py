@@ -10,7 +10,7 @@ from redcell_core.bus import bus
 from redcell_core.config import settings
 from redcell_core.logs import configure as configure_logging
 
-from .routers import ai, auth, files, infra, reports, resources, ws
+from .routers import ai, auth, files, infra, reports, resources, system, ws
 from .routers import settings as settings_router
 
 
@@ -37,7 +37,7 @@ def create_app() -> FastAPI:
 
     prefix = settings.api_prefix
     for r in (auth.router, resources.router, settings_router.router, infra.router,
-              files.router, reports.router, ai.router, ws.router):
+              files.router, reports.router, ai.router, system.router, ws.router):
         app.include_router(r, prefix=prefix)
 
     @app.get("/health")
