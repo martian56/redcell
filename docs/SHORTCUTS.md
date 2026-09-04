@@ -141,3 +141,5 @@ Everything is reachable by keyboard; no result requires the mouse.
 **Typing does nothing.** The input takes focus on open; click it if focus was lost, then type.
 
 ## Notes
+
+Selection wraps: pressing Arrow Up on the first result jumps to the last, and Arrow Down on the last jumps to the first.
