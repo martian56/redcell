@@ -7,7 +7,7 @@ type Variant = 'default' | 'primary' | 'ghost' | 'danger' | 'subtle';
 
 const variants: Record<Variant, string> = {
   default: 'bg-panel border border-border2 text-text hover:bg-elev',
-  primary: 'bg-accent text-white border border-transparent hover:brightness-110',
+  primary: 'bg-accent text-accent-fg border border-transparent hover:brightness-110',
   ghost: 'bg-transparent border border-transparent text-muted hover:text-text hover:bg-panel',
   danger: 'bg-accent-dim text-white border border-transparent hover:brightness-110',
   subtle: 'bg-elev border border-transparent text-text hover:brightness-110',
