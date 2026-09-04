@@ -9,3 +9,5 @@ The console uses a small set of custom form controls so inputs look and behave c
 - **Segmented buttons** - a small set of mutually exclusive options shown inline.
 
 - **Combobox** - a searchable dropdown that replaces native selects when the list is long or benefits from search.
+
+## The searchable combobox
