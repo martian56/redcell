@@ -283,3 +283,5 @@ On a real deployment the same panel reflects the actual restart and version flip
 **Do I get logged out?** No; the session cookie persists across the restart and reload.
 
 **What if I click twice?** A guard prevents starting the update more than once while the panel is open.
+
+### References
