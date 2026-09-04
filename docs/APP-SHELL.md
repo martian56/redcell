@@ -39,3 +39,5 @@ The header toggle hides the sidebar (grid column to 0). The choice is stored in 
 The sidebar's `overflow: hidden` is what makes the collapse look clean, which is why menus inside it must not rely on overflowing.
 
 ## Header
+
+The main card header shows the page title (or the console header on a session) and page actions such as New session and the theme toggle.
