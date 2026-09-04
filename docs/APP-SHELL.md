@@ -91,3 +91,5 @@ The shell is `apps/web/src/app/DashboardShell.tsx`; its styles are in `apps/web/
 ## Verifying shell changes
 
 Verify layout changes in a browser, not only with a build. Positioning, clipping, and z-index cannot be checked by type or unit tests.
+
+Append `?demo=1` to skip auth and load the shell with demo data for quick visual checks.
