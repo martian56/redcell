@@ -41,3 +41,5 @@ Avoid leaking account existence through response timing where practical.
 ## Rate limiting
 
 `POST /auth/login` is rate limited to slow credential stuffing and brute force. The draft-chat endpoint is rate limited too.
+
+Add IP-based rate limiting or a WAF at the proxy for defense in depth.
