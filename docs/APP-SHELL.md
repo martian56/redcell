@@ -173,3 +173,7 @@ Menus sit above the shell chrome and the main card. The workspace menu uses a hi
 ## Summary
 
 Sidebar plus floating card. Menus stay inside their region, above the content, and close on outside click. Verify layout in a browser.
+
+## Note on stacking contexts
+
+A dropdown is clipped or hidden by an ancestor with `overflow: hidden` or a higher stacking context. Anchor menus so their box stays inside the visible region rather than fighting the clip.
