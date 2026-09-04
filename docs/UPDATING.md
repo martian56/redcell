@@ -68,3 +68,9 @@ Pin the image tags to a previous version (for example `:0.3.2`) in an override, 
 ## Verifying an update
 
 After the restart, the Settings banner shows the new version and reads Up to date.
+
+The version endpoint returns the running and latest versions:
+
+```bash
+curl -s https://your-domain/api/v1/system/version
+```
