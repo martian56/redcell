@@ -37,3 +37,5 @@ git clone https://github.com/martian56/redcell.git
 cd redcell
 ./deploy.sh
 ```
+
+`deploy.sh` installs Docker if needed, asks how REDCELL will be reached, writes `.env`, pulls the images, and starts the stack.
