@@ -400,3 +400,5 @@ Only two small elements were added; the header stays uncluttered.
 If multiple workspaces ever return, the version can sit alongside a workspace label here.
 
 Layout is verified in a browser; the value and pill logic can be checked in mock mode.
+
+In short: the sidebar always shows the running version, and offers a one-click path to update when a newer release exists.
