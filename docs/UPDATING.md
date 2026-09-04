@@ -20,7 +20,7 @@ An update is offered when the latest release compares greater than the running v
 
 It calls an admin-only endpoint that launches a one-shot updater container on the host.
 
-The updater runs `docker compose pull` then `docker compose up -d` against this deployment's compose file.
+The updater pulls and recreates only the app services (`api`, `worker`, `web`) and re-runs `migrate`, leaving the reverse proxy and datastores running. That keeps the proxy up (no full-stack restart) and avoids a port-bind race on the proxy container.
 
 `up -d` re-runs the one-shot `migrate` service, so database migrations in the new version are applied automatically.
 
