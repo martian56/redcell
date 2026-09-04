@@ -88,3 +88,5 @@ curl -s https://your-domain/api/v1/system/version
 **Update did not apply.** Confirm compose tracks `:latest` and that the new images were published. Check `docker compose logs` for the pull.
 
 **Version still old after update.** The images may not carry a baked `REDCELL_VERSION` yet. Only releases built after this feature include it.
+
+**Permission denied on the socket.** The api container must have access to `/var/run/docker.sock`. The compose file mounts it by default.
