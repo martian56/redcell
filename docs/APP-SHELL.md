@@ -73,3 +73,5 @@ The dropdown was positioned from the caret with `left: 0`, so a 180px menu start
 The sidebar's `overflow: hidden` then clipped the overflowing part, and it overlapped the main content, so it looked like it slid under the main card.
 
 The menu is now anchored to the `.ws` header and spans within the sidebar, with a higher z-index. It stays fully inside the sidebar at any width.
+
+## For contributors
