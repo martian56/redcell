@@ -120,3 +120,4 @@ Issue #63 removed two pre-auth disclosures from the login page.
 - [ ] No bind addresses or internal hostnames in the UI.
 - [ ] Login errors are generic.
 - [ ] Login is rate limited.
+- [ ] Served over HTTPS with a Secure session cookie.
