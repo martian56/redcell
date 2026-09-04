@@ -1647,3 +1647,97 @@ svg.chart {
   flex-basis: 100%;
   color: var(--tx-3);
 }
+
+.updmodal {
+  width: 420px;
+  max-width: 92vw;
+  padding: 18px;
+}
+.updmodal-h {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.updmodal-h h2 {
+  font-size: 14px;
+  font-weight: 640;
+}
+.updmodal-target {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--tx-4);
+}
+.updsteps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.updstep {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  color: var(--tx-4);
+}
+.updstep.active {
+  color: var(--tx);
+}
+.updstep.done {
+  color: var(--tx-2);
+}
+.updstep.err {
+  color: var(--crit);
+}
+.updstep-dot {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  border: 1px solid var(--line);
+}
+.updstep.active .updstep-dot {
+  border-color: var(--acc);
+}
+.updstep.done .updstep-dot {
+  background: var(--acc-soft);
+  color: var(--acc);
+  border-color: transparent;
+}
+.updstep.err .updstep-dot {
+  background: color-mix(in srgb, var(--crit) 18%, transparent);
+  color: var(--crit);
+  border-color: transparent;
+}
+.updspin {
+  width: 11px;
+  height: 11px;
+  border: 2px solid var(--acc);
+  border-top-color: transparent;
+  border-radius: 999px;
+  animation: updspin-rot 0.7s linear infinite;
+}
+@keyframes updspin-rot {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.updmodal-detail {
+  margin: 14px 0 0;
+  font-size: 12px;
+  color: var(--tx-3);
+}
+.updmodal-foot {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 16px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .updspin {
+    animation: none;
+  }
+}
