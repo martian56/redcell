@@ -35,3 +35,5 @@ There is a few-second gap while the api, worker, and web containers restart. The
 ## Requirements for the button
 
 - `REDCELL_COMPOSE_DIR` must point at the host checkout so the updater can find the compose file. `deploy.sh` sets it; leave it blank to disable the button.
+
+- The api container needs the docker socket (it already mounts it to run tools).
