@@ -27,3 +27,4 @@ Stored files (reports, loot, uploads) are streamed through the API, so MinIO nev
 ## Prerequisites
 
 - A Linux server you can SSH into as root (or a sudo user). 2 GB RAM is enough to start; more helps when engagements run.
+- Docker Engine with the Compose plugin. `deploy.sh` installs both if they are missing.
