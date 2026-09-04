@@ -121,3 +121,5 @@ Verify layout changes in a browser, not only with a build. Positioning, clipping
 - Upward: opens above the trigger (used by the footer user menu).
 
 ## Z-index notes
+
+Menus sit above the shell chrome and the main card so an open menu is never obscured.
