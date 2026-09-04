@@ -278,7 +278,7 @@ export function NewSessionPage() {
             </label>
             <label className="field">
               <span className="label">
-                Engagement brief <span className="opt">— handed to the agents</span>
+                Engagement brief <span className="opt">(handed to the agents)</span>
               </span>
               <textarea className="textarea" value={draft.brief} rows={4} placeholder="What to focus on, what to skip, the objective…" onChange={(e) => patch({ brief: e.target.value })} />
             </label>
