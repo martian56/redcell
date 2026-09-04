@@ -249,3 +249,5 @@ The panel is `apps/web/src/app/UpdateDialog.tsx`; it takes an open flag, an onCl
 Render it wherever an update can be triggered and pass the latest version as the target; it handles the request and polling itself.
 
 It treats the update as done when the version endpoint reports the target version or no longer reports an update available.
+
+A ref guards against starting the update twice if the effect re-runs while open.
