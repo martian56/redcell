@@ -164,3 +164,5 @@ A brute-force attacker is slowed by rate limiting and generic errors, and should
 - A strict `Referrer-Policy` so navigations away from the console do not leak the URL.
 
 - `Strict-Transport-Security` once HTTPS is confirmed working, to pin future visits to HTTPS.
+
+## Logging
