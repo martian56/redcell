@@ -124,3 +124,5 @@ Issue #63 removed two pre-auth disclosures from the login page.
 - [ ] All data routes return 401 without a session.
 
 ## Why version disclosure matters
+
+A version string lets an attacker fingerprint the exact build and look up issues fixed after it, turning a blind probe into a targeted one.
