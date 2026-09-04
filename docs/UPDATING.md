@@ -27,3 +27,5 @@ The updater runs `docker compose pull` then `docker compose up -d` against this 
 ## Why a one-shot container
 
 The api container cannot cleanly recreate itself: `up -d` would kill the process mid-update. A separate one-shot container is not part of the recreate, so it survives and finishes the job.
+
+## Downtime
