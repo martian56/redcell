@@ -56,3 +56,5 @@ Each result carries an icon for its kind: a grid for Overview, a target for a se
 The palette lives in `apps/web/src/app/CommandPalette.tsx`.
 
 - To add a page, append an entry to the `PAGES` list with a route and an icon.
+
+- To add an action, append to the `ACTIONS` list.
