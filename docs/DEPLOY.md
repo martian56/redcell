@@ -169,3 +169,5 @@ curl -so /dev/null -w '%{http_code}\n' https://your-domain/api/v1/sessions
 **Port 80 or 443 already in use.** Another service is bound to it. Stop it, or free the port before deploying. Caddy needs both.
 
 **Certificate never issues (mode 2).** The domain must resolve to this server and ports 80/443 must be reachable from the internet. If the domain is proxied by a CDN, use mode 3 instead.
+
+**Cloudflare 521.** The origin is not listening on the port Cloudflare uses. Use mode 3 so Caddy serves :443, and set Cloudflare SSL to Full.
