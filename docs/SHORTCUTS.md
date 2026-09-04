@@ -76,3 +76,5 @@ Findings and reports are scoped to a session, so a global search would fan out a
 ## Design notes
 
 The palette previously listed only static pages, and some icons were generic. This made it a page switcher rather than a way to find things.
+
+Searching real entities turns it into a jump-to-anything tool, which is what a command palette is for.
