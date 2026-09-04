@@ -363,3 +363,5 @@ The reconnect handling is why the panel survives the very restart it is reportin
 For a no-op update (already current), the panel reaches done almost immediately.
 
 The panel is unit tested for opening, triggering the update, and rendering the steps.
+
+Its end-to-end behavior, including the reload, is verified in a browser.
