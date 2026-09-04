@@ -72,3 +72,5 @@ Filtering is a plain in-memory pass, and the result cap keeps rendering cheap.
 ## Why not findings and reports
 
 Findings and reports are scoped to a session, so a global search would fan out a query per session. The palette searches sessions instead; open a session to reach its findings and reports.
+
+## Design notes
