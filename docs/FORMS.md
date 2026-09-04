@@ -29,3 +29,5 @@ It lives in `apps/web/src/components/ui/Combobox.tsx`.
 - `getKey` - a stable key for each option.
 
 - `getLabel` - the primary text shown for an option.
+
+- `getSublabel` - optional secondary text under the label.
