@@ -81,7 +81,7 @@ export function ServerDetailPage() {
       subtitle={`${server.username ?? 'root'}@${server.host}${server.region ? ` · ${server.region}` : ''}`}
       actions={
         <>
-          <button
+          <button type="button"
             onClick={() => nav('/servers')}
             className="flex items-center gap-1.5 rounded-[var(--radius)] px-2 py-1.5 text-xs font-semibold text-muted hover:bg-panel hover:text-text"
           >
@@ -144,7 +144,7 @@ export function ServerDetailPage() {
           <div className="mb-3 flex items-center justify-between">
             <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-faint">Configuration</div>
             {!edit ? (
-              <button onClick={startEdit} className="text-[11px] font-semibold text-muted hover:text-text">
+              <button type="button" onClick={startEdit} className="text-[11px] font-semibold text-muted hover:text-text">
                 Edit
               </button>
             ) : null}
