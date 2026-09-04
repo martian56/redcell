@@ -1,0 +1,162 @@
+# Cost and token accounting
+
+How REDCELL measures what a run spends, and why the number is what it is.
+
+## Providers report tokens, not dollars
+
+Native LLM APIs (OpenAI, Anthropic, Google, DeepSeek, and so on) return token usage - `prompt_tokens`, `completion_tokens`, `total_tokens` - not a dollar amount. The cost is computed from those tokens and a per-model price.
+
+The exception is OpenRouter, which can return the actual charge in `usage.cost` when the request asks for it. REDCELL uses that real number when available.
+
+## How cost is resolved
+
+For each LLM call, cost is resolved in order:
+
+1. **OpenRouter real cost** - for the `openrouter` provider, the request sets `usage.include`, and the response's `usage.cost` is the charge.
+2. **LiteLLM price map** - `litellm.completion_cost` multiplies the returned tokens by LiteLLM's own prices for models it knows.
+3. **REDCELL price table** - a fallback in `engine/pricing.py` for models LiteLLM does not price (the catalog uses forward-looking model names LiteLLM has no entry for).
+
+If none apply (an unknown model on a direct provider), cost is 0 rather than a wrong guess.
+
+## Why spend used to read \$0.00
+
+The model catalog uses names like `glm-5.3`, `claude-opus-5`, and `deepseek-v4-pro`. LiteLLM has no prices for them, so `completion_cost` returned 0 and the run never accumulated any cost. The price-table fallback fixes this.
+
+## Per-run accumulation
+
+Each metered call adds its tokens and cost onto the run via `runs.set_meters`. The run's `tokens` and `cost_usd` grow as the engagement proceeds.
+
+The console header shows the running totals next to Elapsed and Model.
+
+## The price table
+
+`engine/pricing.py` maps a model to `(input, output)` in USD per 1M tokens. Cost is `prompt/1e6 * input + completion/1e6 * output`.
+
+Lookup is by the last path segment, lowercased, so `z-ai/glm-5.2` and `glm-5.2` resolve the same.
+
+An unknown variant falls back to its family (for example an unlisted `glm-5.x` uses a listed GLM price), so a new model still gets a sensible estimate.
+
+Local providers (Ollama) cost nothing, so their estimate is 0 regardless of model.
+
+## Updating prices
+
+Edit `PRICES` in `engine/pricing.py`. Keep entries as USD per 1M tokens `(input, output)`. Prefer real published prices where a model exists.
+
+For OpenRouter you usually do not need a table entry, since the real cost comes back on the response.
+
+## OpenRouter details
+
+The client adds `extra_body={"usage": {"include": true}}` for the `openrouter` provider so the response includes accounting.
+
+It then reads `usage.cost` (USD). This reflects OpenRouter's actual charge, including any per-model routing and discounts.
+
+## Accuracy and caveats
+
+For non-OpenRouter providers the number is an estimate. It is only as accurate as the price table and the usage the provider reports.
+
+Prompt caching, batch discounts, and provider promotions are not modeled in the table, so estimated cost can run high or low.
+
+If a provider omits usage, tokens and cost for that call are 0.
+
+## Budgets
+
+A run can carry a `budget_tokens` ceiling. Track spend against it to stop a run before it runs away.
+
+## Verifying
+
+Start a live run and watch the header: tokens and dollars should climb as calls complete.
+
+On OpenRouter, compare the shown cost against your OpenRouter dashboard for the same period; they should track closely.
+
+## Model price reference
+
+USD per 1M tokens as (input, output). Estimates for the fallback table; OpenRouter reports its own.
+- `gpt-5.6` - 5.0 / 15.0
+- `gpt-5.5` - 3.0 / 10.0
+- `gpt-5.4` - 2.5 / 8.0
+- `gpt-5.4-mini` - 0.4 / 1.6
+- `o4-mini` - 1.1 / 4.4
+- `claude-opus-5` - 15.0 / 75.0
+- `claude-sonnet-5` - 3.0 / 15.0
+- `claude-haiku-4-5` - 0.8 / 4.0
+- `gemini-3.1-pro` - 2.5 / 10.0
+- `gemini-3.6-flash` - 0.3 / 2.5
+- `gemini-3.1-flash-lite` - 0.1 / 0.4
+- `deepseek-v4-pro` - 0.6 / 1.7
+- `deepseek-v4-flash` - 0.3 / 0.9
+- `deepseek-r2` - 0.7 / 2.4
+- `kimi-k3` - 0.6 / 2.5
+- `kimi-k2.7-code` - 0.5 / 2.0
+- `glm-5.3` - 0.6 / 2.2
+- `glm-5.2` - 0.5 / 1.8
+- `glm-4.6` - 0.4 / 1.6
+- `glm-4.5-air` - 0.2 / 1.1
+- `llama-4-70b` - 0.6 / 0.9
+- `qwen3-72b` - 0.6 / 0.9
+- `deepseek-v4` - 0.6 / 1.7
+- Ollama / local models - 0 (self-hosted, no API charge)
+
+## FAQ
+
+**Why is it an estimate?** Because most providers do not return a dollar figure; REDCELL multiplies reported tokens by a price. OpenRouter is the exception and returns a real charge.
+
+**The cost looks off.** Check the price-table entry for the model, and remember caching and discounts are not modeled.
+
+**Still \$0.00 on a live run.** The provider may not be returning usage, the model may be unknown on a direct provider, or no LLM calls have completed yet.
+
+**Local models show \$0.00.** Expected - self-hosted models have no API cost.
+
+## References
+
+- `packages/core/redcell_core/engine/pricing.py` - the price table and estimator.
+- `packages/core/redcell_core/engine/llm.py` - cost resolution order.
+- Issue #64 - the \$0.00 bug this documents.
+
+## Tokens explained
+
+**Prompt (input) tokens** are everything sent to the model: system prompt, prior turns, tool definitions, and the current message.
+
+**Completion (output) tokens** are what the model generates, including tool-call arguments.
+
+**Total** is prompt plus completion. When a provider omits the total, REDCELL derives it from the two parts.
+
+Output tokens usually cost more than input, which is why the table prices them separately.
+
+## How a call is metered
+
+1. The client calls the provider and receives the message plus a usage block.
+2. It parses total, prompt, and completion tokens from usage.
+3. It resolves cost (OpenRouter real, then LiteLLM, then table).
+4. The runner books tokens and cost onto the run with `set_meters`.
+5. The header reflects the new totals on the next update.
+
+## Controlling cost
+
+- Pick a cheaper model for routine work; reserve flagship models for hard steps.
+
+- Set a token budget on the run so it stops before overspending.
+
+- Keep scope tight; fewer targets and turns means fewer tokens.
+
+- OpenRouter gives you real per-call cost, which makes tuning spend easier.
+
+## Related
+
+- Provider keys and model selection live in Settings; see the README configuration notes.
+
+## Glossary
+
+- **per 1M tokens** - prices are quoted per one million tokens; divide token counts by 1,000,000 before multiplying.
+
+- **usage** - the accounting block a provider returns alongside the message.
+
+- **metered call** - an LLM call whose tokens and cost are booked onto the run.
+
+## Note
+
+Cost is informational. Treat it as a close estimate for budgeting, not an invoice, except where OpenRouter reports the real charge.
+
+## See also
+
+- [DEPLOY.md](DEPLOY.md) - running the stack.
+- Settings in the console - provider keys, model selection, and per-run model override.
