@@ -81,7 +81,7 @@ export function ServerDetailPage() {
       subtitle={`${server.username ?? 'root'}@${server.host}${server.region ? ` · ${server.region}` : ''}`}
       actions={
         <>
-          <button
+          <button type="button"
             onClick={() => nav('/servers')}
             className="flex items-center gap-1.5 rounded-[var(--radius)] px-2 py-1.5 text-xs font-semibold text-muted hover:bg-panel hover:text-text"
           >
@@ -89,7 +89,7 @@ export function ServerDetailPage() {
             Servers
           </button>
           <Button variant="primary" disabled={test.isPending} onClick={() => void runTest()}>
-            {test.isPending ? 'Testing...' : 'Test connection'}
+            {test.isPending ? 'Testing…' : 'Test connection'}
           </Button>
           <Button onClick={() => void del()}>Delete</Button>
         </>
@@ -144,7 +144,7 @@ export function ServerDetailPage() {
           <div className="mb-3 flex items-center justify-between">
             <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-faint">Configuration</div>
             {!edit ? (
-              <button onClick={startEdit} className="text-[11px] font-semibold text-muted hover:text-text">
+              <button type="button" onClick={startEdit} className="text-[11px] font-semibold text-muted hover:text-text">
                 Edit
               </button>
             ) : null}
@@ -186,7 +186,7 @@ export function ServerDetailPage() {
                     onChange={(e) => setForm((f) => ({ ...f, privateKey: e.target.value }))}
                     rows={3}
                     placeholder="-----BEGIN OPENSSH PRIVATE KEY-----"
-                    className="w-full rounded-[var(--radius)] border border-border2 bg-black px-3 py-2 font-mono text-[12px] text-text outline-none placeholder:text-faint focus:border-accent"
+                    className="w-full rounded-[var(--radius)] border border-border2 bg-bg px-3 py-2 font-mono text-[12px] text-text outline-none placeholder:text-faint focus:border-accent"
                   />
                 </Field>
               )}

@@ -81,7 +81,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
           'radial-gradient(55% 45% at 50% 0%, rgba(255,51,68,0.10), transparent 70%), var(--color-bg)',
       }}
     >
-      <div className="w-[410px] max-w-[92vw] overflow-hidden rounded-[var(--radius)] border border-border2 bg-panel shadow-[0_30px_90px_rgba(0,0,0,0.6)]">
+      <div className="w-[410px] max-w-[92vw] overflow-hidden rounded-[var(--radius)] border border-border2 bg-panel shadow-[var(--shadow)]">
         <div className="flex items-center gap-3 border-b border-border p-6">
           <span
             className="h-9 w-9 flex-none"
@@ -101,7 +101,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
 
         <div className="flex flex-col gap-4 p-6">
           {hint ? (
-            <div className="rounded-[var(--radius)] border border-border2 bg-black p-3 text-xs text-muted">
+            <div className="rounded-[var(--radius)] border border-border2 bg-bg p-3 text-xs text-muted">
               <div className="mb-1.5 flex items-center gap-2 font-bold text-text">
                 <span
                   className="rounded-full px-2 py-0.5 font-mono text-[9.5px] tracking-wider text-live"
@@ -124,7 +124,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
               onChange={(e) => setUsername(e.target.value)}
               onKeyDown={onKeyDown}
               spellCheck={false}
-              className="h-10 rounded-[var(--radius)] border border-border2 bg-black px-3 font-mono text-[13px] text-text outline-none focus:border-accent"
+              className="h-10 rounded-[var(--radius)] border border-border2 bg-bg px-3 font-mono text-[13px] text-text outline-none focus:border-accent"
             />
           </label>
           <label className="flex flex-col gap-1.5">
@@ -134,7 +134,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               onKeyDown={onKeyDown}
-              className="h-10 rounded-[var(--radius)] border border-border2 bg-black px-3 font-mono text-[13px] text-text outline-none focus:border-accent"
+              className="h-10 rounded-[var(--radius)] border border-border2 bg-bg px-3 font-mono text-[13px] text-text outline-none focus:border-accent"
             />
           </label>
 

@@ -17,7 +17,7 @@ export function ProxyPanel() {
   const { data, isLoading } = useProxy(engId);
 
   if (isLoading) return <div className="grid h-full place-items-center"><Spinner /></div>;
-  if (!data || data.length === 0) return <Empty>No proxy history.</Empty>;
+  if (!data || data.length === 0) return <Empty>No proxy activity yet.</Empty>;
 
   return (
     <div className="h-full overflow-auto">

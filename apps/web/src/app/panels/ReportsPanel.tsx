@@ -46,7 +46,7 @@ export function ReportsPanel() {
     if (!sid || formats.length === 0) return;
     await create.mutateAsync({ title: title.trim() || defaultTitle, formats });
     setTitle('');
-    toast('Generating report...', 'success');
+    toast('Generating report…', 'success');
   };
 
   return (
@@ -67,11 +67,11 @@ export function ReportsPanel() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder={defaultTitle}
-            className="h-9 w-full rounded-[var(--radius)] border border-border2 bg-black px-3 text-[13px] text-text outline-none placeholder:text-faint focus:border-accent"
+            className="h-9 w-full rounded-[var(--radius)] border border-border2 bg-bg px-3 text-[13px] text-text outline-none placeholder:text-faint focus:border-accent"
           />
           <div className="flex flex-wrap items-center gap-2">
             {ALL_FORMATS.map((f) => (
-              <button
+              <button type="button"
                 key={f}
                 onClick={() => toggle(f)}
                 className={cn(
@@ -111,7 +111,7 @@ export function ReportsPanel() {
                       {new Date(r.createdAt).toLocaleString()}
                     </div>
                   </div>
-                  <button
+                  <button type="button"
                     onClick={() => del.mutate(r.id)}
                     title="Delete report"
                     className="flex-none p-1 text-faint hover:text-crit"

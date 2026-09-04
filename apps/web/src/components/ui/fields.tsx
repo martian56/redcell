@@ -4,7 +4,7 @@ import { Icon } from './Icon';
 
 export function SelectTrigger({ children }: { children: ReactNode }) {
   return (
-    <span className="flex h-9 w-full items-center justify-between rounded-[var(--radius)] border border-border2 bg-black px-3 font-mono text-[13px] text-text hover:border-faint">
+    <span className="flex h-9 w-full items-center justify-between rounded-[var(--radius)] border border-border2 bg-bg px-3 font-mono text-[13px] text-text hover:border-faint">
       <span className="truncate">{children}</span>
       <Icon name="chevronDown" size={13} className="text-faint" />
     </span>
@@ -25,7 +25,7 @@ export function TextInput({ className, ...props }: InputHTMLAttributes<HTMLInput
   return (
     <input
       className={cn(
-        'h-9 w-full rounded-[var(--radius)] border border-border2 bg-black px-3 font-mono text-[13px] text-text outline-none placeholder:text-faint focus:border-accent',
+        'h-9 w-full rounded-[var(--radius)] border border-border2 bg-bg px-3 font-mono text-[13px] text-text outline-none placeholder:text-faint focus:border-accent',
         className,
       )}
       {...props}
@@ -74,13 +74,13 @@ export function Segmented<T extends string>({
   return (
     <div className="inline-flex rounded-[var(--radius)] border border-border2 bg-panel2 p-1">
       {options.map((o) => (
-        <button
+        <button type="button"
           key={o.value}
-          type="button"
+
           onClick={() => onChange(o.value)}
           className={cn(
             'rounded-[4px] px-3 py-1.5 text-xs font-semibold transition',
-            o.value === value ? 'bg-accent text-white' : 'text-muted hover:text-text',
+            o.value === value ? 'bg-accent text-accent-fg' : 'text-muted hover:text-text',
           )}
         >
           {o.label}

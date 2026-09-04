@@ -7,9 +7,9 @@ type Variant = 'default' | 'primary' | 'ghost' | 'danger' | 'subtle';
 
 const variants: Record<Variant, string> = {
   default: 'bg-panel border border-border2 text-text hover:bg-elev',
-  primary: 'bg-accent text-white border border-transparent hover:brightness-110',
+  primary: 'bg-accent text-accent-fg border border-transparent hover:brightness-110',
   ghost: 'bg-transparent border border-transparent text-muted hover:text-text hover:bg-panel',
-  danger: 'bg-accent-dim text-white border border-transparent hover:brightness-110',
+  danger: 'bg-accent-dim text-accent-ink border border-transparent hover:brightness-110',
   subtle: 'bg-elev border border-transparent text-text hover:brightness-110',
 };
 
@@ -19,7 +19,7 @@ export function Button({
   ...props
 }: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant }) {
   return (
-    <button
+    <button type="button"
       className={cn(
         'inline-flex select-none items-center gap-2 rounded-[var(--radius)] px-3 h-8 text-xs font-semibold transition disabled:opacity-50',
         variants[variant],
@@ -35,7 +35,7 @@ export function IconButton({
   ...props
 }: ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <button
+    <button type="button"
       className={cn(
         'grid h-7 w-7 place-items-center rounded-[var(--radius)] text-faint transition hover:bg-panel hover:text-text',
         className,

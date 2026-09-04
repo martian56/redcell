@@ -72,7 +72,7 @@ export function ChatPanel() {
                 {m.options?.length ? (
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {m.options.map((opt) => (
-                      <button
+                      <button type="button"
                         key={opt}
                         disabled={answered}
                         onClick={() => submit(opt)}
@@ -101,8 +101,8 @@ export function ChatPanel() {
           onKeyDown={(e) => {
             if (e.key === 'Enter') submit();
           }}
-          placeholder="Tell the orchestrator what to do..."
-          className="h-9 flex-1 rounded-[var(--radius)] border border-border2 bg-black px-3 text-[13px] text-text outline-none transition-colors placeholder:text-faint focus:border-accent"
+          placeholder="Tell the orchestrator what to do…"
+          className="h-9 flex-1 rounded-[var(--radius)] border border-border2 bg-bg px-3 text-[13px] text-text outline-none transition-colors placeholder:text-faint focus:border-accent"
         />
         <Button variant="primary" onClick={() => submit()} disabled={!text.trim()}>
           <Icon name="steer" size={14} />

@@ -11,7 +11,7 @@ export function Combobox<T>({
   getSublabel,
   onSelect,
   trigger,
-  placeholder = 'Search...',
+  placeholder = 'Search…',
   pageSize = 6,
   width = 280,
   block = false,
@@ -76,9 +76,9 @@ export function Combobox<T>({
       {open ? (
         <div
           style={{ width: block ? '100%' : width }}
-          className="absolute left-0 top-[calc(100%+4px)] z-50 rounded-[var(--radius)] border border-border2 bg-panel2 p-1.5 shadow-[0_16px_40px_rgba(0,0,0,0.55)]"
+          className="absolute left-0 top-[calc(100%+4px)] z-50 rounded-[var(--radius)] border border-border2 bg-panel2 p-1.5 shadow-[var(--shadow)]"
         >
-          <div className="mb-1 flex items-center gap-2 rounded-[var(--radius)] border border-border2 bg-black px-2">
+          <div className="mb-1 flex items-center gap-2 rounded-[var(--radius)] border border-border2 bg-bg px-2">
             <Icon name="search" size={13} className="text-faint" />
             <input
               autoFocus
@@ -95,7 +95,7 @@ export function Combobox<T>({
               pageItems.map((i) => {
                 const active = current && getKey(current) === getKey(i);
                 return (
-                  <button
+                  <button type="button"
                     key={getKey(i)}
                     onClick={() => {
                       onSelect(i);
@@ -117,7 +117,7 @@ export function Combobox<T>({
           </div>
           {pages > 1 ? (
             <div className="mt-1 flex items-center justify-between border-t border-border px-1 pt-1.5">
-              <button
+              <button type="button"
                 disabled={clampPage === 0}
                 onClick={() => setPage((p) => Math.max(0, p - 1))}
                 className="grid h-6 w-6 place-items-center rounded text-faint hover:text-text disabled:opacity-40"
@@ -127,7 +127,7 @@ export function Combobox<T>({
               <span className="font-mono text-[10px] text-faint">
                 {clampPage + 1} / {pages}
               </span>
-              <button
+              <button type="button"
                 disabled={clampPage >= pages - 1}
                 onClick={() => setPage((p) => Math.min(pages - 1, p + 1))}
                 className="grid h-6 w-6 place-items-center rounded text-faint hover:text-text disabled:opacity-40"

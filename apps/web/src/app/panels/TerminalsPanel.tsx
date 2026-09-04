@@ -51,7 +51,7 @@ export function TerminalsPanel() {
   const tabBar = (
     <div className="flex flex-none items-center gap-1 overflow-x-auto border-b border-border bg-bg2 px-2 py-1.5">
       {(shells ?? []).map((s) => (
-        <button
+        <button type="button"
           key={s.id}
           onClick={() => setActive(s.id)}
           className={cn(
@@ -77,7 +77,7 @@ export function TerminalsPanel() {
           </span>
         </button>
       ))}
-      <button
+      <button type="button"
         onClick={() => void newTerminal()}
         disabled={!sid || openShell.isPending}
         title="New terminal"

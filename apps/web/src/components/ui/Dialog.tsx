@@ -28,17 +28,17 @@ export function Dialog({
   if (!open) return null;
   return (
     <div
-      className="fixed inset-0 z-[90] grid place-items-center bg-black/60 p-4"
+      className="fixed inset-0 z-[90] grid place-items-center bg-[var(--overlay)] p-4"
       onMouseDown={onClose}
     >
       <div
-        className="w-full overflow-hidden rounded-[var(--radius)] border border-border2 bg-panel shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
+        className="w-full overflow-hidden rounded-[var(--radius)] border border-border2 bg-panel shadow-[var(--shadow)]"
         style={{ maxWidth: width }}
         onMouseDown={(e) => e.stopPropagation()}
       >
         <div className="flex items-center gap-2 border-b border-border px-4 py-3">
           <h2 className="text-sm font-bold">{title}</h2>
-          <button className="ml-auto text-faint hover:text-text" onClick={onClose} aria-label="Close">
+          <button type="button" className="ml-auto text-faint hover:text-text" onClick={onClose} aria-label="Close">
             <Icon name="close" size={16} />
           </button>
         </div>

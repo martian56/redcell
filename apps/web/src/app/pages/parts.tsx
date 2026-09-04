@@ -35,7 +35,7 @@ export function StatTile({ k, v, children }: { k: string; v: string; children?: 
 
 export function SessionCard({ s, onClick }: { s: Session; onClick: () => void }) {
   return (
-    <button
+    <button type="button"
       onClick={onClick}
       className="flex flex-col gap-3 rounded-[var(--radius)] border border-border bg-panel p-4 text-left transition hover:border-border2 hover:bg-panel2"
     >

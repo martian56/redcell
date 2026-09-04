@@ -31,7 +31,7 @@ export function ListenersPanel() {
         {isLoading ? (
           <div className="grid h-full place-items-center"><Spinner /></div>
         ) : !data || data.length === 0 ? (
-          <Empty>No listeners.</Empty>
+          <Empty>No listeners yet.</Empty>
         ) : (
           <table className="w-full border-collapse text-xs">
             <thead>

@@ -1,25 +1,19 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { cn } from '@/lib/cn';
 import { useAvailableModels, useCreateSession, useProxies, useServers } from '@/features/hooks';
 import { useApi } from '@/lib/api';
-import { Button } from '@/components/ui/primitives';
-import { Field, Segmented, SelectTrigger, TextInput } from '@/components/ui/fields';
-import { Combobox } from '@/components/ui/Combobox';
 import { Markdown } from '@/components/ui/Markdown';
-import { Icon } from '@/components/ui/Icon';
 import { Thinking } from '@/components/ui/Thinking';
 import { toast } from '@/components/ui/toast';
 import type { SessionKind } from '@redcell/api-client';
 
 type Msg = { id: string; role: 'operator' | 'assistant'; text: string };
-type Opt = { id: string; label: string; sub?: string };
 type Draft = {
   kind: SessionKind;
   name: string;
   client: string;
-  targets: string[];
-  scope: string[];
+  targets: string;
+  scope: string;
   roe: string;
   brief: string;
   source: string;
@@ -30,96 +24,7 @@ type Draft = {
 };
 
 const apiBase = (import.meta.env.VITE_API_BASE_URL ?? '/api/v1') as string;
-
-function dedupe(a: string[]): string[] {
-  return [...new Set(a)];
-}
-
-function Chip({ text, onRemove }: { text: string; onRemove: () => void }) {
-  return (
-    <span className="flex items-center gap-1 rounded-[4px] bg-elev px-2 py-0.5 font-mono text-[11px] text-text">
-      {text}
-      <button onClick={onRemove} className="text-faint hover:text-crit">
-        <Icon name="close" size={11} />
-      </button>
-    </span>
-  );
-}
-
-function ChipInput({
-  label,
-  hint,
-  items,
-  onAdd,
-  onRemove,
-  placeholder,
-}: {
-  label: string;
-  hint?: string;
-  items: string[];
-  onAdd: (v: string) => void;
-  onRemove: (v: string) => void;
-  placeholder: string;
-}) {
-  const [v, setV] = useState('');
-  return (
-    <Field label={label} hint={hint}>
-      <div className="flex flex-wrap gap-1.5 rounded-[var(--radius)] border border-border2 bg-black p-2">
-        {items.map((it) => (
-          <Chip key={it} text={it} onRemove={() => onRemove(it)} />
-        ))}
-        <input
-          value={v}
-          onChange={(e) => setV(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && v.trim()) {
-              onAdd(v.trim());
-              setV('');
-              e.preventDefault();
-            }
-          }}
-          placeholder={items.length ? 'add...' : placeholder}
-          className="min-w-[120px] flex-1 bg-transparent px-1 font-mono text-[12px] text-text outline-none placeholder:text-faint"
-        />
-      </div>
-    </Field>
-  );
-}
-
-/** Labelled Combobox rendering the current option in a select-style box. */
-function PickerField({
-  label,
-  hint,
-  options,
-  value,
-  onChange,
-  placeholder,
-}: {
-  label: string;
-  hint?: string;
-  options: Opt[];
-  value: string;
-  onChange: (id: string) => void;
-  placeholder: string;
-}) {
-  const current = options.find((o) => o.id === value) ?? options[0];
-  return (
-    <Field label={label} hint={hint}>
-      <Combobox<Opt>
-        block
-        items={options}
-        current={current}
-        getKey={(o) => o.id}
-        getLabel={(o) => o.label}
-        getSublabel={(o) => o.sub ?? ''}
-        onSelect={(o) => onChange(o.id)}
-        placeholder={placeholder}
-        trigger={<SelectTrigger>{current ? current.label : placeholder}</SelectTrigger>}
-      />
-    </Field>
-  );
-}
-
+const lines = (s: string) => [...new Set(s.split('\n').map((x) => x.trim()).filter(Boolean))];
 let seq = 0;
 const mkMsg = (role: Msg['role'], text: string): Msg => ({ id: `m${++seq}`, role, text });
 
@@ -135,8 +40,8 @@ export function NewSessionPage() {
     kind: 'network',
     name: '',
     client: '',
-    targets: [],
-    scope: [],
+    targets: '',
+    scope: '',
     roe: '',
     brief: '',
     source: '',
@@ -149,7 +54,7 @@ export function NewSessionPage() {
   const [messages, setMessages] = useState<Msg[]>([
     mkMsg(
       'assistant',
-      "Tell me what you want to test and I'll help scope it: a URL, a domain, a wildcard like *.example.com, or an IP range. For a code review, switch the type to Code scan and point me at a public repo or a local folder. I'll draft the session on the right as we go.",
+      "Tell me what you want to test and I'll help scope it: a URL, a domain, a wildcard like *.example.com, or an IP range. Switch to Code scan to review a repo. I'll draft the session on the right as we go.",
     ),
   ]);
   const [input, setInput] = useState('');
@@ -161,27 +66,19 @@ export function NewSessionPage() {
     if (el) el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
   }, [messages.length, busy]);
 
-  const serverOptions = useMemo<Opt[]>(
+  const modelOptions = useMemo(
     () => [
-      { id: '', label: 'Local (this host)', sub: 'runs in the local Kali container' },
-      ...(servers ?? []).map((s) => ({ id: s.id, label: s.name, sub: `${s.username ?? 'root'}@${s.host}` })),
-    ],
-    [servers],
-  );
-  const proxyOptions = useMemo<Opt[]>(
-    () => [
-      { id: '', label: 'Direct (no proxy)', sub: 'traffic egresses locally' },
-      ...(proxies ?? []).map((p) => ({ id: p.id, label: p.label, sub: `${p.kind} · ${p.url}` })),
-    ],
-    [proxies],
-  );
-  const modelOptions = useMemo<Opt[]>(
-    () => [
-      { id: '', label: 'Default (from Settings)', sub: 'use the configured model' },
-      ...(models ?? []).map((m) => ({ id: `${m.provider}::${m.model}`, label: m.model, sub: m.providerLabel })),
+      { id: '', label: 'Default (from Settings)' },
+      ...(models ?? []).map((m) => ({ id: `${m.provider}::${m.model}`, label: `${m.model} · ${m.providerLabel}` })),
     ],
     [models],
   );
+
+  const patch = (p: Partial<Draft>) => setDraft((d) => ({ ...d, ...p }));
+  const isCode = draft.kind === 'code';
+  const canCreate =
+    draft.name.trim().length > 0 &&
+    (isCode ? draft.source.trim().length > 0 : lines(draft.targets).length > 0 || lines(draft.scope).length > 0);
 
   const send = async () => {
     const text = input.trim();
@@ -201,8 +98,8 @@ export function NewSessionPage() {
           ...d,
           name: p.name ?? d.name,
           client: p.client ?? d.client,
-          scope: p.scope && p.scope.length ? dedupe(p.scope) : d.scope,
-          targets: p.targets && p.targets.length ? dedupe(p.targets) : d.targets,
+          scope: p.scope && p.scope.length ? p.scope.join('\n') : d.scope,
+          targets: p.targets && p.targets.length ? p.targets.join('\n') : d.targets,
           brief: p.brief ?? d.brief,
         }));
       }
@@ -216,39 +113,29 @@ export function NewSessionPage() {
     }
   };
 
-  const isCode = draft.kind === 'code';
-  const canCreate =
-    draft.name.trim().length > 0 &&
-    (isCode ? draft.source.trim().length > 0 : draft.targets.length > 0 || draft.scope.length > 0);
-
   const onCreate = async () => {
     if (!canCreate) return;
-    const [provider, model] = draft.model ? [draft.provider, draft.model] : ['', ''];
     const created = await create.mutateAsync({
       name: draft.name.trim(),
       client: draft.client.trim() || 'Unknown',
       kind: draft.kind,
       source: isCode ? draft.source.trim() : undefined,
-      targets: isCode ? [] : draft.targets,
-      scope: isCode ? [] : draft.scope,
+      targets: isCode ? [] : lines(draft.targets),
+      scope: isCode ? [] : lines(draft.scope),
       roe: draft.roe.trim() || undefined,
       brief: draft.brief.trim() || undefined,
       serverId: draft.serverId || undefined,
       proxyId: draft.proxyId || undefined,
-      provider: provider || undefined,
-      model: model || undefined,
+      provider: draft.provider || undefined,
+      model: draft.model || undefined,
     });
     for (const f of files) {
       const fd = new FormData();
       fd.append('file', f);
       fd.append('kind', 'assessment');
       try {
-        const res = await fetch(`${apiBase}/sessions/${created.id}/files`, {
-          method: 'POST',
-          body: fd,
-          credentials: 'include',
-        });
-        if (!res.ok) throw new Error(`upload failed: ${res.status}`);
+        const res = await fetch(`${apiBase}/sessions/${created.id}/files`, { method: 'POST', body: fd, credentials: 'include' });
+        if (!res.ok) throw new Error(String(res.status));
       } catch {
         toast(`Could not upload ${f.name}`, 'error');
       }
@@ -257,183 +144,167 @@ export function NewSessionPage() {
     nav(`/sessions/${created.id}`);
   };
 
-  const patch = (p: Partial<Draft>) => setDraft((d) => ({ ...d, ...p }));
-
   return (
-    <div className="flex h-full flex-col">
-      <header className="flex h-[52px] flex-none items-center gap-3 border-b border-border bg-bg2 px-5">
-        <button
-          onClick={() => nav('/sessions')}
-          className="flex items-center gap-1.5 rounded-[var(--radius)] px-2 py-1.5 text-xs font-semibold text-muted hover:bg-panel hover:text-text"
-        >
-          <Icon name="chevronLeft" size={15} />
-          Sessions
-        </button>
-        <div className="flex flex-col leading-tight">
-          <span className="text-[13px] font-bold">New session</span>
-          <span className="text-[11px] text-faint">Talk to the setup agent, then create</span>
-        </div>
-        <div className="flex-1" />
-        <Button variant="primary" disabled={!canCreate || create.isPending} onClick={onCreate}>
-          Create session
-        </Button>
-      </header>
-
-      <div className="grid min-h-0 flex-1 grid-cols-[1fr_400px]">
-        <div className="flex min-h-0 flex-col border-r border-border">
-          <div ref={scroller} className="flex min-h-0 flex-1 flex-col gap-2.5 overflow-auto p-4">
+    <div className="wrap">
+      <div className="split">
+        <div className="card chatcard">
+          <div className="card-h" style={{ padding: '13px 16px 12px', borderBottom: '1px solid var(--line-soft)' }}>
+            <h3>Plan the engagement</h3>
+            <span className="cs">· AI planner</span>
+          </div>
+          <div className="cscroll" ref={scroller}>
             {messages.map((m) => (
-              <div
-                key={m.id}
-                className={cn(
-                  'msg-in max-w-[80%] whitespace-pre-wrap rounded-[var(--radius)] px-3 py-2 text-xs leading-relaxed',
-                  m.role === 'operator'
-                    ? 'self-end bg-accent-dim text-accent-ink'
-                    : 'self-start border border-border bg-panel2 text-text',
-                )}
-              >
-                {m.role === 'operator' ? m.text : <Markdown>{m.text}</Markdown>}
+              <div key={m.id} className={`msg ${m.role === 'operator' ? 'op' : 'as'} msg-in`}>
+                <div className="who">{m.role === 'operator' ? 'you' : 'planner'}</div>
+                <div className="bub">{m.role === 'operator' ? m.text : <Markdown>{m.text}</Markdown>}</div>
               </div>
             ))}
             {busy ? <Thinking /> : null}
           </div>
-          <div className="flex flex-none items-center gap-2 border-t border-border bg-bg2 p-2">
+          <div className="composer">
             <input
+              className="input"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') void send();
-              }}
-              placeholder="Describe the target, scope, objectives..."
-              className="h-9 flex-1 rounded-[var(--radius)] border border-border2 bg-black px-3 text-[13px] text-text outline-none placeholder:text-faint focus:border-accent"
+              onKeyDown={(e) => e.key === 'Enter' && void send()}
+              placeholder="Describe the target…"
             />
-            <Button variant="primary" onClick={send} disabled={!input.trim() || busy}>
-              Send
-            </Button>
+            <button type="button" className="csend" aria-label="Send" onClick={send} disabled={!input.trim() || busy}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M4 12l16-7-7 16-2-7-7-2z" />
+              </svg>
+            </button>
           </div>
         </div>
 
-        <div className="min-h-0 overflow-auto bg-bg2 p-4">
-          <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.14em] text-faint">Session draft</div>
-          <div className="grid gap-3.5">
-            <Field label="Type">
-              <Segmented<SessionKind>
-                value={draft.kind}
-                onChange={(kind) => patch({ kind })}
-                options={[
-                  { value: 'network', label: 'Network / Web' },
-                  { value: 'code', label: 'Code scan' },
-                ]}
-              />
-            </Field>
-            <Field label="Name">
-              <TextInput value={draft.name} placeholder="ACME External Q3" onChange={(e) => patch({ name: e.target.value })} />
-            </Field>
-            <Field label="Client">
-              <TextInput value={draft.client} placeholder="ACME Corp" onChange={(e) => patch({ client: e.target.value })} />
-            </Field>
+        <div className="card">
+          <div className="card-b">
+            <label className="field">
+              <span className="label">Name</span>
+              <input className="input" value={draft.name} placeholder="ACME External Q3" onChange={(e) => patch({ name: e.target.value })} />
+            </label>
+            <div className="grid2">
+              <label className="field">
+                <span className="label">Client</span>
+                <input className="input" value={draft.client} placeholder="ACME Corp" onChange={(e) => patch({ client: e.target.value })} />
+              </label>
+              <div className="field">
+                <span className="label">Type</span>
+                <div className="seg">
+                  <button type="button" className={draft.kind === 'network' ? 'on' : ''} onClick={() => patch({ kind: 'network' })}>
+                    Network
+                  </button>
+                  <button type="button" className={draft.kind === 'code' ? 'on' : ''} onClick={() => patch({ kind: 'code' })}>
+                    Code
+                  </button>
+                </div>
+              </div>
+            </div>
 
             {isCode ? (
-              <Field label="Source" hint="A public git repo URL (https://github.com/org/repo) or a local folder path.">
-                <TextInput
-                  value={draft.source}
-                  placeholder="https://github.com/org/repo"
-                  onChange={(e) => patch({ source: e.target.value })}
-                />
-              </Field>
+              <label className="field">
+                <span className="label">
+                  Source <span className="opt">(git URL or local folder)</span>
+                </span>
+                <input className="input mono" value={draft.source} placeholder="https://github.com/org/repo" onChange={(e) => patch({ source: e.target.value })} />
+              </label>
             ) : (
               <>
-                <ChipInput
-                  label="Targets"
-                  hint="Specific URLs, hosts, or IP ranges to test."
-                  items={draft.targets}
-                  placeholder="https://app.example.com"
-                  onAdd={(v) => patch({ targets: dedupe([...draft.targets, v]) })}
-                  onRemove={(v) => patch({ targets: draft.targets.filter((x) => x !== v) })}
-                />
-                <ChipInput
-                  label="Scope"
-                  hint="Allowed boundary. Wildcards allowed. Empty means unrestricted."
-                  items={draft.scope}
-                  placeholder="*.example.com"
-                  onAdd={(v) => patch({ scope: dedupe([...draft.scope, v]) })}
-                  onRemove={(v) => patch({ scope: draft.scope.filter((x) => x !== v) })}
-                />
+                <label className="field">
+                  <span className="label">
+                    Scope <span className="opt">(domains, wildcards, CIDRs)</span>
+                  </span>
+                  <textarea className="textarea mono" value={draft.scope} placeholder={'*.example.com\n10.0.0.0/24'} onChange={(e) => patch({ scope: e.target.value })} />
+                </label>
+                <label className="field">
+                  <span className="label">
+                    Targets <span className="opt">(concrete URLs / IPs)</span>
+                  </span>
+                  <textarea className="textarea mono" value={draft.targets} placeholder={'https://app.example.com'} onChange={(e) => patch({ targets: e.target.value })} />
+                </label>
               </>
             )}
 
-            <PickerField
-              label="Model"
-              hint="Which model runs this session. Defaults to your Settings model."
-              options={modelOptions}
-              value={draft.model ? `${draft.provider}::${draft.model}` : ''}
-              onChange={(id) => {
-                if (!id) return patch({ provider: '', model: '' });
-                const [provider, model] = id.split('::');
-                patch({ provider, model });
-              }}
-              placeholder="Search models..."
-            />
-            <PickerField
-              label="Execution server"
-              hint="Where commands run. Local uses the on-host Kali container; a saved server runs over SSH."
-              options={serverOptions}
-              value={draft.serverId}
-              onChange={(serverId) => patch({ serverId })}
-              placeholder="Search servers..."
-            />
-            <PickerField
-              label="Proxy"
-              hint="Route tool traffic through a saved proxy, or go direct."
-              options={proxyOptions}
-              value={draft.proxyId}
-              onChange={(proxyId) => patch({ proxyId })}
-              placeholder="Search proxies..."
-            />
+            <div className="grid2">
+              <label className="field">
+                <span className="label">Execution server</span>
+                <select className="selectn" value={draft.serverId} onChange={(e) => patch({ serverId: e.target.value })}>
+                  <option value="">Local (this host)</option>
+                  {(servers ?? []).map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="field">
+                <span className="label">
+                  Egress proxy <span className="opt">(optional)</span>
+                </span>
+                <select className="selectn" value={draft.proxyId} onChange={(e) => patch({ proxyId: e.target.value })}>
+                  <option value="">Direct (no proxy)</option>
+                  {(proxies ?? []).map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
 
-            <Field label="Rules of engagement">
-              <textarea
-                value={draft.roe}
-                onChange={(e) => patch({ roe: e.target.value })}
-                rows={3}
-                placeholder="Testing window, no-DoS, exclusions..."
-                className="w-full rounded-[var(--radius)] border border-border2 bg-black px-3 py-2 text-[13px] text-text outline-none placeholder:text-faint focus:border-accent"
-              />
-            </Field>
+            <label className="field">
+              <span className="label">Model</span>
+              <select
+                className="selectn"
+                value={draft.model ? `${draft.provider}::${draft.model}` : ''}
+                onChange={(e) => {
+                  const id = e.target.value;
+                  if (!id) return patch({ provider: '', model: '' });
+                  const [provider, model] = id.split('::');
+                  patch({ provider: provider ?? '', model: model ?? '' });
+                }}
+              >
+                {modelOptions.map((o) => (
+                  <option key={o.id} value={o.id}>
+                    {o.label}
+                  </option>
+                ))}
+              </select>
+            </label>
 
-            <Field label="Engagement brief" hint="Objectives and constraints handed to the agents. Drafted from the chat; edit freely.">
-              <textarea
-                value={draft.brief}
-                onChange={(e) => patch({ brief: e.target.value })}
-                rows={4}
-                placeholder="What to focus on, what to skip, the objective..."
-                className="w-full rounded-[var(--radius)] border border-border2 bg-black px-3 py-2 text-[13px] text-text outline-none placeholder:text-faint focus:border-accent"
-              />
-            </Field>
+            <label className="field">
+              <span className="label">Rules of engagement</span>
+              <textarea className="textarea" value={draft.roe} rows={2} placeholder="Testing window, no-DoS, exclusions…" onChange={(e) => patch({ roe: e.target.value })} />
+            </label>
+            <label className="field">
+              <span className="label">
+                Engagement brief <span className="opt">(handed to the agents)</span>
+              </span>
+              <textarea className="textarea" value={draft.brief} rows={4} placeholder="What to focus on, what to skip, the objective…" onChange={(e) => patch({ brief: e.target.value })} />
+            </label>
 
-            <Field label="Assessment files" hint="Files the agents work on (a binary, a pcap). Staged in the container at /root/assessment.">
-              <div className="grid gap-1.5">
+            <div className="field">
+              <span className="label">
+                Assessment files <span className="opt">(staged at /root/assessment)</span>
+              </span>
+              <div style={{ display: 'grid', gap: 6 }}>
                 {files.map((f, i) => (
-                  <div
-                    key={`${f.name}-${i}`}
-                    className="flex items-center justify-between rounded-[var(--radius)] border border-border2 bg-black px-2.5 py-1.5 font-mono text-[11px] text-text"
-                  >
-                    <span className="truncate">{f.name}</span>
-                    <button
-                      onClick={() => setFiles((xs) => xs.filter((_, j) => j !== i))}
-                      className="flex-none text-faint hover:text-crit"
-                    >
-                      <Icon name="close" size={12} />
+                  <div key={`${f.name}-${i}`} className="formrow" style={{ padding: '8px 0' }}>
+                    <span className="mono meta">{f.name}</span>
+                    <button type="button" className="btn sm ghost" onClick={() => setFiles((xs) => xs.filter((_, j) => j !== i))}>
+                      Remove
                     </button>
                   </div>
                 ))}
-                <label className="flex cursor-pointer items-center justify-center gap-1.5 rounded-[var(--radius)] border border-dashed border-border2 px-2.5 py-2 text-[12px] text-muted hover:border-accent hover:text-text">
-                  <Icon name="plus" size={13} />
+                <label className="btn ghost" style={{ borderStyle: 'dashed', borderColor: 'var(--line)', justifyContent: 'center', cursor: 'pointer' }}>
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 5v14M5 12h14" />
+                  </svg>
                   Add files
                   <input
                     type="file"
                     multiple
-                    className="hidden"
+                    style={{ display: 'none' }}
                     onChange={(e) => {
                       const picked = Array.from(e.target.files ?? []);
                       if (picked.length) setFiles((xs) => [...xs, ...picked]);
@@ -442,7 +313,16 @@ export function NewSessionPage() {
                   />
                 </label>
               </div>
-            </Field>
+            </div>
+
+            <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
+              <button type="button" className="btn pri" style={{ flex: 1, justifyContent: 'center' }} disabled={!canCreate || create.isPending} onClick={onCreate}>
+                Create session
+              </button>
+              <button type="button" className="btn" onClick={() => nav('/sessions')}>
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       </div>

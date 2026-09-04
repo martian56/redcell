@@ -1,65 +1,108 @@
 import { useContext } from 'react';
 import {
   Mosaic,
-  MosaicWindow,
   MosaicContext,
-  MosaicWindowContext,
+  MosaicWindow,
+  type MosaicBranch,
 } from 'react-mosaic-component';
-import { useWorkspace, PANEL_LABELS, SWAPPABLE, type PanelId } from '@/store/workspace';
+import { PANEL_LABELS, SWAPPABLE, useWorkspace, usedPanels, type PanelId, type TileId } from '@/store/workspace';
 import { Dropdown } from '@/components/ui/Dropdown';
 import { Icon } from '@/components/ui/Icon';
 import { Empty } from '@/components/ui/primitives';
 import { PanelView } from './panels/PanelView';
 
-function TileControls({ id }: { id: PanelId }) {
+function TileToolbar({ tileId, path }: { tileId: TileId; path: MosaicBranch[] }) {
   const { mosaicActions } = useContext(MosaicContext);
-  const { mosaicWindowActions } = useContext(MosaicWindowContext);
-  const path = mosaicWindowActions.getPath();
+  const tiles = useWorkspace((s) => s.tiles);
+  const setActive = useWorkspace((s) => s.setActive);
+  const closeTab = useWorkspace((s) => s.closeTab);
+  const addTab = useWorkspace((s) => s.addTab);
+  const tile = tiles[tileId];
+  if (!tile) return <div className="tiletb" />;
+
+  const addable = SWAPPABLE.filter((id) => !usedPanels(tiles).has(id));
+  const closeTile = () => mosaicActions.remove(path);
+
   return (
-    <div className="flex items-center gap-0.5 pr-1.5">
-      <Dropdown
-        align="right"
-        width={170}
-        value={id}
-        options={SWAPPABLE.map((p) => ({ value: p, label: PANEL_LABELS[p] }))}
-        onChange={(nid) => mosaicActions.replaceWith(path, nid)}
-        trigger={
-          <span className="grid h-6 w-6 place-items-center rounded-[4px] text-faint hover:bg-panel hover:text-text">
-            <Icon name="chevronDown" size={13} />
+    <div className="tiletb">
+      <div className="ptabs">
+        {tile.panels.map((p) => (
+          <span key={p} className={`ptab${p === tile.active ? ' on' : ''}`}>
+            <button type="button"
+
+              className="ptab-label"
+              onMouseDown={(e) => e.stopPropagation()}
+              onClick={() => setActive(tileId, p)}
+            >
+              {PANEL_LABELS[p]}
+            </button>
+            <button type="button"
+
+              className="tabx"
+              aria-label={`Close ${PANEL_LABELS[p]}`}
+              onMouseDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (tile.panels.length > 1) closeTab(tileId, p);
+                else closeTile();
+              }}
+            >
+              <Icon name="close" size={11} />
+            </button>
           </span>
-        }
-      />
-      <button
-        title="Close panel"
-        onClick={() => mosaicActions.remove(path)}
-        className="grid h-6 w-6 place-items-center rounded-[4px] text-faint hover:bg-panel hover:text-text"
-      >
-        <Icon name="close" size={13} />
-      </button>
+        ))}
+      </div>
+      <div className="tiletb-ctl" onMouseDown={(e) => e.stopPropagation()}>
+        {addable.length > 0 && (
+          <Dropdown
+            align="right"
+            width={190}
+            options={addable.map((id) => ({ value: id, label: `Add ${PANEL_LABELS[id]}` }))}
+            onChange={(v) => addTab(tileId, v as PanelId)}
+            trigger={
+              <span className="tiletb-btn" title="Add a tab to this panel">
+                <Icon name="plus" size={13} />
+              </span>
+            }
+          />
+        )}
+        <button type="button" className="tiletb-btn" title="Close panel" onClick={closeTile}>
+          <Icon name="close" size={13} />
+        </button>
+      </div>
     </div>
   );
 }
 
 export function Workspace() {
   const layout = useWorkspace((s) => s.layout);
+  const tiles = useWorkspace((s) => s.tiles);
   const setLayout = useWorkspace((s) => s.setLayout);
 
   return (
     <div className="relative h-full">
       {layout ? (
-        <Mosaic<PanelId>
+        <Mosaic<TileId>
           className="mosaic-steel"
           value={layout}
           onChange={(n) => setLayout(n)}
-          renderTile={(id, path) => (
-            <MosaicWindow<PanelId>
-              path={path}
-              title={PANEL_LABELS[id]}
-              toolbarControls={<TileControls id={id} />}
-            >
-              <PanelView id={id} />
-            </MosaicWindow>
-          )}
+          renderTile={(tileId, path) => {
+            const tile = tiles[tileId];
+            const active = tile?.active ?? 'agents';
+            return (
+              <MosaicWindow<TileId>
+                path={path}
+                title={PANEL_LABELS[active]}
+                renderToolbar={() => (
+                  <div style={{ display: 'flex', width: '100%', height: '100%' }}>
+                    <TileToolbar tileId={tileId} path={path} />
+                  </div>
+                )}
+              >
+                <PanelView id={active} />
+              </MosaicWindow>
+            );
+          }}
         />
       ) : (
         <Empty>All panels closed. Use "Add panel" in the header.</Empty>
