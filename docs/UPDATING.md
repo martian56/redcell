@@ -331,3 +331,5 @@ It reuses the shared overlay and modal styles, with its own step list styles.
 The spinner respects reduced-motion preferences.
 
 The steps are a fixed sequence, so their order is predictable and easy to scan.
+
+The panel closes on its own only by reloading when done; otherwise you dismiss it.
