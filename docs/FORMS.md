@@ -295,3 +295,5 @@ When in doubt, portal; it is the safer default for dropdowns.
 The popover opens 4px below the trigger for a small, consistent gap.
 
 In flip mode it anchors its bottom just above the trigger, so it grows upward from there.
+
+The list has a bounded max height, so a huge catalog scrolls inside the popover instead of covering the page.
