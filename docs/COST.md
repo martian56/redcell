@@ -84,3 +84,4 @@ USD per 1M tokens as (input, output). Estimates for the fallback table; OpenRout
 - `gemini-3.1-flash-lite` - 0.1 / 0.4
 - `deepseek-v4-pro` - 0.6 / 1.7
 - `deepseek-v4-flash` - 0.3 / 0.9
+- `deepseek-r2` - 0.7 / 2.4
