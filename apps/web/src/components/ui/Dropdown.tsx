@@ -45,7 +45,7 @@ export function Dropdown<T extends string>({
 
   return (
     <div ref={ref} className={cn('relative', block && 'w-full')}>
-      <button
+      <button type="button"
         type="button"
         onClick={() => setOpen((o) => !o)}
         className={cn('flex items-center', block && 'w-full')}
@@ -59,7 +59,7 @@ export function Dropdown<T extends string>({
           className="absolute top-[calc(100%+4px)] z-50 max-h-72 overflow-auto rounded-[var(--radius)] border border-border2 bg-panel2 p-1 shadow-[0_16px_40px_rgba(0,0,0,0.55)]"
         >
           {options.map((o) => (
-            <button
+            <button type="button"
               key={o.value}
               type="button"
               onClick={() => {
