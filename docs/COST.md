@@ -137,3 +137,5 @@ Output tokens usually cost more than input, which is why the table prices them s
 - Set a token budget on the run so it stops before overspending.
 
 - Keep scope tight; fewer targets and turns means fewer tokens.
+
+- OpenRouter gives you real per-call cost, which makes tuning spend easier.
