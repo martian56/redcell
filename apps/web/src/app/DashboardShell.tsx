@@ -102,8 +102,8 @@ const TITLES: Record<string, [string, string]> = {
   '/settings': ['Settings', ''],
 };
 
-function useOutside(onClose: () => void) {
-  const ref = useRef<HTMLSpanElement>(null);
+function useOutside<T extends HTMLElement = HTMLElement>(onClose: () => void) {
+  const ref = useRef<T>(null);
   useEffect(() => {
     const h = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) onClose();
@@ -141,8 +141,8 @@ export function DashboardShell() {
   const [palette, setPalette] = useState(false);
   const [menu, setMenu] = useState<'ws' | 'user' | null>(null);
   const [, force] = useState(0);
-  const wsRef = useOutside(() => setMenu((m) => (m === 'ws' ? null : m)));
-  const userRef = useOutside(() => setMenu((m) => (m === 'user' ? null : m)));
+  const wsRef = useOutside<HTMLDivElement>(() => setMenu((m) => (m === 'ws' ? null : m)));
+  const userRef = useOutside<HTMLSpanElement>(() => setMenu((m) => (m === 'user' ? null : m)));
 
   useEffect(() => {
     try {
@@ -162,6 +162,15 @@ export function DashboardShell() {
     document.addEventListener('keydown', h);
     return () => document.removeEventListener('keydown', h);
   }, []);
+
+  useEffect(() => {
+    if (!menu) return;
+    const h = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenu(null);
+    };
+    document.addEventListener('keydown', h);
+    return () => document.removeEventListener('keydown', h);
+  }, [menu]);
 
   const onSignOut = async () => {
     await api.auth.logout().catch(() => undefined);
@@ -187,31 +196,31 @@ export function DashboardShell() {
   return (
     <div className={`app-shell${collapsed ? ' collapsed' : ''}`}>
       <aside className="side">
-        <div className="ws">
+        <div className="ws" ref={wsRef}>
           <span className="logo" />
           <span className="nm">REDCELL</span>
-          <span className="menu-wrap" ref={wsRef}>
-            <button type="button"
-              className="iconbtn"
-              style={{ width: 24, height: 24, color: 'var(--tx-3)' }}
-              onClick={() => setMenu((m) => (m === 'ws' ? null : 'ws'))}
-              aria-label="Workspace menu"
-            >
-              <svg className="caret" viewBox="0 0 24 24">
-                <path d="M8 9l4 4 4-4" />
-              </svg>
+          <button type="button"
+            className={`iconbtn wscaret${menu === 'ws' ? ' open' : ''}`}
+            style={{ width: 24, height: 24, color: 'var(--tx-3)' }}
+            onClick={() => setMenu((m) => (m === 'ws' ? null : 'ws'))}
+            aria-label="Workspace menu"
+            aria-haspopup="menu"
+            aria-expanded={menu === 'ws'}
+          >
+            <svg className="caret" viewBox="0 0 24 24">
+              <path d="M8 9l4 4 4-4" />
+            </svg>
+          </button>
+          <div className="menu ws-menu" role="menu" style={{ display: menu === 'ws' ? 'block' : 'none' }}>
+            <div className="menu-label">Workspace</div>
+            <button type="button" className="menu-item sel">
+              REDCELL<span className="ck">✓</span>
             </button>
-            <div className={`menu${menu === 'ws' ? '' : ''}`} style={{ display: menu === 'ws' ? 'block' : 'none' }}>
-              <div className="menu-label">Workspace</div>
-              <button type="button" className="menu-item sel">
-                REDCELL<span className="ck">✓</span>
-              </button>
-              <div className="menu-sep" />
-              <button type="button" className="menu-item" onClick={flipTheme}>
-                Toggle theme
-              </button>
-            </div>
-          </span>
+            <div className="menu-sep" />
+            <button type="button" className="menu-item" onClick={flipTheme}>
+              Toggle theme
+            </button>
+          </div>
         </div>
         <button type="button" className="search" onClick={() => setPalette(true)}>
           <svg viewBox="0 0 24 24">
@@ -249,7 +258,11 @@ export function DashboardShell() {
         </div>
         <div className="side-foot">
           <span className="menu-wrap" style={{ width: '100%' }} ref={userRef}>
-            <button type="button" className="userbtn" onClick={() => setMenu((m) => (m === 'user' ? null : 'user'))}>
+            <button type="button" className="userbtn"
+              onClick={() => setMenu((m) => (m === 'user' ? null : 'user'))}
+              aria-haspopup="menu"
+              aria-expanded={menu === 'user'}
+            >
               <span className="avatar" />
               <div style={{ flex: 1 }}>
                 <div className="u">admin</div>
@@ -259,7 +272,7 @@ export function DashboardShell() {
                 <path d="M8 15l4-4 4 4" />
               </svg>
             </button>
-            <div className="menu up" style={{ display: menu === 'user' ? 'block' : 'none', width: '100%' }}>
+            <div className="menu up" role="menu" style={{ display: menu === 'user' ? 'block' : 'none', width: '100%' }}>
               <button type="button" className="menu-item" onClick={flipTheme}>
                 Toggle theme
               </button>
