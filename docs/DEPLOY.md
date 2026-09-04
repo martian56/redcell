@@ -109,3 +109,5 @@ Only Caddy publishes ports: 80 and 443 (plus 443/udp for HTTP/3). Open both in a
 Everything else (5432, 6379, 9000) stays on the internal network and should not be opened.
 
 ## Cookies and HTTPS
+
+`REDCELL_COOKIE_SECURE=true` marks the session cookie `Secure`, so the browser only sends it over HTTPS. Modes 2 and 3 set it to `true`; mode 1 (plain HTTP) uses `false`.
