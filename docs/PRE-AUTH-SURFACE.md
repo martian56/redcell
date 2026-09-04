@@ -115,3 +115,4 @@ Issue #63 removed two pre-auth disclosures from the login page.
 ## Pre-auth review checklist
 
 - [ ] No version or build string anywhere before login.
+- [ ] No version banner in response headers.
