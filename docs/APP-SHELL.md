@@ -99,3 +99,5 @@ Verify layout changes in a browser, not only with a build. Positioning, clipping
 **Is the shell responsive?** The main content is fluid; the sidebar is a fixed width you can collapse.
 
 ## Structure at a glance
+
+- `.ws` - the brand header (logo and name)
