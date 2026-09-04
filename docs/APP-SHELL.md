@@ -356,3 +356,5 @@ A progress panel that opens on update is tracked separately; the sidebar pill wi
 - [SHORTCUTS.md](SHORTCUTS.md) - the command palette.
 
 The pill's tooltip reads "Update available: <version>", so hovering confirms the target before you act.
+
+If the latest release cannot be determined, no update is offered and only the current version shows.
