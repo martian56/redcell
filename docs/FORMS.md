@@ -173,3 +173,5 @@ The search is a plain substring match, which is predictable and fast for these l
 No native select styling hacks are needed, so the look is identical on every platform.
 
 The combobox is small and composable, so new selectors can adopt it with a few lines.
+
+Keeping selectors consistent makes the settings feel of a piece with the rest of the console.
