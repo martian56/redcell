@@ -159,3 +159,4 @@ Cost is informational. Treat it as a close estimate for budgeting, not an invoic
 ## See also
 
 - [DEPLOY.md](DEPLOY.md) - running the stack.
+- Settings in the console - provider keys, model selection, and per-run model override.
