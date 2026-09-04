@@ -23,3 +23,5 @@ The menu is anchored to the header (`.ws` is the positioning context) and spans 
 The caret rotates when the menu is open, and the button carries `aria-haspopup` and `aria-expanded`.
 
 ## Menus and dropdowns
+
+A menu opens from its trigger and closes on Escape, on selecting an item, or on a click outside (a shared outside-click hook).
