@@ -7,3 +7,5 @@ The command palette is the fastest way to move around the console and jump strai
 Press Cmd+K (macOS) or Ctrl+K (Windows and Linux) from anywhere in the console.
 
 Press Escape or click outside to close it.
+
+## What it searches
