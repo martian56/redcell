@@ -42,3 +42,4 @@ screen exposes a single New session entry point.
 - r38: Removing the in-content button leaves the filter row left aligned by default.
 - r39: The header button and the command palette both route to /sessions/new.
 - r40: Keeping one entry point simplifies future mobile layouts.
+- r41: On mobile the primary action moves into the compact top bar.
