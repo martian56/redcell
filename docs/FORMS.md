@@ -207,3 +207,5 @@ When there is not enough room below, it flips to open above the trigger instead 
 It repositions on scroll and resize while open, so it stays anchored to the trigger as the page moves.
 
 Because the popover is outside the trigger's DOM subtree, the outside-click handler ignores clicks inside the popover as well, so selecting an option does not close it prematurely.
+
+The popover uses a high z-index so it sits above cards and even above a modal dialog it may be opened from.
