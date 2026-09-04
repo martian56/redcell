@@ -39,3 +39,5 @@ It lives in `apps/web/src/components/ui/Combobox.tsx`.
 - `placeholder` - the search field placeholder.
 
 - `pageSize` - how many options per page before paging controls appear.
+
+- `width` - popover width when not full-width.
