@@ -35,3 +35,5 @@ Menus sit above surrounding content via z-index. Keep menu z-index above the mai
 ## Collapsing the sidebar
 
 The header toggle hides the sidebar (grid column to 0). The choice is stored in localStorage and restored on load.
+
+The sidebar's `overflow: hidden` is what makes the collapse look clean, which is why menus inside it must not rely on overflowing.
