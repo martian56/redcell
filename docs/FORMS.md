@@ -231,3 +231,5 @@ You do not need to do anything special to use it in a clipped container; the por
 Prefer block inside form fields so the popover matches the field width.
 
 If you build another floating control, follow the same pattern: portal to the body, position from the trigger, and reposition on scroll and resize.
+
+Keep the popover's z-index above dialogs so it is usable from within a modal.
