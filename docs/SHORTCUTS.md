@@ -11,3 +11,4 @@ Press Escape or click outside to close it.
 ## What it searches
 
 - **Pages** - Overview, Sessions, Findings, Reports, Servers, Proxies, Settings.
+- **Actions** - New session, and other quick actions.
