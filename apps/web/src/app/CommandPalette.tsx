@@ -82,7 +82,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
             </div>
           ) : (
             items.map((c, i) => (
-              <button
+              <button type="button"
                 key={c.to}
                 className={`palette-item${i === active ? ' act' : ''}`}
                 onMouseEnter={() => setActive(i)}
