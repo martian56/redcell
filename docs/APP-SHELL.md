@@ -131,3 +131,5 @@ For a dropdown, measure its bounding box against the sidebar's to confirm it sta
 ## Structure at a glance
 
 - `.ws` - workspace header (positioning context for its menu)
+
+- `.search` - opens the command palette
