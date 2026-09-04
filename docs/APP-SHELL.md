@@ -350,3 +350,5 @@ Settings also shows the version and an update control, so the sidebar and Settin
 A progress panel that opens on update is tracked separately; the sidebar pill will open it once it lands.
 
 ## Related
+
+- [DEPLOY.md](DEPLOY.md) - deploying and updating from the shell.
