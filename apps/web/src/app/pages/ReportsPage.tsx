@@ -41,7 +41,7 @@ export function ReportsPage() {
   const generate = async () => {
     if (!sessionId) return;
     try {
-      await create.mutateAsync({ title: `${session?.name ?? 'Session'} — Assessment`, formats: ALL_FORMATS });
+      await create.mutateAsync({ title: `Assessment of ${session?.name ?? 'the session'}`, formats: ALL_FORMATS });
       toast('Report queued', 'success');
     } catch {
       toast('Could not generate the report', 'error');
