@@ -83,3 +83,5 @@ Set the Cloudflare SSL/TLS mode to **Full**. Cloudflare then connects to the ori
 **Flexible** also works: Cloudflare connects to the origin over plain HTTP on :80, which the proxy config serves too.
 
 **Full (strict)** rejects the self-signed origin certificate. To use it, install a Cloudflare Origin Certificate on the server, or switch the record to DNS-only and use mode 2.
+
+A Cloudflare **521** means the origin refused the connection on the port Cloudflare tried. Usually the deploy is still in IP mode (:80 only) while Cloudflare is set to Full and reaching for :443. Re-run `deploy.sh` and choose mode 3.
