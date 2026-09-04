@@ -143,9 +143,6 @@ export function AuthGate({ children }: { children: ReactNode }) {
           <Button variant="primary" className="h-10 justify-center" disabled={busy} onClick={signIn}>
             {busy ? <Spinner /> : 'Sign in'}
           </Button>
-          <span className="font-mono text-[11px] text-faint">
-            Console binds to 127.0.0.1. External access requires auth.
-          </span>
         </div>
       </div>
     </div>
