@@ -66,7 +66,7 @@ export function Combobox<T>({
 
   return (
     <div ref={ref} className={cn('relative', block && 'w-full')}>
-      <button
+      <button type="button"
         type="button"
         onClick={() => setOpen((o) => !o)}
         className={cn('flex items-center', block && 'w-full')}
@@ -95,7 +95,7 @@ export function Combobox<T>({
               pageItems.map((i) => {
                 const active = current && getKey(current) === getKey(i);
                 return (
-                  <button
+                  <button type="button"
                     key={getKey(i)}
                     onClick={() => {
                       onSelect(i);
@@ -117,7 +117,7 @@ export function Combobox<T>({
           </div>
           {pages > 1 ? (
             <div className="mt-1 flex items-center justify-between border-t border-border px-1 pt-1.5">
-              <button
+              <button type="button"
                 disabled={clampPage === 0}
                 onClick={() => setPage((p) => Math.max(0, p - 1))}
                 className="grid h-6 w-6 place-items-center rounded text-faint hover:text-text disabled:opacity-40"
@@ -127,7 +127,7 @@ export function Combobox<T>({
               <span className="font-mono text-[10px] text-faint">
                 {clampPage + 1} / {pages}
               </span>
-              <button
+              <button type="button"
                 disabled={clampPage >= pages - 1}
                 onClick={() => setPage((p) => Math.min(pages - 1, p + 1))}
                 className="grid h-6 w-6 place-items-center rounded text-faint hover:text-text disabled:opacity-40"
