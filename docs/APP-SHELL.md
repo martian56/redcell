@@ -181,3 +181,5 @@ A dropdown is clipped or hidden by an ancestor with `overflow: hidden` or a high
 The sidebar is a fixed 236px, so a menu that spans the header is a predictable width and never depends on the viewport.
 
 While the workspace menu is open the header keeps its hover highlight, which reads as the switcher being active.
+
+Pressing Escape or clicking anywhere outside the switcher closes the menu.
