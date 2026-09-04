@@ -205,3 +205,7 @@ The 236px sidebar is fixed, so sidebar content has a predictable width and never
 ## Consistent controls
 
 The shell avoids native popovers; menus are custom so they match the theme and behave consistently.
+
+## Keep it simple
+
+The header stays a label unless there is a real control to add; extra chrome in the sidebar is easy to add and hard to justify.
