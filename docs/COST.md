@@ -71,3 +71,4 @@ On OpenRouter, compare the shown cost against your OpenRouter dashboard for the 
 ## Model price reference
 
 USD per 1M tokens as (input, output). Estimates for the fallback table; OpenRouter reports its own.
+- `gpt-5.6` - 5.0 / 15.0
