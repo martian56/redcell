@@ -95,3 +95,5 @@ Confirm a bad login returns a generic error and does not reveal whether the user
 ## This change
 
 Issue #63 removed two pre-auth disclosures from the login page.
+
+- The stale `v0.1` version string is gone. No version is shown before authentication.
