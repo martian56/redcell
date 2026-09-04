@@ -139,3 +139,5 @@ Verify in a browser; the popover, search, and pagination are layout behavior.
 ## References
 
 - `apps/web/src/components/ui/Combobox.tsx` - the component.
+
+- `apps/web/src/components/ui/fields.tsx` - SelectTrigger and field helpers.
