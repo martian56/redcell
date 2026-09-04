@@ -366,3 +366,5 @@ The indicator only appears for a newer release, never for an older one.
 Only the latest published release is considered; drafts and prereleases are ignored by the check.
 
 A transient network error during the version check leaves the last known state until the next refetch.
+
+The header renders immediately; the version fills in when its query resolves.
