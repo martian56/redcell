@@ -151,3 +151,5 @@ REDCELL is single-operator: one admin account, one workspace. That is why a work
 Theme has two entry points now (header and user menu); removing the switcher removed a third, redundant one.
 
 The brand header is now a plain label, so it no longer needs a positioning context or hover affordance.
+
+The user menu is the only dropdown in the sidebar, and it opens upward within the footer width.
