@@ -179,3 +179,5 @@ curl -so /dev/null -w '%{http_code}\n' https://your-domain/api/v1/sessions
 **CORS errors.** All traffic should go through Caddy on one origin. Reach REDCELL at its `SITE_ADDRESS`, not the API port directly.
 
 **Something is failing.** Read the logs of a service, for example `docker compose logs api` or `docker compose logs caddy`.
+
+## Security notes
