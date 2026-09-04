@@ -15,3 +15,5 @@ The sidebar uses `overflow: hidden` so it clips cleanly when collapsed. Anything
 Top to bottom: the brand header, the search button, the navigation groups, the active-runs list, and the user menu at the foot.
 
 ## Brand header
+
+The header shows the REDCELL logo and name. It is a simple label, not a control.
