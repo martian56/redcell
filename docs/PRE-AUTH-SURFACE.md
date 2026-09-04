@@ -172,3 +172,5 @@ Log authentication events (success and failure) with source IP so brute force an
 Never log passwords, tokens, or session cookies.
 
 ## Session lifetime
+
+Sessions expire, so a leaked cookie does not grant indefinite access. Sign out on shared machines.
