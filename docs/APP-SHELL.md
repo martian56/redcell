@@ -304,3 +304,5 @@ Confirm the header does not overflow: logo, name, version, and pill should all f
 **Shows `dev`.** The running image has no baked version. Only released images carry one; deploy a release to see a version.
 
 **No Update pill after a release.** The server caches the latest-release lookup for a few minutes; wait, then reload.
+
+**Pill stays after updating.** The app may be showing a stale query; a reload after the update clears it, and the update flow reloads for you.
