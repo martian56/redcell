@@ -110,3 +110,4 @@ Everything is reachable by keyboard; no result requires the mouse.
 
 - A **session** result opens `/sessions/<id>`, the operator console for that engagement.
 - A **server** result opens `/servers/<id>`, that server's detail page.
+- A **proxy** result opens `/proxies/<id>`, that proxy's detail page.
