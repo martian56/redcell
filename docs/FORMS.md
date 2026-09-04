@@ -125,3 +125,5 @@ Verify in a browser; the popover, search, and pagination are layout behavior.
 **Popover is clipped.** It opens within the surrounding card; keep the field away from the very bottom, or the card should allow it to show.
 
 **Popover is too narrow.** Pass block for form fields, or set width for a floating trigger.
+
+## FAQ
