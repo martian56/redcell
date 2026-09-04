@@ -101,3 +101,5 @@ Escape closes the popover and returns control to the page.
 ## For contributors
 
 Because the combobox is generic, pass your option type directly and supply getKey/getLabel; no wrapper types are needed.
+
+Pass current so the active option is highlighted; it is matched by getKey.
