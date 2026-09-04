@@ -345,3 +345,5 @@ It was also confirmed to render as a child of the body with fixed positioning.
 The provider list shows all providers with search and paging, over the content below.
 
 The model list behaves the same for the selected provider.
+
+No new styles were needed; the popover reuses the existing menu look.
