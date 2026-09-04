@@ -4,7 +4,7 @@ import { Icon } from './Icon';
 
 export function SelectTrigger({ children }: { children: ReactNode }) {
   return (
-    <span className="flex h-9 w-full items-center justify-between rounded-[var(--radius)] border border-border2 bg-black px-3 font-mono text-[13px] text-text hover:border-faint">
+    <span className="flex h-9 w-full items-center justify-between rounded-[var(--radius)] border border-border2 bg-bg px-3 font-mono text-[13px] text-text hover:border-faint">
       <span className="truncate">{children}</span>
       <Icon name="chevronDown" size={13} className="text-faint" />
     </span>
@@ -25,7 +25,7 @@ export function TextInput({ className, ...props }: InputHTMLAttributes<HTMLInput
   return (
     <input
       className={cn(
-        'h-9 w-full rounded-[var(--radius)] border border-border2 bg-black px-3 font-mono text-[13px] text-text outline-none placeholder:text-faint focus:border-accent',
+        'h-9 w-full rounded-[var(--radius)] border border-border2 bg-bg px-3 font-mono text-[13px] text-text outline-none placeholder:text-faint focus:border-accent',
         className,
       )}
       {...props}
