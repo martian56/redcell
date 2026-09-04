@@ -61,3 +61,5 @@ The deploy supports automatic HTTPS for a direct domain and a proxy mode for a f
 ## Operator recommendations
 
 - Put the console behind a VPN or an identity-aware proxy if only your team needs it. The strongest pre-auth surface is one the public cannot reach at all.
+
+- If a CDN fronts the origin, restrict the origin to the CDN's source ranges so nobody hits it directly.
