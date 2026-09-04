@@ -347,3 +347,5 @@ The provider list shows all providers with search and paging, over the content b
 The model list behaves the same for the selected provider.
 
 No new styles were needed; the popover reuses the existing menu look.
+
+The trigger still reads as a select thanks to the shared SelectTrigger.
