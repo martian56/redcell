@@ -179,3 +179,7 @@ If the page shows a connection error during the restart, wait a few seconds; it 
 ## Single operator
 
 REDCELL has one operator account, which is the admin, so the admin gate means the signed-in operator.
+
+## Watching the updater
+
+The updater runs as its own container; `docker ps` shows it briefly, and its logs show the pull and recreate.
