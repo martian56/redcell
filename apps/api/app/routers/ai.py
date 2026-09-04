@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import re
+from urllib.parse import urlparse
 
 from fastapi import APIRouter, Depends
 from redcell_core.engine.llm import LlmClient
@@ -19,14 +21,16 @@ router = APIRouter(tags=["ai"], dependencies=[Depends(current_user)])
 
 _SYSTEM = (
     "You are a red-team engagement planner helping an operator scope a NEW authorized "
-    "assessment. Ask focused questions about the target, the in-scope domains/IPs, and the "
-    "rules of engagement. Keep replies short and practical. As soon as you have a reasonable "
-    "picture, call propose_session with your best draft (the operator can edit it). Refine the "
-    "proposal as the conversation continues. Include a short brief: a few sentences capturing the "
-    "objectives, constraints, and any specifics the operator gave (target type, what to focus on, "
-    "what to skip). The brief is handed to the agents that run the engagement. Only in-scope, "
-    "authorized targets. Write in plain text; do not use em-dashes (use commas, periods, or "
-    "parentheses instead)."
+    "assessment. Keep replies short and practical. On every turn, once the operator has named "
+    "any target, call propose_session with your best draft and fill every field you can infer: "
+    "a short name, the client if stated, kind (code for a git repo or local code review, "
+    "otherwise network), scope (in-scope domains, wildcards, or CIDRs), targets (concrete URLs "
+    "or IPs), rules of engagement if given, and a short brief. Prefer drafting over asking; the "
+    "operator can edit anything. Never leave name, scope, or targets empty when the operator has "
+    "given a domain, URL, or IP. Refine the proposal as the conversation continues. The brief is "
+    "a few sentences of objectives, constraints, and specifics handed to the agents that run the "
+    "engagement. Only in-scope, authorized targets. Write in plain text; do not use em-dashes "
+    "(use commas, periods, or parentheses instead)."
 )
 
 _PROPOSE_TOOL = [{
@@ -39,13 +43,82 @@ _PROPOSE_TOOL = [{
             "properties": {
                 "name": {"type": "string", "description": "Short engagement name."},
                 "client": {"type": "string", "description": "Client / org name."},
+                "kind": {"type": "string", "enum": ["network", "code"], "description": "network for external, infra, or web testing; code for a source code review."},
+                "source": {"type": "string", "description": "For a code review: the git URL or local folder path."},
                 "scope": {"type": "array", "items": {"type": "string"}, "description": "In-scope domains, wildcards, or CIDRs."},
                 "targets": {"type": "array", "items": {"type": "string"}, "description": "Concrete target URLs or IPs."},
+                "roe": {"type": "string", "description": "Rules of engagement: testing window, exclusions, no-DoS, and similar constraints."},
                 "brief": {"type": "string", "description": "A few sentences: objectives, constraints, and specifics for the agents running the engagement."},
             },
         },
     },
 }]
+
+_URL_RE = re.compile(r"https?://[^\s<>()\"'`]+", re.I)
+_GIT_RE = re.compile(r"(?:https?://)?(?:github\.com|gitlab\.com|bitbucket\.org)/[^\s<>()\"'`]+|[^\s<>()\"'`]+\.git", re.I)
+_CIDR_RE = re.compile(r"\b\d{1,3}(?:\.\d{1,3}){3}(?:/\d{1,2})?\b")
+_DOMAIN_RE = re.compile(r"\b(?:\*\.)?(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}\b", re.I)
+_CODE_HOSTS = {"github.com", "gitlab.com", "bitbucket.org"}
+
+
+def _uniq(items: list[str]) -> list[str]:
+    seen: set[str] = set()
+    out: list[str] = []
+    for raw in items:
+        it = raw.strip().rstrip(".,;)")
+        if it and it not in seen:
+            seen.add(it)
+            out.append(it)
+    return out
+
+
+def _name_from(host: str) -> str | None:
+    labels = [x for x in host.lstrip("*.").strip().lower().split(".") if x]
+    if not labels:
+        return None
+    sld = labels[-2] if len(labels) >= 2 else labels[0]
+    return f"{sld.capitalize()} assessment"
+
+
+def enrich_proposal(proposal: SessionProposal | None, operator_text: str) -> SessionProposal | None:
+    """Fill any fields the model left blank from targets found in the operator's text."""
+    text = operator_text or ""
+    urls = _uniq(_URL_RE.findall(text))
+    cidrs = _uniq(_CIDR_RE.findall(text))
+    git = _GIT_RE.search(text)
+    domains = [d for d in _uniq(_DOMAIN_RE.findall(text)) if d.lower() not in _CODE_HOSTS]
+
+    name = client = brief = source = roe = kind = None
+    scope: list[str] = []
+    targets: list[str] = []
+    if proposal is not None:
+        name, client, brief = proposal.name, proposal.client, proposal.brief
+        source, roe, kind = proposal.source, proposal.roe, proposal.kind
+        scope, targets = list(proposal.scope), list(proposal.targets)
+
+    if kind not in ("code", "network"):
+        kind = "code" if git else ("network" if (domains or cidrs or urls) else None)
+
+    if kind == "code":
+        if not source:
+            source = git.group(0) if git else (urls[0] if urls else None)
+    elif kind == "network":
+        if not scope:
+            scope = _uniq(domains + cidrs)
+        if not targets:
+            targets = urls or ([f"https://{domains[0]}"] if domains else [])
+
+    if not name:
+        host = domains[0] if domains else (urlparse(urls[0]).hostname if urls else None)
+        if host:
+            name = _name_from(host)
+
+    if not any([name, client, brief, source, roe, scope, targets]) and kind is None:
+        return None
+    return SessionProposal(
+        name=name, client=client, kind=kind, source=source,
+        scope=scope, targets=targets, roe=roe, brief=brief,
+    )
 
 
 @router.post("/sessions/draft/chat", response_model=DraftChatOutput,
@@ -87,9 +160,13 @@ async def draft_chat(body: DraftChatInput, s: AsyncSession = Depends(db)) -> Dra
                     args = {}
             proposal = SessionProposal(
                 name=args.get("name"), client=args.get("client"),
+                kind=args.get("kind"), source=args.get("source"),
                 scope=args.get("scope") or [], targets=args.get("targets") or [],
-                brief=args.get("brief"),
+                roe=args.get("roe"), brief=args.get("brief"),
             )
+
+    operator_text = "\n".join(m.content for m in body.messages if m.role == "user")
+    proposal = enrich_proposal(proposal, operator_text)
     if proposal and not reply:
         reply = "I've drafted the session on the right. Review and adjust, or tell me what to change."
     return DraftChatOutput(reply=reply or "(no response)", proposal=proposal)

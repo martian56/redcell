@@ -442,8 +442,11 @@ class DraftMessage(Camel):
 class SessionProposal(Camel):
     name: str | None = None
     client: str | None = None
+    kind: str | None = None
+    source: str | None = None
     scope: list[str] = []
     targets: list[str] = []
+    roe: str | None = None
     brief: str | None = None
 
 
