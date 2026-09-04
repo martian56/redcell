@@ -269,3 +269,5 @@ Issue #86: the Settings comboboxes were clipped by the card. Portaling the popov
 **Why portal instead of raising z-index?** z-index does not help against `overflow: hidden`; the element is clipped regardless of stacking. A portal removes it from the clipped subtree.
 
 **Why fixed positioning?** Fixed coordinates are relative to the viewport, which matches a body-level portal and is simple to compute from the trigger rect.
+
+**What about scrolling?** The popover repositions on scroll so it tracks the trigger; closing on scroll would also be reasonable, but tracking feels smoother here.
