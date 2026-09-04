@@ -149,3 +149,5 @@ Menus sit above the shell chrome and the main card so an open menu is never obsc
 REDCELL is single-operator: one admin account, one workspace. That is why a workspace switcher added no value.
 
 Theme has two entry points now (header and user menu); removing the switcher removed a third, redundant one.
+
+The brand header is now a plain label, so it no longer needs a positioning context or hover affordance.
