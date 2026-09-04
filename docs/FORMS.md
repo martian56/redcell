@@ -159,3 +159,5 @@ Filtering resets to the first page so results are always visible.
 The trigger and popover share the field width in block mode, so they line up with other inputs.
 
 Selecting a provider also resets the model to that provider's first model, keeping the pair valid.
+
+The model field falls back to free text so unusual or self-hosted model names can still be entered.
