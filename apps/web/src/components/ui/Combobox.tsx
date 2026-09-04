@@ -76,7 +76,7 @@ export function Combobox<T>({
       {open ? (
         <div
           style={{ width: block ? '100%' : width }}
-          className="absolute left-0 top-[calc(100%+4px)] z-50 rounded-[var(--radius)] border border-border2 bg-panel2 p-1.5 shadow-[0_16px_40px_rgba(0,0,0,0.55)]"
+          className="absolute left-0 top-[calc(100%+4px)] z-50 rounded-[var(--radius)] border border-border2 bg-panel2 p-1.5 shadow-[var(--shadow)]"
         >
           <div className="mb-1 flex items-center gap-2 rounded-[var(--radius)] border border-border2 bg-bg px-2">
             <Icon name="search" size={13} className="text-faint" />
