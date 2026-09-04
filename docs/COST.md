@@ -105,3 +105,5 @@ USD per 1M tokens as (input, output). Estimates for the fallback table; OpenRout
 **Still \$0.00 on a live run.** The provider may not be returning usage, the model may be unknown on a direct provider, or no LLM calls have completed yet.
 
 **Local models show \$0.00.** Expected - self-hosted models have no API cost.
+
+## References
