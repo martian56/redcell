@@ -37,3 +37,5 @@ It lives in `apps/web/src/components/ui/Combobox.tsx`.
 - `trigger` - the element that opens the popover; use `SelectTrigger` for a select look.
 
 - `placeholder` - the search field placeholder.
+
+- `pageSize` - how many options per page before paging controls appear.
