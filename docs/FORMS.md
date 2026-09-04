@@ -213,3 +213,5 @@ The popover uses a high z-index so it sits above cards and even above a modal di
 This is why the same combobox works both on the Settings page and inside the New run dialog.
 
 ### How it works
+
+On open, the trigger's rect is measured and the popover's fixed coordinates are set from it.
