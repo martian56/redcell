@@ -189,3 +189,5 @@ REDCELL runs offensive tooling. Only point it at systems you are authorized to t
 ## Removing it
 
 `docker compose down` stops the stack and keeps your data. Add `-v` to delete the volumes and wipe everything.
+
+## FAQ
