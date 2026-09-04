@@ -31,11 +31,15 @@ export function ProxiesPage() {
   const [open, setOpen] = useState(false);
 
   const runTest = async (id: string) => {
-    const r = await test.mutateAsync(id);
-    toast(
-      r.ok ? `Healthy (${r.latencyMs ?? '?'} ms, egress ${r.egressIp ?? '?'})` : `Proxy dead: ${r.error ?? 'unknown'}`,
-      r.ok ? 'success' : 'error',
-    );
+    try {
+      const r = await test.mutateAsync(id);
+      toast(
+        r.ok ? `Healthy (${r.latencyMs ?? '?'} ms, egress ${r.egressIp ?? '?'})` : `Proxy dead: ${r.error ?? 'unknown'}`,
+        r.ok ? 'success' : 'error',
+      );
+    } catch {
+      toast('Could not test the proxy', 'error');
+    }
   };
   const [form, setForm] = useState<{
     label: string;
