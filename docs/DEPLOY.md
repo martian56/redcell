@@ -163,3 +163,5 @@ The web app should return 200 and the API should return 401 (auth required) on t
 curl -sI https://your-domain/
 curl -so /dev/null -w '%{http_code}\n' https://your-domain/api/v1/sessions
 ```
+
+## Troubleshooting
