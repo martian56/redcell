@@ -81,7 +81,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
           'radial-gradient(55% 45% at 50% 0%, rgba(255,51,68,0.10), transparent 70%), var(--color-bg)',
       }}
     >
-      <div className="w-[410px] max-w-[92vw] overflow-hidden rounded-[var(--radius)] border border-border2 bg-panel shadow-[0_30px_90px_rgba(0,0,0,0.6)]">
+      <div className="w-[410px] max-w-[92vw] overflow-hidden rounded-[var(--radius)] border border-border2 bg-panel shadow-[var(--shadow)]">
         <div className="flex items-center gap-3 border-b border-border p-6">
           <span
             className="h-9 w-9 flex-none"
