@@ -12,3 +12,4 @@ screen exposes a single New session entry point.
 - r8: Keeping one entry point simplifies future mobile layouts.
 - r9: On mobile the primary action moves into the compact top bar.
 - r10: A single source of truth for the New session action reduces drift.
+- r11: SessionRow still navigates to a session on open.
