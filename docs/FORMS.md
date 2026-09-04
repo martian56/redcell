@@ -53,3 +53,5 @@ It lives in `apps/web/src/components/ui/Combobox.tsx`.
 Wrap it in a field with a label, pass `block`, and give it a `SelectTrigger` showing the current selection.
 
 ## Behavior
+
+Clicking the trigger opens the popover and focuses the search field.
