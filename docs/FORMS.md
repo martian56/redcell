@@ -147,3 +147,5 @@ Verify in a browser; the popover, search, and pagination are layout behavior.
 - Issue #79 - the Settings combobox.
 
 ## Notes
+
+The combobox is presentation-agnostic: it does not assume what an option is, only how to key, label, and select it.
