@@ -13,3 +13,5 @@ The banner shows the running version and, when available, the latest release to 
 The running version is baked into the api and worker images at build time as `REDCELL_VERSION`, set from the release tag.
 
 The latest version comes from the GitHub Releases API for the repository, cached briefly to avoid rate limits.
+
+An update is offered when the latest release compares greater than the running version. A `dev` build never shows an update.
