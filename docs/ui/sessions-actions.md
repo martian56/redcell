@@ -78,3 +78,4 @@ screen exposes a single New session entry point.
 - r74: A single source of truth for the New session action reduces drift.
 - r75: SessionRow still navigates to a session on open.
 - r76: The regression test asserts the page renders no New session button.
+- r77: The regression test asserts both filters remain present.
