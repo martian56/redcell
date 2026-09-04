@@ -61,3 +61,5 @@ If a provider omits usage, tokens and cost for that call are 0.
 ## Budgets
 
 A run can carry a `budget_tokens` ceiling. Track spend against it to stop a run before it runs away.
+
+## Verifying
