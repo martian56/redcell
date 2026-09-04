@@ -221,3 +221,5 @@ The popover is rendered through a portal, so it lives at the end of the body rat
 A capture-phase scroll listener and a resize listener re-measure and reposition while the popover is open.
 
 Two refs, one on the trigger wrapper and one on the popover, let the outside-click handler treat both as inside.
+
+The width follows the trigger in block mode, so the popover lines up with the field.
