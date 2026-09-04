@@ -75,3 +75,5 @@ The sidebar's `overflow: hidden` then clipped the overflowing part, and it overl
 The menu is now anchored to the `.ws` header and spans within the sidebar, with a higher z-index. It stays fully inside the sidebar at any width.
 
 ## For contributors
+
+The shell is `apps/web/src/app/DashboardShell.tsx`; its styles are in `apps/web/src/styles/design.css`.
