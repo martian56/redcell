@@ -95,7 +95,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
             <div className="font-mono text-[17px] font-extrabold tracking-[0.22em]">
               RED<span className="text-accent">CELL</span>
             </div>
-            <div className="font-mono text-[10.5px] tracking-wider text-faint">OPERATOR CONSOLE · v0.1</div>
+            <div className="font-mono text-[10.5px] tracking-wider text-faint">OPERATOR CONSOLE</div>
           </div>
         </div>
 
