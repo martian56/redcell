@@ -124,3 +124,5 @@ The api, worker, and web images update to the new release. Postgres, Redis, and 
 Your data in the named volumes is preserved across the update.
 
 ## FAQ
+
+**Is the update safe to run during work?** It restarts the stack, so avoid it mid-engagement. Data is preserved, but active connections drop briefly.
