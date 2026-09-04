@@ -317,3 +317,5 @@ The detail line under the steps gives a short human message for the current stat
 The footer shows a reassurance while applying, a Reload now button when done, and a Close button on error.
 
 The panel does not block the rest of the app from finishing in-flight work; it only reflects the update.
+
+Because the check compares versions numerically, it recognizes completion even across a multi-part version bump.
