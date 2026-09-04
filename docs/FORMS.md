@@ -13,3 +13,5 @@ The console uses a small set of custom form controls so inputs look and behave c
 ## The searchable combobox
 
 The combobox is a button that opens a popover with a search field and a filtered, paginated list of options.
+
+It replaces the native select so the list is searchable, styled to match the app, and consistent across the console.
