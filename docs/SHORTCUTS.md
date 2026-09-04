@@ -21,3 +21,5 @@ Press Escape or click outside to close it.
 Matches are grouped under Actions, Pages, Sessions, Servers, and Proxies, each with its own header, so a long list stays readable.
 
 ## Keyboard navigation
+
+- Arrow Down / Arrow Up move the selection, wrapping at the ends.
