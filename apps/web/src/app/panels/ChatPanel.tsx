@@ -102,7 +102,7 @@ export function ChatPanel() {
             if (e.key === 'Enter') submit();
           }}
           placeholder="Tell the orchestrator what to do…"
-          className="h-9 flex-1 rounded-[var(--radius)] border border-border2 bg-black px-3 text-[13px] text-text outline-none transition-colors placeholder:text-faint focus:border-accent"
+          className="h-9 flex-1 rounded-[var(--radius)] border border-border2 bg-bg px-3 text-[13px] text-text outline-none transition-colors placeholder:text-faint focus:border-accent"
         />
         <Button variant="primary" onClick={() => submit()} disabled={!text.trim()}>
           <Icon name="steer" size={14} />
