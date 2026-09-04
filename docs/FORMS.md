@@ -315,3 +315,5 @@ A click anywhere outside the trigger and popover closes it.
 The trigger keeps its own styling; only the popover is portaled.
 
 The popover inherits theme tokens, so it matches light and dark.
+
+Because it is fixed, it is unaffected by the card's own scroll position.
