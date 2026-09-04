@@ -89,3 +89,5 @@ Verify layout changes in a browser, not only with a build. Positioning, clipping
 **Collapse state resets on reload.** localStorage may be blocked; the shell falls back to expanded.
 
 ## FAQ
+
+**What happened to the workspace switcher?** It was a placeholder for a single workspace and was removed. If multi-workspace support lands later, a switcher can return.
