@@ -107,3 +107,5 @@ The palette is a labelled dialog. Focus moves to the search input on open.
 Everything is reachable by keyboard; no result requires the mouse.
 
 ## What each search returns
+
+- A **session** result opens `/sessions/<id>`, the operator console for that engagement.
