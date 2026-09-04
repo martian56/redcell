@@ -408,3 +408,5 @@ The Update pill participates in normal tab order, so keyboard users reach it aft
 In dark mode the accent pill keeps sufficient contrast against the sidebar background.
 
 The wordmark and version never truncate at the default width; only extreme custom fonts would risk it.
+
+The pill is a styled button, not a native control, matching the rest of the console.
