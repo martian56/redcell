@@ -117,3 +117,5 @@ For a dropdown, measure its bounding box against the sidebar's to confirm it sta
 **Does collapsing hide the workspace switcher?** Yes; the whole sidebar is hidden when collapsed.
 
 **Is the shell responsive?** The main content is fluid; the sidebar is a fixed width you can collapse.
+
+## Menu positioning reference
