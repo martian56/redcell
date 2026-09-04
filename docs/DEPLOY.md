@@ -121,3 +121,5 @@ The first run generates an admin password. Read it with:
 ```bash
 docker compose logs init-secrets
 ```
+
+Sign in as `admin` with that password, then change it in Settings. The password persists in the `redcell_secrets` volume across redeploys.
