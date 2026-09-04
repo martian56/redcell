@@ -320,3 +320,5 @@ Confirm the header does not overflow: logo, name, version, and pill should all f
 **Can I hide the version?** It is intentionally always visible after login; there is no toggle.
 
 ### References
+
+- `apps/web/src/app/DashboardShell.tsx` - the sidebar header and version display.
