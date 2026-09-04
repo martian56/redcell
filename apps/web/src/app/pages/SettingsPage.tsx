@@ -323,7 +323,7 @@ export function SettingsPage() {
             type="password"
             autoFocus
             value={keyInput}
-            placeholder="sk-..."
+            placeholder="sk-…"
             onChange={(e) => setKeyInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && keyInput.trim() && void saveKey()}
           />
