@@ -73,3 +73,5 @@ A proxy or CDN in front holds the public certificate and forwards traffic to thi
 Use this when the domain does not resolve directly to the server, for example when it is proxied through Cloudflare or fronted by Coolify. In that case Caddy cannot complete a Let's Encrypt challenge itself, so it uses an internal certificate instead.
 
 This mode mounts `docker/caddy/Caddyfile.proxy` by setting `CADDYFILE=Caddyfile.proxy` in `.env`.
+
+## Behind Cloudflare
