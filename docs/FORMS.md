@@ -195,3 +195,5 @@ The goal is simple: choosing a provider or model should feel as quick as searchi
 That is the combobox: search, pick, done, consistent everywhere it appears.
 
 ## Popover positioning
+
+A dropdown positioned inside its container is clipped when an ancestor uses `overflow: hidden` or scrolls. On the Settings page the cards clip their contents, which cut the combobox list off at the card's bottom edge.
