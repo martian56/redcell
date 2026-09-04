@@ -81,3 +81,5 @@ When a domain's DNS record is proxied (the orange cloud), it resolves to Cloudfl
 Set the Cloudflare SSL/TLS mode to **Full**. Cloudflare then connects to the origin over HTTPS and accepts the self-signed certificate Caddy serves.
 
 **Flexible** also works: Cloudflare connects to the origin over plain HTTP on :80, which the proxy config serves too.
+
+**Full (strict)** rejects the self-signed origin certificate. To use it, install a Cloudflare Origin Certificate on the server, or switch the record to DNS-only and use mode 2.
