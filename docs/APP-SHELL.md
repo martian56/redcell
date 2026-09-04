@@ -157,3 +157,5 @@ The user menu is the only dropdown in the sidebar, and it opens upward within th
 When collapsed, the brand header disappears with the rest of the sidebar.
 
 The brand header is a natural place to surface the running version and update state; that is tracked separately.
+
+## See also
