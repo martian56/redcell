@@ -30,3 +30,4 @@ screen exposes a single New session entry point.
 - r26: A single source of truth for the New session action reduces drift.
 - r27: SessionRow still navigates to a session on open.
 - r28: The regression test asserts the page renders no New session button.
+- r29: The regression test asserts both filters remain present.
