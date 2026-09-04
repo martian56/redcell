@@ -241,3 +241,5 @@ The version query refetches periodically, so the pill appears on its own shortly
 The latest-release lookup is cached briefly on the server, so a brand-new release can take a few minutes to surface. See [UPDATING.md](UPDATING.md).
 
 The version is always shown; only the Update pill is conditional. This keeps the running version visible at a glance.
+
+The version sits right after the REDCELL wordmark; the Update pill is pushed to the right of the header.
