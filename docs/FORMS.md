@@ -301,3 +301,5 @@ The list has a bounded max height, so a huge catalog scrolls inside the popover 
 Pagination keeps each page short even when the list is long.
 
 The search field is focused on open, so you can type immediately.
+
+Filtering resets to the first page so the top results are visible.
