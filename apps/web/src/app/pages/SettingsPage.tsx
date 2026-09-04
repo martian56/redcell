@@ -66,7 +66,8 @@ export function SettingsPage() {
 
   const saveKey = async () => {
     if (!keyFor || !keyInput.trim()) return;
-    await setKey.mutateAsync({ providerId: keyFor.id, apiKey: keyInput.trim(), apiBase: null });
+    const apiBase = (keys ?? []).find((k) => k.providerId === keyFor.id)?.apiBase ?? null;
+    await setKey.mutateAsync({ providerId: keyFor.id, apiKey: keyInput.trim(), apiBase });
     setKeyFor(null);
     setKeyInput('');
     toast(`Key saved for ${keyFor.label}`, 'success');
