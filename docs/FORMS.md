@@ -161,3 +161,5 @@ The trigger and popover share the field width in block mode, so they line up wit
 Selecting a provider also resets the model to that provider's first model, keeping the pair valid.
 
 The model field falls back to free text so unusual or self-hosted model names can still be entered.
+
+Because it is one shared component, improvements to search or keyboard handling benefit every usage at once.
