@@ -145,3 +145,5 @@ Menus sit above the shell chrome and the main card so an open menu is never obsc
 - Issue #76 - removing the placeholder workspace switcher.
 
 ## Notes
+
+REDCELL is single-operator: one admin account, one workspace. That is why a workspace switcher added no value.
