@@ -32,7 +32,7 @@ export function Dialog({
       onMouseDown={onClose}
     >
       <div
-        className="w-full overflow-hidden rounded-[var(--radius)] border border-border2 bg-panel shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
+        className="w-full overflow-hidden rounded-[var(--radius)] border border-border2 bg-panel shadow-[var(--shadow)]"
         style={{ maxWidth: width }}
         onMouseDown={(e) => e.stopPropagation()}
       >
