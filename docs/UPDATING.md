@@ -138,3 +138,5 @@ Your data in the named volumes is preserved across the update.
 **Can it auto-update on a schedule?** Not yet; updates are on demand from the button.
 
 ## Best practices
+
+- Update in a quiet window, not during a live run.
