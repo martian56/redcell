@@ -105,3 +105,5 @@ Issue #63 removed two pre-auth disclosures from the login page.
 ## Related surfaces to keep clean
 
 - Static asset names and comments should not embed a version.
+
+- Production bundles should not ship source maps that reveal internal structure.
