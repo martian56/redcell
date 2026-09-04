@@ -160,3 +160,5 @@ This feature ships in a release; a deployment must be updated once (by shell) to
 - Issue #66 - the request this implements.
 
 ## See also
+
+- [DEPLOY.md](DEPLOY.md) - deploying and the update commands in context.
