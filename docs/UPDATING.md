@@ -329,3 +329,5 @@ The panel is intentionally small and centered, matching the console's other dial
 It reuses the shared overlay and modal styles, with its own step list styles.
 
 The spinner respects reduced-motion preferences.
+
+The steps are a fixed sequence, so their order is predictable and easy to scan.
