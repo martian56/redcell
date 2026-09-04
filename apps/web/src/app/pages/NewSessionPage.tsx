@@ -169,7 +169,7 @@ export function NewSessionPage() {
               onKeyDown={(e) => e.key === 'Enter' && void send()}
               placeholder="Describe the target…"
             />
-            <button className="csend" onClick={send} disabled={!input.trim() || busy}>
+            <button className="csend" aria-label="Send" onClick={send} disabled={!input.trim() || busy}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path d="M4 12l16-7-7 16-2-7-7-2z" />
               </svg>
