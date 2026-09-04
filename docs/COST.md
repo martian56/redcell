@@ -126,3 +126,4 @@ Output tokens usually cost more than input, which is why the table prices them s
 
 1. The client calls the provider and receives the message plus a usage block.
 2. It parses total, prompt, and completion tokens from usage.
+3. It resolves cost (OpenRouter real, then LiteLLM, then table).
