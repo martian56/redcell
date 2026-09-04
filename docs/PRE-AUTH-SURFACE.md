@@ -75,3 +75,5 @@ The deploy supports automatic HTTPS for a direct domain and a proxy mode for a f
 - Expose only ports 80 and 443. Keep Postgres, Redis, and MinIO on the internal network.
 
 ## Verifying
+
+Load the login page and confirm no version string appears in the page or its assets.
