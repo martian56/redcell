@@ -27,3 +27,5 @@ It does not claim a bind address. Where the console binds is a deployment detail
 In development, when the admin password is still the default, a hint block explains how to change it. Set real `REDCELL_ADMIN_*` values (or let the deploy generate them) so no hint is shown in production.
 
 ## HTTP headers
+
+Responses should not carry a version or framework banner. Avoid `X-Powered-By` and a descriptive `Server` header on public responses.
