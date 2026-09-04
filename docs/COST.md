@@ -107,3 +107,5 @@ USD per 1M tokens as (input, output). Estimates for the fallback table; OpenRout
 **Local models show \$0.00.** Expected - self-hosted models have no API cost.
 
 ## References
+
+- `packages/core/redcell_core/engine/pricing.py` - the price table and estimator.
