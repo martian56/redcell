@@ -17,3 +17,5 @@ For each LLM call, cost is resolved in order:
 3. **REDCELL price table** - a fallback in `engine/pricing.py` for models LiteLLM does not price (the catalog uses forward-looking model names LiteLLM has no entry for).
 
 If none apply (an unknown model on a direct provider), cost is 0 rather than a wrong guess.
+
+## Why spend used to read \$0.00
