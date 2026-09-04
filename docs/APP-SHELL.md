@@ -410,3 +410,5 @@ In dark mode the accent pill keeps sufficient contrast against the sidebar backg
 The wordmark and version never truncate at the default width; only extreme custom fonts would risk it.
 
 The pill is a styled button, not a native control, matching the rest of the console.
+
+Re-rendering the header with the same version data produces the same output, avoiding flicker.
