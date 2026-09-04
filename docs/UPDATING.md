@@ -223,3 +223,5 @@ The update runs server-side, so closing or navigating away does not stop it; the
 **Reconnecting** - the api is restarting and the console is waiting for it to answer again.
 
 **Up to date** - the running version matches the latest release; the panel reloads shortly.
+
+**Failed** - the update could not start or did not complete in time; close and check the server.
