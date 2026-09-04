@@ -67,7 +67,7 @@ export function ReportsPanel() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder={defaultTitle}
-            className="h-9 w-full rounded-[var(--radius)] border border-border2 bg-black px-3 text-[13px] text-text outline-none placeholder:text-faint focus:border-accent"
+            className="h-9 w-full rounded-[var(--radius)] border border-border2 bg-bg px-3 text-[13px] text-text outline-none placeholder:text-faint focus:border-accent"
           />
           <div className="flex flex-wrap items-center gap-2">
             {ALL_FORMATS.map((f) => (
