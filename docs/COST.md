@@ -45,3 +45,5 @@ Edit `PRICES` in `engine/pricing.py`. Keep entries as USD per 1M tokens `(input,
 For OpenRouter you usually do not need a table entry, since the real cost comes back on the response.
 
 ## OpenRouter details
+
+The client adds `extra_body={"usage": {"include": true}}` for the `openrouter` provider so the response includes accounting.
