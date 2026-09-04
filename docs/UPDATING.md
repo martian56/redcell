@@ -162,3 +162,4 @@ This feature ships in a release; a deployment must be updated once (by shell) to
 ## See also
 
 - [DEPLOY.md](DEPLOY.md) - deploying and the update commands in context.
+- [COST.md](COST.md) - unrelated, but another operator reference.
