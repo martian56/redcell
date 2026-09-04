@@ -80,3 +80,7 @@ The palette previously listed only static pages, and some icons were generic. Th
 Searching real entities turns it into a jump-to-anything tool, which is what a command palette is for.
 
 ## Keyboard reference
+
+| Key | Action |
+| --- | --- |
+| Cmd/Ctrl + K | Open the palette |
