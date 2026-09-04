@@ -1,6 +1,6 @@
 # The operator console shell
 
-How the console is laid out: a sidebar and a floating main card, with the shared menu and dropdown behavior.
+How the console is laid out: a sidebar and a floating main card, with the shared menu behavior.
 
 ## Layout
 
@@ -10,69 +10,57 @@ The main area is a floating card with its own header and body, padded away from 
 
 ## Sidebar
 
-The sidebar uses `overflow: hidden` so it clips cleanly when collapsed. That means anything inside it, including dropdowns, must stay within the sidebar's width or it gets clipped.
+The sidebar uses `overflow: hidden` so it clips cleanly when collapsed. Anything inside it must stay within its width.
 
-Top to bottom: the workspace header, the search button, the navigation groups, the active-runs list, and the user menu at the foot.
+Top to bottom: the brand header, the search button, the navigation groups, the active-runs list, and the user menu at the foot.
 
-## Workspace switcher
+## Brand header
 
-The header shows the workspace name with a caret. The caret opens a small menu (the workspace and a theme toggle).
+The header shows the REDCELL logo and name. It is a simple label, not a control.
 
-The menu is anchored to the header (`.ws` is the positioning context) and spans within the sidebar, so it never extends into the main content or gets clipped.
-
-The caret rotates when the menu is open, and the button carries `aria-haspopup` and `aria-expanded`.
-
-## Menus and dropdowns
-
-A menu opens from its trigger and closes on Escape, on selecting an item, or on a click outside (a shared outside-click hook).
-
-Menus are absolutely positioned relative to their trigger's wrapper. By default a menu opens below-left; modifiers open it right-aligned or upward.
-
-Because the sidebar clips overflow, a sidebar menu must be anchored so it stays inside the sidebar. The workspace menu spans the header width; the user menu spans the footer width.
-
-Menus sit above surrounding content via z-index. Keep menu z-index above the main card so an overlapping menu is never painted under it.
-
-## Collapsing the sidebar
-
-The header toggle hides the sidebar (grid column to 0). The choice is stored in localStorage and restored on load.
-
-The sidebar's `overflow: hidden` is what makes the collapse look clean, which is why menus inside it must not rely on overflowing.
-
-## Header
-
-The main card header shows the page title (or the console header on a session) and page actions such as New session and the theme toggle.
-
-The first header button toggles the sidebar.
-
-## Theme
-
-Theme can be toggled from the header, the workspace menu, or the user menu. The choice is applied via a data attribute and persisted.
+It previously held a workspace switcher, but that only listed a single workspace and a theme toggle, so it was removed. The theme toggle lives in the header and the user menu.
 
 ## Search
 
 The Search button opens the command palette (Cmd/Ctrl+K). See [SHORTCUTS.md](SHORTCUTS.md).
 
+## Navigation
+
+Navigation is grouped (Overview, Sessions, Findings, Reports, and an Infrastructure group for Servers, Proxies, and Settings). The active route is highlighted.
+
 ## Active runs
 
-Below the navigation, sessions whose run is currently running are listed for quick access. The list is capped and polls run status.
+Below the navigation, sessions whose run is currently running are listed for quick access. The list is capped and polls run status, and is hidden when nothing is running.
 
 ## User menu
 
-The footer shows the operator and opens an upward menu with a theme toggle and sign out. It spans the footer width, staying inside the sidebar.
+The footer shows the operator and opens an upward menu with a theme toggle and sign out. It spans the footer width, staying inside the sidebar, and closes on Escape or an outside click.
+
+## Collapsing the sidebar
+
+The header toggle hides the sidebar (grid column to 0). The choice is stored in localStorage and restored on load. The sidebar's `overflow: hidden` makes the collapse look clean.
+
+## Header
+
+The main card header shows the page title (or the console header on a session) and page actions such as New session and the theme toggle. The first button toggles the sidebar.
+
+## Theme
+
+Theme can be toggled from the header or the user menu. The choice is applied via a data attribute, persisted, and re-applied before paint to avoid a flash.
+
+## Menus and dropdowns
+
+A menu opens from its trigger and closes on Escape, on selecting an item, or on a click outside (a shared outside-click hook).
+
+Because the sidebar clips overflow, a sidebar menu must be anchored so it stays inside the sidebar. The user menu spans the footer width and opens upward.
+
+Menus sit above surrounding content via z-index; keep a menu's z-index above the main card so an overlapping menu is never painted under it.
 
 ## Accessibility
 
-Menu triggers use `aria-haspopup` and `aria-expanded`; menus use a menu role. Focus and keyboard access are preserved.
+Menu triggers use `aria-haspopup` and `aria-expanded`, and menus use a menu role. Everything is keyboard reachable.
 
 Icon-only buttons carry an `aria-label`.
-
-## Fix: the workspace dropdown
-
-The dropdown was positioned from the caret with `left: 0`, so a 180px menu started near the right of the sidebar and ran ~60px past its edge.
-
-The sidebar's `overflow: hidden` then clipped the overflowing part, and it overlapped the main content, so it looked like it slid under the main card.
-
-The menu is now anchored to the `.ws` header and spans within the sidebar, with a higher z-index. It stays fully inside the sidebar at any width.
 
 ## For contributors
 
@@ -80,57 +68,39 @@ The shell is `apps/web/src/app/DashboardShell.tsx`; its styles are in `apps/web/
 
 - Add a nav item by extending the groups list with a route, label, and icon.
 
-- Add a menu by giving its trigger a wrapper as the positioning context and toggling an open state.
+- Add a menu by wrapping its trigger and menu in one element, putting the outside-click ref on that wrapper, and toggling an open state.
 
-- A menu inside the sidebar must be anchored so it stays within the 236px width; do not rely on it overflowing, because the sidebar clips overflow.
-
-- Give menus a z-index above the main card so an overlapping menu is never painted under it.
-
-- Reuse the outside-click hook and put its ref on the element that wraps both the trigger and the menu.
+- A menu inside the sidebar must stay within the 236px width; do not rely on it overflowing, because the sidebar clips overflow.
 
 ## Verifying shell changes
 
-Verify layout changes in a browser, not only with a build. Positioning, clipping, and z-index cannot be checked by type or unit tests.
-
-Append `?demo=1` to skip auth and load the shell with demo data for quick visual checks.
-
-For a dropdown, measure its bounding box against the sidebar's to confirm it stays inside and is not clipped.
+Verify layout changes in a browser, not only with a build. Positioning, clipping, and z-index cannot be checked by type or unit tests. Append `?demo=1` to load the shell without a backend.
 
 ## Troubleshooting
 
-**A sidebar dropdown looks cut off.** It extends past the 236px sidebar and is clipped by `overflow: hidden`. Anchor it so it stays within the sidebar.
+**A sidebar menu looks cut off.** It extends past the 236px sidebar and is clipped by `overflow: hidden`. Anchor it so it stays within the sidebar.
 
 **A menu appears under the main content.** Its z-index is too low, or it overflows into the main area. Raise the z-index and keep it inside its region.
 
 **A menu will not close on outside click.** The outside-click ref is on the trigger only, not the wrapper that includes the menu.
 
-**Sidebar content peeks out when collapsed.** Something inside the sidebar is escaping `overflow: hidden`; keep sidebar content within the column.
+**Sidebar content peeks out when collapsed.** Something inside the sidebar escapes `overflow: hidden`; keep sidebar content within the column.
 
 **Collapse state resets on reload.** localStorage may be blocked; the shell falls back to expanded.
 
 ## FAQ
 
-**Can I have multiple workspaces?** The switcher is built for it; today there is a single REDCELL workspace.
+**What happened to the workspace switcher?** It was a placeholder for a single workspace and was removed. If multi-workspace support lands later, a switcher can return.
 
 **Where is the theme stored?** It is applied via a data attribute on the root and persisted, and re-applied before paint to avoid a flash.
 
-**Does collapsing hide the workspace switcher?** Yes; the whole sidebar is hidden when collapsed.
+**Does collapsing hide the brand header?** Yes; the whole sidebar is hidden when collapsed.
 
 **Is the shell responsive?** The main content is fluid; the sidebar is a fixed width you can collapse.
 
-## Menu positioning reference
-
-- Default: opens below the trigger, left-aligned.
-
-- Right-aligned: aligns the menu's right edge to the trigger, opening leftward.
-
-- Upward: opens above the trigger (used by the footer user menu).
-
-- Header-spanning: the workspace menu spans the sidebar header width, anchored to `.ws`.
-
 ## Structure at a glance
 
-- `.ws` - workspace header (positioning context for its menu)
+- `.ws` - the brand header (logo and name)
 
 - `.search` - opens the command palette
 
@@ -142,9 +112,17 @@ For a dropdown, measure its bounding box against the sidebar's to confirm it sta
 
 - `.head` - the card header with title and actions
 
+## Menu positioning reference
+
+- Default: opens below the trigger, left-aligned.
+
+- Right-aligned: aligns the menu's right edge to the trigger.
+
+- Upward: opens above the trigger (used by the footer user menu).
+
 ## Z-index notes
 
-Menus sit above the shell chrome and the main card. The workspace menu uses a high z-index so it is never obscured while open.
+Menus sit above the shell chrome and the main card so an open menu is never obscured.
 
 ## Glossary
 
@@ -152,11 +130,7 @@ Menus sit above the shell chrome and the main card. The workspace menu uses a hi
 
 - **Main card** - the floating content area to the right of the sidebar.
 
-- **Workspace switcher** - the header control that opens the workspace menu.
-
 - **Dropdown / menu** - a small floating list anchored to a trigger.
-
-- **Anchor** - the positioned element a menu is measured from.
 
 ## References
 
@@ -166,32 +140,88 @@ Menus sit above the shell chrome and the main card. The workspace menu uses a hi
 
 - [SHORTCUTS.md](SHORTCUTS.md) - the command palette and keyboard navigation.
 
+- [UPDATING.md](UPDATING.md) - in-app updates.
+
+- Issue #76 - removing the placeholder workspace switcher.
+
+## Notes
+
+REDCELL is single-operator: one admin account, one workspace. That is why a workspace switcher added no value.
+
+Theme has two entry points now (header and user menu); removing the switcher removed a third, redundant one.
+
+The brand header is now a plain label, so it no longer needs a positioning context or hover affordance.
+
+The user menu is the only dropdown in the sidebar, and it opens upward within the footer width.
+
+When collapsed, the brand header disappears with the rest of the sidebar.
+
+The brand header is a natural place to surface the running version and update state; that is tracked separately.
+
 ## See also
 
-- [DEPLOY.md](DEPLOY.md) and [UPDATING.md](UPDATING.md) for running and updating the console.
+- [DEPLOY.md](DEPLOY.md) for running the console.
 
 ## Summary
 
-Sidebar plus floating card. Menus stay inside their region, above the content, and close on outside click. Verify layout in a browser.
+Sidebar plus floating card. The header is a plain brand label; the only sidebar menu is the user menu. Verify layout in a browser.
 
-## Note on stacking contexts
+## Outside-click hook
 
-A dropdown is clipped or hidden by an ancestor with `overflow: hidden` or a higher stacking context. Anchor menus so their box stays inside the visible region rather than fighting the clip.
+A small generic hook attaches a `mousedown` listener and closes the menu when the click falls outside the wrapping element. Put its ref on the element that contains both the trigger and the menu.
 
-The sidebar is a fixed 236px, so a menu that spans the header is a predictable width and never depends on the viewport.
+## Escape to close
 
-While the workspace menu is open the header keeps its hover highlight, which reads as the switcher being active.
+A document-level `keydown` listener closes any open shell menu on Escape while a menu is open.
 
-Pressing Escape or clicking anywhere outside the switcher closes the menu.
+## Collapse persistence
 
-The caret rotates to point up while the menu is open, and animates back on close.
+The collapse flag is read from localStorage on first render and written whenever it changes, wrapped in try/catch so a blocked storage does not break the shell.
 
-The theme toggle appears in both the workspace and user menus for convenience; the header has a dedicated toggle too.
+## Active runs source
 
-The active-runs list is hidden entirely when nothing is running, keeping the sidebar tidy.
+The list comes from active sessions with a running run; each run's status is polled, and only running ones are shown.
 
-Sidebar collapse and theme both persist across reloads; the palette query state does not, by design.
+## Active link styling
 
-When changing any menu or the sidebar, re-check in a browser at a couple of widths and in both themes.
+Navigation uses the router's active state to highlight the current page; the Overview link matches exactly so it does not stay highlighted on sub-routes.
 
-That is the shell: predictable layout, contained menus, verified in a real browser.
+## Palette mounting
+
+The command palette is mounted only while open, so its data queries fire on open rather than during normal dashboard use.
+
+## Console header
+
+On a session route the card header is replaced by the console header (status, metrics, run controls); elsewhere it shows the page title and actions.
+
+## Theme tokens
+
+Shell colors come from CSS variables, so both themes and the light/dark toggle work without per-component overrides.
+
+## Fixed sidebar width
+
+The 236px sidebar is fixed, so sidebar content has a predictable width and never depends on the viewport.
+
+## Consistent controls
+
+The shell avoids native popovers; menus are custom so they match the theme and behave consistently.
+
+## Keep it simple
+
+The header stays a label unless there is a real control to add; extra chrome in the sidebar is easy to add and hard to justify.
+
+## Search shortcut
+
+Cmd/Ctrl+K opens the palette from anywhere via a document key listener, in addition to the Search button.
+
+## Sign out
+
+Signing out from the user menu clears the session and returns to Overview (which redirects to login).
+
+## Operator identity
+
+The footer shows the operator name and role; there is a single operator account.
+
+## Brand mark
+
+The logo is a small accent square next to the REDCELL wordmark; it is decorative.

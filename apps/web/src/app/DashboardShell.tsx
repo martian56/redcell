@@ -139,9 +139,8 @@ export function DashboardShell() {
     }
   });
   const [palette, setPalette] = useState(false);
-  const [menu, setMenu] = useState<'ws' | 'user' | null>(null);
+  const [menu, setMenu] = useState<'user' | null>(null);
   const [, force] = useState(0);
-  const wsRef = useOutside<HTMLDivElement>(() => setMenu((m) => (m === 'ws' ? null : m)));
   const userRef = useOutside<HTMLSpanElement>(() => setMenu((m) => (m === 'user' ? null : m)));
 
   useEffect(() => {
@@ -196,31 +195,9 @@ export function DashboardShell() {
   return (
     <div className={`app-shell${collapsed ? ' collapsed' : ''}`}>
       <aside className="side">
-        <div className="ws" ref={wsRef}>
+        <div className="ws">
           <span className="logo" />
           <span className="nm">REDCELL</span>
-          <button type="button"
-            className={`iconbtn wscaret${menu === 'ws' ? ' open' : ''}`}
-            style={{ width: 24, height: 24, color: 'var(--tx-3)' }}
-            onClick={() => setMenu((m) => (m === 'ws' ? null : 'ws'))}
-            aria-label="Workspace menu"
-            aria-haspopup="menu"
-            aria-expanded={menu === 'ws'}
-          >
-            <svg className="caret" viewBox="0 0 24 24">
-              <path d="M8 9l4 4 4-4" />
-            </svg>
-          </button>
-          <div className="menu ws-menu" role="menu" style={{ display: menu === 'ws' ? 'block' : 'none' }}>
-            <div className="menu-label">Workspace</div>
-            <button type="button" className="menu-item sel">
-              REDCELL<span className="ck">✓</span>
-            </button>
-            <div className="menu-sep" />
-            <button type="button" className="menu-item" onClick={flipTheme}>
-              Toggle theme
-            </button>
-          </div>
         </div>
         <button type="button" className="search" onClick={() => setPalette(true)}>
           <svg viewBox="0 0 24 24">

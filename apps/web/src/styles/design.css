@@ -34,16 +34,12 @@
   overflow: hidden;
 }
 .ws {
-  position: relative;
   display: flex;
   align-items: center;
   gap: 9px;
   padding: 11px 12px;
   margin: 4px 8px 2px;
   border-radius: var(--r);
-}
-.ws:hover {
-  background: var(--bg-hover);
 }
 .ws .logo {
   width: 20px;
@@ -472,19 +468,6 @@
   fill: none;
   stroke-width: 1.7;
   color: var(--tx-4);
-}
-.ws-menu {
-  left: 8px;
-  right: 8px;
-  top: calc(100% - 2px);
-  min-width: 0;
-  z-index: 200;
-}
-.wscaret .caret {
-  transition: transform 0.15s ease;
-}
-.wscaret.open .caret {
-  transform: rotate(180deg);
 }
 
 .card {
