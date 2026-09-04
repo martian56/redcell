@@ -71,3 +71,5 @@ Ports 80 and 443 must be reachable from the internet; Let's Encrypt validates ov
 A proxy or CDN in front holds the public certificate and forwards traffic to this server. Caddy here serves both plain HTTP on :80 and its own self-signed HTTPS on :443, so it answers whichever way the proxy connects.
 
 Use this when the domain does not resolve directly to the server, for example when it is proxied through Cloudflare or fronted by Coolify. In that case Caddy cannot complete a Let's Encrypt challenge itself, so it uses an internal certificate instead.
+
+This mode mounts `docker/caddy/Caddyfile.proxy` by setting `CADDYFILE=Caddyfile.proxy` in `.env`.
