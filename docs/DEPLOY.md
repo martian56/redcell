@@ -41,3 +41,5 @@ cd redcell
 `deploy.sh` installs Docker if needed, asks how REDCELL will be reached, writes `.env`, pulls the images, and starts the stack.
 
 ## Deployment modes
+
+`deploy.sh` offers three ways to reach REDCELL. Each writes a matching set of values to `.env`; nothing else needs editing.
