@@ -31,3 +31,5 @@ The console header shows the running totals next to Elapsed and Model.
 ## The price table
 
 `engine/pricing.py` maps a model to `(input, output)` in USD per 1M tokens. Cost is `prompt/1e6 * input + completion/1e6 * output`.
+
+Lookup is by the last path segment, lowercased, so `z-ai/glm-5.2` and `glm-5.2` resolve the same.
