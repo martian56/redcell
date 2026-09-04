@@ -21,3 +21,5 @@ What an unauthenticated client can observe from a REDCELL deployment, and the pr
 ## What the login page shows
 
 The login page shows only the product name and the sign-in form. It does not show a version string.
+
+It does not claim a bind address. Where the console binds is a deployment detail, not something to advertise on the login screen.
