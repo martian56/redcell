@@ -19,3 +19,5 @@ It replaces the native select so the list is searchable, styled to match the app
 It is generic over the option type: you provide the items and functions to derive a key, a label, and an optional sublabel.
 
 It lives in `apps/web/src/components/ui/Combobox.tsx`.
+
+## Combobox API
