@@ -86,3 +86,5 @@ curl -s https://your-domain/api/v1/system/version
 **Updater cannot run compose.** The updater image lacks the compose plugin. Set `REDCELL_UPDATER_IMAGE` to an image that includes it.
 
 **Update did not apply.** Confirm compose tracks `:latest` and that the new images were published. Check `docker compose logs` for the pull.
+
+**Version still old after update.** The images may not carry a baked `REDCELL_VERSION` yet. Only releases built after this feature include it.
