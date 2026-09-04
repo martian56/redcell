@@ -130,3 +130,5 @@ Your data in the named volumes is preserved across the update.
 **Should I back up first?** Backing up the database and volumes before an update is good practice. See DEPLOY.md.
 
 **Does it need internet?** Yes, to check the latest release and to pull new images.
+
+**How do I disable it?** Leave `REDCELL_COMPOSE_DIR` unset. The endpoint then refuses and the button does nothing useful.
