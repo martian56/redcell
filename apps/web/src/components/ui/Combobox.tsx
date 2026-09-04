@@ -11,7 +11,7 @@ export function Combobox<T>({
   getSublabel,
   onSelect,
   trigger,
-  placeholder = 'Search...',
+  placeholder = 'Search…',
   pageSize = 6,
   width = 280,
   block = false,
