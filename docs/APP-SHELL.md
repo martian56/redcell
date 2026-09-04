@@ -19,3 +19,5 @@ Top to bottom: the brand header, the search button, the navigation groups, the a
 The header shows the REDCELL logo and name. It is a simple label, not a control.
 
 It previously held a workspace switcher, but that only listed a single workspace and a theme toggle, so it was removed. The theme toggle lives in the header and the user menu.
+
+## Search
