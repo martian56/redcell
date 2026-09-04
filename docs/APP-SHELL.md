@@ -262,3 +262,5 @@ A released image bakes its version in, so the sidebar shows `vX.Y.Z`. A local or
 2. The Update pill appears next to the version.
 3. Selecting it opens the update path (Settings today, an in-place panel next).
 4. After the update, the version updates and the pill goes away.
+
+### Behavior details
