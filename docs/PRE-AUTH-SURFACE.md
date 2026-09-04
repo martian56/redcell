@@ -132,3 +132,5 @@ Mass scanners key off banners and version strings. Removing them keeps the insta
 Operators still need the version. Expose it only after authentication (Settings), never on the login page.
 
 ## FAQ
+
+**Where can I see the version now?** After signing in. A future change exposes it in Settings for authenticated operators.
