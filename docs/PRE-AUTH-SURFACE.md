@@ -65,3 +65,5 @@ The deploy supports automatic HTTPS for a direct domain and a proxy mode for a f
 - If a CDN fronts the origin, restrict the origin to the CDN's source ranges so nobody hits it directly.
 
 - Change the default admin password immediately, or set `REDCELL_ADMIN_*` before first boot so there is never a default.
+
+- Use strong, unique `REDCELL_JWT_SECRET` and `REDCELL_SECRET_KEY`. The deploy generates these per instance.
