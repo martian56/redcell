@@ -300,3 +300,5 @@ Confirm the header does not overflow: logo, name, version, and pill should all f
 ### Troubleshooting the version display
 
 **No version shown.** The version endpoint is unreachable or still loading. Check the API is up and reachable from the browser.
+
+**Shows `dev`.** The running image has no baked version. Only released images carry one; deploy a release to see a version.
