@@ -109,3 +109,5 @@ Render the current value inside SelectTrigger so the closed state shows the sele
 Use block inside form fields so the control fills the column.
 
 ## Verifying
+
+Open the control, type to filter, and confirm selecting an option updates the field.
