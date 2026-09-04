@@ -217,3 +217,5 @@ The update runs server-side, so closing or navigating away does not stop it; the
 ### Panel states
 
 **Starting** - the update request is being sent to the server.
+
+**Applying** - images are pulling and the app services are recreating.
