@@ -160,3 +160,5 @@ Search is case-insensitive; capitalization never matters.
 ## Summary
 
 Cmd/Ctrl+K, type a few letters, Enter. That is the whole tool.
+
+## See also
