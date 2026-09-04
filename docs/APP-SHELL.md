@@ -249,3 +249,5 @@ The version uses the monospace font in a muted color; the pill uses the accent c
 ### Why show the version
 
 Operators need to know what build is running when reporting an issue or confirming an update landed. Putting it in the sidebar makes it visible on every screen.
+
+The version is only shown after login; the login page never reveals it. See [PRE-AUTH-SURFACE.md](PRE-AUTH-SURFACE.md).
