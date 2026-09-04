@@ -80,3 +80,4 @@ screen exposes a single New session entry point.
 - r76: The regression test asserts the page renders no New session button.
 - r77: The regression test asserts both filters remain present.
 - r78: Header ownership keeps the action visible across list screens.
+- r79: Consistency between Overview and Sessions comes from the shared header.
