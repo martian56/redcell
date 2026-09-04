@@ -159,3 +159,5 @@ Menus sit above the shell chrome and the main card. The workspace menu uses a hi
 - **Anchor** - the positioned element a menu is measured from.
 
 ## References
+
+- `apps/web/src/app/DashboardShell.tsx` - the shell component.
