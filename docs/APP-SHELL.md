@@ -348,3 +348,5 @@ The periodic refetch is light and cached server-side, so it is safe to leave the
 Settings also shows the version and an update control, so the sidebar and Settings stay consistent.
 
 A progress panel that opens on update is tracked separately; the sidebar pill will open it once it lands.
+
+## Related
