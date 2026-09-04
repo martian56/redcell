@@ -209,3 +209,7 @@ The shell avoids native popovers; menus are custom so they match the theme and b
 ## Keep it simple
 
 The header stays a label unless there is a real control to add; extra chrome in the sidebar is easy to add and hard to justify.
+
+## Search shortcut
+
+Cmd/Ctrl+K opens the palette from anywhere via a document key listener, in addition to the Search button.
