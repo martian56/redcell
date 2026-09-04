@@ -51,3 +51,5 @@ Theme can be toggled from the header or the user menu. The choice is applied via
 ## Menus and dropdowns
 
 A menu opens from its trigger and closes on Escape, on selecting an item, or on a click outside (a shared outside-click hook).
+
+Because the sidebar clips overflow, a sidebar menu must be anchored so it stays inside the sidebar. The user menu spans the footer width and opens upward.
