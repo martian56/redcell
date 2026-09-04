@@ -40,3 +40,5 @@ Results are capped so a very large workspace does not render a huge list at once
 - Type part of a session name or its client to jump into that session's console.
 
 - Type a target domain or IP to find the session that has it in scope.
+
+- Type a server's hostname to open that server.
