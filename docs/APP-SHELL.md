@@ -352,3 +352,5 @@ A progress panel that opens on update is tracked separately; the sidebar pill wi
 ## Related
 
 - [DEPLOY.md](DEPLOY.md) - deploying and updating from the shell.
+
+- [SHORTCUTS.md](SHORTCUTS.md) - the command palette.
