@@ -46,3 +46,4 @@ cd redcell
 
 | Mode | SITE_ADDRESS | CADDYFILE | Cookie secure |
 | --- | --- | --- | --- |
+| 1. Direct, no domain | `:80` | `Caddyfile` | false |
