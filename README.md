@@ -121,7 +121,7 @@ The script installs Docker if it is missing, then asks how REDCELL will be reach
 
 1. **This server directly, no domain** — plain HTTP on the server IP. Good for a quick trial or a private network.
 2. **A domain pointed straight at this server** — Caddy provisions a Let's Encrypt certificate automatically (point an A or AAAA record at the server first) and serves `https://your-domain`.
-3. **A domain behind Cloudflare, Coolify, or another proxy or CDN** — the proxy provides the public HTTPS certificate and forwards to this server. The origin serves both plain HTTP and its own HTTPS, so it works however the proxy connects.
+3. **A domain behind Cloudflare, Coolify, or another proxy or CDN** — the proxy provides the public HTTPS certificate and forwards to this server. The origin serves both plain HTTP (:80) and a self-signed HTTPS (:443), so it works with a proxy that connects over HTTP or one that accepts the origin's certificate (for Cloudflare, SSL mode Full; Full (strict) needs a Cloudflare Origin Certificate).
 
 It writes your answers to `.env`, pulls the images, and starts the stack. Read the generated admin password with `docker compose logs init-secrets`, then sign in as `admin` and change it. To change how it is reached later, just re-run `./deploy.sh` and pick a different option.
 
