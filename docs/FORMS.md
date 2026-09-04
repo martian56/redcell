@@ -355,3 +355,5 @@ The result is a searchable dropdown that never hides behind a card wall.
 This pattern should be the template for any future dropdown in the console.
 
 Keeping one combobox means one place to fix and improve positioning.
+
+The reposition on scroll keeps the popover glued to the field during a scroll.
