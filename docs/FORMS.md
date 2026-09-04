@@ -143,3 +143,5 @@ Verify in a browser; the popover, search, and pagination are layout behavior.
 - `apps/web/src/components/ui/fields.tsx` - SelectTrigger and field helpers.
 
 - `apps/web/src/app/pages/SettingsPage.tsx` - the Provider and Model usage.
+
+- Issue #79 - the Settings combobox.
