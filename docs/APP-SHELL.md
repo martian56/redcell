@@ -298,3 +298,5 @@ On a real deployment, the pill appears once a newer release is published and the
 Confirm the header does not overflow: logo, name, version, and pill should all fit within the 236px sidebar.
 
 ### Troubleshooting the version display
+
+**No version shown.** The version endpoint is unreachable or still loading. Check the API is up and reachable from the browser.
