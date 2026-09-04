@@ -177,3 +177,5 @@ curl -so /dev/null -w '%{http_code}\n' https://your-domain/api/v1/sessions
 **Login does not stick.** Over plain HTTP on an IP the secure cookie is dropped. Use a domain, or accept mode 1 which sets the cookie insecure.
 
 **CORS errors.** All traffic should go through Caddy on one origin. Reach REDCELL at its `SITE_ADDRESS`, not the API port directly.
+
+**Something is failing.** Read the logs of a service, for example `docker compose logs api` or `docker compose logs caddy`.
