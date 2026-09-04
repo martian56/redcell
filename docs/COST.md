@@ -129,3 +129,5 @@ Output tokens usually cost more than input, which is why the table prices them s
 3. It resolves cost (OpenRouter real, then LiteLLM, then table).
 4. The runner books tokens and cost onto the run with `set_meters`.
 5. The header reflects the new totals on the next update.
+
+## Controlling cost
