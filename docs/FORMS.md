@@ -11,3 +11,5 @@ The console uses a small set of custom form controls so inputs look and behave c
 - **Combobox** - a searchable dropdown that replaces native selects when the list is long or benefits from search.
 
 ## The searchable combobox
+
+The combobox is a button that opens a popover with a search field and a filtered, paginated list of options.
