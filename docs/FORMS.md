@@ -113,3 +113,5 @@ Use block inside form fields so the control fills the column.
 Open the control, type to filter, and confirm selecting an option updates the field.
 
 Verify in a browser; the popover, search, and pagination are layout behavior.
+
+## Troubleshooting
