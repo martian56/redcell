@@ -371,3 +371,5 @@ The mock updater is stateful so the browser walk-through reaches the done state.
 The panel and the sidebar version indicator share the same version data source.
 
 Together they give a clear loop: see an update, apply it, watch it land.
+
+No configuration is needed to use the panel beyond the in-app update being enabled on the deployment.
