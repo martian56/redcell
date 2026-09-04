@@ -18,3 +18,4 @@ Stored files (reports, loot, uploads) are streamed through the API, so MinIO nev
 - **redis** — job queue and pub/sub for live updates.
 - **minio** — S3-compatible object storage (named volume `redcell_minio`).
 - **init-secrets** — generates the secret key, JWT secret, and first admin password on first run.
+- **migrate** — applies database migrations and seeds the provider catalog, then exits.
