@@ -97,3 +97,5 @@ The trigger is a button with an expanded state; the popover is a listbox and opt
 Focus moves to the search field on open, and the list is reachable by keyboard.
 
 Escape closes the popover and returns control to the page.
+
+## For contributors
