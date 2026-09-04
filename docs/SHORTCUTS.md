@@ -68,3 +68,5 @@ The palette lives in `apps/web/src/app/CommandPalette.tsx`.
 The entity lists come from cached queries, so opening the palette does not fire new requests in the common case.
 
 Filtering is a plain in-memory pass, and the result cap keeps rendering cheap.
+
+## Why not findings and reports
