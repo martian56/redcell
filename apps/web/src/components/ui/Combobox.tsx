@@ -66,7 +66,7 @@ export function Combobox<T>({
 
   return (
     <div ref={ref} className={cn('relative', block && 'w-full')}>
-      <button type="button"
+      <button
         type="button"
         onClick={() => setOpen((o) => !o)}
         className={cn('flex items-center', block && 'w-full')}
