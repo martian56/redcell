@@ -342,3 +342,5 @@ Because there is a single operator, any signed-in user is the admin who can appl
 The `v` prefix is added in the UI; the API reports the bare number, and the latest release tag keeps its own `v`.
 
 Comparison is numeric per version segment, so `v0.10.0` is correctly newer than `v0.9.0`.
+
+The periodic refetch is light and cached server-side, so it is safe to leave the app open.
