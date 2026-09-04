@@ -95,3 +95,4 @@ Searching real entities turns it into a jump-to-anything tool, which is what a c
 - **Overview** - KPIs, activity, and recent sessions.
 - **Sessions** - the list of engagements; open one for its console.
 - **Findings** - triage across findings.
+- **Reports** - generate and download engagement reports.
