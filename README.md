@@ -161,6 +161,7 @@ deploy.sh                    interactive self-host deploy
 - [Pre-authentication surface](docs/PRE-AUTH-SURFACE.md) — what an unauthenticated client can observe, and how to keep that minimal.
 - [Cost & token accounting](docs/COST.md) — how run spend is measured, the price table, and OpenRouter real cost.
 - [Command palette & shortcuts](docs/SHORTCUTS.md) — Cmd/Ctrl+K to search sessions, servers, and proxies, and keyboard navigation.
+- [Updating](docs/UPDATING.md) — the in-app Update button and updating from the shell.
 
 ## Contributing
 
