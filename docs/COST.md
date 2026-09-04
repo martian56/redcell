@@ -47,3 +47,5 @@ For OpenRouter you usually do not need a table entry, since the real cost comes 
 ## OpenRouter details
 
 The client adds `extra_body={"usage": {"include": true}}` for the `openrouter` provider so the response includes accounting.
+
+It then reads `usage.cost` (USD). This reflects OpenRouter's actual charge, including any per-model routing and discounts.
