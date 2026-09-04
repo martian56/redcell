@@ -231,3 +231,5 @@ The update runs server-side, so closing or navigating away does not stop it; the
 The panel polls every few seconds, so it advances within seconds of each real transition.
 
 There is a brief window where the api is down during recreate; the panel shows reconnecting rather than an error.
+
+After a long wait with no progress the panel gives up and shows an error so you are not left staring at a spinner.
