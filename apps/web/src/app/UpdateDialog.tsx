@@ -43,7 +43,7 @@ export function UpdateDialog({ open, onClose, target }: { open: boolean; onClose
       polls += 1;
       try {
         const v = await api.system.version();
-        if (!v.updateAvailable || (want && v.current === want)) {
+        if (want ? v.current === want : !v.updateAvailable) {
           finish();
           return;
         }
@@ -86,10 +86,13 @@ export function UpdateDialog({ open, onClose, target }: { open: boolean; onClose
   if (!open) return null;
 
   const activeIdx = ORDER.indexOf(phase === 'error' ? 'applying' : phase);
-  const dismissable = phase === 'done' || phase === 'error';
+  const onBackdrop = () => {
+    if (phase === 'done') window.location.reload();
+    else if (phase === 'error') onClose();
+  };
 
   return (
-    <div className="overlay on" onMouseDown={(e) => e.target === e.currentTarget && dismissable && onClose()}>
+    <div className="overlay on" onMouseDown={(e) => e.target === e.currentTarget && onBackdrop()}>
       <div className="modal updmodal" role="dialog" aria-label="Update" aria-live="polite">
         <div className="updmodal-h">
           <h2>{phase === 'done' ? 'Updated' : phase === 'error' ? 'Update failed' : 'Updating REDCELL'}</h2>
