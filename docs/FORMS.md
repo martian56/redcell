@@ -169,3 +169,5 @@ The control is theme-aware; its popover, borders, and text use the same tokens a
 It closes on outside click, so it behaves like other menus in the app.
 
 The search is a plain substring match, which is predictable and fast for these lists.
+
+No native select styling hacks are needed, so the look is identical on every platform.
