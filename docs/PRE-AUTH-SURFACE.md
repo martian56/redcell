@@ -109,3 +109,5 @@ Issue #63 removed two pre-auth disclosures from the login page.
 - Production bundles should not ship source maps that reveal internal structure.
 
 - Interactive API docs should not be world-readable in production if they reveal internal routes.
+
+- Stack traces must never reach the client; return generic errors.
