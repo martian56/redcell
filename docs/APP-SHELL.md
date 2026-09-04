@@ -97,3 +97,5 @@ Verify layout changes in a browser, not only with a build. Positioning, clipping
 **Does collapsing hide the brand header?** Yes; the whole sidebar is hidden when collapsed.
 
 **Is the shell responsive?** The main content is fluid; the sidebar is a fixed width you can collapse.
+
+## Structure at a glance
