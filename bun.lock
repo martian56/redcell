@@ -14,7 +14,7 @@
     },
     "apps/web": {
       "name": "@redcell/web",
-      "version": "0.3.5",
+      "version": "0.3.6",
       "dependencies": {
         "@novnc/novnc": "1.7.0",
         "@redcell/api-client": "workspace:*",
