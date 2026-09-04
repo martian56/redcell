@@ -65,3 +65,5 @@ Caddy obtains a Let's Encrypt certificate automatically and serves `https://your
 Point an `A` record (and `AAAA` if you use IPv6) for the domain at the server before you run it. Caddy needs the domain to resolve to this host to pass the ACME challenge.
 
 Ports 80 and 443 must be reachable from the internet; Let's Encrypt validates over them.
+
+### 3. A domain behind Cloudflare, Coolify, or another proxy
