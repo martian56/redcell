@@ -177,7 +177,7 @@ export function FindingsPage() {
                     </p>
                   )}
                   <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
-                    <button
+                    <button type="button"
                       className="btn pri sm"
                       style={{ flex: 1, justifyContent: 'center' }}
                       disabled={setStatusM.isPending}
@@ -185,7 +185,7 @@ export function FindingsPage() {
                     >
                       {sel.status === 'verified' ? 'Verified' : 'Verify'}
                     </button>
-                    <button
+                    <button type="button"
                       className="btn sm"
                       disabled={setStatusM.isPending}
                       onClick={() => void act(sel, sel.status === 'dismissed' ? 'candidate' : 'dismissed')}
