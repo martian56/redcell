@@ -148,3 +148,5 @@ Your data in the named volumes is preserved across the update.
 - Pin a version if you need change control rather than always tracking latest.
 
 ## Notes
+
+Running the update when already current is harmless: the pull finds nothing new and `up -d` is a no-op.
