@@ -185,3 +185,7 @@ The list comes from active sessions with a running run; each run's status is pol
 ## Active link styling
 
 Navigation uses the router's active state to highlight the current page; the Overview link matches exactly so it does not stay highlighted on sub-routes.
+
+## Palette mounting
+
+The command palette is mounted only while open, so its data queries fire on open rather than during normal dashboard use.
