@@ -113,3 +113,5 @@ Verify layout changes in a browser, not only with a build. Positioning, clipping
 - `.head` - the card header with title and actions
 
 ## Menu positioning reference
+
+- Default: opens below the trigger, left-aligned.
