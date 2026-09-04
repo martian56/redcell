@@ -57,3 +57,4 @@ screen exposes a single New session entry point.
 - r53: Filters are page-scoped state; the primary action is shell-scoped.
 - r54: Removing the in-content button leaves the filter row left aligned by default.
 - r55: The header button and the command palette both route to /sessions/new.
+- r56: Keeping one entry point simplifies future mobile layouts.
