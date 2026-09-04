@@ -46,3 +46,5 @@ Results are capped so a very large workspace does not render a huge list at once
 - Type part of a proxy url to open that proxy.
 
 - Type a page name (for example "settings") to go there.
+
+## Icons
