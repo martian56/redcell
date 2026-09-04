@@ -127,3 +127,5 @@ Menus sit above the shell chrome and the main card so an open menu is never obsc
 ## Glossary
 
 - **Shell** - the persistent sidebar and header around every page.
+
+- **Main card** - the floating content area to the right of the sidebar.
