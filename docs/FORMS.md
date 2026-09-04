@@ -189,3 +189,5 @@ Prefer the searchable combobox over native selects; it is consistent, keyboard f
 ## See also
 
 - Settings is where the combobox is most visible today.
+
+The goal is simple: choosing a provider or model should feel as quick as searching for it.
