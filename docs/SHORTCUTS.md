@@ -64,3 +64,5 @@ The palette lives in `apps/web/src/app/CommandPalette.tsx`.
 - To add an icon, add a case to the `Icon` component. Icons are stroked, so use simple outline shapes.
 
 ## Performance
+
+The entity lists come from cached queries, so opening the palette does not fire new requests in the common case.
