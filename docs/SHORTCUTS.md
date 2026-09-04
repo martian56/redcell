@@ -119,3 +119,5 @@ Everything is reachable by keyboard; no result requires the mouse.
 - Add more of the name to narrow a long list quickly.
 
 - The fastest path to a session is Cmd/Ctrl+K, a few letters, Enter.
+
+- With no query, the palette is a quick page switcher.
