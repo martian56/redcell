@@ -73,3 +73,5 @@ The shell is `apps/web/src/app/DashboardShell.tsx`; its styles are in `apps/web/
 - A menu inside the sidebar must stay within the 236px width; do not rely on it overflowing, because the sidebar clips overflow.
 
 ## Verifying shell changes
+
+Verify layout changes in a browser, not only with a build. Positioning, clipping, and z-index cannot be checked by type or unit tests. Append `?demo=1` to load the shell without a backend.
