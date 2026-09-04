@@ -153,3 +153,5 @@ Theme has two entry points now (header and user menu); removing the switcher rem
 The brand header is now a plain label, so it no longer needs a positioning context or hover affordance.
 
 The user menu is the only dropdown in the sidebar, and it opens upward within the footer width.
+
+When collapsed, the brand header disappears with the rest of the sidebar.
