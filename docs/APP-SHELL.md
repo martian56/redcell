@@ -213,3 +213,7 @@ The header stays a label unless there is a real control to add; extra chrome in 
 ## Search shortcut
 
 Cmd/Ctrl+K opens the palette from anywhere via a document key listener, in addition to the Search button.
+
+## Sign out
+
+Signing out from the user menu clears the session and returns to Overview (which redirects to login).
