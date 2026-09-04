@@ -311,3 +311,5 @@ Selecting closes the popover and reports the choice to the parent.
 Escape closes the popover without changing the selection.
 
 A click anywhere outside the trigger and popover closes it.
+
+The trigger keeps its own styling; only the popover is portaled.
