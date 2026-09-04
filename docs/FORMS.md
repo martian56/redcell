@@ -167,3 +167,5 @@ Because it is one shared component, improvements to search or keyboard handling 
 The control is theme-aware; its popover, borders, and text use the same tokens as the rest of the console.
 
 It closes on outside click, so it behaves like other menus in the app.
+
+The search is a plain substring match, which is predictable and fast for these lists.
