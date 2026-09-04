@@ -272,3 +272,5 @@ Until the first version response arrives, neither the version nor the pill is sh
 When the sidebar is collapsed, the version and pill are hidden with the rest of the header.
 
 If the version endpoint is unreachable, the header simply omits the version rather than showing an error.
+
+### Accessibility
