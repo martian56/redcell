@@ -149,3 +149,5 @@ The first result is selected as you type, so Enter opens the best match without 
 The query resets each time the palette opens, so you always start from a clean search.
 
 Search is case-insensitive; capitalization never matters.
+
+## References
