@@ -380,3 +380,5 @@ Linking to Settings keeps a single place to review the update before applying it
 The same version value powers both the sidebar and the Settings display, so they never disagree.
 
 Applying the update is admin-gated on the server, independent of where the click originates.
+
+Seeing the version flip after an update is a quick confirmation the update succeeded.
