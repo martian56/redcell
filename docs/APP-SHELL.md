@@ -57,3 +57,5 @@ Because the sidebar clips overflow, a sidebar menu must be anchored so it stays 
 Menus sit above surrounding content via z-index; keep a menu's z-index above the main card so an overlapping menu is never painted under it.
 
 ## Accessibility
+
+Menu triggers use `aria-haspopup` and `aria-expanded`, and menus use a menu role. Everything is keyboard reachable.
