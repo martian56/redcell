@@ -160,6 +160,7 @@ deploy.sh                    interactive self-host deploy
 - [Hardening & threat model](docs/HARDENING.md) — deploy safely, secrets, scope, and data retention. Read this before running REDCELL anywhere but your own machine.
 - [Pre-authentication surface](docs/PRE-AUTH-SURFACE.md) — what an unauthenticated client can observe, and how to keep that minimal.
 - [Cost & token accounting](docs/COST.md) — how run spend is measured, the price table, and OpenRouter real cost.
+- [Command palette & shortcuts](docs/SHORTCUTS.md) — Cmd/Ctrl+K to search sessions, servers, and proxies, and keyboard navigation.
 
 ## Contributing
 
