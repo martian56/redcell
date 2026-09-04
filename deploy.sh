@@ -3,7 +3,8 @@ set -euo pipefail
 
 # REDCELL deployment helper.
 # Fronts the stack with a Caddy reverse proxy so the web app and API share one
-# origin (no CORS), and optionally provisions HTTPS for a domain.
+# origin (no CORS). Works with no domain, with a domain (automatic HTTPS), or
+# behind a proxy or CDN that terminates TLS.
 
 cd "$(dirname "$0")"
 ENV_FILE=".env"
@@ -19,6 +20,18 @@ set_env() {
   else
     printf '%s=%s\n' "$key" "$val" >> "$ENV_FILE"
   fi
+}
+
+ask_domain() {
+  local d=""
+  while ! printf '%s' "$d" | grep -qE '^[A-Za-z0-9][A-Za-z0-9.-]*$'; do
+    d=$(ask "  Domain (e.g. redcell.example.com): " "")
+  done
+  printf '%s' "$d"
+}
+
+server_ip() {
+  curl -fsS https://api.ipify.org 2>/dev/null || hostname -I 2>/dev/null | awk '{print $1}' || echo "your-server-ip"
 }
 
 if ! command -v docker >/dev/null 2>&1; then
@@ -44,22 +57,38 @@ say "=================================================="
 say " REDCELL deploy"
 say "=================================================="
 say ""
+say "How will REDCELL be reached?"
+say "  1) This server directly, no domain (plain HTTP on the server IP)"
+say "  2) A domain pointed straight at this server (automatic HTTPS)"
+say "  3) A domain behind Cloudflare, Coolify, or another proxy or CDN (the proxy provides HTTPS)"
+mode=$(ask "Choose [1/2/3] (default 1): " "1")
 
-has_domain=$(ask "Do you have a domain pointing at this server? [y/N]: " "n")
-case "$has_domain" in
-  y|Y|yes|YES)
-    domain=""
-    while ! printf '%s' "$domain" | grep -qE '^[A-Za-z0-9][A-Za-z0-9.-]*$'; do
-      domain=$(ask "  Domain (e.g. redcell.example.com): " "")
-    done
-    set_env "SITE_ADDRESS" "$domain"
-    set_env "REDCELL_COOKIE_SECURE" "true"
-    set_env "REDCELL_CORS_ORIGINS" "https://${domain}"
-    set_env "REDCELL_ENV" "production"
+case "$mode" in
+  2)
+    say ""
+    domain=$(ask_domain)
+    set_env SITE_ADDRESS "$domain"
+    set_env CADDYFILE "Caddyfile"
+    set_env REDCELL_COOKIE_SECURE "true"
+    set_env REDCELL_CORS_ORIGINS "https://${domain}"
+    set_env REDCELL_ENV "production"
     url="https://${domain}"
     say ""
-    say "Point an A/AAAA DNS record for ${domain} at this server before continuing."
-    say "Caddy will request a TLS certificate automatically on first request."
+    say "Point an A or AAAA record for ${domain} at this server before continuing."
+    say "Caddy requests a TLS certificate automatically on first request."
+    ;;
+  3)
+    say ""
+    domain=$(ask_domain)
+    set_env SITE_ADDRESS "$domain"
+    set_env CADDYFILE "Caddyfile.proxy"
+    set_env REDCELL_COOKIE_SECURE "true"
+    set_env REDCELL_CORS_ORIGINS "https://${domain}"
+    set_env REDCELL_ENV "production"
+    url="https://${domain}"
+    say ""
+    say "Point your proxy or CDN at this server. On Cloudflare, set the SSL mode to Full."
+    say "The proxy provides the public certificate; the origin serves its own."
     ;;
   *)
     say ""
@@ -68,15 +97,16 @@ case "$has_domain" in
     ok=$(ask "Continue with an insecure HTTP deployment? [y/N]: " "n")
     case "$ok" in
       y|Y|yes|YES) ;;
-      *) say "Aborted. Re-run and choose a domain for automatic HTTPS."; exit 1 ;;
+      *) say "Aborted. Re-run and choose a domain for HTTPS."; exit 1 ;;
     esac
-    ip=$(curl -fsS https://api.ipify.org 2>/dev/null || hostname -I 2>/dev/null | awk '{print $1}' || echo "your-server-ip")
+    ip=$(server_ip)
     host="$ip"
     case "$ip" in *:*) host="[$ip]" ;; esac
-    set_env "SITE_ADDRESS" ":80"
-    set_env "REDCELL_COOKIE_SECURE" "false"
-    set_env "REDCELL_CORS_ORIGINS" "http://${host}"
-    set_env "REDCELL_ENV" "production"
+    set_env SITE_ADDRESS ":80"
+    set_env CADDYFILE "Caddyfile"
+    set_env REDCELL_COOKIE_SECURE "false"
+    set_env REDCELL_CORS_ORIGINS "http://${host}"
+    set_env REDCELL_ENV "production"
     url="http://${host}"
     ;;
 esac
