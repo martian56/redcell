@@ -239,7 +239,7 @@ export function NewSessionPage() {
               </label>
               <label className="field">
                 <span className="label">
-                  Egress proxy <span className="opt">— optional</span>
+                  Egress proxy <span className="opt">(optional)</span>
                 </span>
                 <select className="selectn" value={draft.proxyId} onChange={(e) => patch({ proxyId: e.target.value })}>
                   <option value="">Direct (no proxy)</option>
