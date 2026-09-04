@@ -55,3 +55,5 @@ The cookie uses a SameSite policy to limit cross-site submission.
 ## Transport
 
 Serve the console over HTTPS in any real deployment. Plain HTTP exposes credentials and the session cookie in transit.
+
+The deploy supports automatic HTTPS for a direct domain and a proxy mode for a fronting CDN. See [DEPLOY.md](DEPLOY.md).
