@@ -87,3 +87,4 @@ USD per 1M tokens as (input, output). Estimates for the fallback table; OpenRout
 - `deepseek-r2` - 0.7 / 2.4
 - `kimi-k3` - 0.6 / 2.5
 - `kimi-k2.7-code` - 0.5 / 2.0
+- `glm-5.3` - 0.6 / 2.2
