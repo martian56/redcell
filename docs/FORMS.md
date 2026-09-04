@@ -293,3 +293,5 @@ Menus that live in a known, unclipped place (like the sidebar footer) can stay i
 When in doubt, portal; it is the safer default for dropdowns.
 
 The popover opens 4px below the trigger for a small, consistent gap.
+
+In flip mode it anchors its bottom just above the trigger, so it grows upward from there.
