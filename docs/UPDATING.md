@@ -23,3 +23,5 @@ It calls an admin-only endpoint that launches a one-shot updater container on th
 The updater runs `docker compose pull` then `docker compose up -d` against this deployment's compose file.
 
 `up -d` re-runs the one-shot `migrate` service, so database migrations in the new version are applied automatically.
+
+## Why a one-shot container
