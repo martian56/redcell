@@ -384,3 +384,5 @@ Applying the update is admin-gated on the server, independent of where the click
 Seeing the version flip after an update is a quick confirmation the update succeeded.
 
 The update flow reloads the app so the new web bundle and version are picked up.
+
+The server caches the latest-release lookup for a few minutes to respect API rate limits.
