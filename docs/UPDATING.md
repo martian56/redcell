@@ -343,3 +343,5 @@ The same admin gate applies on the server no matter where the panel was opened.
 The panel is safe to open again after a failure to retry the update.
 
 There is no partial state persisted; each open starts a fresh attempt.
+
+The panel is a thin client over the version and update endpoints, with no extra server support needed.
