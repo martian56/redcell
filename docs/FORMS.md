@@ -119,3 +119,5 @@ Verify in a browser; the popover, search, and pagination are layout behavior.
 **Popover does not open.** The trigger must be inside the combobox; pass it via the trigger prop, not as a sibling.
 
 **Search does not filter.** getLabel (and getSublabel) feed the filter; make sure they return the searchable text.
+
+**Selection is not highlighted.** current must be an item whose getKey matches an option in the list.
