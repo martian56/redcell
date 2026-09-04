@@ -33,3 +33,5 @@ It lives in `apps/web/src/components/ui/Combobox.tsx`.
 - `getSublabel` - optional secondary text under the label.
 
 - `onSelect` - called with the chosen option.
+
+- `trigger` - the element that opens the popover; use `SelectTrigger` for a select look.
