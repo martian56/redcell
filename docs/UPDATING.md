@@ -367,3 +367,5 @@ The panel is unit tested for opening, triggering the update, and rendering the s
 Its end-to-end behavior, including the reload, is verified in a browser.
 
 The mock updater is stateful so the browser walk-through reaches the done state.
+
+The panel and the sidebar version indicator share the same version data source.
