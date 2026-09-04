@@ -139,9 +139,12 @@ export function OverviewPage() {
               </tr>
             </thead>
             <tbody>
-              {list.slice(0, 8).map((s) => (
-                <SessionRow key={s.id} s={s} onOpen={() => nav(`/sessions/${s.id}`)} />
-              ))}
+              {[...chron]
+                .reverse()
+                .slice(0, 8)
+                .map((s) => (
+                  <SessionRow key={s.id} s={s} onOpen={() => nav(`/sessions/${s.id}`)} />
+                ))}
             </tbody>
           </table>
         </div>
