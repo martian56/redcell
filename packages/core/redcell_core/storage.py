@@ -60,6 +60,12 @@ class Storage:
             async with obj["Body"] as stream:
                 return await stream.read()
 
+    async def stream_get(self, bucket: str, key: str, chunk_size: int = 1 << 16):
+        async with self._client() as s3:
+            obj = await s3.get_object(Bucket=bucket, Key=key)
+            async for chunk in obj["Body"].iter_chunks(chunk_size):
+                yield chunk
+
     async def presign_get(self, bucket: str, key: str, ttl: int | None = None) -> str:
         async with self._client(settings.s3_presign_endpoint) as s3:
             return await s3.generate_presigned_url(

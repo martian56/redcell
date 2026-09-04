@@ -2,7 +2,16 @@
 
 import type { ApiClient, Unsubscribe } from '../client';
 
-export function createHttpClient(baseUrl: string, wsUrl: string): ApiClient {
+function resolveWsUrl(url: string): string {
+  if (/^wss?:\/\//i.test(url)) return url;
+  if (typeof window === 'undefined') return url;
+  const scheme = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+  const path = url.startsWith('/') ? url : `/${url}`;
+  return `${scheme}//${window.location.host}${path}`;
+}
+
+export function createHttpClient(baseUrl: string, rawWsUrl: string): ApiClient {
+  const wsUrl = resolveWsUrl(rawWsUrl);
   const req = async <T>(path: string, init?: RequestInit): Promise<T> => {
     const res = await fetch(`${baseUrl}${path}`, {
       headers: { 'content-type': 'application/json' },

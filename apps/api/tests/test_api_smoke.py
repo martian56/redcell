@@ -93,13 +93,14 @@ def test_api_smoke():
         check("proxy-create", r.status_code == 200)
         check("proxy-delete", c.delete(f"/api/v1/proxies/{r.json()['id']}").status_code == 204)
 
-        # files: proxied upload -> download redirect -> delete
+        # files: proxied upload -> streamed download -> delete
         r = c.post(f"/api/v1/sessions/{sid}/files", files={"file": ("t.txt", b"hello", "text/plain")})
         check("file-upload", r.status_code == 200 and r.json()["filename"] == "t.txt")
         fid = r.json()["id"]
         check("file-list", any(f["id"] == fid for f in c.get(f"/api/v1/sessions/{sid}/files").json()))
         dl = c.get(f"/api/v1/files/{fid}", follow_redirects=False)
-        check("file-download-redirect", dl.status_code in (302, 307) and "location" in {k.lower() for k in dl.headers})
+        check("file-download", dl.status_code == 200 and dl.content == b"hello"
+              and "attachment" in dl.headers.get("content-disposition", ""))
         check("file-delete", c.delete(f"/api/v1/files/{fid}").status_code == 204)
 
         # reports: create enqueues async generation (worker not running in test -> stays generating)

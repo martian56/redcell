@@ -107,6 +107,20 @@ docker compose -f docker-compose.targets.yml up -d
 # DVWA http://localhost:8081 · Juice Shop http://localhost:3000 · WebGoat http://localhost:8082
 ```
 
+## Deploy (self-host)
+
+Run REDCELL on a server with the published images behind a Caddy reverse proxy, so the web app and API share one origin (no CORS) and HTTPS is handled for you. On a fresh server:
+
+```bash
+git clone https://github.com/martian56/redcell.git
+cd redcell
+./deploy.sh
+```
+
+The script installs Docker if it is missing, then asks whether you have a domain. With one, Caddy provisions a TLS certificate automatically (point an A or AAAA record at the server first) and serves `https://your-domain`. Without one, it serves plain HTTP on the server IP. It writes your answers to `.env`, pulls the images, and starts the stack. Read the generated admin password with `docker compose logs init-secrets`, then sign in as `admin` and change it.
+
+Only ports 80 and 443 are published; Postgres, Redis, MinIO, the API, and the web app stay on the internal network. Stored files are streamed through the API, so object storage is never exposed.
+
 ## Configuration
 
 Backend config is one root `.env` (see `.env.example`), read by both the API and the worker. The ones worth knowing:
@@ -127,9 +141,11 @@ apps/
 packages/
   core/redcell_core/   engine, models, repositories, storage, bus, reporting
   api-client/          the single typed client the UI talks to (mock + HTTP)
-docker/                Kali execution image
+docker/                Kali execution image, web/api images, Caddy config
+docker-compose.yml           full stack behind a Caddy reverse proxy (self-host)
 docker-compose.dev.yml       Postgres + Redis + MinIO
 docker-compose.targets.yml   local vulnerable targets
+deploy.sh                    interactive self-host deploy
 ```
 
 ## Documentation
