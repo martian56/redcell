@@ -151,3 +151,7 @@ Output tokens usually cost more than input, which is why the table prices them s
 - **usage** - the accounting block a provider returns alongside the message.
 
 - **metered call** - an LLM call whose tokens and cost are booked onto the run.
+
+## Note
+
+Cost is informational. Treat it as a close estimate for budgeting, not an invoice, except where OpenRouter reports the real charge.
