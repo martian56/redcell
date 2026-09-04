@@ -25,3 +25,5 @@ The model catalog uses names like `glm-5.3`, `claude-opus-5`, and `deepseek-v4-p
 ## Per-run accumulation
 
 Each metered call adds its tokens and cost onto the run via `runs.set_meters`. The run's `tokens` and `cost_usd` grow as the engagement proceeds.
+
+The console header shows the running totals next to Elapsed and Model.
