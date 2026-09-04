@@ -404,3 +404,5 @@ Layout is verified in a browser; the value and pill logic can be checked in mock
 In short: the sidebar always shows the running version, and offers a one-click path to update when a newer release exists.
 
 The Update pill participates in normal tab order, so keyboard users reach it after the header controls.
+
+In dark mode the accent pill keeps sufficient contrast against the sidebar background.
