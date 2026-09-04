@@ -55,3 +55,5 @@ It then reads `usage.cost` (USD). This reflects OpenRouter's actual charge, incl
 For non-OpenRouter providers the number is an estimate. It is only as accurate as the price table and the usage the provider reports.
 
 Prompt caching, batch discounts, and provider promotions are not modeled in the table, so estimated cost can run high or low.
+
+If a provider omits usage, tokens and cost for that call are 0.
