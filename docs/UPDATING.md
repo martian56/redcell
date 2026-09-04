@@ -327,3 +327,5 @@ The reconnecting state is entered on any fetch failure, which is the expected si
 The panel is intentionally small and centered, matching the console's other dialogs.
 
 It reuses the shared overlay and modal styles, with its own step list styles.
+
+The spinner respects reduced-motion preferences.
