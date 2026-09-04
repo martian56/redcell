@@ -98,3 +98,5 @@ curl -s https://your-domain/api/v1/system/version
 - `GET /api/v1/system/version` returns `{ current, latest, updateAvailable }`.
 
 - `POST /api/v1/system/update` (admin) starts the update and returns `{ started, detail }`.
+
+Both require a valid session; update additionally requires the admin role.
