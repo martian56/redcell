@@ -165,3 +165,4 @@ Cmd/Ctrl+K, type a few letters, Enter. That is the whole tool.
 
 - The sidebar mirrors the pages the palette can jump to.
 - The Sessions page lists every engagement if you would rather browse than search.
+- Settings holds provider keys and model selection.
