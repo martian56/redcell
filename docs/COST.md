@@ -11,3 +11,5 @@ The exception is OpenRouter, which can return the actual charge in `usage.cost` 
 ## How cost is resolved
 
 For each LLM call, cost is resolved in order:
+
+1. **OpenRouter real cost** - for the `openrouter` provider, the request sets `usage.include`, and the response's `usage.cost` is the charge.
