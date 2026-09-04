@@ -125,3 +125,4 @@ Output tokens usually cost more than input, which is why the table prices them s
 ## How a call is metered
 
 1. The client calls the provider and receives the message plus a usage block.
+2. It parses total, prompt, and completion tokens from usage.
