@@ -45,3 +45,5 @@ The main card header shows the page title (or the console header on a session) a
 The first header button toggles the sidebar.
 
 ## Theme
+
+Theme can be toggled from the header, the workspace menu, or the user menu. The choice is applied via a data attribute and persisted.
