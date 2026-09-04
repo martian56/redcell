@@ -165,3 +165,7 @@ The brand header is a natural place to surface the running version and update st
 ## Summary
 
 Sidebar plus floating card. The header is a plain brand label; the only sidebar menu is the user menu. Verify layout in a browser.
+
+## Outside-click hook
+
+A small generic hook attaches a `mousedown` listener and closes the menu when the click falls outside the wrapping element. Put its ref on the element that contains both the trigger and the menu.
