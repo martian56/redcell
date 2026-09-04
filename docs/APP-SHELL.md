@@ -87,3 +87,5 @@ The shell is `apps/web/src/app/DashboardShell.tsx`; its styles are in `apps/web/
 - Give menus a z-index above the main card so an overlapping menu is never painted under it.
 
 - Reuse the outside-click hook and put its ref on the element that wraps both the trigger and the menu.
+
+## Verifying shell changes
