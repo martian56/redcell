@@ -1,20 +1,11 @@
 import { useState } from 'react';
-import { useSelfUpdate, useVersion } from '@/features/hooks';
+import { useVersion } from '@/features/hooks';
+import { UpdateDialog } from './UpdateDialog';
 
 export function UpdateBanner() {
   const { data: v } = useVersion();
-  const update = useSelfUpdate();
-  const [msg, setMsg] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
   if (!v) return null;
-  const onUpdate = async () => {
-    setMsg(null);
-    try {
-      const r = await update.mutateAsync();
-      setMsg(r.detail);
-    } catch {
-      setMsg('In-app update is not available on this deployment.');
-    }
-  };
   return (
     <div className="updbar">
       <div className="updbar-v">
@@ -26,14 +17,14 @@ export function UpdateBanner() {
           <span>
             Update available: <b className="mono">{v.latest}</b>
           </span>
-          <button type="button" className="btn pri sm" disabled={update.isPending} onClick={onUpdate}>
-            {update.isPending ? 'Starting…' : 'Update now'}
+          <button type="button" className="btn pri sm" onClick={() => setOpen(true)}>
+            Update now
           </button>
         </div>
       ) : (
         <span className="meta">Up to date</span>
       )}
-      {msg ? <span className="meta updbar-msg">{msg}</span> : null}
+      <UpdateDialog open={open} onClose={() => setOpen(false)} target={v.latest} />
     </div>
   );
 }
