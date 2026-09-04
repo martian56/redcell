@@ -55,3 +55,5 @@ The Search button opens the command palette (Cmd/Ctrl+K). See [SHORTCUTS.md](SHO
 ## Active runs
 
 Below the navigation, sessions whose run is currently running are listed for quick access. The list is capped and polls run status.
+
+## User menu
