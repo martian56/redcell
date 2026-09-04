@@ -93,3 +93,5 @@ To skip Cloudflare's proxy entirely, set the DNS record to DNS-only (grey cloud)
 If Coolify, Traefik, nginx, or a cloud load balancer terminates TLS and forwards to this host, use mode 3. Point the proxy's upstream at the server on port 80 (HTTP) or 443 (HTTPS, self-signed accepted).
 
 The app marks its login cookie `Secure` based on `REDCELL_COOKIE_SECURE`, not the request scheme, so cookies work even though the proxy reaches the origin over HTTP. Mode 3 sets this to `true` for you.
+
+## DNS
