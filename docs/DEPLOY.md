@@ -187,3 +187,5 @@ Secrets are generated per deployment and stored in the `redcell_secrets` volume.
 REDCELL runs offensive tooling. Only point it at systems you are authorized to test. See [HARDENING.md](HARDENING.md).
 
 ## Removing it
+
+`docker compose down` stops the stack and keeps your data. Add `-v` to delete the volumes and wipe everything.
