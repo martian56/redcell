@@ -19,3 +19,5 @@ For each LLM call, cost is resolved in order:
 If none apply (an unknown model on a direct provider), cost is 0 rather than a wrong guess.
 
 ## Why spend used to read \$0.00
+
+The model catalog uses names like `glm-5.3`, `claude-opus-5`, and `deepseek-v4-pro`. LiteLLM has no prices for them, so `completion_cost` returned 0 and the run never accumulated any cost. The price-table fallback fixes this.
