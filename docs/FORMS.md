@@ -225,3 +225,5 @@ Two refs, one on the trigger wrapper and one on the popover, let the outside-cli
 The width follows the trigger in block mode, so the popover lines up with the field.
 
 ### For contributors
+
+You do not need to do anything special to use it in a clipped container; the portal handles that.
