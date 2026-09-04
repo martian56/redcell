@@ -49,3 +49,5 @@ The main card header shows the page title (or the console header on a session) a
 Theme can be toggled from the header or the user menu. The choice is applied via a data attribute, persisted, and re-applied before paint to avoid a flash.
 
 ## Menus and dropdowns
+
+A menu opens from its trigger and closes on Escape, on selecting an item, or on a click outside (a shared outside-click hook).
