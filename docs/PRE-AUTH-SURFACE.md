@@ -113,3 +113,5 @@ Issue #63 removed two pre-auth disclosures from the login page.
 - Stack traces must never reach the client; return generic errors.
 
 ## Pre-auth review checklist
+
+- [ ] No version or build string anywhere before login.
