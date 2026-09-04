@@ -284,3 +284,5 @@ It is keyboard focusable and activates on Enter or Space like any button.
 The version comes from `useVersion` in `apps/web/src/features/hooks.ts`; the display lives in the `.ws` header in `DashboardShell.tsx`.
 
 Format the version as `dev` when the current value is `dev`, otherwise prefix with `v`.
+
+Render the version whenever a value exists, and the pill only when `updateAvailable` is true.
