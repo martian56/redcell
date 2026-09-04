@@ -59,3 +59,5 @@ Clicking the trigger opens the popover and focuses the search field.
 Typing filters options by label and sublabel, case-insensitively.
 
 Long lists paginate; prev/next controls appear when there is more than one page.
+
+Selecting an option calls onSelect and closes the popover.
