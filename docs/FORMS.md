@@ -389,3 +389,5 @@ Fixed coordinates are recomputed each time the popover opens, so stale positions
 The trigger wrapper keeps a relative box only for layout; positioning no longer depends on it.
 
 This keeps the closed control lightweight and the open popover free of its container.
+
+That balance is what makes the combobox both tidy when closed and unclipped when open.
