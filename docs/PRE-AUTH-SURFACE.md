@@ -9,3 +9,5 @@ What an unauthenticated client can observe from a REDCELL deployment, and the pr
 - No credentials or credential hints are shown on a production login page.
 - No internal topology (bind addresses, internal hostnames, ports) is described in the UI.
 - Authentication errors are generic and do not distinguish unknown user from wrong password.
+
+## Reachable without authentication
