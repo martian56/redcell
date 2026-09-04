@@ -385,3 +385,5 @@ And it sets a clear pattern for the next one.
 The portal target is the document body, the least-clipped container available.
 
 Fixed coordinates are recomputed each time the popover opens, so stale positions never linger.
+
+The trigger wrapper keeps a relative box only for layout; positioning no longer depends on it.
