@@ -273,3 +273,5 @@ Issue #86: the Settings comboboxes were clipped by the card. Portaling the popov
 **What about scrolling?** The popover repositions on scroll so it tracks the trigger; closing on scroll would also be reasonable, but tracking feels smoother here.
 
 **Does it work in a dialog?** Yes; the portal sits above the dialog overlay via its z-index.
+
+**Is repositioning expensive?** It is a cheap rect read and style update, only while the popover is open.
