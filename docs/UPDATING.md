@@ -82,3 +82,5 @@ curl -s https://your-domain/api/v1/system/version
 **No Update button.** Either you are already up to date, the build is `dev`, or `REDCELL_COMPOSE_DIR` is unset. Set it and redeploy to enable the button.
 
 **"In-app update is not available on this deployment."** `REDCELL_COMPOSE_DIR` is not set. `deploy.sh` sets it; add it to `.env` and `docker compose up -d`.
+
+**Updater cannot run compose.** The updater image lacks the compose plugin. Set `REDCELL_UPDATER_IMAGE` to an image that includes it.
