@@ -251,3 +251,5 @@ Include the popover in the outside-click check, or clicking an option will close
 **Dropdown appears behind a dialog.** Raise its z-index above the dialog's overlay.
 
 ### Verifying
+
+Open the control inside a card and confirm the list shows fully, past the card's edge, on top of other content.
