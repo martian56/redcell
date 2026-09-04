@@ -158,6 +158,7 @@ deploy.sh                    interactive self-host deploy
 
 - [Architecture](docs/ARCHITECTURE.md) — the components, how a run flows, cross-process coordination.
 - [Hardening & threat model](docs/HARDENING.md) — deploy safely, secrets, scope, and data retention. Read this before running REDCELL anywhere but your own machine.
+- [Pre-authentication surface](docs/PRE-AUTH-SURFACE.md) — what an unauthenticated client can observe, and how to keep that minimal.
 
 ## Contributing
 
