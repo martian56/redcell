@@ -18,3 +18,4 @@ screen exposes a single New session entry point.
 - r14: Header ownership keeps the action visible across list screens.
 - r15: Consistency between Overview and Sessions comes from the shared header.
 - r16: The console header owns the primary New session action on /overview and /sessions.
+- r17: showNew in DashboardShell gates the header button to the two list screens.
