@@ -116,3 +116,5 @@ Both require a valid session; update additionally requires the admin role.
 3. The api launches a detached updater container with the socket and the checkout mounted.
 4. The updater pulls new images and runs `up -d`, which re-applies migrations.
 5. The app restarts; the banner shows the new version.
+
+## What updates
