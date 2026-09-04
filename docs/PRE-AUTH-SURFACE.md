@@ -111,3 +111,5 @@ Issue #63 removed two pre-auth disclosures from the login page.
 - Interactive API docs should not be world-readable in production if they reveal internal routes.
 
 - Stack traces must never reach the client; return generic errors.
+
+## Pre-auth review checklist
