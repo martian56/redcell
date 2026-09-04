@@ -28,7 +28,7 @@ export function Dialog({
   if (!open) return null;
   return (
     <div
-      className="fixed inset-0 z-[90] grid place-items-center bg-black/60 p-4"
+      className="fixed inset-0 z-[90] grid place-items-center bg-[var(--overlay)] p-4"
       onMouseDown={onClose}
     >
       <div
