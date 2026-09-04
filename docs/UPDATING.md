@@ -313,3 +313,5 @@ Each step shows a spinner while active, a check when complete, and a marker if t
 The target version is shown next to the title so you can confirm what you are updating to.
 
 The detail line under the steps gives a short human message for the current state.
+
+The footer shows a reassurance while applying, a Reload now button when done, and a Close button on error.
