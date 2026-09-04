@@ -99,3 +99,5 @@ Searching real entities turns it into a jump-to-anything tool, which is what a c
 - **Servers** - execution servers and their health.
 - **Proxies** - egress proxies and their health.
 - **Settings** - provider keys, models, execution, and branding.
+
+## Accessibility
