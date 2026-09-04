@@ -354,3 +354,5 @@ A progress panel that opens on update is tracked separately; the sidebar pill wi
 - [DEPLOY.md](DEPLOY.md) - deploying and updating from the shell.
 
 - [SHORTCUTS.md](SHORTCUTS.md) - the command palette.
+
+The pill's tooltip reads "Update available: <version>", so hovering confirms the target before you act.
