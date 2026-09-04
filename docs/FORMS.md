@@ -27,3 +27,5 @@ It lives in `apps/web/src/components/ui/Combobox.tsx`.
 - `current` - the selected option (used to highlight it).
 
 - `getKey` - a stable key for each option.
+
+- `getLabel` - the primary text shown for an option.
