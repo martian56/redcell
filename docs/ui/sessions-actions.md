@@ -97,3 +97,4 @@ screen exposes a single New session entry point.
 - r93: The regression test asserts both filters remain present.
 - r94: Header ownership keeps the action visible across list screens.
 - r95: Consistency between Overview and Sessions comes from the shared header.
+- r96: The console header owns the primary New session action on /overview and /sessions.
