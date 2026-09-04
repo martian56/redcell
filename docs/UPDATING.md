@@ -355,3 +355,5 @@ A reload after done is the cleanest way to guarantee the new assets are in use.
 If you dismiss the done state without reloading, the app keeps the old bundle until the next full load.
 
 The panel does not attempt to stream container logs; it infers progress from observable state.
+
+This keeps it robust: it works even though the api that serves it restarts mid-update.
