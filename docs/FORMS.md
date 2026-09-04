@@ -263,3 +263,5 @@ Selecting an option should update the field and close the popover.
 ### This fix
 
 Issue #86: the Settings comboboxes were clipped by the card. Portaling the popover fixed it, and every combobox benefits since it is shared.
+
+### Popover FAQ
