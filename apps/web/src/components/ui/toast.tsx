@@ -75,7 +75,7 @@ export function Toaster() {
   return (
     <div className="pointer-events-none fixed bottom-4 right-4 z-[100] flex w-[320px] max-w-[92vw] flex-col gap-2">
       {toasts.map((t) => (
-        <button
+        <button type="button"
           key={t.id}
           onClick={() => {
             t.onClick?.();
