@@ -383,3 +383,5 @@ And it sets a clear pattern for the next one.
 ### Summary: portal your dropdowns out of clipped containers, position from the trigger, and reposition while open.
 
 The portal target is the document body, the least-clipped container available.
+
+Fixed coordinates are recomputed each time the popover opens, so stale positions never linger.
