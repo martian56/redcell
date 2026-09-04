@@ -33,3 +33,5 @@ The api container cannot cleanly recreate itself: `up -d` would kill the process
 There is a few-second gap while the api, worker, and web containers restart. The UI reconnects on its own; the version banner then shows the new version.
 
 ## Requirements for the button
+
+- `REDCELL_COMPOSE_DIR` must point at the host checkout so the updater can find the compose file. `deploy.sh` sets it; leave it blank to disable the button.
