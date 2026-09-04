@@ -95,3 +95,5 @@ USD per 1M tokens as (input, output). Estimates for the fallback table; OpenRout
 - `qwen3-72b` - 0.6 / 0.9
 - `deepseek-v4` - 0.6 / 1.7
 - Ollama / local models - 0 (self-hosted, no API charge)
+
+## FAQ
