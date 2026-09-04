@@ -303,3 +303,5 @@ Pagination keeps each page short even when the list is long.
 The search field is focused on open, so you can type immediately.
 
 Filtering resets to the first page so the top results are visible.
+
+The current selection is highlighted wherever it lands in the list.
