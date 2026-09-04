@@ -267,3 +267,5 @@ On a real deployment the same panel reflects the actual restart and version flip
 **Panel does not open.** The trigger only appears when an update is available; otherwise there is nothing to apply.
 
 **"Could not start the update."** In-app update is disabled (no compose dir set) or the server rejected it; check the deployment.
+
+**Stuck on reconnecting.** The api is taking a while to come back; give it time, then reload manually if needed.
