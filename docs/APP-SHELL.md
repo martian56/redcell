@@ -119,3 +119,5 @@ For a dropdown, measure its bounding box against the sidebar's to confirm it sta
 **Is the shell responsive?** The main content is fluid; the sidebar is a fixed width you can collapse.
 
 ## Menu positioning reference
+
+- Default: opens below the trigger, left-aligned.
