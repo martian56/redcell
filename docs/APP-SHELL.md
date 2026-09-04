@@ -83,3 +83,5 @@ Verify layout changes in a browser, not only with a build. Positioning, clipping
 **A menu appears under the main content.** Its z-index is too low, or it overflows into the main area. Raise the z-index and keep it inside its region.
 
 **A menu will not close on outside click.** The outside-click ref is on the trigger only, not the wrapper that includes the menu.
+
+**Sidebar content peeks out when collapsed.** Something inside the sidebar escapes `overflow: hidden`; keep sidebar content within the column.
