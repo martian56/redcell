@@ -323,3 +323,5 @@ The reposition listener uses capture so it catches scrolling in any ancestor, no
 The width is read from the trigger in block mode, so the popover never looks narrower than the field.
 
 For non-block usage a fixed width is used, which suits a compact trigger like a header button.
+
+The change is backward compatible: the component's props are unchanged.
