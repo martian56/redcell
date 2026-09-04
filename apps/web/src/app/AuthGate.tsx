@@ -95,7 +95,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
             <div className="font-mono text-[17px] font-extrabold tracking-[0.22em]">
               RED<span className="text-accent">CELL</span>
             </div>
-            <div className="font-mono text-[10.5px] tracking-wider text-faint">OPERATOR CONSOLE · v0.1</div>
+            <div className="font-mono text-[10.5px] tracking-wider text-faint">OPERATOR CONSOLE</div>
           </div>
         </div>
 
@@ -143,9 +143,6 @@ export function AuthGate({ children }: { children: ReactNode }) {
           <Button variant="primary" className="h-10 justify-center" disabled={busy} onClick={signIn}>
             {busy ? <Spinner /> : 'Sign in'}
           </Button>
-          <span className="font-mono text-[11px] text-faint">
-            Console binds to 127.0.0.1. External access requires auth.
-          </span>
         </div>
       </div>
     </div>

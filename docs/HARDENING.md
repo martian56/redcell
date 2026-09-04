@@ -8,6 +8,8 @@ API keys and SSH credentials. Treat it as sensitive infrastructure.
 > TLS, and restrict who can reach it. The console has a single operator account;
 > it is not a multi-tenant, internet-facing service.
 
+For exactly what an unauthenticated client can observe and how to keep it minimal, see [PRE-AUTH-SURFACE.md](PRE-AUTH-SURFACE.md).
+
 ## Threat model in one paragraph
 
 The console is the control plane for tools that can compromise machines. The main
