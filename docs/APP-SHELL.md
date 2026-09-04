@@ -23,3 +23,5 @@ It previously held a workspace switcher, but that only listed a single workspace
 ## Search
 
 The Search button opens the command palette (Cmd/Ctrl+K). See [SHORTCUTS.md](SHORTCUTS.md).
+
+## Navigation
