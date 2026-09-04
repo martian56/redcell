@@ -191,3 +191,7 @@ The latest-release lookup is cached for a few minutes, so a brand-new release ca
 ## Manual trigger
 
 You can trigger the same update from the shell with the compose commands above; the button is a convenience, not the only path.
+
+## Where the version comes from
+
+The banner's current version is whatever `REDCELL_VERSION` the running image was built with; a locally built image without the build-arg reports `dev`.
