@@ -143,3 +143,5 @@ Output tokens usually cost more than input, which is why the table prices them s
 ## Related
 
 - Provider keys and model selection live in Settings; see the README configuration notes.
+
+## Glossary
