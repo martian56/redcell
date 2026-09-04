@@ -376,3 +376,5 @@ Both the muted version and the accent pill use theme tokens, so they adapt to li
 The pill has comfortable padding so it is an easy click target despite its small text.
 
 Linking to Settings keeps a single place to review the update before applying it.
+
+The same version value powers both the sidebar and the Settings display, so they never disagree.
