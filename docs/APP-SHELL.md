@@ -107,3 +107,5 @@ Verify layout changes in a browser, not only with a build. Positioning, clipping
 - `.side-scroll` - the scrollable navigation area
 
 - `.side-foot` - the user menu
+
+- `.main-pad` / `.main-card` - the floating content card
