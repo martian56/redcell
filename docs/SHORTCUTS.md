@@ -85,3 +85,4 @@ Searching real entities turns it into a jump-to-anything tool, which is what a c
 | --- | --- |
 | Cmd/Ctrl + K | Open the palette |
 | Type | Filter results |
+| Arrow Down | Next result |
