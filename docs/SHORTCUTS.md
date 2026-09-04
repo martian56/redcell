@@ -117,3 +117,5 @@ Everything is reachable by keyboard; no result requires the mouse.
 - Searching a client name lists all that client's sessions.
 
 - Add more of the name to narrow a long list quickly.
+
+- The fastest path to a session is Cmd/Ctrl+K, a few letters, Enter.
