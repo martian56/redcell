@@ -187,3 +187,7 @@ The updater runs as its own container; `docker ps` shows it briefly, and its log
 ## Latest is cached
 
 The latest-release lookup is cached for a few minutes, so a brand-new release can take a moment to appear in the banner.
+
+## Manual trigger
+
+You can trigger the same update from the shell with the compose commands above; the button is a convenience, not the only path.
