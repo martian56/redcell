@@ -257,3 +257,5 @@ Open the control inside a card and confirm the list shows fully, past the card's
 Check the popover's parent is the body and its position is fixed.
 
 Scroll the page with the popover open and confirm it follows the trigger.
+
+Selecting an option should update the field and close the popover.
