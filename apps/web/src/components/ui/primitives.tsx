@@ -19,7 +19,7 @@ export function Button({
   ...props
 }: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant }) {
   return (
-    <button
+    <button type="button"
       className={cn(
         'inline-flex select-none items-center gap-2 rounded-[var(--radius)] px-3 h-8 text-xs font-semibold transition disabled:opacity-50',
         variants[variant],
@@ -35,7 +35,7 @@ export function IconButton({
   ...props
 }: ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <button
+    <button type="button"
       className={cn(
         'grid h-7 w-7 place-items-center rounded-[var(--radius)] text-faint transition hover:bg-panel hover:text-text',
         className,
