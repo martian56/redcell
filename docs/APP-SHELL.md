@@ -109,3 +109,5 @@ Verify layout changes in a browser, not only with a build. Positioning, clipping
 - `.side-foot` - the user menu
 
 - `.main-pad` / `.main-card` - the floating content card
+
+- `.head` - the card header with title and actions
