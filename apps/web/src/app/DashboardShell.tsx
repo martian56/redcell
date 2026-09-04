@@ -176,7 +176,12 @@ export function DashboardShell() {
 
   const consoleMatch = pathname.match(/^\/sessions\/([^/]+)$/);
   const consoleId = consoleMatch && consoleMatch[1] !== 'new' ? consoleMatch[1] : null;
-  const [title, sub] = TITLES[pathname] ?? [pathname.replace('/', '') || 'REDCELL', ''];
+  const fallbackTitle: [string, string] = pathname.startsWith('/servers/')
+    ? ['Server', '· execution host']
+    : pathname.startsWith('/proxies/')
+      ? ['Proxy', '· egress']
+      : ['REDCELL', ''];
+  const [title, sub] = TITLES[pathname] ?? fallbackTitle;
   const showNew = pathname === '/overview' || pathname === '/sessions';
 
   return (
