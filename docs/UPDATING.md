@@ -199,3 +199,5 @@ The banner's current version is whatever `REDCELL_VERSION` the running image was
 ## The update panel
 
 Triggering an update opens a panel that shows progress instead of a single line of text.
+
+It shows four steps: starting the update, pulling images and restarting, reconnecting to the console, and up to date.
