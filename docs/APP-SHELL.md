@@ -69,3 +69,5 @@ The shell is `apps/web/src/app/DashboardShell.tsx`; its styles are in `apps/web/
 - Add a nav item by extending the groups list with a route, label, and icon.
 
 - Add a menu by wrapping its trigger and menu in one element, putting the outside-click ref on that wrapper, and toggling an open state.
+
+- A menu inside the sidebar must stay within the 236px width; do not rely on it overflowing, because the sidebar clips overflow.
