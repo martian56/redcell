@@ -281,3 +281,5 @@ On a real deployment the same panel reflects the actual restart and version flip
 **Why does it reload?** The web bundle is part of the update, so a reload loads the new frontend.
 
 **Do I get logged out?** No; the session cookie persists across the restart and reload.
+
+**What if I click twice?** A guard prevents starting the update more than once while the panel is open.
