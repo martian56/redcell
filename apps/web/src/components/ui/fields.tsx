@@ -76,7 +76,7 @@ export function Segmented<T extends string>({
       {options.map((o) => (
         <button type="button"
           key={o.value}
-          type="button"
+
           onClick={() => onChange(o.value)}
           className={cn(
             'rounded-[4px] px-3 py-1.5 text-xs font-semibold transition',
