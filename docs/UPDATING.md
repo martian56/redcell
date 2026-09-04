@@ -197,3 +197,5 @@ You can trigger the same update from the shell with the compose commands above; 
 The banner's current version is whatever `REDCELL_VERSION` the running image was built with; a locally built image without the build-arg reports `dev`.
 
 ## The update panel
+
+Triggering an update opens a panel that shows progress instead of a single line of text.
