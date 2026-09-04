@@ -21,3 +21,4 @@ Stored files (reports, loot, uploads) are streamed through the API, so MinIO nev
 - **migrate** — applies database migrations and seeds the provider catalog, then exits.
 - **api** — the FastAPI backend.
 - **worker** — the arq worker that runs engagements and generates reports.
+- **web** — the built React console served by nginx.
