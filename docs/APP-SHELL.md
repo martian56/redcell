@@ -31,3 +31,5 @@ Menus are absolutely positioned relative to their trigger's wrapper. By default 
 Because the sidebar clips overflow, a sidebar menu must be anchored so it stays inside the sidebar. The workspace menu spans the header width; the user menu spans the footer width.
 
 Menus sit above surrounding content via z-index. Keep menu z-index above the main card so an overlapping menu is never painted under it.
+
+## Collapsing the sidebar
