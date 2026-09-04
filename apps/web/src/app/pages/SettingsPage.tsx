@@ -101,7 +101,7 @@ export function SettingsPage() {
                 </div>
                 <div className="card-b">
                   <div className="grid2">
-                    <div className="field">
+                    <label className="field">
                       <span className="label">Provider</span>
                       <select
                         className="selectn"
@@ -117,8 +117,8 @@ export function SettingsPage() {
                           </option>
                         ))}
                       </select>
-                    </div>
-                    <div className="field">
+                    </label>
+                    <label className="field">
                       <span className="label">Model</span>
                       {models.length > 0 ? (
                         <select className="selectn" value={draft.llm.model} onChange={(e) => setLLM({ model: e.target.value })}>
@@ -131,7 +131,7 @@ export function SettingsPage() {
                       ) : (
                         <input className="input mono" value={draft.llm.model} onChange={(e) => setLLM({ model: e.target.value })} />
                       )}
-                    </div>
+                    </label>
                   </div>
                   <div className="field" style={{ margin: 0 }}>
                     <span className="label">Reasoning effort</span>
@@ -215,10 +215,10 @@ export function SettingsPage() {
                 <h3>Execution</h3>
               </div>
               <div className="card-b">
-                <div className="field">
+                <label className="field">
                   <span className="label">Kali image</span>
                   <input className="input mono" value={draft.execution.dockerImage} onChange={(e) => setExec({ dockerImage: e.target.value })} />
-                </div>
+                </label>
                 <button className="btn pri" disabled={save.isPending} onClick={onSave}>
                   Save
                 </button>
@@ -248,7 +248,7 @@ export function SettingsPage() {
                     <i />
                   </button>
                 </div>
-                <div className="field" style={{ marginTop: 14 }}>
+                <label className="field" style={{ marginTop: 14 }}>
                   <span className="label">Max requests per second</span>
                   <input
                     className="input"
@@ -257,7 +257,7 @@ export function SettingsPage() {
                     value={String(draft.scope.requestsPerSecond)}
                     onChange={(e) => setScope({ requestsPerSecond: Number(e.target.value) || 0 })}
                   />
-                </div>
+                </label>
                 <button className="btn pri" disabled={save.isPending} onClick={onSave}>
                   Save
                 </button>
@@ -272,16 +272,16 @@ export function SettingsPage() {
               </div>
               <div className="card-b">
                 <div className="grid2">
-                  <div className="field">
+                  <label className="field">
                     <span className="label">Company / team name</span>
                     <input className="input" value={draft.report.companyName} placeholder="REDCELL" onChange={(e) => setReport({ companyName: e.target.value })} />
-                  </div>
-                  <div className="field">
+                  </label>
+                  <label className="field">
                     <span className="label">Classification</span>
                     <input className="input" value={draft.report.classification} placeholder="CONFIDENTIAL" onChange={(e) => setReport({ classification: e.target.value })} />
-                  </div>
+                  </label>
                 </div>
-                <div className="field">
+                <label className="field">
                   <span className="label">
                     Prepared by / contact <span className="opt">— shown on the cover</span>
                   </span>
@@ -291,7 +291,7 @@ export function SettingsPage() {
                     placeholder="Security Team, security@company.com"
                     onChange={(e) => setReport({ contact: e.target.value })}
                   />
-                </div>
+                </label>
                 <button className="btn pri" disabled={save.isPending} onClick={onSave}>
                   Save branding
                 </button>
@@ -316,7 +316,7 @@ export function SettingsPage() {
           </>
         }
       >
-        <div className="field" style={{ margin: 0 }}>
+        <label className="field" style={{ margin: 0 }}>
           <span className="label">API key</span>
           <input
             className="input mono"
@@ -327,7 +327,7 @@ export function SettingsPage() {
             onChange={(e) => setKeyInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && keyInput.trim() && void saveKey()}
           />
-        </div>
+        </label>
       </Dialog>
     </div>
   );
