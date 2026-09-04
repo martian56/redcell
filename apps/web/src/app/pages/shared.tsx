@@ -1,6 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import type { Session, Severity } from '@redcell/api-client';
 import { sevVar, timeAgo } from '@/lib/format';
+
+export function onActivate(fn: () => void) {
+  return (e: KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      fn();
+    }
+  };
+}
 
 export function sevBar(counts: Record<Severity, number>) {
   const bars = (['critical', 'high', 'medium', 'low'] as Severity[])
@@ -14,7 +23,7 @@ export function sevBar(counts: Record<Severity, number>) {
 export function SessionRow({ s, onOpen }: { s: Session; onOpen: () => void }) {
   const dot = s.status === 'active' ? 'live' : 'done';
   return (
-    <tr className="row" onClick={onOpen}>
+    <tr className="row" tabIndex={0} onClick={onOpen} onKeyDown={onActivate(onOpen)}>
       <td>
         <div className="name">
           <span className={`sd ${dot}`} />
