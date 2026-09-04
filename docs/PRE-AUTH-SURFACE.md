@@ -47,3 +47,5 @@ Add IP-based rate limiting or a WAF at the proxy for defense in depth.
 ## Session cookies
 
 The session cookie is HttpOnly so page scripts cannot read it.
+
+Over HTTPS the cookie is marked Secure (`REDCELL_COOKIE_SECURE=true`), so it is never sent over plain HTTP.
