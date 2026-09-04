@@ -135,3 +135,5 @@ Verify in a browser; the popover, search, and pagination are layout behavior.
 **Is it keyboard friendly?** Yes; open, type to filter, and select without the mouse.
 
 **What if there is no list?** Use a plain input; the Settings model field does this when a provider lists no models.
+
+## References
