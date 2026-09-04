@@ -85,3 +85,5 @@ The shell is `apps/web/src/app/DashboardShell.tsx`; its styles are in `apps/web/
 - A menu inside the sidebar must be anchored so it stays within the 236px width; do not rely on it overflowing, because the sidebar clips overflow.
 
 - Give menus a z-index above the main card so an overlapping menu is never painted under it.
+
+- Reuse the outside-click hook and put its ref on the element that wraps both the trigger and the menu.
