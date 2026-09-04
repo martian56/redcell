@@ -75,3 +75,4 @@ screen exposes a single New session entry point.
 - r71: The header button and the command palette both route to /sessions/new.
 - r72: Keeping one entry point simplifies future mobile layouts.
 - r73: On mobile the primary action moves into the compact top bar.
+- r74: A single source of truth for the New session action reduces drift.
