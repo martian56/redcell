@@ -60,3 +60,5 @@ docker compose up -d
 ```
 
 This is the same set of steps the button runs, plus a `git pull` to refresh the compose file and scripts.
+
+## Rolling back
