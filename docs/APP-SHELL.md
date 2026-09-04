@@ -77,3 +77,5 @@ The shell is `apps/web/src/app/DashboardShell.tsx`; its styles are in `apps/web/
 Verify layout changes in a browser, not only with a build. Positioning, clipping, and z-index cannot be checked by type or unit tests. Append `?demo=1` to load the shell without a backend.
 
 ## Troubleshooting
+
+**A sidebar menu looks cut off.** It extends past the 236px sidebar and is clipped by `overflow: hidden`. Anchor it so it stays within the sidebar.
