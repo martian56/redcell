@@ -139,3 +139,5 @@ For a dropdown, measure its bounding box against the sidebar's to confirm it sta
 - `.side-foot` - the user menu
 
 - `.main-pad` / `.main-card` - the floating content card
+
+- `.head` - the card header with title and actions
