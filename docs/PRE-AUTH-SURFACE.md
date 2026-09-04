@@ -126,3 +126,5 @@ Issue #63 removed two pre-auth disclosures from the login page.
 ## Why version disclosure matters
 
 A version string lets an attacker fingerprint the exact build and look up issues fixed after it, turning a blind probe into a targeted one.
+
+Mass scanners key off banners and version strings. Removing them keeps the instance out of automated target lists.
