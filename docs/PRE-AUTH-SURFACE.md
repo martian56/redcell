@@ -130,3 +130,5 @@ A version string lets an attacker fingerprint the exact build and look up issues
 Mass scanners key off banners and version strings. Removing them keeps the instance out of automated target lists.
 
 Operators still need the version. Expose it only after authentication (Settings), never on the login page.
+
+## FAQ
