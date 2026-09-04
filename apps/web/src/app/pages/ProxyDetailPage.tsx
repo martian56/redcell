@@ -94,7 +94,7 @@ export function ProxyDetailPage() {
             Proxies
           </button>
           <Button variant="primary" disabled={test.isPending} onClick={() => void runTest()}>
-            {test.isPending ? 'Testing...' : 'Test proxy'}
+            {test.isPending ? 'Testing…' : 'Test proxy'}
           </Button>
           <Button onClick={() => void del()}>Delete</Button>
         </>
