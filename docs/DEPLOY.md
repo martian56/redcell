@@ -195,3 +195,5 @@ REDCELL runs offensive tooling. Only point it at systems you are authorized to t
 **Can I run it locally to try it?** Yes: `docker compose up` serves it at `http://localhost`. Secure cookies work because browsers trust localhost.
 
 **Can I use a subdomain?** Yes, `redcell.example.com` works exactly like a bare domain in modes 2 and 3.
+
+**Sim vs live?** Set `REDCELL_RUN_MODE=sim` in `.env` to replay canned output and run no real tools; `live` (default) runs tools in the Kali container.
