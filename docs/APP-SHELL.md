@@ -390,3 +390,5 @@ The server caches the latest-release lookup for a few minutes to respect API rat
 A dev build never nags for updates, which keeps local development quiet.
 
 Because the query is shared and cached, multiple views do not multiply the number of checks.
+
+The current version is shown without a tooltip; the pill carries the target in its tooltip.
