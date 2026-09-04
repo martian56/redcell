@@ -75,3 +75,5 @@ Use this when the domain does not resolve directly to the server, for example wh
 This mode mounts `docker/caddy/Caddyfile.proxy` by setting `CADDYFILE=Caddyfile.proxy` in `.env`.
 
 ## Behind Cloudflare
+
+When a domain's DNS record is proxied (the orange cloud), it resolves to Cloudflare, not your server. Choose mode 3.
