@@ -147,3 +147,5 @@ For a dropdown, measure its bounding box against the sidebar's to confirm it sta
 Menus sit above the shell chrome and the main card. The workspace menu uses a high z-index so it is never obscured while open.
 
 ## Glossary
+
+- **Shell** - the persistent sidebar and header around every page.
