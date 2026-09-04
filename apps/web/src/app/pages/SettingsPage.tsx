@@ -240,6 +240,9 @@ export function SettingsPage() {
                   </div>
                   <button
                     className={`toggle${draft.scope.allowPrivateTargets ? ' on' : ''}`}
+                    role="switch"
+                    aria-checked={draft.scope.allowPrivateTargets}
+                    aria-label="Allow private / loopback targets"
                     onClick={() => setScope({ allowPrivateTargets: !draft.scope.allowPrivateTargets })}
                   >
                     <i />
