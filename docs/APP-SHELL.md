@@ -288,3 +288,5 @@ Format the version as `dev` when the current value is `dev`, otherwise prefix wi
 Render the version whenever a value exists, and the pill only when `updateAvailable` is true.
 
 Keep the version muted and the pill in the accent color; the pill uses `margin-left: auto` to sit at the right of the header.
+
+### Verifying
