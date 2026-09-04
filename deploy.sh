@@ -22,11 +22,21 @@ set_env() {
 }
 
 if ! command -v docker >/dev/null 2>&1; then
-  say "Docker is not installed. Install Docker Engine first: https://docs.docker.com/engine/install/"
-  exit 1
+  say "Docker is not installed."
+  yn=$(ask "Install it now with the official get.docker.com script? [Y/n]: " "y")
+  case "$yn" in
+    n|N|no|NO) say "Install Docker, then re-run this script: https://docs.docker.com/engine/install/"; exit 1 ;;
+    *) curl -fsSL https://get.docker.com | sh ;;
+  esac
 fi
 if ! docker compose version >/dev/null 2>&1; then
-  say "The Docker Compose plugin is not available. Install it, then re-run this script."
+  say "The Docker Compose plugin is missing; attempting to install it..."
+  if command -v apt-get >/dev/null 2>&1; then
+    apt-get update -y && apt-get install -y docker-compose-plugin
+  fi
+fi
+if ! docker compose version >/dev/null 2>&1; then
+  say "Could not set up the Docker Compose plugin. Install it, then re-run this script."
   exit 1
 fi
 
