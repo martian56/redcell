@@ -154,3 +154,5 @@ A brute-force attacker is slowed by rate limiting and generic errors, and should
 - [HARDENING.md](HARDENING.md) - secrets, scope, execution sandbox, data retention.
 - [DEPLOY.md](DEPLOY.md) - HTTPS modes, ports, and reverse-proxy setup.
 - Issue #63 - the login-page disclosures this note documents.
+
+## Browser hardening headers
