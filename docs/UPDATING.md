@@ -301,3 +301,5 @@ Both triggers render the same panel component, so the experience is identical wh
 The target version passed to the panel is the latest release, used to detect completion precisely.
 
 Polling is capped so a broken update surfaces as an error instead of polling forever.
+
+Seeing reconnecting briefly is normal; it means the app services are being recreated.
