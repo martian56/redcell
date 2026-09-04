@@ -93,3 +93,4 @@ screen exposes a single New session entry point.
 - r89: On mobile the primary action moves into the compact top bar.
 - r90: A single source of truth for the New session action reduces drift.
 - r91: SessionRow still navigates to a session on open.
+- r92: The regression test asserts the page renders no New session button.
