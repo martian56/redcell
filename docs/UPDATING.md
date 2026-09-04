@@ -353,3 +353,5 @@ The panel's polling stops as soon as it reaches done or error, or when it is clo
 A reload after done is the cleanest way to guarantee the new assets are in use.
 
 If you dismiss the done state without reloading, the app keeps the old bundle until the next full load.
+
+The panel does not attempt to stream container logs; it infers progress from observable state.
