@@ -61,3 +61,5 @@ Menus sit above surrounding content via z-index; keep a menu's z-index above the
 Menu triggers use `aria-haspopup` and `aria-expanded`, and menus use a menu role. Everything is keyboard reachable.
 
 Icon-only buttons carry an `aria-label`.
+
+## For contributors
