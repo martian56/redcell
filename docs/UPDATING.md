@@ -156,3 +156,4 @@ This feature ships in a release; a deployment must be updated once (by shell) to
 ## References
 
 - `apps/api/app/routers/system.py` - the version and update endpoints.
+- `apps/web/src/app/UpdateBanner.tsx` - the Settings banner.
