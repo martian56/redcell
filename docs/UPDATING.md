@@ -209,3 +209,5 @@ On completion the panel reloads the console so the new web bundle and version lo
 If the update cannot start (for example when in-app update is disabled on the deployment) or takes too long, the panel shows an error and a close action.
 
 The panel can be opened from the sidebar Update pill or the Settings banner.
+
+While the update is applying the panel stays put; you can dismiss it once it is done or has failed.
