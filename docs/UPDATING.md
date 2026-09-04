@@ -237,3 +237,5 @@ After a long wait with no progress the panel gives up and shows an error so you 
 ### Accessibility
 
 The panel is a labelled dialog with an aria-live region, so state changes are announced.
+
+Actions are ordinary buttons, reachable and operable by keyboard.
