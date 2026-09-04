@@ -31,3 +31,5 @@ It lives in `apps/web/src/components/ui/Combobox.tsx`.
 - `getLabel` - the primary text shown for an option.
 
 - `getSublabel` - optional secondary text under the label.
+
+- `onSelect` - called with the chosen option.
