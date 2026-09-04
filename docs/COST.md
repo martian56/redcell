@@ -41,3 +41,5 @@ Local providers (Ollama) cost nothing, so their estimate is 0 regardless of mode
 ## Updating prices
 
 Edit `PRICES` in `engine/pricing.py`. Keep entries as USD per 1M tokens `(input, output)`. Prefer real published prices where a model exists.
+
+For OpenRouter you usually do not need a table entry, since the real cost comes back on the response.
