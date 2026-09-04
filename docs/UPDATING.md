@@ -311,3 +311,5 @@ The panel's title changes with state: Updating REDCELL while in progress, Update
 Each step shows a spinner while active, a check when complete, and a marker if the update failed at that point.
 
 The target version is shown next to the title so you can confirm what you are updating to.
+
+The detail line under the steps gives a short human message for the current state.
