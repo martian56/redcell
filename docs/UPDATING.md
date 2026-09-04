@@ -321,3 +321,5 @@ The panel does not block the rest of the app from finishing in-flight work; it o
 Because the check compares versions numerically, it recognizes completion even across a multi-part version bump.
 
 If the version endpoint briefly returns the old version right after the request, the panel simply keeps showing applying.
+
+The reconnecting state is entered on any fetch failure, which is the expected signal during the api restart.
