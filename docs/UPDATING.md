@@ -207,3 +207,5 @@ Progress is driven by polling the version endpoint: while the app is reachable a
 On completion the panel reloads the console so the new web bundle and version load. A Reload now button is offered as well.
 
 If the update cannot start (for example when in-app update is disabled on the deployment) or takes too long, the panel shows an error and a close action.
+
+The panel can be opened from the sidebar Update pill or the Settings banner.
