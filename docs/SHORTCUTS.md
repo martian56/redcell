@@ -44,3 +44,5 @@ Results are capped so a very large workspace does not render a huge list at once
 - Type a server's hostname to open that server.
 
 - Type part of a proxy url to open that proxy.
+
+- Type a page name (for example "settings") to go there.
