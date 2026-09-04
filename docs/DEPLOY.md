@@ -191,3 +191,5 @@ REDCELL runs offensive tooling. Only point it at systems you are authorized to t
 `docker compose down` stops the stack and keeps your data. Add `-v` to delete the volumes and wipe everything.
 
 ## FAQ
+
+**Can I run it locally to try it?** Yes: `docker compose up` serves it at `http://localhost`. Secure cookies work because browsers trust localhost.
