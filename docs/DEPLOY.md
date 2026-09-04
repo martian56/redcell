@@ -165,3 +165,5 @@ curl -so /dev/null -w '%{http_code}\n' https://your-domain/api/v1/sessions
 ```
 
 ## Troubleshooting
+
+**Port 80 or 443 already in use.** Another service is bound to it. Stop it, or free the port before deploying. Caddy needs both.
