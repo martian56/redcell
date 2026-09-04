@@ -8,6 +8,7 @@ import { useSession } from '@/store/session';
 import { toggleTheme } from '@/lib/theme';
 import { CommandPalette } from './CommandPalette';
 import { ConsoleHeader } from './ConsoleHeader';
+import { UpdateDialog } from './UpdateDialog';
 
 function ActiveRunRow({ session, onClick }: { session: Session; onClick: () => void }) {
   return (
@@ -140,6 +141,7 @@ export function DashboardShell() {
     }
   });
   const [palette, setPalette] = useState(false);
+  const [updating, setUpdating] = useState(false);
   const [menu, setMenu] = useState<'user' | null>(null);
   const [, force] = useState(0);
   const userRef = useOutside<HTMLSpanElement>(() => setMenu((m) => (m === 'user' ? null : m)));
@@ -204,7 +206,7 @@ export function DashboardShell() {
           ) : null}
           {version?.updateAvailable ? (
             <button type="button" className="upd-badge"
-              onClick={() => navigate('/settings')}
+              onClick={() => setUpdating(true)}
               title={`Update available: ${version.latest}`}
             >
               Update
@@ -318,6 +320,7 @@ export function DashboardShell() {
       </div>
 
       {palette ? <CommandPalette open onClose={() => setPalette(false)} /> : null}
+      <UpdateDialog open={updating} onClose={() => setUpdating(false)} target={version?.latest} />
     </div>
   );
 }
