@@ -94,3 +94,5 @@ curl -s https://your-domain/api/v1/system/version
 **Stuck updating.** The pull may be slow on a large image. Give it time, then check `docker compose ps` and logs.
 
 ## API
+
+- `GET /api/v1/system/version` returns `{ current, latest, updateAvailable }`.
