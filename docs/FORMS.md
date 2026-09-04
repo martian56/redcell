@@ -81,3 +81,5 @@ Keep a **free-text input** as a fallback when there is no list to choose from (f
 - Settings: the Provider and Model selectors for the default model.
 
 - New run: the model picker.
+
+## This change
