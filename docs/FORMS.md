@@ -387,3 +387,5 @@ The portal target is the document body, the least-clipped container available.
 Fixed coordinates are recomputed each time the popover opens, so stale positions never linger.
 
 The trigger wrapper keeps a relative box only for layout; positioning no longer depends on it.
+
+This keeps the closed control lightweight and the open popover free of its container.
