@@ -101,3 +101,5 @@ Searching real entities turns it into a jump-to-anything tool, which is what a c
 - **Settings** - provider keys, models, execution, and branding.
 
 ## Accessibility
+
+The palette is a labelled dialog. Focus moves to the search input on open.
