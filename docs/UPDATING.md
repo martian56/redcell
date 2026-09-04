@@ -375,3 +375,5 @@ Together they give a clear loop: see an update, apply it, watch it land.
 No configuration is needed to use the panel beyond the in-app update being enabled on the deployment.
 
 If in-app update is disabled, opening the panel surfaces that clearly rather than failing silently.
+
+The panel is theme-aware and reads well in both light and dark.
