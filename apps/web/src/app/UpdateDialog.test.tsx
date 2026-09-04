@@ -1,8 +1,10 @@
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 
-const update = vi.fn(async () => ({ started: true, detail: 'Update started.' }));
-const version = vi.fn(async () => ({ current: '0.3.2', latest: 'v0.3.3', updateAvailable: true }));
+const { update, version } = vi.hoisted(() => ({
+  update: vi.fn(async () => ({ started: true, detail: 'Update started.' })),
+  version: vi.fn(async () => ({ current: '0.3.2', latest: 'v0.3.3', updateAvailable: true })),
+}));
 vi.mock('@/lib/api', () => ({ useApi: () => ({ system: { update, version } }) }));
 
 import { UpdateDialog } from './UpdateDialog';
