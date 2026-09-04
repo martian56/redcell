@@ -25,3 +25,4 @@ Matches are grouped under Actions, Pages, Sessions, Servers, and Proxies, each w
 - Arrow Down / Arrow Up move the selection, wrapping at the ends.
 - Enter opens the highlighted result.
 - Escape closes the palette without navigating.
+- Hovering a result highlights it, so mouse and keyboard stay in sync.
