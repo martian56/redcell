@@ -37,3 +37,5 @@ Lookup is by the last path segment, lowercased, so `z-ai/glm-5.2` and `glm-5.2` 
 An unknown variant falls back to its family (for example an unlisted `glm-5.x` uses a listed GLM price), so a new model still gets a sensible estimate.
 
 Local providers (Ollama) cost nothing, so their estimate is 0 regardless of model.
+
+## Updating prices
