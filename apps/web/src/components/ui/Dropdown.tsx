@@ -56,7 +56,7 @@ export function Dropdown<T extends string>({
         <div
           role="listbox"
           style={{ width, [align]: 0 }}
-          className="absolute top-[calc(100%+4px)] z-50 max-h-72 overflow-auto rounded-[var(--radius)] border border-border2 bg-panel2 p-1 shadow-[0_16px_40px_rgba(0,0,0,0.55)]"
+          className="absolute top-[calc(100%+4px)] z-50 max-h-72 overflow-auto rounded-[var(--radius)] border border-border2 bg-panel2 p-1 shadow-[var(--shadow)]"
         >
           {options.map((o) => (
             <button type="button"
