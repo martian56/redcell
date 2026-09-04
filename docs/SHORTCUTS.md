@@ -139,3 +139,5 @@ Everything is reachable by keyboard; no result requires the mouse.
 **Results look stale.** The lists come from cached queries; navigate to the relevant page once to refresh the cache.
 
 **Typing does nothing.** The input takes focus on open; click it if focus was lost, then type.
+
+## Notes
