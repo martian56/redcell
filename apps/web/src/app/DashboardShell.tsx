@@ -3,7 +3,7 @@ import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useQueries } from '@tanstack/react-query';
 import type { Session } from '@redcell/api-client';
 import { useApi } from '@/lib/api';
-import { useSessions } from '@/features/hooks';
+import { useSessions, useVersion } from '@/features/hooks';
 import { useSession } from '@/store/session';
 import { toggleTheme } from '@/lib/theme';
 import { CommandPalette } from './CommandPalette';
@@ -120,6 +120,7 @@ export function DashboardShell() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { data: sessions } = useSessions();
+  const { data: version } = useVersion();
   const candidates = (sessions ?? []).filter((s) => s.status === 'active' && s.activeRunId);
   const runQueries = useQueries({
     queries: candidates.map((s) => ({
@@ -198,6 +199,17 @@ export function DashboardShell() {
         <div className="ws">
           <span className="logo" />
           <span className="nm">REDCELL</span>
+          {version?.current ? (
+            <span className="ver">{version.current === 'dev' ? 'dev' : `v${version.current}`}</span>
+          ) : null}
+          {version?.updateAvailable ? (
+            <button type="button" className="upd-badge"
+              onClick={() => navigate('/settings')}
+              title={`Update available: ${version.latest}`}
+            >
+              Update
+            </button>
+          ) : null}
         </div>
         <button type="button" className="search" onClick={() => setPalette(true)}>
           <svg viewBox="0 0 24 24">

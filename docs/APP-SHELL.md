@@ -225,3 +225,196 @@ The footer shows the operator name and role; there is a single operator account.
 ## Brand mark
 
 The logo is a small accent square next to the REDCELL wordmark; it is decorative.
+
+## Version and updates in the sidebar
+
+The brand header shows the running version next to REDCELL, for example `v0.3.5`. A locally built image without a baked version reads `dev`.
+
+The version comes from `/system/version` via the `useVersion` query, which also reports the latest release and whether an update is available.
+
+When an update is available, an Update pill appears next to the version. Its tooltip names the target version.
+
+Clicking the pill takes you to Settings, where the update can be applied. (A follow-up wires it to an in-place progress panel.)
+
+The version query refetches periodically, so the pill appears on its own shortly after a new release is published.
+
+The latest-release lookup is cached briefly on the server, so a brand-new release can take a few minutes to surface. See [UPDATING.md](UPDATING.md).
+
+The version is always shown; only the Update pill is conditional. This keeps the running version visible at a glance.
+
+The version sits right after the REDCELL wordmark; the Update pill is pushed to the right of the header.
+
+The version uses the monospace font in a muted color; the pill uses the accent color so it reads as an action.
+
+### Why show the version
+
+Operators need to know what build is running when reporting an issue or confirming an update landed. Putting it in the sidebar makes it visible on every screen.
+
+The version is only shown after login; the login page never reveals it. See [PRE-AUTH-SURFACE.md](PRE-AUTH-SURFACE.md).
+
+### dev vs a release build
+
+A released image bakes its version in, so the sidebar shows `vX.Y.Z`. A local or unversioned build shows `dev`, and no update is ever offered for a `dev` build.
+
+### The update flow from the sidebar
+
+1. The version query reports `updateAvailable`.
+2. The Update pill appears next to the version.
+3. Selecting it opens the update path (Settings today, an in-place panel next).
+4. After the update, the version updates and the pill goes away.
+
+### Behavior details
+
+The query refetches on an interval and is cached, so it does not hammer the endpoint but still notices a new release quickly.
+
+Until the first version response arrives, neither the version nor the pill is shown, so there is no flicker of placeholder text.
+
+When the sidebar is collapsed, the version and pill are hidden with the rest of the header.
+
+If the version endpoint is unreachable, the header simply omits the version rather than showing an error.
+
+### Accessibility
+
+The Update pill is a real button with a descriptive title naming the target version, so its purpose is clear on hover and to assistive tech.
+
+It is keyboard focusable and activates on Enter or Space like any button.
+
+### For contributors
+
+The version comes from `useVersion` in `apps/web/src/features/hooks.ts`; the display lives in the `.ws` header in `DashboardShell.tsx`.
+
+Format the version as `dev` when the current value is `dev`, otherwise prefix with `v`.
+
+Render the version whenever a value exists, and the pill only when `updateAvailable` is true.
+
+Keep the version muted and the pill in the accent color; the pill uses `margin-left: auto` to sit at the right of the header.
+
+### Verifying
+
+In mock mode the version query returns a sample with an update available, so the version and the pill both render for a quick visual check.
+
+On a real deployment, the pill appears once a newer release is published and the server's cached lookup refreshes.
+
+Confirm the header does not overflow: logo, name, version, and pill should all fit within the 236px sidebar.
+
+### Troubleshooting the version display
+
+**No version shown.** The version endpoint is unreachable or still loading. Check the API is up and reachable from the browser.
+
+**Shows `dev`.** The running image has no baked version. Only released images carry one; deploy a release to see a version.
+
+**No Update pill after a release.** The server caches the latest-release lookup for a few minutes; wait, then reload.
+
+**Pill stays after updating.** The app may be showing a stale query; a reload after the update clears it, and the update flow reloads for you.
+
+**Header looks crowded.** A very long version string plus the pill could wrap; the version is compact by design to avoid this.
+
+### FAQ
+
+**Where does the number come from?** The image's baked `REDCELL_VERSION`, surfaced by the API and read by the sidebar.
+
+**How does it know a newer version exists?** The API compares the running version to the latest GitHub release.
+
+**What does clicking the pill do?** It takes you to Settings to apply the update; a later change opens an in-place progress panel.
+
+**Can I hide the version?** It is intentionally always visible after login; there is no toggle.
+
+### References
+
+- `apps/web/src/app/DashboardShell.tsx` - the sidebar header and version display.
+
+- `apps/web/src/features/hooks.ts` - `useVersion`.
+
+- `apps/api/app/routers/system.py` - the version endpoint.
+
+- [UPDATING.md](UPDATING.md) - how updates work end to end.
+
+- Issue #77 - the sidebar version and update indicator.
+
+### Notes
+
+The version is deliberately understated so it informs without competing with navigation.
+
+The Update pill is the one accent element in the header, drawing the eye only when action is useful.
+
+Because there is a single operator, any signed-in user is the admin who can apply the update.
+
+The `v` prefix is added in the UI; the API reports the bare number, and the latest release tag keeps its own `v`.
+
+Comparison is numeric per version segment, so `v0.10.0` is correctly newer than `v0.9.0`.
+
+The periodic refetch is light and cached server-side, so it is safe to leave the app open.
+
+Settings also shows the version and an update control, so the sidebar and Settings stay consistent.
+
+A progress panel that opens on update is tracked separately; the sidebar pill will open it once it lands.
+
+## Related
+
+- [DEPLOY.md](DEPLOY.md) - deploying and updating from the shell.
+
+- [SHORTCUTS.md](SHORTCUTS.md) - the command palette.
+
+The pill's tooltip reads "Update available: <version>", so hovering confirms the target before you act.
+
+If the latest release cannot be determined, no update is offered and only the current version shows.
+
+When current equals latest, there is no pill; the sidebar just shows the version.
+
+The indicator only appears for a newer release, never for an older one.
+
+Only the latest published release is considered; drafts and prereleases are ignored by the check.
+
+A transient network error during the version check leaves the last known state until the next refetch.
+
+The header renders immediately; the version fills in when its query resolves.
+
+Logo, wordmark, version, and pill are sized to fit the 236px sidebar without wrapping.
+
+Both the muted version and the accent pill use theme tokens, so they adapt to light and dark.
+
+The pill has comfortable padding so it is an easy click target despite its small text.
+
+Linking to Settings keeps a single place to review the update before applying it.
+
+The same version value powers both the sidebar and the Settings display, so they never disagree.
+
+Applying the update is admin-gated on the server, independent of where the click originates.
+
+Seeing the version flip after an update is a quick confirmation the update succeeded.
+
+The update flow reloads the app so the new web bundle and version are picked up.
+
+The server caches the latest-release lookup for a few minutes to respect API rate limits.
+
+A dev build never nags for updates, which keeps local development quiet.
+
+Because the query is shared and cached, multiple views do not multiply the number of checks.
+
+The current version is shown without a tooltip; the pill carries the target in its tooltip.
+
+Placing the version in the header, not the footer, keeps it near the product identity.
+
+Only two small elements were added; the header stays uncluttered.
+
+If multiple workspaces ever return, the version can sit alongside a workspace label here.
+
+Layout is verified in a browser; the value and pill logic can be checked in mock mode.
+
+In short: the sidebar always shows the running version, and offers a one-click path to update when a newer release exists.
+
+The Update pill participates in normal tab order, so keyboard users reach it after the header controls.
+
+In dark mode the accent pill keeps sufficient contrast against the sidebar background.
+
+The wordmark and version never truncate at the default width; only extreme custom fonts would risk it.
+
+The pill is a styled button, not a native control, matching the rest of the console.
+
+Re-rendering the header with the same version data produces the same output, avoiding flicker.
+
+Settings remains the full update surface; the sidebar is a shortcut to it.
+
+Surfacing updates in the always-visible sidebar makes them hard to miss.
+
+That is the sidebar version indicator: quiet when current, a clear nudge when an update is ready.
