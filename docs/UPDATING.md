@@ -142,3 +142,5 @@ Your data in the named volumes is preserved across the update.
 - Update in a quiet window, not during a live run.
 
 - Take a database dump first for anything important.
+
+- Verify the new version in Settings after the restart.
