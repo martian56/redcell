@@ -133,3 +133,5 @@ Output tokens usually cost more than input, which is why the table prices them s
 ## Controlling cost
 
 - Pick a cheaper model for routine work; reserve flagship models for hard steps.
+
+- Set a token budget on the run so it stops before overspending.
