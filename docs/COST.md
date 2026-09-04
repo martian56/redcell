@@ -113,3 +113,5 @@ USD per 1M tokens as (input, output). Estimates for the fallback table; OpenRout
 - Issue #64 - the \$0.00 bug this documents.
 
 ## Tokens explained
+
+**Prompt (input) tokens** are everything sent to the model: system prompt, prior turns, tool definitions, and the current message.
