@@ -163,3 +163,5 @@ Menus sit above the shell chrome and the main card. The workspace menu uses a hi
 - `apps/web/src/app/DashboardShell.tsx` - the shell component.
 
 - `apps/web/src/styles/design.css` - shell, sidebar, and menu styles.
+
+- [SHORTCUTS.md](SHORTCUTS.md) - the command palette and keyboard navigation.
