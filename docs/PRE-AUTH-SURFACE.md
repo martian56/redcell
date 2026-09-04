@@ -91,3 +91,7 @@ curl -so /dev/null -w '%{http_code}\n' https://your-domain/api/v1/sessions
 ```
 
 Confirm a bad login returns a generic error and does not reveal whether the username exists.
+
+## This change
+
+Issue #63 removed two pre-auth disclosures from the login page.
