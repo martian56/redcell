@@ -99,3 +99,5 @@ For a dropdown, measure its bounding box against the sidebar's to confirm it sta
 ## Troubleshooting
 
 **A sidebar dropdown looks cut off.** It extends past the 236px sidebar and is clipped by `overflow: hidden`. Anchor it so it stays within the sidebar.
+
+**A menu appears under the main content.** Its z-index is too low, or it overflows into the main area. Raise the z-index and keep it inside its region.
