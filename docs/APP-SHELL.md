@@ -65,3 +65,5 @@ Icon-only buttons carry an `aria-label`.
 ## For contributors
 
 The shell is `apps/web/src/app/DashboardShell.tsx`; its styles are in `apps/web/src/styles/design.css`.
+
+- Add a nav item by extending the groups list with a route, label, and icon.
