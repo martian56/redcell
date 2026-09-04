@@ -329,3 +329,5 @@ The change is backward compatible: the component's props are unchanged.
 Existing usages, like the New run model picker, keep working without edits.
 
 Only the internal positioning changed, from absolute-in-container to fixed-in-body.
+
+That single change removes a whole class of clipping bugs for every combobox.
