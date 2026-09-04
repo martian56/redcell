@@ -213,3 +213,5 @@ The panel can be opened from the sidebar Update pill or the Settings banner.
 While the update is applying the panel stays put; you can dismiss it once it is done or has failed.
 
 The update runs server-side, so closing or navigating away does not stop it; the panel just visualizes it.
+
+### Panel states
