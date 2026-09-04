@@ -7,3 +7,5 @@ The short version lives in the [README](../README.md#deploy-self-host); this gui
 ## Architecture
 
 Caddy is the only service that publishes ports (80 and 443). It serves the web app and proxies `/api/*` to the API on the same origin, so there is no CORS to configure.
+
+Postgres, Redis, MinIO, the API, and the web app stay on the internal Docker network and are never exposed to the internet.
