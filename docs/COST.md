@@ -93,3 +93,4 @@ USD per 1M tokens as (input, output). Estimates for the fallback table; OpenRout
 - `glm-4.5-air` - 0.2 / 1.1
 - `llama-4-70b` - 0.6 / 0.9
 - `qwen3-72b` - 0.6 / 0.9
+- `deepseek-v4` - 0.6 / 1.7
