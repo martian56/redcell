@@ -86,7 +86,7 @@ export function NewRunDialog({
               getKey={(m) => `${m.provider}:${m.model}`}
               getLabel={(m) => m.model}
               getSublabel={(m) => m.providerLabel}
-              placeholder="Search models..."
+              placeholder="Search models…"
               onSelect={setSelected}
               trigger={<SelectTrigger>{selected ? selected.model : 'select model'}</SelectTrigger>}
             />
