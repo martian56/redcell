@@ -317,3 +317,5 @@ The trigger keeps its own styling; only the popover is portaled.
 The popover inherits theme tokens, so it matches light and dark.
 
 Because it is fixed, it is unaffected by the card's own scroll position.
+
+The reposition listener uses capture so it catches scrolling in any ancestor, not just the window.
