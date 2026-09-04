@@ -264,3 +264,5 @@ A released image bakes its version in, so the sidebar shows `vX.Y.Z`. A local or
 4. After the update, the version updates and the pill goes away.
 
 ### Behavior details
+
+The query refetches on an interval and is cached, so it does not hammer the endpoint but still notices a new release quickly.
