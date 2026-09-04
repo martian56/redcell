@@ -209,3 +209,5 @@ It repositions on scroll and resize while open, so it stays anchored to the trig
 Because the popover is outside the trigger's DOM subtree, the outside-click handler ignores clicks inside the popover as well, so selecting an option does not close it prematurely.
 
 The popover uses a high z-index so it sits above cards and even above a modal dialog it may be opened from.
+
+This is why the same combobox works both on the Settings page and inside the New run dialog.
