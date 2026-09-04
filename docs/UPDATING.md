@@ -219,3 +219,5 @@ The update runs server-side, so closing or navigating away does not stop it; the
 **Starting** - the update request is being sent to the server.
 
 **Applying** - images are pulling and the app services are recreating.
+
+**Reconnecting** - the api is restarting and the console is waiting for it to answer again.
