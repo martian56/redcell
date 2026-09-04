@@ -323,3 +323,5 @@ Because the check compares versions numerically, it recognizes completion even a
 If the version endpoint briefly returns the old version right after the request, the panel simply keeps showing applying.
 
 The reconnecting state is entered on any fetch failure, which is the expected signal during the api restart.
+
+The panel is intentionally small and centered, matching the console's other dialogs.
