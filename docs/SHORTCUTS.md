@@ -60,3 +60,5 @@ The palette lives in `apps/web/src/app/CommandPalette.tsx`.
 - To add an action, append to the `ACTIONS` list.
 
 - To add an entity source, read a list hook and map its rows into items with a `group`, a `to` route, an icon, and `keywords` for search.
+
+- To add an icon, add a case to the `Icon` component. Icons are stroked, so use simple outline shapes.
