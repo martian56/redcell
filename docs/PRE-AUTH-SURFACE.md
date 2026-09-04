@@ -150,3 +150,5 @@ A network attacker without TLS could read credentials in transit; HTTPS closes t
 A brute-force attacker is slowed by rate limiting and generic errors, and should be stopped by a strong admin password.
 
 ## References
+
+- [HARDENING.md](HARDENING.md) - secrets, scope, execution sandbox, data retention.
