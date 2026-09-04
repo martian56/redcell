@@ -37,3 +37,5 @@ Behind a reverse proxy you can strip or rewrite server-identifying headers at th
 A failed login returns a generic message. The UI shows "Invalid credentials." for both an unknown username and a wrong password, so the response does not confirm which usernames exist.
 
 Avoid leaking account existence through response timing where practical.
+
+## Rate limiting
