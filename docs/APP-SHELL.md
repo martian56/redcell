@@ -396,3 +396,5 @@ The current version is shown without a tooltip; the pill carries the target in i
 Placing the version in the header, not the footer, keeps it near the product identity.
 
 Only two small elements were added; the header stays uncluttered.
+
+If multiple workspaces ever return, the version can sit alongside a workspace label here.
