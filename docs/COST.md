@@ -51,3 +51,5 @@ The client adds `extra_body={"usage": {"include": true}}` for the `openrouter` p
 It then reads `usage.cost` (USD). This reflects OpenRouter's actual charge, including any per-model routing and discounts.
 
 ## Accuracy and caveats
+
+For non-OpenRouter providers the number is an estimate. It is only as accurate as the price table and the usage the provider reports.
