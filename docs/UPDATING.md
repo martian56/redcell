@@ -235,3 +235,5 @@ There is a brief window where the api is down during recreate; the panel shows r
 After a long wait with no progress the panel gives up and shows an error so you are not left staring at a spinner.
 
 ### Accessibility
+
+The panel is a labelled dialog with an aria-live region, so state changes are announced.
