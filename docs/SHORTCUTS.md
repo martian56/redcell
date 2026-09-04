@@ -164,3 +164,4 @@ Cmd/Ctrl+K, type a few letters, Enter. That is the whole tool.
 ## See also
 
 - The sidebar mirrors the pages the palette can jump to.
+- The Sessions page lists every engagement if you would rather browse than search.
