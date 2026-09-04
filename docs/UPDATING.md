@@ -51,3 +51,10 @@ Only an admin can trigger an update, and only when `REDCELL_COMPOSE_DIR` is set.
 Updates pull `:latest` from the project's registry. Trust that registry, or pin to a specific version tag you have reviewed.
 
 ## Updating from the shell
+
+```bash
+cd redcell
+git pull
+docker compose pull
+docker compose up -d
+```
