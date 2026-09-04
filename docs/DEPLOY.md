@@ -97,3 +97,5 @@ The app marks its login cookie `Secure` based on `REDCELL_COOKIE_SECURE`, not th
 ## DNS
 
 For a direct domain (mode 2), create an `A` record for the domain pointing at the server's IPv4 address.
+
+Add an `AAAA` record too if the server has a public IPv6 address; otherwise an IPv6-only client cannot reach it.
