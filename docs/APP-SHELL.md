@@ -276,3 +276,5 @@ If the version endpoint is unreachable, the header simply omits the version rath
 ### Accessibility
 
 The Update pill is a real button with a descriptive title naming the target version, so its purpose is clear on hover and to assistive tech.
+
+It is keyboard focusable and activates on Enter or Space like any button.
