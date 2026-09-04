@@ -103,3 +103,5 @@ Escape closes the popover and returns control to the page.
 Because the combobox is generic, pass your option type directly and supply getKey/getLabel; no wrapper types are needed.
 
 Pass current so the active option is highlighted; it is matched by getKey.
+
+Render the current value inside SelectTrigger so the closed state shows the selection.
