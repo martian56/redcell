@@ -227,3 +227,5 @@ The update runs server-side, so closing or navigating away does not stop it; the
 **Failed** - the update could not start or did not complete in time; close and check the server.
 
 ### Timing
+
+The panel polls every few seconds, so it advances within seconds of each real transition.
