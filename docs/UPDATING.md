@@ -365,3 +365,5 @@ For a no-op update (already current), the panel reaches done almost immediately.
 The panel is unit tested for opening, triggering the update, and rendering the steps.
 
 Its end-to-end behavior, including the reload, is verified in a browser.
+
+The mock updater is stateful so the browser walk-through reaches the done state.
