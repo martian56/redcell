@@ -351,3 +351,5 @@ No new styles were needed; the popover reuses the existing menu look.
 The trigger still reads as a select thanks to the shared SelectTrigger.
 
 The result is a searchable dropdown that never hides behind a card wall.
+
+This pattern should be the template for any future dropdown in the console.
