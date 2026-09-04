@@ -163,3 +163,7 @@ This feature ships in a release; a deployment must be updated once (by shell) to
 
 - [DEPLOY.md](DEPLOY.md) - deploying and the update commands in context.
 - [COST.md](COST.md) - unrelated, but another operator reference.
+
+## Tip
+
+To watch an update happen, keep Settings open: the banner flips from Update available to the new version once the stack comes back.
