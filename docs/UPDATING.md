@@ -31,3 +31,5 @@ The api container cannot cleanly recreate itself: `up -d` would kill the process
 ## Downtime
 
 There is a few-second gap while the api, worker, and web containers restart. The UI reconnects on its own; the version banner then shows the new version.
+
+## Requirements for the button
