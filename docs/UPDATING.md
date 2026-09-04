@@ -128,3 +128,5 @@ Your data in the named volumes is preserved across the update.
 **Is the update safe to run during work?** It restarts the stack, so avoid it mid-engagement. Data is preserved, but active connections drop briefly.
 
 **Should I back up first?** Backing up the database and volumes before an update is good practice. See DEPLOY.md.
+
+**Does it need internet?** Yes, to check the latest release and to pull new images.
