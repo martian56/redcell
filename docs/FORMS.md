@@ -151,3 +151,5 @@ Verify in a browser; the popover, search, and pagination are layout behavior.
 The combobox is presentation-agnostic: it does not assume what an option is, only how to key, label, and select it.
 
 Sublabels are handy for disambiguating similar options, like a model's provider.
+
+Pagination keeps the popover short even with a large catalog.
