@@ -40,8 +40,12 @@ export function ReportsPage() {
 
   const generate = async () => {
     if (!sessionId) return;
-    await create.mutateAsync({ title: `${session?.name ?? 'Session'} — Assessment`, formats: ALL_FORMATS });
-    toast('Report queued', 'success');
+    try {
+      await create.mutateAsync({ title: `${session?.name ?? 'Session'} — Assessment`, formats: ALL_FORMATS });
+      toast('Report queued', 'success');
+    } catch {
+      toast('Could not generate the report', 'error');
+    }
   };
 
   const rows = reports ?? [];
