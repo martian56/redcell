@@ -133,3 +133,5 @@ Verify in a browser; the popover, search, and pagination are layout behavior.
 **Does it handle long lists?** Yes; it paginates and filters, so hundreds of options stay usable.
 
 **Is it keyboard friendly?** Yes; open, type to filter, and select without the mouse.
+
+**What if there is no list?** Use a plain input; the Settings model field does this when a provider lists no models.
