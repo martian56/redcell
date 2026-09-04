@@ -51,3 +51,5 @@ It lives in `apps/web/src/components/ui/Combobox.tsx`.
 ## Using it in a form field
 
 Wrap it in a field with a label, pass `block`, and give it a `SelectTrigger` showing the current selection.
+
+## Behavior
