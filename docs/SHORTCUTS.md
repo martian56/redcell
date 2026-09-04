@@ -98,3 +98,4 @@ Searching real entities turns it into a jump-to-anything tool, which is what a c
 - **Reports** - generate and download engagement reports.
 - **Servers** - execution servers and their health.
 - **Proxies** - egress proxies and their health.
+- **Settings** - provider keys, models, execution, and branding.
