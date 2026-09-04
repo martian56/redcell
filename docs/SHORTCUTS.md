@@ -15,3 +15,5 @@ Press Escape or click outside to close it.
 - **Sessions** - by name, client, or a target in scope.
 - **Servers** - by name or host.
 - **Proxies** - by label or url.
+
+## Results are grouped
