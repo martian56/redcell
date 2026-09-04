@@ -243,3 +243,5 @@ The latest-release lookup is cached briefly on the server, so a brand-new releas
 The version is always shown; only the Update pill is conditional. This keeps the running version visible at a glance.
 
 The version sits right after the REDCELL wordmark; the Update pill is pushed to the right of the header.
+
+The version uses the monospace font in a muted color; the pill uses the accent color so it reads as an action.
