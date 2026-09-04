@@ -11,3 +11,5 @@ What an unauthenticated client can observe from a REDCELL deployment, and the pr
 - Authentication errors are generic and do not distinguish unknown user from wrong password.
 
 ## Reachable without authentication
+
+- **The login page** (`/`, static assets). Serves the console shell; the app data behind it requires a session cookie.
