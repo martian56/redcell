@@ -29,3 +29,5 @@ The Search button opens the command palette (Cmd/Ctrl+K). See [SHORTCUTS.md](SHO
 Navigation is grouped (Overview, Sessions, Findings, Reports, and an Infrastructure group for Servers, Proxies, and Settings). The active route is highlighted.
 
 ## Active runs
+
+Below the navigation, sessions whose run is currently running are listed for quick access. The list is capped and polls run status, and is hidden when nothing is running.
