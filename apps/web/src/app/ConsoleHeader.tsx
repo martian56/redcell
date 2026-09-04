@@ -95,7 +95,7 @@ export function ConsoleHeader({ sessionId }: { sessionId: string | null }) {
         </svg>
         New run
       </button>
-      <button className="btn" onClick={() => nav('/reports')}>
+      <button className="btn" onClick={() => nav(sessionId ? `/reports?session=${sessionId}` : '/reports')}>
         Report
       </button>
       <Dropdown
