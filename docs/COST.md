@@ -157,3 +157,5 @@ Output tokens usually cost more than input, which is why the table prices them s
 Cost is informational. Treat it as a close estimate for budgeting, not an invoice, except where OpenRouter reports the real charge.
 
 ## See also
+
+- [DEPLOY.md](DEPLOY.md) - running the stack.
