@@ -152,3 +152,5 @@ Your data in the named volumes is preserved across the update.
 Running the update when already current is harmless: the pull finds nothing new and `up -d` is a no-op.
 
 This feature ships in a release; a deployment must be updated once (by shell) to pick it up before the button exists.
+
+## References
