@@ -291,3 +291,5 @@ On a real deployment the same panel reflects the actual restart and version flip
 - `apps/web/src/app/DashboardShell.tsx` - the sidebar trigger.
 
 - `apps/web/src/app/UpdateBanner.tsx` - the Settings trigger.
+
+- Issue #78 - the update progress panel.
