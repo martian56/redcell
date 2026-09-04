@@ -59,3 +59,5 @@ Serve the console over HTTPS in any real deployment. Plain HTTP exposes credenti
 The deploy supports automatic HTTPS for a direct domain and a proxy mode for a fronting CDN. See [DEPLOY.md](DEPLOY.md).
 
 ## Operator recommendations
+
+- Put the console behind a VPN or an identity-aware proxy if only your team needs it. The strongest pre-auth surface is one the public cannot reach at all.
