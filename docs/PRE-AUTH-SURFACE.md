@@ -97,3 +97,5 @@ Confirm a bad login returns a generic error and does not reveal whether the user
 Issue #63 removed two pre-auth disclosures from the login page.
 
 - The stale `v0.1` version string is gone. No version is shown before authentication.
+
+- The `Console binds to 127.0.0.1` notice is gone. It was inaccurate behind a proxy and described internal topology.
