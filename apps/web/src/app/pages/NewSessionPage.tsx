@@ -179,15 +179,15 @@ export function NewSessionPage() {
 
         <div className="card">
           <div className="card-b">
-            <div className="field">
+            <label className="field">
               <span className="label">Name</span>
               <input className="input" value={draft.name} placeholder="ACME External Q3" onChange={(e) => patch({ name: e.target.value })} />
-            </div>
+            </label>
             <div className="grid2">
-              <div className="field">
+              <label className="field">
                 <span className="label">Client</span>
                 <input className="input" value={draft.client} placeholder="ACME Corp" onChange={(e) => patch({ client: e.target.value })} />
-              </div>
+              </label>
               <div className="field">
                 <span className="label">Type</span>
                 <div className="seg">
@@ -202,31 +202,31 @@ export function NewSessionPage() {
             </div>
 
             {isCode ? (
-              <div className="field">
+              <label className="field">
                 <span className="label">
                   Source <span className="opt">— git URL or local folder</span>
                 </span>
                 <input className="input mono" value={draft.source} placeholder="https://github.com/org/repo" onChange={(e) => patch({ source: e.target.value })} />
-              </div>
+              </label>
             ) : (
               <>
-                <div className="field">
+                <label className="field">
                   <span className="label">
                     Scope <span className="opt">— domains, wildcards, CIDRs</span>
                   </span>
                   <textarea className="textarea mono" value={draft.scope} placeholder={'*.example.com\n10.0.0.0/24'} onChange={(e) => patch({ scope: e.target.value })} />
-                </div>
-                <div className="field">
+                </label>
+                <label className="field">
                   <span className="label">
                     Targets <span className="opt">— concrete URLs / IPs</span>
                   </span>
                   <textarea className="textarea mono" value={draft.targets} placeholder={'https://app.example.com'} onChange={(e) => patch({ targets: e.target.value })} />
-                </div>
+                </label>
               </>
             )}
 
             <div className="grid2">
-              <div className="field">
+              <label className="field">
                 <span className="label">Execution server</span>
                 <select className="selectn" value={draft.serverId} onChange={(e) => patch({ serverId: e.target.value })}>
                   <option value="">Local (this host)</option>
@@ -236,8 +236,8 @@ export function NewSessionPage() {
                     </option>
                   ))}
                 </select>
-              </div>
-              <div className="field">
+              </label>
+              <label className="field">
                 <span className="label">
                   Egress proxy <span className="opt">— optional</span>
                 </span>
@@ -249,10 +249,10 @@ export function NewSessionPage() {
                     </option>
                   ))}
                 </select>
-              </div>
+              </label>
             </div>
 
-            <div className="field">
+            <label className="field">
               <span className="label">Model</span>
               <select
                 className="selectn"
@@ -270,18 +270,18 @@ export function NewSessionPage() {
                   </option>
                 ))}
               </select>
-            </div>
+            </label>
 
-            <div className="field">
+            <label className="field">
               <span className="label">Rules of engagement</span>
               <textarea className="textarea" value={draft.roe} rows={2} placeholder="Testing window, no-DoS, exclusions…" onChange={(e) => patch({ roe: e.target.value })} />
-            </div>
-            <div className="field">
+            </label>
+            <label className="field">
               <span className="label">
                 Engagement brief <span className="opt">— handed to the agents</span>
               </span>
               <textarea className="textarea" value={draft.brief} rows={4} placeholder="What to focus on, what to skip, the objective…" onChange={(e) => patch({ brief: e.target.value })} />
-            </div>
+            </label>
 
             <div className="field">
               <span className="label">
