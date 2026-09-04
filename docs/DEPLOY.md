@@ -148,3 +148,5 @@ Database dump:
 ```bash
 docker compose exec -T postgres pg_dump -U redcell redcell > redcell.sql
 ```
+
+## Verifying the deployment
