@@ -193,3 +193,7 @@ The command palette is mounted only while open, so its data queries fire on open
 ## Console header
 
 On a session route the card header is replaced by the console header (status, metrics, run controls); elsewhere it shows the page title and actions.
+
+## Theme tokens
+
+Shell colors come from CSS variables, so both themes and the light/dark toggle work without per-component overrides.
