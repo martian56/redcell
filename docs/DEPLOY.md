@@ -89,3 +89,5 @@ A Cloudflare **521** means the origin refused the connection on the port Cloudfl
 To skip Cloudflare's proxy entirely, set the DNS record to DNS-only (grey cloud) pointing at the server and use mode 2 for a direct Let's Encrypt certificate.
 
 ## Behind Coolify or another reverse proxy
+
+If Coolify, Traefik, nginx, or a cloud load balancer terminates TLS and forwards to this host, use mode 3. Point the proxy's upstream at the server on port 80 (HTTP) or 443 (HTTPS, self-signed accepted).
