@@ -331,3 +331,5 @@ Existing usages, like the New run model picker, keep working without edits.
 Only the internal positioning changed, from absolute-in-container to fixed-in-body.
 
 That single change removes a whole class of clipping bugs for every combobox.
+
+The Settings Default model card clips its contents, which is what exposed the bug.
