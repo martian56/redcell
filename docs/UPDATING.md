@@ -271,3 +271,5 @@ On a real deployment the same panel reflects the actual restart and version flip
 **Stuck on reconnecting.** The api is taking a while to come back; give it time, then reload manually if needed.
 
 **Did not reload.** Use the Reload now button; the new bundle loads on the next full load.
+
+### Panel FAQ
