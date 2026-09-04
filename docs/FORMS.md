@@ -341,3 +341,5 @@ Portaling the popover keeps the cards tidy and the dropdown visible.
 The fix was verified by measuring the popover against the card: it now extends past the card and is not clipped.
 
 It was also confirmed to render as a child of the body with fixed positioning.
+
+The provider list shows all providers with search and paging, over the content below.
