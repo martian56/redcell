@@ -15,3 +15,5 @@ The sidebar uses `overflow: hidden` so it clips cleanly when collapsed. That mea
 Top to bottom: the workspace header, the search button, the navigation groups, the active-runs list, and the user menu at the foot.
 
 ## Workspace switcher
+
+The header shows the workspace name with a caret. The caret opens a small menu (the workspace and a theme toggle).
