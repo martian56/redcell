@@ -205,3 +205,5 @@ The position is computed from the trigger's bounding rect: the popover opens jus
 When there is not enough room below, it flips to open above the trigger instead of running off the screen.
 
 It repositions on scroll and resize while open, so it stays anchored to the trigger as the page moves.
+
+Because the popover is outside the trigger's DOM subtree, the outside-click handler ignores clicks inside the popover as well, so selecting an option does not close it prematurely.
