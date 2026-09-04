@@ -38,7 +38,7 @@ export function SessionsPage() {
           ]}
         />
         <div className="grow" />
-        <button className="btn pri sm" onClick={() => nav('/sessions/new')}>
+        <button type="button" className="btn pri sm" onClick={() => nav('/sessions/new')}>
           <svg viewBox="0 0 24 24">
             <path d="M12 5v14M5 12h14" />
           </svg>
