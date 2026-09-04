@@ -78,3 +78,5 @@ curl -s https://your-domain/api/v1/system/version
 `docker compose ps` should show the app containers recently recreated.
 
 ## Troubleshooting
+
+**No Update button.** Either you are already up to date, the build is `dev`, or `REDCELL_COMPOSE_DIR` is unset. Set it and redeploy to enable the button.
