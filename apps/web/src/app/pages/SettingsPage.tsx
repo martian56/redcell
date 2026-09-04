@@ -56,8 +56,12 @@ export function SettingsPage() {
     setDraft((d) => (d ? { ...d, report: { ...d.report, ...p } } : d));
 
   const onSave = async () => {
-    await save.mutateAsync(draft);
-    toast('Settings saved', 'success');
+    try {
+      await save.mutateAsync(draft);
+      toast('Settings saved', 'success');
+    } catch {
+      toast('Could not save settings', 'error');
+    }
   };
 
   const keyedIds = new Set((keys ?? []).filter((k) => k.hasKey).map((k) => k.providerId));
@@ -67,10 +71,14 @@ export function SettingsPage() {
   const saveKey = async () => {
     if (!keyFor || !keyInput.trim()) return;
     const apiBase = (keys ?? []).find((k) => k.providerId === keyFor.id)?.apiBase ?? null;
-    await setKey.mutateAsync({ providerId: keyFor.id, apiKey: keyInput.trim(), apiBase });
-    setKeyFor(null);
-    setKeyInput('');
-    toast(`Key saved for ${keyFor.label}`, 'success');
+    try {
+      await setKey.mutateAsync({ providerId: keyFor.id, apiKey: keyInput.trim(), apiBase });
+      setKeyFor(null);
+      setKeyInput('');
+      toast(`Key saved for ${keyFor.label}`, 'success');
+    } catch {
+      toast(`Could not save the key for ${keyFor.label}`, 'error');
+    }
   };
 
   return (
@@ -183,7 +191,12 @@ export function SettingsPage() {
                           <button
                             className="btn sm danger"
                             disabled={removeKey.isPending}
-                            onClick={() => void removeKey.mutateAsync(p.id).then(() => toast(`Key removed for ${p.label}`, 'success'))}
+                            onClick={() =>
+                              void removeKey
+                                .mutateAsync(p.id)
+                                .then(() => toast(`Key removed for ${p.label}`, 'success'))
+                                .catch(() => toast(`Could not remove the key for ${p.label}`, 'error'))
+                            }
                           >
                             Remove
                           </button>
