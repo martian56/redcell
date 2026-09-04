@@ -137,3 +137,5 @@ Verify in a browser; the popover, search, and pagination are layout behavior.
 **What if there is no list?** Use a plain input; the Settings model field does this when a provider lists no models.
 
 ## References
+
+- `apps/web/src/components/ui/Combobox.tsx` - the component.
