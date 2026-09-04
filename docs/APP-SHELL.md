@@ -312,3 +312,5 @@ Confirm the header does not overflow: logo, name, version, and pill should all f
 ### FAQ
 
 **Where does the number come from?** The image's baked `REDCELL_VERSION`, surfaced by the API and read by the sidebar.
+
+**How does it know a newer version exists?** The API compares the running version to the latest GitHub release.
