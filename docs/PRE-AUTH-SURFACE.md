@@ -103,3 +103,5 @@ Issue #63 removed two pre-auth disclosures from the login page.
 - A regression test (`AuthGate.test.tsx`) asserts the login page contains no version pattern and no bind address.
 
 ## Related surfaces to keep clean
+
+- Static asset names and comments should not embed a version.
