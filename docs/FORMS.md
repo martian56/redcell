@@ -211,3 +211,5 @@ Because the popover is outside the trigger's DOM subtree, the outside-click hand
 The popover uses a high z-index so it sits above cards and even above a modal dialog it may be opened from.
 
 This is why the same combobox works both on the Settings page and inside the New run dialog.
+
+### How it works
