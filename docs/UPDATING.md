@@ -203,3 +203,5 @@ Triggering an update opens a panel that shows progress instead of a single line 
 It shows four steps: starting the update, pulling images and restarting, reconnecting to the console, and up to date.
 
 Progress is driven by polling the version endpoint: while the app is reachable and still on the old version it shows "applying"; while the api restarts and the endpoint is unreachable it shows "reconnecting"; once the version catches up it shows "up to date".
+
+On completion the panel reloads the console so the new web bundle and version load. A Reload now button is offered as well.
