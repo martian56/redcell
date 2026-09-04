@@ -11,7 +11,6 @@ import {
 import { Spinner } from '@/components/ui/primitives';
 import { Dialog } from '@/components/ui/Dialog';
 import { toast } from '@/components/ui/toast';
-import { UpdateBanner } from '../UpdateBanner';
 
 type Tab = 'providers' | 'execution' | 'scope' | 'branding';
 
@@ -84,7 +83,6 @@ export function SettingsPage() {
 
   return (
     <div className="wrap">
-      <UpdateBanner />
       <div className="settings">
         <div className="subnav">
           {TABS.map((t) => (

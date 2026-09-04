@@ -1619,35 +1619,6 @@ svg.chart {
   min-width: 0;
 }
 
-.updbar {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-  padding: 11px 14px;
-  margin-bottom: 14px;
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-  background: var(--bg);
-  font-size: 12.5px;
-  color: var(--tx-2);
-}
-.updbar-v {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.updbar-act {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-left: auto;
-}
-.updbar-msg {
-  flex-basis: 100%;
-  color: var(--tx-3);
-}
-
 .updmodal {
   width: 420px;
   max-width: 92vw;
