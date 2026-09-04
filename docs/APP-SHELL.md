@@ -225,3 +225,5 @@ The footer shows the operator name and role; there is a single operator account.
 ## Brand mark
 
 The logo is a small accent square next to the REDCELL wordmark; it is decorative.
+
+## Version and updates in the sidebar
