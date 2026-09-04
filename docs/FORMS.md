@@ -223,3 +223,5 @@ A capture-phase scroll listener and a resize listener re-measure and reposition 
 Two refs, one on the trigger wrapper and one on the popover, let the outside-click handler treat both as inside.
 
 The width follows the trigger in block mode, so the popover lines up with the field.
+
+### For contributors
