@@ -50,8 +50,15 @@ export function FindingsPage() {
   filtered.forEach((f) => (counts[f.severity] = (counts[f.severity] ?? 0) + 1));
 
   const act = async (f: Finding, next: 'verified' | 'dismissed' | 'candidate') => {
-    await setStatusM.mutateAsync({ id: f.id, status: next });
-    toast(next === 'verified' ? 'Finding verified' : next === 'dismissed' ? 'Finding dismissed' : 'Finding restored', next === 'dismissed' ? 'warning' : 'success');
+    try {
+      await setStatusM.mutateAsync({ id: f.id, status: next });
+      toast(
+        next === 'verified' ? 'Finding verified' : next === 'dismissed' ? 'Finding dismissed' : 'Finding restored',
+        next === 'dismissed' ? 'warning' : 'success',
+      );
+    } catch {
+      toast('Could not update the finding', 'error');
+    }
   };
 
   let lastSev: string | null = null;
