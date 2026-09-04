@@ -158,3 +158,5 @@ A brute-force attacker is slowed by rate limiting and generic errors, and should
 ## Browser hardening headers
 
 - `X-Frame-Options` / `frame-ancestors` to prevent the login page being framed for clickjacking.
+
+- `X-Content-Type-Options: nosniff` so responses are not MIME-sniffed.
