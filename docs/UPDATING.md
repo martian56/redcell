@@ -49,3 +49,5 @@ The docker socket is root-equivalent on the host. The update endpoint is a real 
 Only an admin can trigger an update, and only when `REDCELL_COMPOSE_DIR` is set. If you do not want in-app updates, leave it unset.
 
 Updates pull `:latest` from the project's registry. Trust that registry, or pin to a specific version tag you have reviewed.
+
+## Updating from the shell
