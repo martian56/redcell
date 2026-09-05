@@ -15,3 +15,4 @@ Notes on how modals present as sheets on mobile.
 - r12: Desktop modals keep their centered presentation.
 - r13: The palette keeps its search first layout at the top.
 - r14: Sheets pad around the bottom safe-area inset.
+- r15: Sheets read as native mobile panels.
