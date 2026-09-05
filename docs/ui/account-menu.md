@@ -89,3 +89,4 @@ Notes on the bottom-of-sidebar account line and its dropdown.
 - r86: The dropdown closes on outside click and Escape.
 - r87: Settings navigates to the settings page.
 - r88: Sign out logs out and returns to the overview.
+- r89: The notifications row is added with the notifications feature.
