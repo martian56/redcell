@@ -15,3 +15,4 @@ mobile console. See DESIGN.md for the overall plan.
 - r11: --rc-mobile-top-h reserves height for the compact mobile top bar.
 - r12: --rc-tap-min encodes the 44px minimum touch target.
 - r13: Components branch on useIsMobile only when behavior must differ.
+- r14: Styling-only differences stay in CSS media queries, not in JS.
