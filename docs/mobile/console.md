@@ -33,3 +33,4 @@ Notes on the mobile layout of the live session console.
 - r30: The desktop mosaic layout is untouched.
 - r31: The mobile console reads as one focused panel with a switcher.
 - r32: The desktop mosaic tiling does not work on a phone.
+- r33: On mobile the Workspace renders a single panel at a time.
