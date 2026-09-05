@@ -94,3 +94,4 @@ actions on mobile.
 - r90: The drawer slides in from the left edge.
 - r91: The slide animation is disabled under prefers-reduced-motion.
 - r92: The panel pads around the safe-area insets.
+- r93: Each row honors the 44px minimum touch target.
