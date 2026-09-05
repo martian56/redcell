@@ -69,3 +69,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r66: Each server card shows host, status, sessions, and latency.
 - r67: Each proxy card shows endpoint, kind, status, and latency.
 - r68: The row name forms the card title.
+- r69: The Test action sits at the bottom of each card.
