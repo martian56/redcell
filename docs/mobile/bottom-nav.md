@@ -44,3 +44,4 @@ Notes on the native-style bottom navigation for the mobile console.
 - r41: Tabs stack an icon over a small label for a compact touch target.
 - r42: Each tab honors the 44px minimum touch target.
 - r43: The bar reserves height with --rc-bottom-nav-h.
+- r44: The bar pads its bottom with the safe-area inset.
