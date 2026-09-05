@@ -42,3 +42,4 @@ actions on mobile.
 - r38: Escape closes the drawer.
 - r39: Tapping the backdrop closes the drawer.
 - r40: Body scroll is locked while the drawer is open.
+- r41: Selecting a destination closes the drawer and navigates.
