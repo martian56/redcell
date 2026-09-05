@@ -28,3 +28,4 @@ Notes on the mobile card list and the stacked New Session layout.
 - r25: New Session stacks the planner and the form to one column.
 - r26: Paired form rows collapse from two columns to one on mobile.
 - r27: The planner chat card takes a shorter height on mobile.
+- r28: Form fields span the full width with comfortable spacing.
