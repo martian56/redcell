@@ -34,3 +34,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r31: Empty states center their message inside a card.
 - r32: The Servers list becomes a card list on mobile.
 - r33: The Proxies list becomes a card list on mobile.
+- r34: Each server card shows host, status, sessions, and latency.
