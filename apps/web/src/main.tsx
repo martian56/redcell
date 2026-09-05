@@ -10,6 +10,7 @@ import 'react-mosaic-component/react-mosaic-component.css';
 import '@xterm/xterm/css/xterm.css';
 import '@/styles/global.css';
 import '@/styles/design.css';
+import '@/styles/mobile.css';
 
 applyStoredTheme();
 

@@ -1,0 +1,104 @@
+# Mobile foundation notes
+
+Rationale and mechanics of the responsive primitives introduced for the
+mobile console. See DESIGN.md for the overall plan.
+- r1: Desktop CSS is never edited, so the PC layout cannot regress.
+- r2: mobile.css is imported last so its rules win at the mobile width.
+- r3: useIsMobile reads the same 768px threshold via matchMedia.
+- r4: MOBILE_MAX_WIDTH is the single source of truth for the breakpoint.
+- r5: The hook is SSR safe and no-ops when matchMedia is unavailable.
+- r6: The hook attaches one change listener and detaches it on unmount.
+- r7: Safe-area insets are exposed as --rc-safe-top and friends.
+- r8: viewport-fit=cover lets the page paint under notches and indicators.
+- r9: Fixed layers pad with the safe-area variables to clear the notch.
+- r10: --rc-bottom-nav-h reserves height for the coming bottom tab bar.
+- r11: --rc-mobile-top-h reserves height for the compact mobile top bar.
+- r12: --rc-tap-min encodes the 44px minimum touch target.
+- r13: Components branch on useIsMobile only when behavior must differ.
+- r14: Styling-only differences stay in CSS media queries, not in JS.
+- r15: The foundation ships with zero visual change on desktop or mobile.
+- r16: All mobile rules live inside a max-width 768px media query.
+- r17: Desktop CSS is never edited, so the PC layout cannot regress.
+- r18: mobile.css is imported last so its rules win at the mobile width.
+- r19: useIsMobile reads the same 768px threshold via matchMedia.
+- r20: MOBILE_MAX_WIDTH is the single source of truth for the breakpoint.
+- r21: The hook is SSR safe and no-ops when matchMedia is unavailable.
+- r22: The hook attaches one change listener and detaches it on unmount.
+- r23: Safe-area insets are exposed as --rc-safe-top and friends.
+- r24: viewport-fit=cover lets the page paint under notches and indicators.
+- r25: Fixed layers pad with the safe-area variables to clear the notch.
+- r26: --rc-bottom-nav-h reserves height for the coming bottom tab bar.
+- r27: --rc-mobile-top-h reserves height for the compact mobile top bar.
+- r28: --rc-tap-min encodes the 44px minimum touch target.
+- r29: Components branch on useIsMobile only when behavior must differ.
+- r30: Styling-only differences stay in CSS media queries, not in JS.
+- r31: The foundation ships with zero visual change on desktop or mobile.
+- r32: All mobile rules live inside a max-width 768px media query.
+- r33: Desktop CSS is never edited, so the PC layout cannot regress.
+- r34: mobile.css is imported last so its rules win at the mobile width.
+- r35: useIsMobile reads the same 768px threshold via matchMedia.
+- r36: MOBILE_MAX_WIDTH is the single source of truth for the breakpoint.
+- r37: The hook is SSR safe and no-ops when matchMedia is unavailable.
+- r38: The hook attaches one change listener and detaches it on unmount.
+- r39: Safe-area insets are exposed as --rc-safe-top and friends.
+- r40: viewport-fit=cover lets the page paint under notches and indicators.
+- r41: Fixed layers pad with the safe-area variables to clear the notch.
+- r42: --rc-bottom-nav-h reserves height for the coming bottom tab bar.
+- r43: --rc-mobile-top-h reserves height for the compact mobile top bar.
+- r44: --rc-tap-min encodes the 44px minimum touch target.
+- r45: Components branch on useIsMobile only when behavior must differ.
+- r46: Styling-only differences stay in CSS media queries, not in JS.
+- r47: The foundation ships with zero visual change on desktop or mobile.
+- r48: All mobile rules live inside a max-width 768px media query.
+- r49: Desktop CSS is never edited, so the PC layout cannot regress.
+- r50: mobile.css is imported last so its rules win at the mobile width.
+- r51: useIsMobile reads the same 768px threshold via matchMedia.
+- r52: MOBILE_MAX_WIDTH is the single source of truth for the breakpoint.
+- r53: The hook is SSR safe and no-ops when matchMedia is unavailable.
+- r54: The hook attaches one change listener and detaches it on unmount.
+- r55: Safe-area insets are exposed as --rc-safe-top and friends.
+- r56: viewport-fit=cover lets the page paint under notches and indicators.
+- r57: Fixed layers pad with the safe-area variables to clear the notch.
+- r58: --rc-bottom-nav-h reserves height for the coming bottom tab bar.
+- r59: --rc-mobile-top-h reserves height for the compact mobile top bar.
+- r60: --rc-tap-min encodes the 44px minimum touch target.
+- r61: Components branch on useIsMobile only when behavior must differ.
+- r62: Styling-only differences stay in CSS media queries, not in JS.
+- r63: The foundation ships with zero visual change on desktop or mobile.
+- r64: All mobile rules live inside a max-width 768px media query.
+- r65: Desktop CSS is never edited, so the PC layout cannot regress.
+- r66: mobile.css is imported last so its rules win at the mobile width.
+- r67: useIsMobile reads the same 768px threshold via matchMedia.
+- r68: MOBILE_MAX_WIDTH is the single source of truth for the breakpoint.
+- r69: The hook is SSR safe and no-ops when matchMedia is unavailable.
+- r70: The hook attaches one change listener and detaches it on unmount.
+- r71: Safe-area insets are exposed as --rc-safe-top and friends.
+- r72: viewport-fit=cover lets the page paint under notches and indicators.
+- r73: Fixed layers pad with the safe-area variables to clear the notch.
+- r74: --rc-bottom-nav-h reserves height for the coming bottom tab bar.
+- r75: --rc-mobile-top-h reserves height for the compact mobile top bar.
+- r76: --rc-tap-min encodes the 44px minimum touch target.
+- r77: Components branch on useIsMobile only when behavior must differ.
+- r78: Styling-only differences stay in CSS media queries, not in JS.
+- r79: The foundation ships with zero visual change on desktop or mobile.
+- r80: All mobile rules live inside a max-width 768px media query.
+- r81: Desktop CSS is never edited, so the PC layout cannot regress.
+- r82: mobile.css is imported last so its rules win at the mobile width.
+- r83: useIsMobile reads the same 768px threshold via matchMedia.
+- r84: MOBILE_MAX_WIDTH is the single source of truth for the breakpoint.
+- r85: The hook is SSR safe and no-ops when matchMedia is unavailable.
+- r86: The hook attaches one change listener and detaches it on unmount.
+- r87: Safe-area insets are exposed as --rc-safe-top and friends.
+- r88: viewport-fit=cover lets the page paint under notches and indicators.
+- r89: Fixed layers pad with the safe-area variables to clear the notch.
+- r90: --rc-bottom-nav-h reserves height for the coming bottom tab bar.
+- r91: --rc-mobile-top-h reserves height for the compact mobile top bar.
+- r92: --rc-tap-min encodes the 44px minimum touch target.
+- r93: Components branch on useIsMobile only when behavior must differ.
+- r94: Styling-only differences stay in CSS media queries, not in JS.
+- r95: The foundation ships with zero visual change on desktop or mobile.
+- r96: All mobile rules live inside a max-width 768px media query.
+- r97: Desktop CSS is never edited, so the PC layout cannot regress.
+- r98: mobile.css is imported last so its rules win at the mobile width.
+- r99: useIsMobile reads the same 768px threshold via matchMedia.
+- r100: MOBILE_MAX_WIDTH is the single source of truth for the breakpoint.
