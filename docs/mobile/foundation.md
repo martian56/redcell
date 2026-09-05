@@ -62,3 +62,4 @@ mobile console. See DESIGN.md for the overall plan.
 - r58: --rc-bottom-nav-h reserves height for the coming bottom tab bar.
 - r59: --rc-mobile-top-h reserves height for the compact mobile top bar.
 - r60: --rc-tap-min encodes the 44px minimum touch target.
+- r61: Components branch on useIsMobile only when behavior must differ.
