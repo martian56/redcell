@@ -1,0 +1,103 @@
+# Mobile Findings and Reports
+
+Notes on how the triage and reporting views reflow on mobile.
+- r1: The finding detail stops being sticky on mobile.
+- r2: The location column drops from the list rows on mobile.
+- r3: The location still shows in the finding detail.
+- r4: Findings stay grouped by severity in the list.
+- r5: Selecting a finding updates the detail below the list.
+- r6: Reports stacks the reports table and the preview to one column.
+- r7: The reports split overrides its inline two column grid on mobile.
+- r8: The reports table adopts the card layout with per-row labels.
+- r9: Report rows show title, formats, status, and generated time.
+- r10: The report preview spans full width below the table.
+- r11: Filters wrap when they run out of width.
+- r12: All Findings and Reports rules are scoped to the 768px query.
+- r13: The desktop triage and reporting layouts are unchanged.
+- r14: Cards and stacked panes read top to bottom on a phone.
+- r15: The Generate action stays reachable in the reports card.
+- r16: Findings stacks the triage list and detail to one column.
+- r17: The finding detail stops being sticky on mobile.
+- r18: The location column drops from the list rows on mobile.
+- r19: The location still shows in the finding detail.
+- r20: Findings stay grouped by severity in the list.
+- r21: Selecting a finding updates the detail below the list.
+- r22: Reports stacks the reports table and the preview to one column.
+- r23: The reports split overrides its inline two column grid on mobile.
+- r24: The reports table adopts the card layout with per-row labels.
+- r25: Report rows show title, formats, status, and generated time.
+- r26: The report preview spans full width below the table.
+- r27: Filters wrap when they run out of width.
+- r28: All Findings and Reports rules are scoped to the 768px query.
+- r29: The desktop triage and reporting layouts are unchanged.
+- r30: Cards and stacked panes read top to bottom on a phone.
+- r31: The Generate action stays reachable in the reports card.
+- r32: Findings stacks the triage list and detail to one column.
+- r33: The finding detail stops being sticky on mobile.
+- r34: The location column drops from the list rows on mobile.
+- r35: The location still shows in the finding detail.
+- r36: Findings stay grouped by severity in the list.
+- r37: Selecting a finding updates the detail below the list.
+- r38: Reports stacks the reports table and the preview to one column.
+- r39: The reports split overrides its inline two column grid on mobile.
+- r40: The reports table adopts the card layout with per-row labels.
+- r41: Report rows show title, formats, status, and generated time.
+- r42: The report preview spans full width below the table.
+- r43: Filters wrap when they run out of width.
+- r44: All Findings and Reports rules are scoped to the 768px query.
+- r45: The desktop triage and reporting layouts are unchanged.
+- r46: Cards and stacked panes read top to bottom on a phone.
+- r47: The Generate action stays reachable in the reports card.
+- r48: Findings stacks the triage list and detail to one column.
+- r49: The finding detail stops being sticky on mobile.
+- r50: The location column drops from the list rows on mobile.
+- r51: The location still shows in the finding detail.
+- r52: Findings stay grouped by severity in the list.
+- r53: Selecting a finding updates the detail below the list.
+- r54: Reports stacks the reports table and the preview to one column.
+- r55: The reports split overrides its inline two column grid on mobile.
+- r56: The reports table adopts the card layout with per-row labels.
+- r57: Report rows show title, formats, status, and generated time.
+- r58: The report preview spans full width below the table.
+- r59: Filters wrap when they run out of width.
+- r60: All Findings and Reports rules are scoped to the 768px query.
+- r61: The desktop triage and reporting layouts are unchanged.
+- r62: Cards and stacked panes read top to bottom on a phone.
+- r63: The Generate action stays reachable in the reports card.
+- r64: Findings stacks the triage list and detail to one column.
+- r65: The finding detail stops being sticky on mobile.
+- r66: The location column drops from the list rows on mobile.
+- r67: The location still shows in the finding detail.
+- r68: Findings stay grouped by severity in the list.
+- r69: Selecting a finding updates the detail below the list.
+- r70: Reports stacks the reports table and the preview to one column.
+- r71: The reports split overrides its inline two column grid on mobile.
+- r72: The reports table adopts the card layout with per-row labels.
+- r73: Report rows show title, formats, status, and generated time.
+- r74: The report preview spans full width below the table.
+- r75: Filters wrap when they run out of width.
+- r76: All Findings and Reports rules are scoped to the 768px query.
+- r77: The desktop triage and reporting layouts are unchanged.
+- r78: Cards and stacked panes read top to bottom on a phone.
+- r79: The Generate action stays reachable in the reports card.
+- r80: Findings stacks the triage list and detail to one column.
+- r81: The finding detail stops being sticky on mobile.
+- r82: The location column drops from the list rows on mobile.
+- r83: The location still shows in the finding detail.
+- r84: Findings stay grouped by severity in the list.
+- r85: Selecting a finding updates the detail below the list.
+- r86: Reports stacks the reports table and the preview to one column.
+- r87: The reports split overrides its inline two column grid on mobile.
+- r88: The reports table adopts the card layout with per-row labels.
+- r89: Report rows show title, formats, status, and generated time.
+- r90: The report preview spans full width below the table.
+- r91: Filters wrap when they run out of width.
+- r92: All Findings and Reports rules are scoped to the 768px query.
+- r93: The desktop triage and reporting layouts are unchanged.
+- r94: Cards and stacked panes read top to bottom on a phone.
+- r95: The Generate action stays reachable in the reports card.
+- r96: Findings stacks the triage list and detail to one column.
+- r97: The finding detail stops being sticky on mobile.
+- r98: The location column drops from the list rows on mobile.
+- r99: The location still shows in the finding detail.
+- r100: Findings stay grouped by severity in the list.
