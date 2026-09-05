@@ -77,3 +77,4 @@ actions on mobile.
 - r73: Selecting a destination closes the drawer and navigates.
 - r74: The drawer slides in from the left edge.
 - r75: The slide animation is disabled under prefers-reduced-motion.
+- r76: The panel pads around the safe-area insets.
