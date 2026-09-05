@@ -46,3 +46,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r43: All list rules are scoped to the 768px media query.
 - r44: The desktop server and proxy tables are unchanged.
 - r45: Cards read top to bottom like a mobile list.
+- r46: The card layout replaces the horizontal scroll fallback.
