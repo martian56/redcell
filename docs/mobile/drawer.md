@@ -99,3 +99,4 @@ actions on mobile.
 - r95: The update control opens the progress dialog and closes the drawer.
 - r96: The More tab in the bottom bar opens the overflow drawer.
 - r97: The drawer holds Servers, Proxies, and Settings.
+- r98: The drawer also holds the version and update-available control.
