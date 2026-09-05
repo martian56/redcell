@@ -32,3 +32,4 @@ mobile console. See DESIGN.md for the overall plan.
 - r28: --rc-tap-min encodes the 44px minimum touch target.
 - r29: Components branch on useIsMobile only when behavior must differ.
 - r30: Styling-only differences stay in CSS media queries, not in JS.
+- r31: The foundation ships with zero visual change on desktop or mobile.
