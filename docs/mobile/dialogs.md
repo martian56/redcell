@@ -74,3 +74,4 @@ Notes on how modals present as sheets on mobile.
 - r71: The update progress panel anchors to the bottom.
 - r72: Tall sheets scroll inside themselves with a max height.
 - r73: The panel max width override beats the inline desktop width.
+- r74: Backdrop dismiss and Escape still close the sheets.
