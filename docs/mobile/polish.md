@@ -52,3 +52,4 @@ Notes on the final mobile polish pass.
 - r49: Content clears the notch on phones with a cutout.
 - r50: Icon buttons grow to a friendlier touch target on mobile.
 - r51: Buttons get a minimum height for easier tapping.
+- r52: Filter chips get a minimum height on mobile.
