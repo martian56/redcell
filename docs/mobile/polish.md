@@ -15,3 +15,4 @@ Notes on the final mobile polish pass.
 - r12: Touch targets follow the mobile minimum where it matters.
 - r13: The bottom bar and top bar respect the safe areas.
 - r14: Typography stays legible at mobile widths.
+- r15: The console reads as a coherent mobile app.
