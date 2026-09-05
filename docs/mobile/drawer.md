@@ -75,3 +75,4 @@ actions on mobile.
 - r71: Tapping the backdrop closes the drawer.
 - r72: Body scroll is locked while the drawer is open.
 - r73: Selecting a destination closes the drawer and navigates.
+- r74: The drawer slides in from the left edge.
