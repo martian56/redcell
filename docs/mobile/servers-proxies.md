@@ -21,3 +21,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r18: Each server card shows host, status, sessions, and latency.
 - r19: Each proxy card shows endpoint, kind, status, and latency.
 - r20: The row name forms the card title.
+- r21: The Test action sits at the bottom of each card.
