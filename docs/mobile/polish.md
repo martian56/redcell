@@ -74,3 +74,4 @@ Notes on the final mobile polish pass.
 - r71: Wide tables that are not cards scroll horizontally.
 - r72: The page never scrolls sideways on mobile.
 - r73: Every page was reviewed at a phone width.
+- r74: The desktop layout is verified unchanged.
