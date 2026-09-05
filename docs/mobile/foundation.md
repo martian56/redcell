@@ -7,3 +7,4 @@ mobile console. See DESIGN.md for the overall plan.
 - r3: useIsMobile reads the same 768px threshold via matchMedia.
 - r4: MOBILE_MAX_WIDTH is the single source of truth for the breakpoint.
 - r5: The hook is SSR safe and no-ops when matchMedia is unavailable.
+- r6: The hook attaches one change listener and detaches it on unmount.
