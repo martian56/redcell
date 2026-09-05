@@ -53,3 +53,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r50: Each server card shows host, status, sessions, and latency.
 - r51: Each proxy card shows endpoint, kind, status, and latency.
 - r52: The row name forms the card title.
+- r53: The Test action sits at the bottom of each card.
