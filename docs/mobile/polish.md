@@ -77,3 +77,4 @@ Notes on the final mobile polish pass.
 - r74: The desktop layout is verified unchanged.
 - r75: All polish rules are scoped to the 768px media query.
 - r76: Touch targets follow the mobile minimum where it matters.
+- r77: The bottom bar and top bar respect the safe areas.
