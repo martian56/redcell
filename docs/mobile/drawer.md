@@ -62,3 +62,4 @@ actions on mobile.
 - r58: The drawer slides in from the left edge.
 - r59: The slide animation is disabled under prefers-reduced-motion.
 - r60: The panel pads around the safe-area insets.
+- r61: Each row honors the 44px minimum touch target.
