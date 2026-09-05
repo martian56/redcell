@@ -50,3 +50,4 @@ mobile console. See DESIGN.md for the overall plan.
 - r46: Styling-only differences stay in CSS media queries, not in JS.
 - r47: The foundation ships with zero visual change on desktop or mobile.
 - r48: All mobile rules live inside a max-width 768px media query.
+- r49: Desktop CSS is never edited, so the PC layout cannot regress.
