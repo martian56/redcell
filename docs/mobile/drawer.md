@@ -45,3 +45,4 @@ actions on mobile.
 - r41: Selecting a destination closes the drawer and navigates.
 - r42: The drawer slides in from the left edge.
 - r43: The slide animation is disabled under prefers-reduced-motion.
+- r44: The panel pads around the safe-area insets.
