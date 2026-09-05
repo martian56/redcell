@@ -65,3 +65,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r62: The card layout replaces the horizontal scroll fallback.
 - r63: Empty states center their message inside a card.
 - r64: The Servers list becomes a card list on mobile.
+- r65: The Proxies list becomes a card list on mobile.
