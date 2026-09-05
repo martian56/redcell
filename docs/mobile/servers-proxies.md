@@ -84,3 +84,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r81: The Proxies list becomes a card list on mobile.
 - r82: Each server card shows host, status, sessions, and latency.
 - r83: Each proxy card shows endpoint, kind, status, and latency.
+- r84: The row name forms the card title.
