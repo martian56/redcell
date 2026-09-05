@@ -1,0 +1,9 @@
+:root {
+  --rc-safe-top: env(safe-area-inset-top, 0px);
+  --rc-safe-right: env(safe-area-inset-right, 0px);
+  --rc-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --rc-safe-left: env(safe-area-inset-left, 0px);
+  --rc-bottom-nav-h: 56px;
+  --rc-mobile-top-h: 52px;
+  --rc-tap-min: 44px;
+}
