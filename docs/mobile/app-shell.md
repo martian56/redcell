@@ -23,3 +23,4 @@ bar, and edge-to-edge content.
 - r19: The header becomes a compact mobile top bar.
 - r20: The sidebar toggle is hidden on mobile since there is no sidebar.
 - r21: The header subtitle is hidden on mobile to save width.
+- r22: A search button in the top bar opens the command palette.
