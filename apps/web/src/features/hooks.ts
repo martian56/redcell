@@ -8,6 +8,11 @@ export function useSessions() {
   return useQuery({ queryKey: ['sessions'], queryFn: () => api.sessions.list() });
 }
 
+export function useMe() {
+  const api = useApi();
+  return useQuery({ queryKey: ['auth', 'me'], queryFn: () => api.auth.me(), staleTime: 60_000 });
+}
+
 export function useSession(id: string | null) {
   const api = useApi();
   return useQuery({

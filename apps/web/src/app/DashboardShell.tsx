@@ -3,7 +3,7 @@ import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useQueries } from '@tanstack/react-query';
 import type { Session } from '@redcell/api-client';
 import { useApi } from '@/lib/api';
-import { useSessions, useVersion } from '@/features/hooks';
+import { useMe, useSessions, useVersion } from '@/features/hooks';
 import { useSession } from '@/store/session';
 import { toggleTheme } from '@/lib/theme';
 import { CommandPalette } from './CommandPalette';
@@ -54,6 +54,7 @@ export function DashboardShell() {
   const { pathname } = useLocation();
   const { data: sessions } = useSessions();
   const { data: version } = useVersion();
+  const { data: me } = useMe();
   const candidates = (sessions ?? []).filter((s) => s.status === 'active' && s.activeRunId);
   const runQueries = useQueries({
     queries: candidates.map((s) => ({
@@ -188,21 +189,39 @@ export function DashboardShell() {
               aria-expanded={menu === 'user'}
             >
               <span className="avatar" />
-              <div style={{ flex: 1 }}>
-                <div className="u">admin</div>
-                <div className="e">operator</div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div className="u">{me?.username ?? 'admin'}</div>
+                <div className="e">{me?.role ?? 'operator'}</div>
               </div>
               <svg className="caret" viewBox="0 0 24 24">
                 <path d="M8 15l4-4 4 4" />
               </svg>
             </button>
             <div className="menu up" role="menu" style={{ display: menu === 'user' ? 'block' : 'none', width: '100%' }}>
+              <button
+                type="button"
+                className="menu-item"
+                onClick={() => {
+                  setMenu(null);
+                  navigate('/settings');
+                }}
+              >
+                Settings
+                <svg className="mi-ic" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2" />
+                </svg>
+              </button>
+              <div className="menu-sep" />
               <button type="button" className="menu-item" onClick={flipTheme}>
                 Toggle theme
               </button>
               <div className="menu-sep" />
               <button type="button" className="menu-item" onClick={onSignOut}>
                 Sign out
+                <svg className="mi-ic" viewBox="0 0 24 24">
+                  <path d="M15 4h3a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3M10 17l5-5-5-5M15 12H3" />
+                </svg>
               </button>
             </div>
           </span>

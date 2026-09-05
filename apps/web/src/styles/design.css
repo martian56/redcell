@@ -469,6 +469,10 @@
   fill: none;
   stroke-width: 1.6;
 }
+.menu-item .mi-ic {
+  margin-left: auto;
+  color: var(--tx-4);
+}
 .menu-sep {
   height: 1px;
   background: var(--line-soft);
