@@ -63,3 +63,4 @@ bar, and edge-to-edge content.
 - r59: The top bar pads around the left safe-area inset.
 - r60: Every shell rule is scoped to the 768px media query.
 - r61: The desktop shell grid and header are unchanged.
+- r62: Content scrolls full width beneath the top bar.
