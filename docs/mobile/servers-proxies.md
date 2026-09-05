@@ -28,3 +28,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r25: The Add server and Add proxy actions stay in the filter row.
 - r26: Status badges keep their color coding in the cards.
 - r27: All list rules are scoped to the 768px media query.
+- r28: The desktop server and proxy tables are unchanged.
