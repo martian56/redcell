@@ -82,3 +82,4 @@ Notes on how the Settings page reflows on mobile.
 - r79: Form fields span the full width of the card.
 - r80: The Settings section subnav becomes a horizontal tab bar on mobile.
 - r81: The subnav stops being a sticky side rail and scrolls horizontally.
+- r82: The content column takes the full width below the tabs.
