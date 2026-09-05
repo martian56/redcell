@@ -56,3 +56,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r53: The Test action sits at the bottom of each card.
 - r54: Server and proxy tables opt in with the tbl-cards class.
 - r55: Table cells carry data-label attributes for the card labels.
+- r56: The detail pages reflow through their responsive utility grids.
