@@ -23,3 +23,4 @@ Notes on the mobile card list and the stacked New Session layout.
 - r20: Overview reuses SessionRow so its recent sessions also become cards.
 - r21: The session name and client form the card title.
 - r22: Each remaining cell shows its label on the left and value on the right.
+- r23: The card layout overrides the horizontal scroll fallback.
