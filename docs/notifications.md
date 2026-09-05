@@ -7,3 +7,4 @@ the per-category preferences.
 - r3: Each item shows a title, body, and relative time.
 - r4: Mark all read clears every unread item.
 - r5: See all notifications opens the full page.
+- r6: The account dropdown has a Notifications row with a count.
