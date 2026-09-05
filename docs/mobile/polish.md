@@ -11,3 +11,4 @@ Notes on the final mobile polish pass.
 - r8: The page never scrolls sideways on mobile.
 - r9: Every page was reviewed at a phone width.
 - r10: The desktop layout is verified unchanged.
+- r11: All polish rules are scoped to the 768px media query.
