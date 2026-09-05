@@ -18,3 +18,4 @@ Notes on the final mobile polish pass.
 - r15: The console reads as a coherent mobile app.
 - r16: The top bar pads around the top safe-area inset.
 - r17: Content clears the notch on phones with a cutout.
+- r18: Icon buttons grow to a friendlier touch target on mobile.
