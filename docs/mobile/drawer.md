@@ -96,3 +96,4 @@ actions on mobile.
 - r92: The panel pads around the safe-area insets.
 - r93: Each row honors the 44px minimum touch target.
 - r94: The drawer sits above the bottom bar and below modal dialogs.
+- r95: The update control opens the progress dialog and closes the drawer.
