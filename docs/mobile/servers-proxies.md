@@ -100,3 +100,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r97: The Proxies list becomes a card list on mobile.
 - r98: Each server card shows host, status, sessions, and latency.
 - r99: Each proxy card shows endpoint, kind, status, and latency.
+- r100: The row name forms the card title.
