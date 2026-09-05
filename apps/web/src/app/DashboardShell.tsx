@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { useQueries } from '@tanstack/react-query';
+import { useQueries, useQueryClient } from '@tanstack/react-query';
 import type { Session } from '@redcell/api-client';
 import { useApi } from '@/lib/api';
 import { useMe, useNotifications, useSessions, useVersion } from '@/features/hooks';
@@ -51,6 +51,7 @@ function useOutside<T extends HTMLElement = HTMLElement>(onClose: () => void) {
 
 export function DashboardShell() {
   const api = useApi();
+  const qc = useQueryClient();
   const signOut = useSession((s) => s.signOut);
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -115,6 +116,7 @@ export function DashboardShell() {
   const onSignOut = async () => {
     await api.auth.logout().catch(() => undefined);
     signOut();
+    qc.clear();
     navigate('/overview');
   };
   const flipTheme = () => {
@@ -194,8 +196,8 @@ export function DashboardShell() {
             >
               <span className="avatar" />
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div className="u">{me?.username ?? 'admin'}</div>
-                <div className="e">{me?.role ?? 'operator'}</div>
+                <div className="u">{me?.username ?? 'Account'}</div>
+                <div className="e">{me?.role ?? ''}</div>
               </div>
               <svg className="caret" viewBox="0 0 24 24">
                 <path d="M8 15l4-4 4 4" />
