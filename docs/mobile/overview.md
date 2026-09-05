@@ -82,3 +82,4 @@ Notes on how the Overview reflows on mobile.
 - r79: The layout reads top to bottom like a mobile dashboard.
 - r80: KPI tiles collapse from four across to a 2x2 grid on mobile.
 - r81: The chart and severity cards stack to a single column.
+- r82: The page padding tightens on small screens.
