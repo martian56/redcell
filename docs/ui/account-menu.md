@@ -16,3 +16,4 @@ Notes on the bottom-of-sidebar account line and its dropdown.
 - r13: The role falls back to operator when me is loading.
 - r14: The account line stays a single row with the caret.
 - r15: Styles and colors are unchanged from the console theme.
+- r16: The account line sits at the bottom of the sidebar.
