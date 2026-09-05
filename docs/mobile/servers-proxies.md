@@ -33,3 +33,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r30: The card layout replaces the horizontal scroll fallback.
 - r31: Empty states center their message inside a card.
 - r32: The Servers list becomes a card list on mobile.
+- r33: The Proxies list becomes a card list on mobile.
