@@ -94,3 +94,4 @@ Notes on the bottom-of-sidebar account line and its dropdown.
 - r91: The menu keeps its existing pop animation and our colors.
 - r92: The username falls back to admin when me is loading.
 - r93: The role falls back to operator when me is loading.
+- r94: The account line stays a single row with the caret.
