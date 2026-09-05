@@ -70,3 +70,4 @@ Notes on how the triage and reporting views reflow on mobile.
 - r67: The location still shows in the finding detail.
 - r68: Findings stay grouped by severity in the list.
 - r69: Selecting a finding updates the detail below the list.
+- r70: Reports stacks the reports table and the preview to one column.
