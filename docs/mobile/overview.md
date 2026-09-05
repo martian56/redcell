@@ -17,3 +17,4 @@ Notes on how the Overview reflows on mobile.
 - r14: Cards remain full width with comfortable inner spacing.
 - r15: The layout reads top to bottom like a mobile dashboard.
 - r16: KPI tiles collapse from four across to a 2x2 grid on mobile.
+- r17: The chart and severity cards stack to a single column.
