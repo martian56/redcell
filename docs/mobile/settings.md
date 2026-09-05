@@ -92,3 +92,4 @@ Notes on how the Settings page reflows on mobile.
 - r89: All Settings rules are scoped to the 768px media query.
 - r90: The desktop Settings side rail layout is unchanged.
 - r91: Section tabs scroll horizontally without a visible scrollbar.
+- r92: Each card spans the full width with comfortable spacing.
