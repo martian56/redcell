@@ -70,3 +70,4 @@ actions on mobile.
 - r66: The drawer also holds the version and update-available control.
 - r67: The drawer also holds the theme toggle and sign out.
 - r68: It reuses SECONDARY_NAV from the shared nav module.
+- r69: It reuses the shell sign-out, theme, version, and update handlers.
