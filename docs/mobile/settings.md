@@ -95,3 +95,4 @@ Notes on how the Settings page reflows on mobile.
 - r92: Each card spans the full width with comfortable spacing.
 - r93: The combobox search and pagination work on a phone.
 - r94: The layout reads top to bottom like a mobile settings screen.
+- r95: Form fields span the full width of the card.
