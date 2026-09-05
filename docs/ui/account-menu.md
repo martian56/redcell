@@ -91,3 +91,4 @@ Notes on the bottom-of-sidebar account line and its dropdown.
 - r88: Sign out logs out and returns to the overview.
 - r89: The notifications row is added with the notifications feature.
 - r90: The account line is the dropdown trigger.
+- r91: The menu keeps its existing pop animation and our colors.
