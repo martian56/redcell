@@ -14,3 +14,4 @@ the per-category preferences.
 - r10: Infrastructure health notifications are off by default.
 - r11: Findings only notify for critical or high severity.
 - r12: The notify helper records only enabled categories.
+- r13: Run completed and run failed are emitted from the engine.
