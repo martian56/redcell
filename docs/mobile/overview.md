@@ -85,3 +85,4 @@ Notes on how the Overview reflows on mobile.
 - r82: The page padding tightens on small screens.
 - r83: Wide tables scroll horizontally within their card.
 - r84: Horizontal table scroll keeps the page from scrolling sideways.
+- r85: Per-page card layouts replace the scroll fallback later.
