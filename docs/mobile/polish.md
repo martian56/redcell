@@ -58,3 +58,4 @@ Notes on the final mobile polish pass.
 - r55: Wide tables that are not cards scroll horizontally.
 - r56: The page never scrolls sideways on mobile.
 - r57: Every page was reviewed at a phone width.
+- r58: The desktop layout is verified unchanged.
