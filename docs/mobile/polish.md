@@ -96,3 +96,4 @@ Notes on the final mobile polish pass.
 - r93: The bottom bar and top bar respect the safe areas.
 - r94: Typography stays legible at mobile widths.
 - r95: The console reads as a coherent mobile app.
+- r96: The top bar pads around the top safe-area inset.
