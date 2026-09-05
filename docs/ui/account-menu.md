@@ -24,3 +24,4 @@ Notes on the bottom-of-sidebar account line and its dropdown.
 - r21: The useMe hook reads the current user with react-query.
 - r22: The dropdown closes on outside click and Escape.
 - r23: Settings navigates to the settings page.
+- r24: Sign out logs out and returns to the overview.
