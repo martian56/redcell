@@ -38,3 +38,4 @@ bar, and edge-to-edge content.
 - r34: The main card goes edge to edge with no border or radius.
 - r35: The header becomes a compact mobile top bar.
 - r36: The sidebar toggle is hidden on mobile since there is no sidebar.
+- r37: The header subtitle is hidden on mobile to save width.
