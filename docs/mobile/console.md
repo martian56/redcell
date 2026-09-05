@@ -15,3 +15,4 @@ Notes on the mobile layout of the live session console.
 - r12: The session client is hidden on mobile to save width.
 - r13: Panel tabs cover every swappable panel.
 - r14: The desktop mosaic layout is untouched.
+- r15: The mobile console reads as one focused panel with a switcher.
