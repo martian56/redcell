@@ -34,3 +34,4 @@ Notes on how the triage and reporting views reflow on mobile.
 - r31: The Generate action stays reachable in the reports card.
 - r32: Findings stacks the triage list and detail to one column.
 - r33: The finding detail stops being sticky on mobile.
+- r34: The location column drops from the list rows on mobile.
