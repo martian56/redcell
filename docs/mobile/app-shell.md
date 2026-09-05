@@ -94,3 +94,4 @@ bar, and edge-to-edge content.
 - r90: The secondary destinations live in the overflow drawer.
 - r91: The top bar pads around the left safe-area inset.
 - r92: Every shell rule is scoped to the 768px media query.
+- r93: The desktop shell grid and header are unchanged.
