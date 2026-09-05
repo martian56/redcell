@@ -45,3 +45,4 @@ Notes on how modals present as sheets on mobile.
 - r42: Backdrop dismiss and Escape still close the sheets.
 - r43: All dialog rules are scoped to the 768px media query.
 - r44: Desktop modals keep their centered presentation.
+- r45: The palette keeps its search first layout at the top.
