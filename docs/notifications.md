@@ -79,3 +79,4 @@ the per-category preferences.
 - r75: Defaults are conservative so the bell never floods.
 - r76: Infrastructure health notifications are off by default.
 - r77: Findings only notify for critical or high severity.
+- r78: The notify helper records only enabled categories.
