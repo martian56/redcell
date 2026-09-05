@@ -10,3 +10,4 @@ actions on mobile.
 - r6: Escape closes the drawer.
 - r7: Tapping the backdrop closes the drawer.
 - r8: Body scroll is locked while the drawer is open.
+- r9: Selecting a destination closes the drawer and navigates.
