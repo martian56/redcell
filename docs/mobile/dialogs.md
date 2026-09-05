@@ -71,3 +71,4 @@ Notes on how modals present as sheets on mobile.
 - r68: The Settings dialogs also use the Dialog primitive.
 - r69: The overlay and modal family goes full width on mobile.
 - r70: The command palette anchors to the top of the screen.
+- r71: The update progress panel anchors to the bottom.
