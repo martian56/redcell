@@ -41,3 +41,4 @@ Notes on the final mobile polish pass.
 - r38: Fixed layers pad around the safe-area insets.
 - r39: Wide tables that are not cards scroll horizontally.
 - r40: The page never scrolls sideways on mobile.
+- r41: Every page was reviewed at a phone width.
