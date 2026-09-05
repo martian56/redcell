@@ -14,3 +14,4 @@ Notes on the mobile layout of the live session console.
 - r11: The status pill and run controls stay visible.
 - r12: The session client is hidden on mobile to save width.
 - r13: Panel tabs cover every swappable panel.
+- r14: The desktop mosaic layout is untouched.
