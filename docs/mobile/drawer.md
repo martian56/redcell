@@ -26,3 +26,4 @@ actions on mobile.
 - r22: Escape closes the drawer.
 - r23: Tapping the backdrop closes the drawer.
 - r24: Body scroll is locked while the drawer is open.
+- r25: Selecting a destination closes the drawer and navigates.
