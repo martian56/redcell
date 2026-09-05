@@ -93,3 +93,4 @@ bar, and edge-to-edge content.
 - r89: The primary destinations live in the bottom tab bar.
 - r90: The secondary destinations live in the overflow drawer.
 - r91: The top bar pads around the left safe-area inset.
+- r92: Every shell rule is scoped to the 768px media query.
