@@ -92,3 +92,4 @@ Notes on the mobile layout of the live session console.
 - r89: The session name truncates to a single line.
 - r90: The New run button collapses to an icon on mobile.
 - r91: The status pill and run controls stay visible.
+- r92: The session client is hidden on mobile to save width.
