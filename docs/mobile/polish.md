@@ -66,3 +66,4 @@ Notes on the final mobile polish pass.
 - r63: The console reads as a coherent mobile app.
 - r64: The top bar pads around the top safe-area inset.
 - r65: Content clears the notch on phones with a cutout.
+- r66: Icon buttons grow to a friendlier touch target on mobile.
