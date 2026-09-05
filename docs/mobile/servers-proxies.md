@@ -67,3 +67,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r64: The Servers list becomes a card list on mobile.
 - r65: The Proxies list becomes a card list on mobile.
 - r66: Each server card shows host, status, sessions, and latency.
+- r67: Each proxy card shows endpoint, kind, status, and latency.
