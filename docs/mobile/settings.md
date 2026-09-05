@@ -17,3 +17,4 @@ Notes on how the Settings page reflows on mobile.
 - r14: The layout reads top to bottom like a mobile settings screen.
 - r15: Form fields span the full width of the card.
 - r16: The Settings section subnav becomes a horizontal tab bar on mobile.
+- r17: The subnav stops being a sticky side rail and scrolls horizontally.
