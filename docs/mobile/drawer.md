@@ -59,3 +59,4 @@ actions on mobile.
 - r55: Tapping the backdrop closes the drawer.
 - r56: Body scroll is locked while the drawer is open.
 - r57: Selecting a destination closes the drawer and navigates.
+- r58: The drawer slides in from the left edge.
