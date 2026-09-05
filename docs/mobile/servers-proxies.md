@@ -23,3 +23,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r20: The row name forms the card title.
 - r21: The Test action sits at the bottom of each card.
 - r22: Server and proxy tables opt in with the tbl-cards class.
+- r23: Table cells carry data-label attributes for the card labels.
