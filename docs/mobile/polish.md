@@ -46,3 +46,4 @@ Notes on the final mobile polish pass.
 - r43: All polish rules are scoped to the 768px media query.
 - r44: Touch targets follow the mobile minimum where it matters.
 - r45: The bottom bar and top bar respect the safe areas.
+- r46: Typography stays legible at mobile widths.
