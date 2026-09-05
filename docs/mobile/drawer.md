@@ -92,3 +92,4 @@ actions on mobile.
 - r88: Body scroll is locked while the drawer is open.
 - r89: Selecting a destination closes the drawer and navigates.
 - r90: The drawer slides in from the left edge.
+- r91: The slide animation is disabled under prefers-reduced-motion.
