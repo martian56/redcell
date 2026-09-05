@@ -27,3 +27,4 @@ bar, and edge-to-edge content.
 - r23: Search stays reachable on mobile after the sidebar is hidden.
 - r24: The New session button collapses to an icon only on mobile.
 - r25: The primary destinations live in the bottom tab bar.
+- r26: The secondary destinations live in the overflow drawer.
