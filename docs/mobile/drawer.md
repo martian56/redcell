@@ -67,3 +67,4 @@ actions on mobile.
 - r63: The update control opens the progress dialog and closes the drawer.
 - r64: The More tab in the bottom bar opens the overflow drawer.
 - r65: The drawer holds Servers, Proxies, and Settings.
+- r66: The drawer also holds the version and update-available control.
