@@ -44,3 +44,4 @@ the per-category preferences.
 - r40: Marking read updates the cached feed immediately.
 - r41: The panel closes on outside click and Escape.
 - r42: Notifications are global, matching runs and findings.
+- r43: The bell and panel use our existing tokens and colors.
