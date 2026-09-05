@@ -80,3 +80,4 @@ bar, and edge-to-edge content.
 - r76: Every shell rule is scoped to the 768px media query.
 - r77: The desktop shell grid and header are unchanged.
 - r78: Content scrolls full width beneath the top bar.
+- r79: The bottom bar and top bar frame the scrollable content.
