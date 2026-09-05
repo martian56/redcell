@@ -50,3 +50,4 @@ Notes on the final mobile polish pass.
 - r47: The console reads as a coherent mobile app.
 - r48: The top bar pads around the top safe-area inset.
 - r49: Content clears the notch on phones with a cutout.
+- r50: Icon buttons grow to a friendlier touch target on mobile.
