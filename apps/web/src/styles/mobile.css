@@ -55,6 +55,24 @@
 }
 
 @media (max-width: 768px) {
+  .wrap {
+    padding: 14px;
+    gap: 14px;
+  }
+  .kpis {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .two {
+    grid-template-columns: 1fr;
+  }
+  .tbl {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 768px) {
   .mnav {
     display: flex;
     position: fixed;
