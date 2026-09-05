@@ -45,3 +45,4 @@ the per-category preferences.
 - r41: The panel closes on outside click and Escape.
 - r42: Notifications are global, matching runs and findings.
 - r43: The bell and panel use our existing tokens and colors.
+- r44: A bell in the sidebar footer shows an unread dot.
