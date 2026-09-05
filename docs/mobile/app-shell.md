@@ -81,3 +81,4 @@ bar, and edge-to-edge content.
 - r77: The desktop shell grid and header are unchanged.
 - r78: Content scrolls full width beneath the top bar.
 - r79: The bottom bar and top bar frame the scrollable content.
+- r80: On mobile the desktop sidebar is hidden with display none.
