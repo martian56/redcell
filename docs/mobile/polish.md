@@ -43,3 +43,4 @@ Notes on the final mobile polish pass.
 - r40: The page never scrolls sideways on mobile.
 - r41: Every page was reviewed at a phone width.
 - r42: The desktop layout is verified unchanged.
+- r43: All polish rules are scoped to the 768px media query.
