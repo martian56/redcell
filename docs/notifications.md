@@ -99,3 +99,4 @@ the per-category preferences.
 - r95: The Notifications page lists the full feed.
 - r96: Settings has a Notifications section with a toggle per category.
 - r97: Defaults are conservative so the bell never floods.
+- r98: Infrastructure health notifications are off by default.
