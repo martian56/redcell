@@ -17,3 +17,4 @@ the per-category preferences.
 - r13: Run completed and run failed are emitted from the engine.
 - r14: Report ready is emitted when a report finishes generating.
 - r15: Server offline and proxy dead are emitted from health checks.
+- r16: Preferences live in Settings as a per-category boolean set.
