@@ -61,3 +61,4 @@ Notes on the final mobile polish pass.
 - r58: The desktop layout is verified unchanged.
 - r59: All polish rules are scoped to the 768px media query.
 - r60: Touch targets follow the mobile minimum where it matters.
+- r61: The bottom bar and top bar respect the safe areas.
