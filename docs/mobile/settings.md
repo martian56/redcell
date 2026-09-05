@@ -27,3 +27,4 @@ Notes on how the Settings page reflows on mobile.
 - r24: Provider key badges and actions stay in each provider row.
 - r25: All Settings rules are scoped to the 768px media query.
 - r26: The desktop Settings side rail layout is unchanged.
+- r27: Section tabs scroll horizontally without a visible scrollbar.
