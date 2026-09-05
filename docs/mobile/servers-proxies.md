@@ -58,3 +58,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r55: Table cells carry data-label attributes for the card labels.
 - r56: The detail pages reflow through their responsive utility grids.
 - r57: The Add server and Add proxy actions stay in the filter row.
+- r58: Status badges keep their color coding in the cards.
