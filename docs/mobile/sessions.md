@@ -38,3 +38,4 @@ Notes on the mobile card list and the stacked New Session layout.
 - r35: The tbl-cards class opts a session table into the card layout.
 - r36: Overview reuses SessionRow so its recent sessions also become cards.
 - r37: The session name and client form the card title.
+- r38: Each remaining cell shows its label on the left and value on the right.
