@@ -94,3 +94,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r91: All list rules are scoped to the 768px media query.
 - r92: The desktop server and proxy tables are unchanged.
 - r93: Cards read top to bottom like a mobile list.
+- r94: The card layout replaces the horizontal scroll fallback.
