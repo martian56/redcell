@@ -51,3 +51,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r48: The Servers list becomes a card list on mobile.
 - r49: The Proxies list becomes a card list on mobile.
 - r50: Each server card shows host, status, sessions, and latency.
+- r51: Each proxy card shows endpoint, kind, status, and latency.
