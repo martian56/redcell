@@ -98,3 +98,4 @@ Notes on the native-style bottom navigation for the mobile console.
 - r95: Secondary destinations remain reachable until the sidebar is hidden.
 - r96: The bottom tab bar shows the primary destinations on mobile.
 - r97: Overview, Sessions, Findings, and Reports are the primary tabs.
+- r98: The bar is display:none on desktop, so the PC layout is unaffected.
