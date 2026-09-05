@@ -42,3 +42,4 @@ Notes on the final mobile polish pass.
 - r39: Wide tables that are not cards scroll horizontally.
 - r40: The page never scrolls sideways on mobile.
 - r41: Every page was reviewed at a phone width.
+- r42: The desktop layout is verified unchanged.
