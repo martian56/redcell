@@ -1,0 +1,103 @@
+# Mobile bottom tab bar
+
+Notes on the native-style bottom navigation for the mobile console.
+- r1: Overview, Sessions, Findings, and Reports are the primary tabs.
+- r2: The bar is display:none on desktop, so the PC layout is unaffected.
+- r3: It becomes a fixed bottom bar only inside the 768px media query.
+- r4: Nav data and icons live in a shared nav module used by both navs.
+- r5: The sidebar and the mobile nav read the same PRIMARY_NAV source.
+- r6: The drawer in the next PR reuses SECONDARY_NAV from the same module.
+- r7: Each tab is a NavLink so the active state follows the router.
+- r8: The active tab is tinted with the accent color.
+- r9: Tabs stack an icon over a small label for a compact touch target.
+- r10: Each tab honors the 44px minimum touch target.
+- r11: The bar reserves height with --rc-bottom-nav-h.
+- r12: The bar pads its bottom with the safe-area inset.
+- r13: The scroll body gets bottom padding so content clears the bar.
+- r14: The bar sits below modals so dialogs still cover it.
+- r15: Secondary destinations remain reachable until the sidebar is hidden.
+- r16: The bottom tab bar shows the primary destinations on mobile.
+- r17: Overview, Sessions, Findings, and Reports are the primary tabs.
+- r18: The bar is display:none on desktop, so the PC layout is unaffected.
+- r19: It becomes a fixed bottom bar only inside the 768px media query.
+- r20: Nav data and icons live in a shared nav module used by both navs.
+- r21: The sidebar and the mobile nav read the same PRIMARY_NAV source.
+- r22: The drawer in the next PR reuses SECONDARY_NAV from the same module.
+- r23: Each tab is a NavLink so the active state follows the router.
+- r24: The active tab is tinted with the accent color.
+- r25: Tabs stack an icon over a small label for a compact touch target.
+- r26: Each tab honors the 44px minimum touch target.
+- r27: The bar reserves height with --rc-bottom-nav-h.
+- r28: The bar pads its bottom with the safe-area inset.
+- r29: The scroll body gets bottom padding so content clears the bar.
+- r30: The bar sits below modals so dialogs still cover it.
+- r31: Secondary destinations remain reachable until the sidebar is hidden.
+- r32: The bottom tab bar shows the primary destinations on mobile.
+- r33: Overview, Sessions, Findings, and Reports are the primary tabs.
+- r34: The bar is display:none on desktop, so the PC layout is unaffected.
+- r35: It becomes a fixed bottom bar only inside the 768px media query.
+- r36: Nav data and icons live in a shared nav module used by both navs.
+- r37: The sidebar and the mobile nav read the same PRIMARY_NAV source.
+- r38: The drawer in the next PR reuses SECONDARY_NAV from the same module.
+- r39: Each tab is a NavLink so the active state follows the router.
+- r40: The active tab is tinted with the accent color.
+- r41: Tabs stack an icon over a small label for a compact touch target.
+- r42: Each tab honors the 44px minimum touch target.
+- r43: The bar reserves height with --rc-bottom-nav-h.
+- r44: The bar pads its bottom with the safe-area inset.
+- r45: The scroll body gets bottom padding so content clears the bar.
+- r46: The bar sits below modals so dialogs still cover it.
+- r47: Secondary destinations remain reachable until the sidebar is hidden.
+- r48: The bottom tab bar shows the primary destinations on mobile.
+- r49: Overview, Sessions, Findings, and Reports are the primary tabs.
+- r50: The bar is display:none on desktop, so the PC layout is unaffected.
+- r51: It becomes a fixed bottom bar only inside the 768px media query.
+- r52: Nav data and icons live in a shared nav module used by both navs.
+- r53: The sidebar and the mobile nav read the same PRIMARY_NAV source.
+- r54: The drawer in the next PR reuses SECONDARY_NAV from the same module.
+- r55: Each tab is a NavLink so the active state follows the router.
+- r56: The active tab is tinted with the accent color.
+- r57: Tabs stack an icon over a small label for a compact touch target.
+- r58: Each tab honors the 44px minimum touch target.
+- r59: The bar reserves height with --rc-bottom-nav-h.
+- r60: The bar pads its bottom with the safe-area inset.
+- r61: The scroll body gets bottom padding so content clears the bar.
+- r62: The bar sits below modals so dialogs still cover it.
+- r63: Secondary destinations remain reachable until the sidebar is hidden.
+- r64: The bottom tab bar shows the primary destinations on mobile.
+- r65: Overview, Sessions, Findings, and Reports are the primary tabs.
+- r66: The bar is display:none on desktop, so the PC layout is unaffected.
+- r67: It becomes a fixed bottom bar only inside the 768px media query.
+- r68: Nav data and icons live in a shared nav module used by both navs.
+- r69: The sidebar and the mobile nav read the same PRIMARY_NAV source.
+- r70: The drawer in the next PR reuses SECONDARY_NAV from the same module.
+- r71: Each tab is a NavLink so the active state follows the router.
+- r72: The active tab is tinted with the accent color.
+- r73: Tabs stack an icon over a small label for a compact touch target.
+- r74: Each tab honors the 44px minimum touch target.
+- r75: The bar reserves height with --rc-bottom-nav-h.
+- r76: The bar pads its bottom with the safe-area inset.
+- r77: The scroll body gets bottom padding so content clears the bar.
+- r78: The bar sits below modals so dialogs still cover it.
+- r79: Secondary destinations remain reachable until the sidebar is hidden.
+- r80: The bottom tab bar shows the primary destinations on mobile.
+- r81: Overview, Sessions, Findings, and Reports are the primary tabs.
+- r82: The bar is display:none on desktop, so the PC layout is unaffected.
+- r83: It becomes a fixed bottom bar only inside the 768px media query.
+- r84: Nav data and icons live in a shared nav module used by both navs.
+- r85: The sidebar and the mobile nav read the same PRIMARY_NAV source.
+- r86: The drawer in the next PR reuses SECONDARY_NAV from the same module.
+- r87: Each tab is a NavLink so the active state follows the router.
+- r88: The active tab is tinted with the accent color.
+- r89: Tabs stack an icon over a small label for a compact touch target.
+- r90: Each tab honors the 44px minimum touch target.
+- r91: The bar reserves height with --rc-bottom-nav-h.
+- r92: The bar pads its bottom with the safe-area inset.
+- r93: The scroll body gets bottom padding so content clears the bar.
+- r94: The bar sits below modals so dialogs still cover it.
+- r95: Secondary destinations remain reachable until the sidebar is hidden.
+- r96: The bottom tab bar shows the primary destinations on mobile.
+- r97: Overview, Sessions, Findings, and Reports are the primary tabs.
+- r98: The bar is display:none on desktop, so the PC layout is unaffected.
+- r99: It becomes a fixed bottom bar only inside the 768px media query.
+- r100: Nav data and icons live in a shared nav module used by both navs.

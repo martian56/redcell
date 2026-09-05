@@ -7,3 +7,48 @@
   --rc-mobile-top-h: 52px;
   --rc-tap-min: 44px;
 }
+
+.mnav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mnav {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 60;
+    height: calc(var(--rc-bottom-nav-h) + var(--rc-safe-bottom));
+    padding-bottom: var(--rc-safe-bottom);
+    background: var(--bg-side);
+    border-top: 1px solid var(--line);
+  }
+  .mnav-tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-height: var(--rc-tap-min);
+    color: var(--tx-3);
+    font-size: 10.5px;
+    font-weight: 510;
+    text-decoration: none;
+  }
+  .mnav-tab svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentcolor;
+    fill: none;
+    stroke-width: 1.6;
+  }
+  .mnav-tab.on {
+    color: var(--acc);
+  }
+  .body-normal {
+    padding-bottom: calc(var(--rc-bottom-nav-h) + var(--rc-safe-bottom));
+  }
+}
