@@ -36,3 +36,4 @@ Notes on how the Overview reflows on mobile.
 - r33: The chart and severity cards stack to a single column.
 - r34: The page padding tightens on small screens.
 - r35: Wide tables scroll horizontally within their card.
+- r36: Horizontal table scroll keeps the page from scrolling sideways.
