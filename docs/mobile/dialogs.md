@@ -80,3 +80,4 @@ Notes on how modals present as sheets on mobile.
 - r77: The palette keeps its search first layout at the top.
 - r78: Sheets pad around the bottom safe-area inset.
 - r79: Sheets read as native mobile panels.
+- r80: Modals present as sheets on mobile instead of centered boxes.
