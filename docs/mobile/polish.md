@@ -79,3 +79,4 @@ Notes on the final mobile polish pass.
 - r76: Touch targets follow the mobile minimum where it matters.
 - r77: The bottom bar and top bar respect the safe areas.
 - r78: Typography stays legible at mobile widths.
+- r79: The console reads as a coherent mobile app.
