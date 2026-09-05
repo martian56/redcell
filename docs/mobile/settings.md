@@ -29,3 +29,4 @@ Notes on how the Settings page reflows on mobile.
 - r26: The desktop Settings side rail layout is unchanged.
 - r27: Section tabs scroll horizontally without a visible scrollbar.
 - r28: Each card spans the full width with comfortable spacing.
+- r29: The combobox search and pagination work on a phone.
