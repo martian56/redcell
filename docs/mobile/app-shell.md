@@ -100,3 +100,4 @@ bar, and edge-to-edge content.
 - r96: On mobile the desktop sidebar is hidden with display none.
 - r97: The shell grid collapses to a single column on mobile.
 - r98: The main card goes edge to edge with no border or radius.
+- r99: The header becomes a compact mobile top bar.
