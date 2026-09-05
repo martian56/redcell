@@ -82,3 +82,4 @@ Notes on the final mobile polish pass.
 - r79: The console reads as a coherent mobile app.
 - r80: The top bar pads around the top safe-area inset.
 - r81: Content clears the notch on phones with a cutout.
+- r82: Icon buttons grow to a friendlier touch target on mobile.
