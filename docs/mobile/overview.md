@@ -58,3 +58,4 @@ Notes on how the Overview reflows on mobile.
 - r55: The cumulative findings chart fits the viewport width.
 - r56: KPI values stay legible at the narrower tile width.
 - r57: The Recent sessions table becomes cards once SessionRow is responsive.
+- r58: All Overview rules are scoped to the 768px media query.
