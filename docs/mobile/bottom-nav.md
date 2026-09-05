@@ -27,3 +27,4 @@ Notes on the native-style bottom navigation for the mobile console.
 - r24: The active tab is tinted with the accent color.
 - r25: Tabs stack an icon over a small label for a compact touch target.
 - r26: Each tab honors the 44px minimum touch target.
+- r27: The bar reserves height with --rc-bottom-nav-h.
