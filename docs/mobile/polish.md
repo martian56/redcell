@@ -93,3 +93,4 @@ Notes on the final mobile polish pass.
 - r90: The desktop layout is verified unchanged.
 - r91: All polish rules are scoped to the 768px media query.
 - r92: Touch targets follow the mobile minimum where it matters.
+- r93: The bottom bar and top bar respect the safe areas.
