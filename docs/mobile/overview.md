@@ -38,3 +38,4 @@ Notes on how the Overview reflows on mobile.
 - r35: Wide tables scroll horizontally within their card.
 - r36: Horizontal table scroll keeps the page from scrolling sideways.
 - r37: Per-page card layouts replace the scroll fallback later.
+- r38: The severity bars keep their full width when stacked.
