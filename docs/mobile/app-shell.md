@@ -78,3 +78,4 @@ bar, and edge-to-edge content.
 - r74: The secondary destinations live in the overflow drawer.
 - r75: The top bar pads around the left safe-area inset.
 - r76: Every shell rule is scoped to the 768px media query.
+- r77: The desktop shell grid and header are unchanged.
