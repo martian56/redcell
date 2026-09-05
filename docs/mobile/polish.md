@@ -95,3 +95,4 @@ Notes on the final mobile polish pass.
 - r92: Touch targets follow the mobile minimum where it matters.
 - r93: The bottom bar and top bar respect the safe areas.
 - r94: Typography stays legible at mobile widths.
+- r95: The console reads as a coherent mobile app.
