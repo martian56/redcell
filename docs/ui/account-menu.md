@@ -43,3 +43,4 @@ Notes on the bottom-of-sidebar account line and its dropdown.
 - r40: Sign out logs out and returns to the overview.
 - r41: The notifications row is added with the notifications feature.
 - r42: The account line is the dropdown trigger.
+- r43: The menu keeps its existing pop animation and our colors.
