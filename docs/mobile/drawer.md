@@ -88,3 +88,4 @@ actions on mobile.
 - r84: It reuses SECONDARY_NAV from the shared nav module.
 - r85: It reuses the shell sign-out, theme, version, and update handlers.
 - r86: Escape closes the drawer.
+- r87: Tapping the backdrop closes the drawer.
