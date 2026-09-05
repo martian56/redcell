@@ -25,14 +25,14 @@ router = APIRouter(tags=["settings"], dependencies=[Depends(current_user)])
 async def get_settings(s: AsyncSession = Depends(db)) -> Settings:
     row = await settings_repo.get(s)
     return Settings(llm=row.llm, execution=row.execution, scope=row.scope, proxy=row.proxy,
-                    report=row.report or {})
+                    report=row.report or {}, notifications=row.notifications or {})
 
 
 @router.post("/settings", response_model=Settings)
 async def save_settings(body: Settings, s: AsyncSession = Depends(db)) -> Settings:
     row = await settings_repo.save(s, body.model_dump())
     return Settings(llm=row.llm, execution=row.execution, scope=row.scope, proxy=row.proxy,
-                    report=row.report or {})
+                    report=row.report or {}, notifications=row.notifications or {})
 
 
 @router.get("/providers", response_model=list[ProviderCatalogEntry])

@@ -154,5 +154,10 @@ export function createHttpClient(baseUrl: string, rawWsUrl: string): ApiClient {
       version: () => req('/system/version'),
       update: () => req('/system/update', { method: 'POST' }),
     },
+    notifications: {
+      list: () => req('/notifications'),
+      markRead: (id) => req(`/notifications/${id}/read`, { method: 'POST' }),
+      markAllRead: () => req('/notifications/read-all', { method: 'POST' }),
+    },
   };
 }

@@ -14,13 +14,26 @@ import { Combobox } from '@/components/ui/Combobox';
 import { SelectTrigger } from '@/components/ui/fields';
 import { toast } from '@/components/ui/toast';
 
-type Tab = 'providers' | 'execution' | 'scope' | 'branding';
+type Tab = 'providers' | 'execution' | 'scope' | 'branding' | 'notifications';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'providers', label: 'Providers & keys' },
   { id: 'execution', label: 'Execution' },
   { id: 'scope', label: 'Scope guardrails' },
   { id: 'branding', label: 'Report branding' },
+  { id: 'notifications', label: 'Notifications' },
+];
+
+const NOTIF_CATEGORIES: { key: keyof Settings['notifications']; label: string; desc: string }[] = [
+  { key: 'runFinished', label: 'Run finished', desc: 'When a run completes.' },
+  { key: 'runFailed', label: 'Run failed or stopped', desc: 'When a run fails or is stopped.' },
+  {
+    key: 'criticalFindings',
+    label: 'Critical & high findings',
+    desc: 'When a new critical or high severity finding is recorded.',
+  },
+  { key: 'reportReady', label: 'Report ready', desc: 'When a report finishes generating.' },
+  { key: 'infra', label: 'Infrastructure health', desc: 'When a server goes offline or a proxy goes dead.' },
 ];
 
 export function SettingsPage() {
@@ -56,6 +69,8 @@ export function SettingsPage() {
   const setScope = (p: Partial<Settings['scope']>) => setDraft((d) => (d ? { ...d, scope: { ...d.scope, ...p } } : d));
   const setReport = (p: Partial<Settings['report']>) =>
     setDraft((d) => (d ? { ...d, report: { ...d.report, ...p } } : d));
+  const setNotif = (p: Partial<Settings['notifications']>) =>
+    setDraft((d) => (d ? { ...d, notifications: { ...d.notifications, ...p } } : d));
 
   const onSave = async () => {
     try {
@@ -296,6 +311,38 @@ export function SettingsPage() {
                 </label>
                 <button type="button" className="btn pri" disabled={save.isPending} onClick={onSave}>
                   Save branding
+                </button>
+              </div>
+            </div>
+          )}
+
+          {tab === 'notifications' && (
+            <div className="card">
+              <div className="card-h">
+                <h3>Notifications</h3>
+                <span className="cs">· choose what shows in the bell</span>
+              </div>
+              <div className="card-b">
+                {NOTIF_CATEGORIES.map((c) => (
+                  <div className="formrow" key={c.key}>
+                    <div>
+                      <div className="ft">{c.label}</div>
+                      <div className="fd">{c.desc}</div>
+                    </div>
+                    <button
+                      type="button"
+                      className={`toggle${draft.notifications[c.key] ? ' on' : ''}`}
+                      role="switch"
+                      aria-checked={draft.notifications[c.key]}
+                      aria-label={c.label}
+                      onClick={() => setNotif({ [c.key]: !draft.notifications[c.key] })}
+                    >
+                      <i />
+                    </button>
+                  </div>
+                ))}
+                <button type="button" className="btn pri" disabled={save.isPending} onClick={onSave}>
+                  Save notifications
                 </button>
               </div>
             </div>

@@ -3,7 +3,7 @@ import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useQueries, useQueryClient } from '@tanstack/react-query';
 import type { Session } from '@redcell/api-client';
 import { useApi } from '@/lib/api';
-import { useMe, useSessions, useVersion } from '@/features/hooks';
+import { useMe, useNotifications, useSessions, useVersion } from '@/features/hooks';
 import { useSession } from '@/store/session';
 import { toggleTheme } from '@/lib/theme';
 import { CommandPalette } from './CommandPalette';
@@ -11,6 +11,7 @@ import { ConsoleHeader } from './ConsoleHeader';
 import { UpdateDialog } from './UpdateDialog';
 import { MobileNav } from './MobileNav';
 import { MobileDrawer } from './MobileDrawer';
+import { NotificationsBell } from './NotificationsBell';
 import { SIDEBAR_GROUPS } from './nav';
 
 function ActiveRunRow({ session, onClick }: { session: Session; onClick: () => void }) {
@@ -33,6 +34,7 @@ const TITLES: Record<string, [string, string]> = {
   '/servers': ['Servers', '· execution hosts'],
   '/proxies': ['Proxies', '· egress'],
   '/settings': ['Settings', ''],
+  '/notifications': ['Notifications', '· activity'],
 };
 
 function useOutside<T extends HTMLElement = HTMLElement>(onClose: () => void) {
@@ -56,6 +58,8 @@ export function DashboardShell() {
   const { data: sessions } = useSessions();
   const { data: version } = useVersion();
   const { data: me } = useMe();
+  const { data: notifFeed } = useNotifications();
+  const notifUnread = notifFeed?.unread ?? 0;
   const candidates = (sessions ?? []).filter((s) => s.status === 'active' && s.activeRunId);
   const runQueries = useQueries({
     queries: candidates.map((s) => ({
@@ -184,7 +188,7 @@ export function DashboardShell() {
           )}
         </div>
         <div className="side-foot">
-          <span className="menu-wrap" style={{ width: '100%' }} ref={userRef}>
+          <span className="menu-wrap" style={{ flex: 1, minWidth: 0 }} ref={userRef}>
             <button type="button" className="userbtn"
               onClick={() => setMenu((m) => (m === 'user' ? null : 'user'))}
               aria-haspopup="menu"
@@ -214,6 +218,22 @@ export function DashboardShell() {
                   <path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2" />
                 </svg>
               </button>
+              <button
+                type="button"
+                className="menu-item"
+                onClick={() => {
+                  setMenu(null);
+                  navigate('/notifications');
+                }}
+              >
+                Notifications
+                <span className="mi-right">
+                  {notifUnread > 0 ? <span className="mi-count">{notifUnread}</span> : null}
+                  <svg viewBox="0 0 24 24">
+                    <path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0" />
+                  </svg>
+                </span>
+              </button>
               <div className="menu-sep" />
               <button type="button" className="menu-item" onClick={flipTheme}>
                 Toggle theme
@@ -227,6 +247,7 @@ export function DashboardShell() {
               </button>
             </div>
           </span>
+          <NotificationsBell />
         </div>
       </aside>
 

@@ -13,6 +13,7 @@ from .finding import Finding  # noqa: E402
 from .host import Host  # noqa: E402
 from .listener import Listener  # noqa: E402
 from .loot import Loot  # noqa: E402
+from .notification import Notification  # noqa: E402
 from .provider import Provider  # noqa: E402
 from .provider_credential import ProviderCredential  # noqa: E402
 from .proxy import Proxy  # noqa: E402
@@ -29,4 +30,5 @@ __all__ = [
     "Base", "User", "Provider", "AppSettings", "Session", "Run", "Agent",
     "AgentEdge", "Finding", "Shell", "Listener", "ProxyEntry", "Host", "Loot",
     "ChatMessage", "Event", "Server", "Proxy", "File", "Report", "ProviderCredential",
+    "Notification",
 ]

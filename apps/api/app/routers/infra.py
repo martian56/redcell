@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from redcell_core.keys import normalize_private_key
 from redcell_core.probe import probe_proxy, probe_server
 from redcell_core.repositories import ids
+from redcell_core.repositories import notifications as notifications_repo
 from redcell_core.repositories import proxies as proxies_repo
 from redcell_core.repositories import servers as servers_repo
 from redcell_core.schemas import (
@@ -81,6 +82,14 @@ async def test_server(sid: str, s: AsyncSession = Depends(db)) -> ServerTestResu
         if result.get(key) is not None:
             facts[key] = result[key]
     await servers_repo.update(s, sid, facts)
+    if not ok:
+        await notifications_repo.notify(
+            s,
+            kind="infra",
+            title="Server offline",
+            body=f"{row.name} failed its connection test.",
+            link="servers",
+        )
     return ServerTestResult(
         ok=ok, status=facts["status"], latency_ms=result.get("latency_ms"),
         hostname=result.get("hostname"), os=result.get("os"), cpu=result.get("cpu"),
@@ -158,6 +167,14 @@ async def test_proxy(pid: str, s: AsyncSession = Depends(db)) -> ProxyTestResult
         "egress_ip": result.get("egress_ip"),
         "last_error": None if ok else (result.get("error") or "proxy check failed"),
     })
+    if not ok:
+        await notifications_repo.notify(
+            s,
+            kind="infra",
+            title="Proxy dead",
+            body=f"{row.label} failed its health check.",
+            link="proxies",
+        )
     return ProxyTestResult(
         ok=ok, status="healthy" if ok else "dead", latency_ms=result.get("latency_ms"),
         egress_ip=result.get("egress_ip"), output=result.get("output", ""),

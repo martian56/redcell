@@ -16,6 +16,7 @@ import type {
   Listener,
   ListQuery,
   LootItem,
+  NotificationFeed,
   Proxy,
   ProviderCatalogEntry,
   ProviderKeyStatus,
@@ -195,5 +196,10 @@ export interface ApiClient {
   system: {
     version(): Promise<SystemVersion>;
     update(): Promise<UpdateStarted>;
+  };
+  notifications: {
+    list(params?: ListQuery): Promise<NotificationFeed>;
+    markRead(id: string): Promise<NotificationFeed>;
+    markAllRead(): Promise<NotificationFeed>;
   };
 }

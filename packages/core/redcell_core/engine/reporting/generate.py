@@ -15,6 +15,7 @@ from ...repositories import findings as findings_repo
 from ...repositories import hosts as hosts_repo
 from ...repositories import ids
 from ...repositories import loot as loot_repo
+from ...repositories import notifications as notifications_repo
 from ...repositories import provider_credentials as creds_repo
 from ...repositories import reports as reports_repo
 from ...repositories import sessions as sessions_repo
@@ -120,6 +121,13 @@ async def generate_report(report_id: str) -> None:
                 "file_id": artifacts.get("pdf"), "summary": narrative.get("executive_summary"),
                 "error": None,
             })
+            await notifications_repo.notify(
+                s,
+                kind="report_ready",
+                title="Report ready",
+                body=f"{title} is ready to download." if title else "A report is ready.",
+                link="reports",
+            )
     except Exception as exc:
         async with session_scope() as s:
             await reports_repo.update(s, report_id, {"status": "failed", "error": str(exc)[:500]})

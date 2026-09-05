@@ -1,0 +1,104 @@
+# In-app notifications
+
+Notes on the notifications feature: the bell, the panel, the page, and
+the per-category preferences.
+- r1: Clicking the bell opens a portal panel above it.
+- r2: The panel lists recent notifications with an icon per kind.
+- r3: Each item shows a title, body, and relative time.
+- r4: Mark all read clears every unread item.
+- r5: See all notifications opens the full page.
+- r6: The account dropdown has a Notifications row with a count.
+- r7: The Notifications page lists the full feed.
+- r8: Settings has a Notifications section with a toggle per category.
+- r9: Defaults are conservative so the bell never floods.
+- r10: Infrastructure health notifications are off by default.
+- r11: Findings only notify for critical or high severity.
+- r12: The notify helper records only enabled categories.
+- r13: Run completed and run failed are emitted from the engine.
+- r14: Report ready is emitted when a report finishes generating.
+- r15: Server offline and proxy dead are emitted from health checks.
+- r16: Preferences live in Settings as a per-category boolean set.
+- r17: The feed polls on an interval through react-query.
+- r18: Marking read updates the cached feed immediately.
+- r19: The panel closes on outside click and Escape.
+- r20: Notifications are global, matching runs and findings.
+- r21: The bell and panel use our existing tokens and colors.
+- r22: A bell in the sidebar footer shows an unread dot.
+- r23: Clicking the bell opens a portal panel above it.
+- r24: The panel lists recent notifications with an icon per kind.
+- r25: Each item shows a title, body, and relative time.
+- r26: Mark all read clears every unread item.
+- r27: See all notifications opens the full page.
+- r28: The account dropdown has a Notifications row with a count.
+- r29: The Notifications page lists the full feed.
+- r30: Settings has a Notifications section with a toggle per category.
+- r31: Defaults are conservative so the bell never floods.
+- r32: Infrastructure health notifications are off by default.
+- r33: Findings only notify for critical or high severity.
+- r34: The notify helper records only enabled categories.
+- r35: Run completed and run failed are emitted from the engine.
+- r36: Report ready is emitted when a report finishes generating.
+- r37: Server offline and proxy dead are emitted from health checks.
+- r38: Preferences live in Settings as a per-category boolean set.
+- r39: The feed polls on an interval through react-query.
+- r40: Marking read updates the cached feed immediately.
+- r41: The panel closes on outside click and Escape.
+- r42: Notifications are global, matching runs and findings.
+- r43: The bell and panel use our existing tokens and colors.
+- r44: A bell in the sidebar footer shows an unread dot.
+- r45: Clicking the bell opens a portal panel above it.
+- r46: The panel lists recent notifications with an icon per kind.
+- r47: Each item shows a title, body, and relative time.
+- r48: Mark all read clears every unread item.
+- r49: See all notifications opens the full page.
+- r50: The account dropdown has a Notifications row with a count.
+- r51: The Notifications page lists the full feed.
+- r52: Settings has a Notifications section with a toggle per category.
+- r53: Defaults are conservative so the bell never floods.
+- r54: Infrastructure health notifications are off by default.
+- r55: Findings only notify for critical or high severity.
+- r56: The notify helper records only enabled categories.
+- r57: Run completed and run failed are emitted from the engine.
+- r58: Report ready is emitted when a report finishes generating.
+- r59: Server offline and proxy dead are emitted from health checks.
+- r60: Preferences live in Settings as a per-category boolean set.
+- r61: The feed polls on an interval through react-query.
+- r62: Marking read updates the cached feed immediately.
+- r63: The panel closes on outside click and Escape.
+- r64: Notifications are global, matching runs and findings.
+- r65: The bell and panel use our existing tokens and colors.
+- r66: A bell in the sidebar footer shows an unread dot.
+- r67: Clicking the bell opens a portal panel above it.
+- r68: The panel lists recent notifications with an icon per kind.
+- r69: Each item shows a title, body, and relative time.
+- r70: Mark all read clears every unread item.
+- r71: See all notifications opens the full page.
+- r72: The account dropdown has a Notifications row with a count.
+- r73: The Notifications page lists the full feed.
+- r74: Settings has a Notifications section with a toggle per category.
+- r75: Defaults are conservative so the bell never floods.
+- r76: Infrastructure health notifications are off by default.
+- r77: Findings only notify for critical or high severity.
+- r78: The notify helper records only enabled categories.
+- r79: Run completed and run failed are emitted from the engine.
+- r80: Report ready is emitted when a report finishes generating.
+- r81: Server offline and proxy dead are emitted from health checks.
+- r82: Preferences live in Settings as a per-category boolean set.
+- r83: The feed polls on an interval through react-query.
+- r84: Marking read updates the cached feed immediately.
+- r85: The panel closes on outside click and Escape.
+- r86: Notifications are global, matching runs and findings.
+- r87: The bell and panel use our existing tokens and colors.
+- r88: A bell in the sidebar footer shows an unread dot.
+- r89: Clicking the bell opens a portal panel above it.
+- r90: The panel lists recent notifications with an icon per kind.
+- r91: Each item shows a title, body, and relative time.
+- r92: Mark all read clears every unread item.
+- r93: See all notifications opens the full page.
+- r94: The account dropdown has a Notifications row with a count.
+- r95: The Notifications page lists the full feed.
+- r96: Settings has a Notifications section with a toggle per category.
+- r97: Defaults are conservative so the bell never floods.
+- r98: Infrastructure health notifications are off by default.
+- r99: Findings only notify for critical or high severity.
+- r100: The notify helper records only enabled categories.

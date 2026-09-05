@@ -6,6 +6,7 @@ import type {
   EventMsg,
   Host,
   LootItem,
+  Notification,
   Proxy,
   ProviderCatalogEntry,
   Run,
@@ -44,6 +45,13 @@ const DEFAULT_SETTINGS: Settings = {
   scope: { allowPrivateTargets: false, requestsPerSecond: 10 },
   proxy: { enabled: false, url: '', rotation: 'off' },
   report: { companyName: 'REDCELL', classification: 'CONFIDENTIAL', contact: '', logoDataUrl: undefined },
+  notifications: {
+    runFinished: true,
+    runFailed: true,
+    criticalFindings: true,
+    reportReady: true,
+    infra: false,
+  },
 };
 
 export function createMockClient(): ApiClient {
@@ -623,6 +631,67 @@ export function createMockClient(): ApiClient {
           await delay(300);
           updated = true;
           return { started: true, detail: 'Update started (mock).' };
+        },
+      };
+    })(),
+    notifications: (() => {
+      const iso = (min: number) => new Date(Date.now() - min * 60_000).toISOString();
+      let items: Notification[] = [
+        {
+          id: 'ntf-1',
+          kind: 'run_failed',
+          title: 'Run failed',
+          body: 'Globex Internal Netpen run stopped with an error.',
+          link: 'sessions/ses-globex',
+          read: false,
+          createdAt: iso(8),
+        },
+        {
+          id: 'ntf-2',
+          kind: 'finding',
+          title: 'Critical finding',
+          body: 'SQL injection (error-based to union) on /api/v2/search.',
+          link: 'sessions/ses-acme',
+          read: false,
+          createdAt: iso(41),
+        },
+        {
+          id: 'ntf-3',
+          kind: 'run_completed',
+          title: 'Run completed',
+          body: 'ACME External Q3 run finished.',
+          link: 'sessions/ses-acme',
+          read: false,
+          createdAt: iso(184),
+        },
+        {
+          id: 'ntf-4',
+          kind: 'report_ready',
+          title: 'Report ready',
+          body: 'Assessment of ACME External Q3 is ready to download.',
+          link: 'reports',
+          read: true,
+          createdAt: iso(1440),
+        },
+      ];
+      const feed = () => ({
+        items: structuredClone(items),
+        unread: items.filter((n) => !n.read).length,
+      });
+      return {
+        async list() {
+          await delay();
+          return feed();
+        },
+        async markRead(id: string) {
+          await delay(80);
+          items = items.map((n) => (n.id === id ? { ...n, read: true } : n));
+          return feed();
+        },
+        async markAllRead() {
+          await delay(120);
+          items = items.map((n) => ({ ...n, read: true }));
+          return feed();
         },
       };
     })(),
