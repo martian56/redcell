@@ -32,3 +32,4 @@ Notes on the final mobile polish pass.
 - r29: The bottom bar and top bar respect the safe areas.
 - r30: Typography stays legible at mobile widths.
 - r31: The console reads as a coherent mobile app.
+- r32: The top bar pads around the top safe-area inset.
