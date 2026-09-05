@@ -22,3 +22,4 @@ Notes on how the Overview reflows on mobile.
 - r19: Wide tables scroll horizontally within their card.
 - r20: Horizontal table scroll keeps the page from scrolling sideways.
 - r21: Per-page card layouts replace the scroll fallback later.
+- r22: The severity bars keep their full width when stacked.
