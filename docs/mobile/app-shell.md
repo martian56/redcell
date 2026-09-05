@@ -95,3 +95,4 @@ bar, and edge-to-edge content.
 - r91: The top bar pads around the left safe-area inset.
 - r92: Every shell rule is scoped to the 768px media query.
 - r93: The desktop shell grid and header are unchanged.
+- r94: Content scrolls full width beneath the top bar.
