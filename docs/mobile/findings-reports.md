@@ -4,3 +4,4 @@ Notes on how the triage and reporting views reflow on mobile.
 - r1: The finding detail stops being sticky on mobile.
 - r2: The location column drops from the list rows on mobile.
 - r3: The location still shows in the finding detail.
+- r4: Findings stay grouped by severity in the list.
