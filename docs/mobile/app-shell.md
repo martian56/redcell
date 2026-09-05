@@ -49,3 +49,4 @@ bar, and edge-to-edge content.
 - r45: The desktop shell grid and header are unchanged.
 - r46: Content scrolls full width beneath the top bar.
 - r47: The bottom bar and top bar frame the scrollable content.
+- r48: On mobile the desktop sidebar is hidden with display none.
