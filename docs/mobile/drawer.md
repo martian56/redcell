@@ -87,3 +87,4 @@ actions on mobile.
 - r83: The drawer also holds the theme toggle and sign out.
 - r84: It reuses SECONDARY_NAV from the shared nav module.
 - r85: It reuses the shell sign-out, theme, version, and update handlers.
+- r86: Escape closes the drawer.
