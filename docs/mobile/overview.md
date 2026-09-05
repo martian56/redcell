@@ -45,3 +45,4 @@ Notes on how the Overview reflows on mobile.
 - r42: All Overview rules are scoped to the 768px media query.
 - r43: The desktop Overview grid is unchanged.
 - r44: Two column sections become one column on mobile.
+- r45: The wrap container drops its desktop padding on mobile.
