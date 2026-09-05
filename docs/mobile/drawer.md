@@ -90,3 +90,4 @@ actions on mobile.
 - r86: Escape closes the drawer.
 - r87: Tapping the backdrop closes the drawer.
 - r88: Body scroll is locked while the drawer is open.
+- r89: Selecting a destination closes the drawer and navigates.
