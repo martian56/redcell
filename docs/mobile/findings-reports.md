@@ -37,3 +37,4 @@ Notes on how the triage and reporting views reflow on mobile.
 - r34: The location column drops from the list rows on mobile.
 - r35: The location still shows in the finding detail.
 - r36: Findings stay grouped by severity in the list.
+- r37: Selecting a finding updates the detail below the list.
