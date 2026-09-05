@@ -65,3 +65,4 @@ actions on mobile.
 - r61: Each row honors the 44px minimum touch target.
 - r62: The drawer sits above the bottom bar and below modal dialogs.
 - r63: The update control opens the progress dialog and closes the drawer.
+- r64: The More tab in the bottom bar opens the overflow drawer.
