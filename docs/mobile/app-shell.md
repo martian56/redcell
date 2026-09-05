@@ -35,3 +35,4 @@ bar, and edge-to-edge content.
 - r31: The bottom bar and top bar frame the scrollable content.
 - r32: On mobile the desktop sidebar is hidden with display none.
 - r33: The shell grid collapses to a single column on mobile.
+- r34: The main card goes edge to edge with no border or radius.
