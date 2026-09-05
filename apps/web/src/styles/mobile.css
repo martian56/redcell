@@ -93,7 +93,16 @@
 
 @media (max-width: 768px) {
   .split {
+    grid-template-columns: 1fr !important;
+  }
+  .tri {
     grid-template-columns: 1fr;
+  }
+  .detail {
+    position: static;
+  }
+  .fitem .floc {
+    display: none;
   }
   .grid2 {
     grid-template-columns: 1fr;

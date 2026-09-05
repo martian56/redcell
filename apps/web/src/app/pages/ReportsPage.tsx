@@ -74,7 +74,7 @@ export function ReportsPage() {
             </button>
           </div>
           <div className="card-b" style={{ padding: '8px 2px 4px' }}>
-            <table className="tbl">
+            <table className="tbl tbl-cards">
               <thead>
                 <tr>
                   <th>Title</th>
@@ -98,7 +98,7 @@ export function ReportsPage() {
                           {r.title}
                         </span>
                       </td>
-                      <td>
+                      <td data-label="Formats">
                         {(Object.keys(r.artifacts) as ReportFormat[]).length
                           ? (Object.keys(r.artifacts) as ReportFormat[]).map((f) => (
                               <a key={f} className="fmt" href={fileDownloadUrl(r.artifacts[f] as string)}>
@@ -111,14 +111,16 @@ export function ReportsPage() {
                               </span>
                             ))}
                       </td>
-                      <td>
+                      <td data-label="Status">
                         {r.status === 'ready' ? (
                           <span className="status ok">Ready</span>
                         ) : (
                           <span className="meta">{r.status === 'generating' ? 'Generating…' : r.status}</span>
                         )}
                       </td>
-                      <td className="tright meta">{timeAgo(r.createdAt)}</td>
+                      <td className="tright meta" data-label="Generated">
+                        {timeAgo(r.createdAt)}
+                      </td>
                     </tr>
                   ))
                 )}
