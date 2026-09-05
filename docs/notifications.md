@@ -21,3 +21,4 @@ the per-category preferences.
 - r17: The feed polls on an interval through react-query.
 - r18: Marking read updates the cached feed immediately.
 - r19: The panel closes on outside click and Escape.
+- r20: Notifications are global, matching runs and findings.
