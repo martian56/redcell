@@ -6,3 +6,4 @@ Notes on the native-style bottom navigation for the mobile console.
 - r3: It becomes a fixed bottom bar only inside the 768px media query.
 - r4: Nav data and icons live in a shared nav module used by both navs.
 - r5: The sidebar and the mobile nav read the same PRIMARY_NAV source.
+- r6: The drawer in the next PR reuses SECONDARY_NAV from the same module.
