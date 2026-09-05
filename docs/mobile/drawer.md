@@ -28,3 +28,4 @@ actions on mobile.
 - r24: Body scroll is locked while the drawer is open.
 - r25: Selecting a destination closes the drawer and navigates.
 - r26: The drawer slides in from the left edge.
+- r27: The slide animation is disabled under prefers-reduced-motion.
