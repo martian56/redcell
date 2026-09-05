@@ -95,3 +95,4 @@ the per-category preferences.
 - r91: Each item shows a title, body, and relative time.
 - r92: Mark all read clears every unread item.
 - r93: See all notifications opens the full page.
+- r94: The account dropdown has a Notifications row with a count.
