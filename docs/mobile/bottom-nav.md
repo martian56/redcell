@@ -68,3 +68,4 @@ Notes on the native-style bottom navigation for the mobile console.
 - r65: Overview, Sessions, Findings, and Reports are the primary tabs.
 - r66: The bar is display:none on desktop, so the PC layout is unaffected.
 - r67: It becomes a fixed bottom bar only inside the 768px media query.
+- r68: Nav data and icons live in a shared nav module used by both navs.
