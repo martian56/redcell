@@ -73,3 +73,4 @@ Notes on how modals present as sheets on mobile.
 - r70: The command palette anchors to the top of the screen.
 - r71: The update progress panel anchors to the bottom.
 - r72: Tall sheets scroll inside themselves with a max height.
+- r73: The panel max width override beats the inline desktop width.
