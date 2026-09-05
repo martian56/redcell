@@ -73,3 +73,4 @@ actions on mobile.
 - r69: It reuses the shell sign-out, theme, version, and update handlers.
 - r70: Escape closes the drawer.
 - r71: Tapping the backdrop closes the drawer.
+- r72: Body scroll is locked while the drawer is open.
