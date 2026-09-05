@@ -12,3 +12,4 @@ Notes on how the triage and reporting views reflow on mobile.
 - r9: Report rows show title, formats, status, and generated time.
 - r10: The report preview spans full width below the table.
 - r11: Filters wrap when they run out of width.
+- r12: All Findings and Reports rules are scoped to the 768px query.
