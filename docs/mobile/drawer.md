@@ -61,3 +61,4 @@ actions on mobile.
 - r57: Selecting a destination closes the drawer and navigates.
 - r58: The drawer slides in from the left edge.
 - r59: The slide animation is disabled under prefers-reduced-motion.
+- r60: The panel pads around the safe-area insets.
