@@ -61,3 +61,4 @@ bar, and edge-to-edge content.
 - r57: The primary destinations live in the bottom tab bar.
 - r58: The secondary destinations live in the overflow drawer.
 - r59: The top bar pads around the left safe-area inset.
+- r60: Every shell rule is scoped to the 768px media query.
