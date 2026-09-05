@@ -17,3 +17,4 @@ bar, and edge-to-edge content.
 - r13: The desktop shell grid and header are unchanged.
 - r14: Content scrolls full width beneath the top bar.
 - r15: The bottom bar and top bar frame the scrollable content.
+- r16: On mobile the desktop sidebar is hidden with display none.
