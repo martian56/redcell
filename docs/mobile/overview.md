@@ -39,3 +39,4 @@ Notes on how the Overview reflows on mobile.
 - r36: Horizontal table scroll keeps the page from scrolling sideways.
 - r37: Per-page card layouts replace the scroll fallback later.
 - r38: The severity bars keep their full width when stacked.
+- r39: The cumulative findings chart fits the viewport width.
