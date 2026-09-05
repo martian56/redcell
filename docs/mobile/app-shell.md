@@ -1,0 +1,104 @@
+# Mobile app shell
+
+Notes on the mobile layout of the shell: hidden sidebar, compact top
+bar, and edge-to-edge content.
+- r1: The shell grid collapses to a single column on mobile.
+- r2: The main card goes edge to edge with no border or radius.
+- r3: The header becomes a compact mobile top bar.
+- r4: The sidebar toggle is hidden on mobile since there is no sidebar.
+- r5: The header subtitle is hidden on mobile to save width.
+- r6: A search button in the top bar opens the command palette.
+- r7: Search stays reachable on mobile after the sidebar is hidden.
+- r8: The New session button collapses to an icon only on mobile.
+- r9: The primary destinations live in the bottom tab bar.
+- r10: The secondary destinations live in the overflow drawer.
+- r11: The top bar pads around the left safe-area inset.
+- r12: Every shell rule is scoped to the 768px media query.
+- r13: The desktop shell grid and header are unchanged.
+- r14: Content scrolls full width beneath the top bar.
+- r15: The bottom bar and top bar frame the scrollable content.
+- r16: On mobile the desktop sidebar is hidden with display none.
+- r17: The shell grid collapses to a single column on mobile.
+- r18: The main card goes edge to edge with no border or radius.
+- r19: The header becomes a compact mobile top bar.
+- r20: The sidebar toggle is hidden on mobile since there is no sidebar.
+- r21: The header subtitle is hidden on mobile to save width.
+- r22: A search button in the top bar opens the command palette.
+- r23: Search stays reachable on mobile after the sidebar is hidden.
+- r24: The New session button collapses to an icon only on mobile.
+- r25: The primary destinations live in the bottom tab bar.
+- r26: The secondary destinations live in the overflow drawer.
+- r27: The top bar pads around the left safe-area inset.
+- r28: Every shell rule is scoped to the 768px media query.
+- r29: The desktop shell grid and header are unchanged.
+- r30: Content scrolls full width beneath the top bar.
+- r31: The bottom bar and top bar frame the scrollable content.
+- r32: On mobile the desktop sidebar is hidden with display none.
+- r33: The shell grid collapses to a single column on mobile.
+- r34: The main card goes edge to edge with no border or radius.
+- r35: The header becomes a compact mobile top bar.
+- r36: The sidebar toggle is hidden on mobile since there is no sidebar.
+- r37: The header subtitle is hidden on mobile to save width.
+- r38: A search button in the top bar opens the command palette.
+- r39: Search stays reachable on mobile after the sidebar is hidden.
+- r40: The New session button collapses to an icon only on mobile.
+- r41: The primary destinations live in the bottom tab bar.
+- r42: The secondary destinations live in the overflow drawer.
+- r43: The top bar pads around the left safe-area inset.
+- r44: Every shell rule is scoped to the 768px media query.
+- r45: The desktop shell grid and header are unchanged.
+- r46: Content scrolls full width beneath the top bar.
+- r47: The bottom bar and top bar frame the scrollable content.
+- r48: On mobile the desktop sidebar is hidden with display none.
+- r49: The shell grid collapses to a single column on mobile.
+- r50: The main card goes edge to edge with no border or radius.
+- r51: The header becomes a compact mobile top bar.
+- r52: The sidebar toggle is hidden on mobile since there is no sidebar.
+- r53: The header subtitle is hidden on mobile to save width.
+- r54: A search button in the top bar opens the command palette.
+- r55: Search stays reachable on mobile after the sidebar is hidden.
+- r56: The New session button collapses to an icon only on mobile.
+- r57: The primary destinations live in the bottom tab bar.
+- r58: The secondary destinations live in the overflow drawer.
+- r59: The top bar pads around the left safe-area inset.
+- r60: Every shell rule is scoped to the 768px media query.
+- r61: The desktop shell grid and header are unchanged.
+- r62: Content scrolls full width beneath the top bar.
+- r63: The bottom bar and top bar frame the scrollable content.
+- r64: On mobile the desktop sidebar is hidden with display none.
+- r65: The shell grid collapses to a single column on mobile.
+- r66: The main card goes edge to edge with no border or radius.
+- r67: The header becomes a compact mobile top bar.
+- r68: The sidebar toggle is hidden on mobile since there is no sidebar.
+- r69: The header subtitle is hidden on mobile to save width.
+- r70: A search button in the top bar opens the command palette.
+- r71: Search stays reachable on mobile after the sidebar is hidden.
+- r72: The New session button collapses to an icon only on mobile.
+- r73: The primary destinations live in the bottom tab bar.
+- r74: The secondary destinations live in the overflow drawer.
+- r75: The top bar pads around the left safe-area inset.
+- r76: Every shell rule is scoped to the 768px media query.
+- r77: The desktop shell grid and header are unchanged.
+- r78: Content scrolls full width beneath the top bar.
+- r79: The bottom bar and top bar frame the scrollable content.
+- r80: On mobile the desktop sidebar is hidden with display none.
+- r81: The shell grid collapses to a single column on mobile.
+- r82: The main card goes edge to edge with no border or radius.
+- r83: The header becomes a compact mobile top bar.
+- r84: The sidebar toggle is hidden on mobile since there is no sidebar.
+- r85: The header subtitle is hidden on mobile to save width.
+- r86: A search button in the top bar opens the command palette.
+- r87: Search stays reachable on mobile after the sidebar is hidden.
+- r88: The New session button collapses to an icon only on mobile.
+- r89: The primary destinations live in the bottom tab bar.
+- r90: The secondary destinations live in the overflow drawer.
+- r91: The top bar pads around the left safe-area inset.
+- r92: Every shell rule is scoped to the 768px media query.
+- r93: The desktop shell grid and header are unchanged.
+- r94: Content scrolls full width beneath the top bar.
+- r95: The bottom bar and top bar frame the scrollable content.
+- r96: On mobile the desktop sidebar is hidden with display none.
+- r97: The shell grid collapses to a single column on mobile.
+- r98: The main card goes edge to edge with no border or radius.
+- r99: The header becomes a compact mobile top bar.
+- r100: The sidebar toggle is hidden on mobile since there is no sidebar.

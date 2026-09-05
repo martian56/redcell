@@ -12,6 +12,48 @@
   display: none;
 }
 
+.head-search {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .app-shell,
+  .app-shell.collapsed {
+    grid-template-columns: 1fr;
+  }
+  .side {
+    display: none;
+  }
+  .main-pad {
+    padding: 0;
+  }
+  .main-card {
+    border: none;
+    border-radius: 0;
+  }
+  .head {
+    padding: 0 12px 0 calc(12px + var(--rc-safe-left));
+    gap: 8px;
+  }
+  .head .sub {
+    display: none;
+  }
+  .side-toggle {
+    display: none;
+  }
+  .head-search {
+    display: grid;
+  }
+  .head .btn.pri .btn-lbl {
+    display: none;
+  }
+  .head .btn.pri {
+    padding: 0;
+    width: 34px;
+    justify-content: center;
+  }
+}
+
 @media (max-width: 768px) {
   .mnav {
     display: flex;
