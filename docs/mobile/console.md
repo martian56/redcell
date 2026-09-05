@@ -48,3 +48,4 @@ Notes on the mobile layout of the live session console.
 - r45: Panel tabs cover every swappable panel.
 - r46: The desktop mosaic layout is untouched.
 - r47: The mobile console reads as one focused panel with a switcher.
+- r48: The desktop mosaic tiling does not work on a phone.
