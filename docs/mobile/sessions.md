@@ -18,3 +18,4 @@ Notes on the mobile card list and the stacked New Session layout.
 - r15: Cards read top to bottom like a mobile list.
 - r16: The Sessions list becomes a stacked card list on mobile.
 - r17: Each session renders as a card instead of a table row.
+- r18: SessionRow cells carry data-label attributes for the card labels.
