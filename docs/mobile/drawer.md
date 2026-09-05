@@ -53,3 +53,4 @@ actions on mobile.
 - r49: The drawer holds Servers, Proxies, and Settings.
 - r50: The drawer also holds the version and update-available control.
 - r51: The drawer also holds the theme toggle and sign out.
+- r52: It reuses SECONDARY_NAV from the shared nav module.
