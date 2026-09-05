@@ -39,3 +39,4 @@ the per-category preferences.
 - r35: Run completed and run failed are emitted from the engine.
 - r36: Report ready is emitted when a report finishes generating.
 - r37: Server offline and proxy dead are emitted from health checks.
+- r38: Preferences live in Settings as a per-category boolean set.
