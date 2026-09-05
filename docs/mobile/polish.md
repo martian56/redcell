@@ -100,3 +100,4 @@ Notes on the final mobile polish pass.
 - r97: Content clears the notch on phones with a cutout.
 - r98: Icon buttons grow to a friendlier touch target on mobile.
 - r99: Buttons get a minimum height for easier tapping.
+- r100: Filter chips get a minimum height on mobile.
