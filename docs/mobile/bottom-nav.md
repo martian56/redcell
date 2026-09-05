@@ -90,3 +90,4 @@ Notes on the native-style bottom navigation for the mobile console.
 - r87: Each tab is a NavLink so the active state follows the router.
 - r88: The active tab is tinted with the accent color.
 - r89: Tabs stack an icon over a small label for a compact touch target.
+- r90: Each tab honors the 44px minimum touch target.
