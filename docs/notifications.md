@@ -68,3 +68,4 @@ the per-category preferences.
 - r64: Notifications are global, matching runs and findings.
 - r65: The bell and panel use our existing tokens and colors.
 - r66: A bell in the sidebar footer shows an unread dot.
+- r67: Clicking the bell opens a portal panel above it.
