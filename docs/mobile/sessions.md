@@ -80,3 +80,4 @@ Notes on the mobile card list and the stacked New Session layout.
 - r77: The desktop tables and two column form are unchanged.
 - r78: All Sessions rules are scoped to the 768px media query.
 - r79: Cards read top to bottom like a mobile list.
+- r80: The Sessions list becomes a stacked card list on mobile.
