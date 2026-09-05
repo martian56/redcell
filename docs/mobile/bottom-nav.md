@@ -87,3 +87,4 @@ Notes on the native-style bottom navigation for the mobile console.
 - r84: Nav data and icons live in a shared nav module used by both navs.
 - r85: The sidebar and the mobile nav read the same PRIMARY_NAV source.
 - r86: The drawer in the next PR reuses SECONDARY_NAV from the same module.
+- r87: Each tab is a NavLink so the active state follows the router.
