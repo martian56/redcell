@@ -23,3 +23,4 @@ actions on mobile.
 - r19: The drawer also holds the theme toggle and sign out.
 - r20: It reuses SECONDARY_NAV from the shared nav module.
 - r21: It reuses the shell sign-out, theme, version, and update handlers.
+- r22: Escape closes the drawer.
