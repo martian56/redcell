@@ -86,3 +86,4 @@ Notes on how the triage and reporting views reflow on mobile.
 - r83: The location still shows in the finding detail.
 - r84: Findings stay grouped by severity in the list.
 - r85: Selecting a finding updates the detail below the list.
+- r86: Reports stacks the reports table and the preview to one column.
