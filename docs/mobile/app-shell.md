@@ -64,3 +64,4 @@ bar, and edge-to-edge content.
 - r60: Every shell rule is scoped to the 768px media query.
 - r61: The desktop shell grid and header are unchanged.
 - r62: Content scrolls full width beneath the top bar.
+- r63: The bottom bar and top bar frame the scrollable content.
