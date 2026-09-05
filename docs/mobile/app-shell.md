@@ -15,3 +15,4 @@ bar, and edge-to-edge content.
 - r11: The top bar pads around the left safe-area inset.
 - r12: Every shell rule is scoped to the 768px media query.
 - r13: The desktop shell grid and header are unchanged.
+- r14: Content scrolls full width beneath the top bar.
