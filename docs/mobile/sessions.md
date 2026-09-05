@@ -10,3 +10,4 @@ Notes on the mobile card list and the stacked New Session layout.
 - r7: The card layout overrides the horizontal scroll fallback.
 - r8: The filter row wraps when it runs out of width.
 - r9: New Session stacks the planner and the form to one column.
+- r10: Paired form rows collapse from two columns to one on mobile.
