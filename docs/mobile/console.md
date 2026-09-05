@@ -51,3 +51,4 @@ Notes on the mobile layout of the live session console.
 - r48: The desktop mosaic tiling does not work on a phone.
 - r49: On mobile the Workspace renders a single panel at a time.
 - r50: A horizontally scrollable tab bar switches between panels.
+- r51: The active panel is highlighted in the tab bar.
