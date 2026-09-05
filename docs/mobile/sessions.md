@@ -4,3 +4,4 @@ Notes on the mobile card list and the stacked New Session layout.
 - r1: Each session renders as a card instead of a table row.
 - r2: SessionRow cells carry data-label attributes for the card labels.
 - r3: The tbl-cards class opts a session table into the card layout.
+- r4: Overview reuses SessionRow so its recent sessions also become cards.
