@@ -1,0 +1,103 @@
+# Mobile Settings
+
+Notes on how the Settings page reflows on mobile.
+- r1: The subnav stops being a sticky side rail and scrolls horizontally.
+- r2: The content column takes the full width below the tabs.
+- r3: The provider and model comboboxes stack through grid2.
+- r4: The searchable combobox popover is portaled and never clipped.
+- r5: Provider rows wrap when they run out of horizontal space.
+- r6: The reasoning effort segmented control stays inline.
+- r7: The Save action stays reachable in the default model card.
+- r8: Provider key badges and actions stay in each provider row.
+- r9: All Settings rules are scoped to the 768px media query.
+- r10: The desktop Settings side rail layout is unchanged.
+- r11: Section tabs scroll horizontally without a visible scrollbar.
+- r12: Each card spans the full width with comfortable spacing.
+- r13: The combobox search and pagination work on a phone.
+- r14: The layout reads top to bottom like a mobile settings screen.
+- r15: Form fields span the full width of the card.
+- r16: The Settings section subnav becomes a horizontal tab bar on mobile.
+- r17: The subnav stops being a sticky side rail and scrolls horizontally.
+- r18: The content column takes the full width below the tabs.
+- r19: The provider and model comboboxes stack through grid2.
+- r20: The searchable combobox popover is portaled and never clipped.
+- r21: Provider rows wrap when they run out of horizontal space.
+- r22: The reasoning effort segmented control stays inline.
+- r23: The Save action stays reachable in the default model card.
+- r24: Provider key badges and actions stay in each provider row.
+- r25: All Settings rules are scoped to the 768px media query.
+- r26: The desktop Settings side rail layout is unchanged.
+- r27: Section tabs scroll horizontally without a visible scrollbar.
+- r28: Each card spans the full width with comfortable spacing.
+- r29: The combobox search and pagination work on a phone.
+- r30: The layout reads top to bottom like a mobile settings screen.
+- r31: Form fields span the full width of the card.
+- r32: The Settings section subnav becomes a horizontal tab bar on mobile.
+- r33: The subnav stops being a sticky side rail and scrolls horizontally.
+- r34: The content column takes the full width below the tabs.
+- r35: The provider and model comboboxes stack through grid2.
+- r36: The searchable combobox popover is portaled and never clipped.
+- r37: Provider rows wrap when they run out of horizontal space.
+- r38: The reasoning effort segmented control stays inline.
+- r39: The Save action stays reachable in the default model card.
+- r40: Provider key badges and actions stay in each provider row.
+- r41: All Settings rules are scoped to the 768px media query.
+- r42: The desktop Settings side rail layout is unchanged.
+- r43: Section tabs scroll horizontally without a visible scrollbar.
+- r44: Each card spans the full width with comfortable spacing.
+- r45: The combobox search and pagination work on a phone.
+- r46: The layout reads top to bottom like a mobile settings screen.
+- r47: Form fields span the full width of the card.
+- r48: The Settings section subnav becomes a horizontal tab bar on mobile.
+- r49: The subnav stops being a sticky side rail and scrolls horizontally.
+- r50: The content column takes the full width below the tabs.
+- r51: The provider and model comboboxes stack through grid2.
+- r52: The searchable combobox popover is portaled and never clipped.
+- r53: Provider rows wrap when they run out of horizontal space.
+- r54: The reasoning effort segmented control stays inline.
+- r55: The Save action stays reachable in the default model card.
+- r56: Provider key badges and actions stay in each provider row.
+- r57: All Settings rules are scoped to the 768px media query.
+- r58: The desktop Settings side rail layout is unchanged.
+- r59: Section tabs scroll horizontally without a visible scrollbar.
+- r60: Each card spans the full width with comfortable spacing.
+- r61: The combobox search and pagination work on a phone.
+- r62: The layout reads top to bottom like a mobile settings screen.
+- r63: Form fields span the full width of the card.
+- r64: The Settings section subnav becomes a horizontal tab bar on mobile.
+- r65: The subnav stops being a sticky side rail and scrolls horizontally.
+- r66: The content column takes the full width below the tabs.
+- r67: The provider and model comboboxes stack through grid2.
+- r68: The searchable combobox popover is portaled and never clipped.
+- r69: Provider rows wrap when they run out of horizontal space.
+- r70: The reasoning effort segmented control stays inline.
+- r71: The Save action stays reachable in the default model card.
+- r72: Provider key badges and actions stay in each provider row.
+- r73: All Settings rules are scoped to the 768px media query.
+- r74: The desktop Settings side rail layout is unchanged.
+- r75: Section tabs scroll horizontally without a visible scrollbar.
+- r76: Each card spans the full width with comfortable spacing.
+- r77: The combobox search and pagination work on a phone.
+- r78: The layout reads top to bottom like a mobile settings screen.
+- r79: Form fields span the full width of the card.
+- r80: The Settings section subnav becomes a horizontal tab bar on mobile.
+- r81: The subnav stops being a sticky side rail and scrolls horizontally.
+- r82: The content column takes the full width below the tabs.
+- r83: The provider and model comboboxes stack through grid2.
+- r84: The searchable combobox popover is portaled and never clipped.
+- r85: Provider rows wrap when they run out of horizontal space.
+- r86: The reasoning effort segmented control stays inline.
+- r87: The Save action stays reachable in the default model card.
+- r88: Provider key badges and actions stay in each provider row.
+- r89: All Settings rules are scoped to the 768px media query.
+- r90: The desktop Settings side rail layout is unchanged.
+- r91: Section tabs scroll horizontally without a visible scrollbar.
+- r92: Each card spans the full width with comfortable spacing.
+- r93: The combobox search and pagination work on a phone.
+- r94: The layout reads top to bottom like a mobile settings screen.
+- r95: Form fields span the full width of the card.
+- r96: The Settings section subnav becomes a horizontal tab bar on mobile.
+- r97: The subnav stops being a sticky side rail and scrolls horizontally.
+- r98: The content column takes the full width below the tabs.
+- r99: The provider and model comboboxes stack through grid2.
+- r100: The searchable combobox popover is portaled and never clipped.

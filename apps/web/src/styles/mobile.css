@@ -107,6 +107,28 @@
   .grid2 {
     grid-template-columns: 1fr;
   }
+  .settings {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .subnav {
+    flex-direction: row;
+    position: static;
+    top: auto;
+    overflow-x: auto;
+    gap: 4px;
+    scrollbar-width: none;
+  }
+  .subnav::-webkit-scrollbar {
+    display: none;
+  }
+  .subnav button {
+    flex: none;
+    white-space: nowrap;
+  }
+  .prow {
+    flex-wrap: wrap;
+  }
   .chatcard {
     height: 420px;
   }
