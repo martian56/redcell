@@ -25,3 +25,4 @@ mobile console. See DESIGN.md for the overall plan.
 - r21: The hook is SSR safe and no-ops when matchMedia is unavailable.
 - r22: The hook attaches one change listener and detaches it on unmount.
 - r23: Safe-area insets are exposed as --rc-safe-top and friends.
+- r24: viewport-fit=cover lets the page paint under notches and indicators.
