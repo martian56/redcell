@@ -93,3 +93,4 @@ the per-category preferences.
 - r89: Clicking the bell opens a portal panel above it.
 - r90: The panel lists recent notifications with an icon per kind.
 - r91: Each item shows a title, body, and relative time.
+- r92: Mark all read clears every unread item.
