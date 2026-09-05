@@ -28,11 +28,11 @@ export function Dialog({
   if (!open) return null;
   return (
     <div
-      className="fixed inset-0 z-[90] grid place-items-center bg-[var(--overlay)] p-4"
+      className="rc-modal fixed inset-0 z-[90] grid place-items-center bg-[var(--overlay)] p-4"
       onMouseDown={onClose}
     >
       <div
-        className="w-full overflow-hidden rounded-[var(--radius)] border border-border2 bg-panel shadow-[var(--shadow)]"
+        className="rc-modal-panel w-full overflow-hidden rounded-[var(--radius)] border border-border2 bg-panel shadow-[var(--shadow)]"
         style={{ maxWidth: width }}
         onMouseDown={(e) => e.stopPropagation()}
       >
