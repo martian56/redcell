@@ -79,3 +79,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r76: The desktop server and proxy tables are unchanged.
 - r77: Cards read top to bottom like a mobile list.
 - r78: The card layout replaces the horizontal scroll fallback.
+- r79: Empty states center their message inside a card.
