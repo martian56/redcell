@@ -9,7 +9,9 @@ import { PANEL_LABELS, SWAPPABLE, useWorkspace, usedPanels, type PanelId, type T
 import { Dropdown } from '@/components/ui/Dropdown';
 import { Icon } from '@/components/ui/Icon';
 import { Empty } from '@/components/ui/primitives';
+import { useIsMobile } from '@/lib/useIsMobile';
 import { PanelView } from './panels/PanelView';
+import { MobileWorkspace } from './MobileWorkspace';
 
 function TileToolbar({ tileId, path }: { tileId: TileId; path: MosaicBranch[] }) {
   const { mosaicActions } = useContext(MosaicContext);
@@ -75,9 +77,12 @@ function TileToolbar({ tileId, path }: { tileId: TileId; path: MosaicBranch[] })
 }
 
 export function Workspace() {
+  const isMobile = useIsMobile();
   const layout = useWorkspace((s) => s.layout);
   const tiles = useWorkspace((s) => s.tiles);
   const setLayout = useWorkspace((s) => s.setLayout);
+
+  if (isMobile) return <MobileWorkspace />;
 
   return (
     <div className="relative h-full">
