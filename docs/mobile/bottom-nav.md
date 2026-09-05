@@ -63,3 +63,4 @@ Notes on the native-style bottom navigation for the mobile console.
 - r60: The bar pads its bottom with the safe-area inset.
 - r61: The scroll body gets bottom padding so content clears the bar.
 - r62: The bar sits below modals so dialogs still cover it.
+- r63: Secondary destinations remain reachable until the sidebar is hidden.
