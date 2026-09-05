@@ -54,3 +54,4 @@ Notes on the final mobile polish pass.
 - r51: Buttons get a minimum height for easier tapping.
 - r52: Filter chips get a minimum height on mobile.
 - r53: Findings list rows meet the 44px touch minimum.
+- r54: Fixed layers pad around the safe-area insets.
