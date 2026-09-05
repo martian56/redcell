@@ -40,3 +40,4 @@ Notes on how modals present as sheets on mobile.
 - r37: The overlay and modal family goes full width on mobile.
 - r38: The command palette anchors to the top of the screen.
 - r39: The update progress panel anchors to the bottom.
+- r40: Tall sheets scroll inside themselves with a max height.
