@@ -96,3 +96,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r93: Cards read top to bottom like a mobile list.
 - r94: The card layout replaces the horizontal scroll fallback.
 - r95: Empty states center their message inside a card.
+- r96: The Servers list becomes a card list on mobile.
