@@ -34,3 +34,4 @@ mobile console. See DESIGN.md for the overall plan.
 - r30: Styling-only differences stay in CSS media queries, not in JS.
 - r31: The foundation ships with zero visual change on desktop or mobile.
 - r32: All mobile rules live inside a max-width 768px media query.
+- r33: Desktop CSS is never edited, so the PC layout cannot regress.
