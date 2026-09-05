@@ -12,3 +12,4 @@ Notes on how the Settings page reflows on mobile.
 - r9: All Settings rules are scoped to the 768px media query.
 - r10: The desktop Settings side rail layout is unchanged.
 - r11: Section tabs scroll horizontally without a visible scrollbar.
+- r12: Each card spans the full width with comfortable spacing.
