@@ -73,3 +73,4 @@ bar, and edge-to-edge content.
 - r69: The header subtitle is hidden on mobile to save width.
 - r70: A search button in the top bar opens the command palette.
 - r71: Search stays reachable on mobile after the sidebar is hidden.
+- r72: The New session button collapses to an icon only on mobile.
