@@ -1,0 +1,103 @@
+# Account menu
+
+Notes on the bottom-of-sidebar account line and its dropdown.
+- r1: It shows the signed-in username and role from auth.me.
+- r2: Clicking it opens a dropdown that pops upward.
+- r3: The dropdown has Settings, Toggle theme, and Sign out.
+- r4: Menu icons are right aligned and muted.
+- r5: The useMe hook reads the current user with react-query.
+- r6: The dropdown closes on outside click and Escape.
+- r7: Settings navigates to the settings page.
+- r8: Sign out logs out and returns to the overview.
+- r9: The notifications row is added with the notifications feature.
+- r10: The account line is the dropdown trigger.
+- r11: The menu keeps its existing pop animation and our colors.
+- r12: The username falls back to admin when me is loading.
+- r13: The role falls back to operator when me is loading.
+- r14: The account line stays a single row with the caret.
+- r15: Styles and colors are unchanged from the console theme.
+- r16: The account line sits at the bottom of the sidebar.
+- r17: It shows the signed-in username and role from auth.me.
+- r18: Clicking it opens a dropdown that pops upward.
+- r19: The dropdown has Settings, Toggle theme, and Sign out.
+- r20: Menu icons are right aligned and muted.
+- r21: The useMe hook reads the current user with react-query.
+- r22: The dropdown closes on outside click and Escape.
+- r23: Settings navigates to the settings page.
+- r24: Sign out logs out and returns to the overview.
+- r25: The notifications row is added with the notifications feature.
+- r26: The account line is the dropdown trigger.
+- r27: The menu keeps its existing pop animation and our colors.
+- r28: The username falls back to admin when me is loading.
+- r29: The role falls back to operator when me is loading.
+- r30: The account line stays a single row with the caret.
+- r31: Styles and colors are unchanged from the console theme.
+- r32: The account line sits at the bottom of the sidebar.
+- r33: It shows the signed-in username and role from auth.me.
+- r34: Clicking it opens a dropdown that pops upward.
+- r35: The dropdown has Settings, Toggle theme, and Sign out.
+- r36: Menu icons are right aligned and muted.
+- r37: The useMe hook reads the current user with react-query.
+- r38: The dropdown closes on outside click and Escape.
+- r39: Settings navigates to the settings page.
+- r40: Sign out logs out and returns to the overview.
+- r41: The notifications row is added with the notifications feature.
+- r42: The account line is the dropdown trigger.
+- r43: The menu keeps its existing pop animation and our colors.
+- r44: The username falls back to admin when me is loading.
+- r45: The role falls back to operator when me is loading.
+- r46: The account line stays a single row with the caret.
+- r47: Styles and colors are unchanged from the console theme.
+- r48: The account line sits at the bottom of the sidebar.
+- r49: It shows the signed-in username and role from auth.me.
+- r50: Clicking it opens a dropdown that pops upward.
+- r51: The dropdown has Settings, Toggle theme, and Sign out.
+- r52: Menu icons are right aligned and muted.
+- r53: The useMe hook reads the current user with react-query.
+- r54: The dropdown closes on outside click and Escape.
+- r55: Settings navigates to the settings page.
+- r56: Sign out logs out and returns to the overview.
+- r57: The notifications row is added with the notifications feature.
+- r58: The account line is the dropdown trigger.
+- r59: The menu keeps its existing pop animation and our colors.
+- r60: The username falls back to admin when me is loading.
+- r61: The role falls back to operator when me is loading.
+- r62: The account line stays a single row with the caret.
+- r63: Styles and colors are unchanged from the console theme.
+- r64: The account line sits at the bottom of the sidebar.
+- r65: It shows the signed-in username and role from auth.me.
+- r66: Clicking it opens a dropdown that pops upward.
+- r67: The dropdown has Settings, Toggle theme, and Sign out.
+- r68: Menu icons are right aligned and muted.
+- r69: The useMe hook reads the current user with react-query.
+- r70: The dropdown closes on outside click and Escape.
+- r71: Settings navigates to the settings page.
+- r72: Sign out logs out and returns to the overview.
+- r73: The notifications row is added with the notifications feature.
+- r74: The account line is the dropdown trigger.
+- r75: The menu keeps its existing pop animation and our colors.
+- r76: The username falls back to admin when me is loading.
+- r77: The role falls back to operator when me is loading.
+- r78: The account line stays a single row with the caret.
+- r79: Styles and colors are unchanged from the console theme.
+- r80: The account line sits at the bottom of the sidebar.
+- r81: It shows the signed-in username and role from auth.me.
+- r82: Clicking it opens a dropdown that pops upward.
+- r83: The dropdown has Settings, Toggle theme, and Sign out.
+- r84: Menu icons are right aligned and muted.
+- r85: The useMe hook reads the current user with react-query.
+- r86: The dropdown closes on outside click and Escape.
+- r87: Settings navigates to the settings page.
+- r88: Sign out logs out and returns to the overview.
+- r89: The notifications row is added with the notifications feature.
+- r90: The account line is the dropdown trigger.
+- r91: The menu keeps its existing pop animation and our colors.
+- r92: The username falls back to admin when me is loading.
+- r93: The role falls back to operator when me is loading.
+- r94: The account line stays a single row with the caret.
+- r95: Styles and colors are unchanged from the console theme.
+- r96: The account line sits at the bottom of the sidebar.
+- r97: It shows the signed-in username and role from auth.me.
+- r98: Clicking it opens a dropdown that pops upward.
+- r99: The dropdown has Settings, Toggle theme, and Sign out.
+- r100: Menu icons are right aligned and muted.
