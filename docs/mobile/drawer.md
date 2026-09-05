@@ -100,3 +100,4 @@ actions on mobile.
 - r96: The More tab in the bottom bar opens the overflow drawer.
 - r97: The drawer holds Servers, Proxies, and Settings.
 - r98: The drawer also holds the version and update-available control.
+- r99: The drawer also holds the theme toggle and sign out.
