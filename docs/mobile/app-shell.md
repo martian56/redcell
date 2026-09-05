@@ -67,3 +67,4 @@ bar, and edge-to-edge content.
 - r63: The bottom bar and top bar frame the scrollable content.
 - r64: On mobile the desktop sidebar is hidden with display none.
 - r65: The shell grid collapses to a single column on mobile.
+- r66: The main card goes edge to edge with no border or radius.
