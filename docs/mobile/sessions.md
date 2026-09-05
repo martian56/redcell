@@ -13,3 +13,4 @@ Notes on the mobile card list and the stacked New Session layout.
 - r10: Paired form rows collapse from two columns to one on mobile.
 - r11: The planner chat card takes a shorter height on mobile.
 - r12: Form fields span the full width with comfortable spacing.
+- r13: The desktop tables and two column form are unchanged.
