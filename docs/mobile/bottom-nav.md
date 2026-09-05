@@ -13,3 +13,4 @@ Notes on the native-style bottom navigation for the mobile console.
 - r10: Each tab honors the 44px minimum touch target.
 - r11: The bar reserves height with --rc-bottom-nav-h.
 - r12: The bar pads its bottom with the safe-area inset.
+- r13: The scroll body gets bottom padding so content clears the bar.
