@@ -94,3 +94,4 @@ Notes on how the Overview reflows on mobile.
 - r91: The desktop Overview grid is unchanged.
 - r92: Two column sections become one column on mobile.
 - r93: The wrap container drops its desktop padding on mobile.
+- r94: Cards remain full width with comfortable inner spacing.
