@@ -100,3 +100,4 @@ the per-category preferences.
 - r96: Settings has a Notifications section with a toggle per category.
 - r97: Defaults are conservative so the bell never floods.
 - r98: Infrastructure health notifications are off by default.
+- r99: Findings only notify for critical or high severity.
