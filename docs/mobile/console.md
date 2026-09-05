@@ -72,3 +72,4 @@ Notes on the mobile layout of the live session console.
 - r69: The panel body scrolls and clears the bottom tab bar.
 - r70: The console header is trimmed to fit a narrow top bar.
 - r71: The run metrics and spend are hidden on mobile.
+- r72: The Report button and layout dropdown are hidden on mobile.
