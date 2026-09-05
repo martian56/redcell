@@ -98,3 +98,4 @@ bar, and edge-to-edge content.
 - r94: Content scrolls full width beneath the top bar.
 - r95: The bottom bar and top bar frame the scrollable content.
 - r96: On mobile the desktop sidebar is hidden with display none.
+- r97: The shell grid collapses to a single column on mobile.
