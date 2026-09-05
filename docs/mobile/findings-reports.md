@@ -57,3 +57,4 @@ Notes on how the triage and reporting views reflow on mobile.
 - r54: Reports stacks the reports table and the preview to one column.
 - r55: The reports split overrides its inline two column grid on mobile.
 - r56: The reports table adopts the card layout with per-row labels.
+- r57: Report rows show title, formats, status, and generated time.
