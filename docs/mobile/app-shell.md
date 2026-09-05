@@ -8,3 +8,4 @@ bar, and edge-to-edge content.
 - r4: The sidebar toggle is hidden on mobile since there is no sidebar.
 - r5: The header subtitle is hidden on mobile to save width.
 - r6: A search button in the top bar opens the command palette.
+- r7: Search stays reachable on mobile after the sidebar is hidden.
