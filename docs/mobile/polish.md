@@ -49,3 +49,4 @@ Notes on the final mobile polish pass.
 - r46: Typography stays legible at mobile widths.
 - r47: The console reads as a coherent mobile app.
 - r48: The top bar pads around the top safe-area inset.
+- r49: Content clears the notch on phones with a cutout.
