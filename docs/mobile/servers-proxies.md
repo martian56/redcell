@@ -16,3 +16,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r13: Cards read top to bottom like a mobile list.
 - r14: The card layout replaces the horizontal scroll fallback.
 - r15: Empty states center their message inside a card.
+- r16: The Servers list becomes a card list on mobile.
