@@ -57,3 +57,4 @@ Notes on the bottom-of-sidebar account line and its dropdown.
 - r54: The dropdown closes on outside click and Escape.
 - r55: Settings navigates to the settings page.
 - r56: Sign out logs out and returns to the overview.
+- r57: The notifications row is added with the notifications feature.
