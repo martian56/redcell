@@ -92,3 +92,4 @@ Notes on the native-style bottom navigation for the mobile console.
 - r89: Tabs stack an icon over a small label for a compact touch target.
 - r90: Each tab honors the 44px minimum touch target.
 - r91: The bar reserves height with --rc-bottom-nav-h.
+- r92: The bar pads its bottom with the safe-area inset.
