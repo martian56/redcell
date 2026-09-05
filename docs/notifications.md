@@ -27,3 +27,4 @@ the per-category preferences.
 - r23: Clicking the bell opens a portal panel above it.
 - r24: The panel lists recent notifications with an icon per kind.
 - r25: Each item shows a title, body, and relative time.
+- r26: Mark all read clears every unread item.
