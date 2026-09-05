@@ -30,3 +30,4 @@ actions on mobile.
 - r26: The drawer slides in from the left edge.
 - r27: The slide animation is disabled under prefers-reduced-motion.
 - r28: The panel pads around the safe-area insets.
+- r29: Each row honors the 44px minimum touch target.
