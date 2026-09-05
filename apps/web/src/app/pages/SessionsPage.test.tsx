@@ -6,7 +6,7 @@ vi.mock('@/features/hooks', () => ({
   useSessions: () => ({ data: [], isLoading: false }),
 }));
 vi.mock('./shared', () => ({
-  FilterMenu: () => <div data-testid="filter" />,
+  FilterMenu: ({ prefix }: { prefix: string }) => <div data-testid="filter">{prefix}</div>,
   SessionRow: () => (
     <tr>
       <td>row</td>
@@ -26,5 +26,7 @@ describe('SessionsPage', () => {
   it('keeps the status and type filters', () => {
     render(<SessionsPage />);
     expect(screen.getAllByTestId('filter')).toHaveLength(2);
+    expect(screen.getByText(/^Status:/)).toBeInTheDocument();
+    expect(screen.getByText(/^Type:/)).toBeInTheDocument();
   });
 });
