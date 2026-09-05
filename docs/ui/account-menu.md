@@ -82,3 +82,4 @@ Notes on the bottom-of-sidebar account line and its dropdown.
 - r79: Styles and colors are unchanged from the console theme.
 - r80: The account line sits at the bottom of the sidebar.
 - r81: It shows the signed-in username and role from auth.me.
+- r82: Clicking it opens a dropdown that pops upward.
