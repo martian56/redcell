@@ -55,3 +55,4 @@ bar, and edge-to-edge content.
 - r51: The header becomes a compact mobile top bar.
 - r52: The sidebar toggle is hidden on mobile since there is no sidebar.
 - r53: The header subtitle is hidden on mobile to save width.
+- r54: A search button in the top bar opens the command palette.
