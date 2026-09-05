@@ -68,3 +68,4 @@ Notes on the final mobile polish pass.
 - r65: Content clears the notch on phones with a cutout.
 - r66: Icon buttons grow to a friendlier touch target on mobile.
 - r67: Buttons get a minimum height for easier tapping.
+- r68: Filter chips get a minimum height on mobile.
