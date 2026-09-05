@@ -16,6 +16,7 @@ async def _boot():
 async def _seed_notification():
     async with session_scope() as s:
         await nrepo.create(s, kind="run_completed", title="Test run", body="done", link="sessions/x")
+    await engine.dispose()
 
 
 async def _finding_gated_off():
@@ -24,7 +25,9 @@ async def _finding_gated_off():
         cfg.notifications = {"critical_findings": False}
         await s.flush()
     async with session_scope() as s:
-        return await nrepo.notify(s, kind="finding", title="SQLi")
+        result = await nrepo.notify(s, kind="finding", title="SQLi")
+    await engine.dispose()
+    return result
 
 
 def _login(c: TestClient):
