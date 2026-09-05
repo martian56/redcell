@@ -82,3 +82,4 @@ Notes on the mobile layout of the live session console.
 - r79: The mobile console reads as one focused panel with a switcher.
 - r80: The desktop mosaic tiling does not work on a phone.
 - r81: On mobile the Workspace renders a single panel at a time.
+- r82: A horizontally scrollable tab bar switches between panels.
