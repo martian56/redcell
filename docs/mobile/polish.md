@@ -9,3 +9,4 @@ Notes on the final mobile polish pass.
 - r6: Fixed layers pad around the safe-area insets.
 - r7: Wide tables that are not cards scroll horizontally.
 - r8: The page never scrolls sideways on mobile.
+- r9: Every page was reviewed at a phone width.
