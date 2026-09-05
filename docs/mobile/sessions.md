@@ -85,3 +85,4 @@ Notes on the mobile card list and the stacked New Session layout.
 - r82: SessionRow cells carry data-label attributes for the card labels.
 - r83: The tbl-cards class opts a session table into the card layout.
 - r84: Overview reuses SessionRow so its recent sessions also become cards.
+- r85: The session name and client form the card title.
