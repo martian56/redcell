@@ -35,3 +35,4 @@ Notes on how the Settings page reflows on mobile.
 - r32: The Settings section subnav becomes a horizontal tab bar on mobile.
 - r33: The subnav stops being a sticky side rail and scrolls horizontally.
 - r34: The content column takes the full width below the tabs.
+- r35: The provider and model comboboxes stack through grid2.
