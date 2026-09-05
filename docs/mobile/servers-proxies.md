@@ -50,3 +50,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r47: Empty states center their message inside a card.
 - r48: The Servers list becomes a card list on mobile.
 - r49: The Proxies list becomes a card list on mobile.
+- r50: Each server card shows host, status, sessions, and latency.
