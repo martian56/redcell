@@ -19,3 +19,4 @@ Notes on how the triage and reporting views reflow on mobile.
 - r16: Findings stacks the triage list and detail to one column.
 - r17: The finding detail stops being sticky on mobile.
 - r18: The location column drops from the list rows on mobile.
+- r19: The location still shows in the finding detail.
