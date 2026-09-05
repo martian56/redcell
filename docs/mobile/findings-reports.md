@@ -45,3 +45,4 @@ Notes on how the triage and reporting views reflow on mobile.
 - r42: The report preview spans full width below the table.
 - r43: Filters wrap when they run out of width.
 - r44: All Findings and Reports rules are scoped to the 768px query.
+- r45: The desktop triage and reporting layouts are unchanged.
