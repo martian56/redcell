@@ -18,3 +18,4 @@ actions on mobile.
 - r14: The drawer sits above the bottom bar and below modal dialogs.
 - r15: The update control opens the progress dialog and closes the drawer.
 - r16: The More tab in the bottom bar opens the overflow drawer.
+- r17: The drawer holds Servers, Proxies, and Settings.
