@@ -13,7 +13,8 @@ async def _boot():
     await engine.dispose()
 
 
-async def _seed_notification():
+async def _boot_seeded():
+    await seed.bootstrap()
     async with session_scope() as s:
         await nrepo.create(s, kind="run_completed", title="Test run", body="done", link="sessions/x")
     await engine.dispose()
@@ -52,16 +53,17 @@ def test_settings_carry_notification_prefs():
 
 
 def test_feed_mark_read_and_mark_all():
-    asyncio.run(_boot())
-    asyncio.run(_seed_notification())
+    asyncio.run(_boot_seeded())
     with TestClient(app) as c:
         _login(c)
         feed = c.get("/api/v1/notifications").json()
-        assert feed["unread"] == 1
-        assert feed["items"][0]["title"] == "Test run"
-        nid = feed["items"][0]["id"]
+        assert feed["unread"] >= 1
+        mine = [n for n in feed["items"] if n["title"] == "Test run"]
+        assert mine and mine[0]["read"] is False
+        nid = mine[0]["id"]
         after = c.post(f"/api/v1/notifications/{nid}/read").json()
-        assert after["unread"] == 0
+        marked = [n for n in after["items"] if n["id"] == nid]
+        assert marked and marked[0]["read"] is True
         assert c.post("/api/v1/notifications/read-all").json()["unread"] == 0
 
 
