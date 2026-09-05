@@ -62,3 +62,4 @@ Notes on how the triage and reporting views reflow on mobile.
 - r59: Filters wrap when they run out of width.
 - r60: All Findings and Reports rules are scoped to the 768px query.
 - r61: The desktop triage and reporting layouts are unchanged.
+- r62: Cards and stacked panes read top to bottom on a phone.
