@@ -92,3 +92,4 @@ bar, and edge-to-edge content.
 - r88: The New session button collapses to an icon only on mobile.
 - r89: The primary destinations live in the bottom tab bar.
 - r90: The secondary destinations live in the overflow drawer.
+- r91: The top bar pads around the left safe-area inset.
