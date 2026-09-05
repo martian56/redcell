@@ -77,3 +77,4 @@ the per-category preferences.
 - r73: The Notifications page lists the full feed.
 - r74: Settings has a Notifications section with a toggle per category.
 - r75: Defaults are conservative so the bell never floods.
+- r76: Infrastructure health notifications are off by default.
