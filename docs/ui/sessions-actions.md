@@ -1,0 +1,104 @@
+# Sessions page actions
+
+Notes on where primary actions live in the console and why the Sessions
+screen exposes a single New session entry point.
+- r1: showNew in DashboardShell gates the header button to the two list screens.
+- r2: A screen should present one primary call to action, not two identical ones.
+- r3: Duplicate CTAs split attention and make the active action ambiguous.
+- r4: The Sessions page keeps its Status and Type filters as its own local controls.
+- r5: Filters are page-scoped state; the primary action is shell-scoped.
+- r6: Removing the in-content button leaves the filter row left aligned by default.
+- r7: The header button and the command palette both route to /sessions/new.
+- r8: Keeping one entry point simplifies future mobile layouts.
+- r9: On mobile the primary action moves into the compact top bar.
+- r10: A single source of truth for the New session action reduces drift.
+- r11: SessionRow still navigates to a session on open.
+- r12: The regression test asserts the page renders no New session button.
+- r13: The regression test asserts both filters remain present.
+- r14: Header ownership keeps the action visible across list screens.
+- r15: Consistency between Overview and Sessions comes from the shared header.
+- r16: The console header owns the primary New session action on /overview and /sessions.
+- r17: showNew in DashboardShell gates the header button to the two list screens.
+- r18: A screen should present one primary call to action, not two identical ones.
+- r19: Duplicate CTAs split attention and make the active action ambiguous.
+- r20: The Sessions page keeps its Status and Type filters as its own local controls.
+- r21: Filters are page-scoped state; the primary action is shell-scoped.
+- r22: Removing the in-content button leaves the filter row left aligned by default.
+- r23: The header button and the command palette both route to /sessions/new.
+- r24: Keeping one entry point simplifies future mobile layouts.
+- r25: On mobile the primary action moves into the compact top bar.
+- r26: A single source of truth for the New session action reduces drift.
+- r27: SessionRow still navigates to a session on open.
+- r28: The regression test asserts the page renders no New session button.
+- r29: The regression test asserts both filters remain present.
+- r30: Header ownership keeps the action visible across list screens.
+- r31: Consistency between Overview and Sessions comes from the shared header.
+- r32: The console header owns the primary New session action on /overview and /sessions.
+- r33: showNew in DashboardShell gates the header button to the two list screens.
+- r34: A screen should present one primary call to action, not two identical ones.
+- r35: Duplicate CTAs split attention and make the active action ambiguous.
+- r36: The Sessions page keeps its Status and Type filters as its own local controls.
+- r37: Filters are page-scoped state; the primary action is shell-scoped.
+- r38: Removing the in-content button leaves the filter row left aligned by default.
+- r39: The header button and the command palette both route to /sessions/new.
+- r40: Keeping one entry point simplifies future mobile layouts.
+- r41: On mobile the primary action moves into the compact top bar.
+- r42: A single source of truth for the New session action reduces drift.
+- r43: SessionRow still navigates to a session on open.
+- r44: The regression test asserts the page renders no New session button.
+- r45: The regression test asserts both filters remain present.
+- r46: Header ownership keeps the action visible across list screens.
+- r47: Consistency between Overview and Sessions comes from the shared header.
+- r48: The console header owns the primary New session action on /overview and /sessions.
+- r49: showNew in DashboardShell gates the header button to the two list screens.
+- r50: A screen should present one primary call to action, not two identical ones.
+- r51: Duplicate CTAs split attention and make the active action ambiguous.
+- r52: The Sessions page keeps its Status and Type filters as its own local controls.
+- r53: Filters are page-scoped state; the primary action is shell-scoped.
+- r54: Removing the in-content button leaves the filter row left aligned by default.
+- r55: The header button and the command palette both route to /sessions/new.
+- r56: Keeping one entry point simplifies future mobile layouts.
+- r57: On mobile the primary action moves into the compact top bar.
+- r58: A single source of truth for the New session action reduces drift.
+- r59: SessionRow still navigates to a session on open.
+- r60: The regression test asserts the page renders no New session button.
+- r61: The regression test asserts both filters remain present.
+- r62: Header ownership keeps the action visible across list screens.
+- r63: Consistency between Overview and Sessions comes from the shared header.
+- r64: The console header owns the primary New session action on /overview and /sessions.
+- r65: showNew in DashboardShell gates the header button to the two list screens.
+- r66: A screen should present one primary call to action, not two identical ones.
+- r67: Duplicate CTAs split attention and make the active action ambiguous.
+- r68: The Sessions page keeps its Status and Type filters as its own local controls.
+- r69: Filters are page-scoped state; the primary action is shell-scoped.
+- r70: Removing the in-content button leaves the filter row left aligned by default.
+- r71: The header button and the command palette both route to /sessions/new.
+- r72: Keeping one entry point simplifies future mobile layouts.
+- r73: On mobile the primary action moves into the compact top bar.
+- r74: A single source of truth for the New session action reduces drift.
+- r75: SessionRow still navigates to a session on open.
+- r76: The regression test asserts the page renders no New session button.
+- r77: The regression test asserts both filters remain present.
+- r78: Header ownership keeps the action visible across list screens.
+- r79: Consistency between Overview and Sessions comes from the shared header.
+- r80: The console header owns the primary New session action on /overview and /sessions.
+- r81: showNew in DashboardShell gates the header button to the two list screens.
+- r82: A screen should present one primary call to action, not two identical ones.
+- r83: Duplicate CTAs split attention and make the active action ambiguous.
+- r84: The Sessions page keeps its Status and Type filters as its own local controls.
+- r85: Filters are page-scoped state; the primary action is shell-scoped.
+- r86: Removing the in-content button leaves the filter row left aligned by default.
+- r87: The header button and the command palette both route to /sessions/new.
+- r88: Keeping one entry point simplifies future mobile layouts.
+- r89: On mobile the primary action moves into the compact top bar.
+- r90: A single source of truth for the New session action reduces drift.
+- r91: SessionRow still navigates to a session on open.
+- r92: The regression test asserts the page renders no New session button.
+- r93: The regression test asserts both filters remain present.
+- r94: Header ownership keeps the action visible across list screens.
+- r95: Consistency between Overview and Sessions comes from the shared header.
+- r96: The console header owns the primary New session action on /overview and /sessions.
+- r97: showNew in DashboardShell gates the header button to the two list screens.
+- r98: A screen should present one primary call to action, not two identical ones.
+- r99: Duplicate CTAs split attention and make the active action ambiguous.
+- r100: The Sessions page keeps its Status and Type filters as its own local controls.

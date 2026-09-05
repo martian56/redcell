@@ -37,13 +37,6 @@ export function SessionsPage() {
             { value: 'code', label: 'Code scan' },
           ]}
         />
-        <div className="grow" />
-        <button type="button" className="btn pri sm" onClick={() => nav('/sessions/new')}>
-          <svg viewBox="0 0 24 24">
-            <path d="M12 5v14M5 12h14" />
-          </svg>
-          New session
-        </button>
       </div>
       <div className="card">
         <div className="card-b" style={{ padding: '12px 2px 4px' }}>
