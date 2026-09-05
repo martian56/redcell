@@ -123,7 +123,7 @@
   .tbl-cards tbody {
     display: block;
   }
-  .tbl-cards tr.row {
+  .tbl-cards tbody tr {
     display: grid;
     gap: 7px;
     padding: 12px;
@@ -131,7 +131,7 @@
     border: 1px solid var(--line);
     border-radius: var(--r);
   }
-  .tbl-cards tr.row td {
+  .tbl-cards tbody tr td {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -139,19 +139,24 @@
     padding: 0;
     border: none;
   }
-  .tbl-cards tr.row td[data-label]::before {
+  .tbl-cards tbody tr td[data-label]::before {
     content: attr(data-label);
     color: var(--tx-3);
     font-size: 12px;
     font-weight: 500;
   }
-  .tbl-cards tr.row td:first-child {
+  .tbl-cards tbody tr td:first-child {
     padding-bottom: 8px;
     margin-bottom: 2px;
     border-bottom: 1px solid var(--line);
   }
-  .tbl-cards tr.row td.tright {
+  .tbl-cards tbody tr td.tright {
     text-align: left;
+  }
+  .tbl-cards tbody tr td[colspan] {
+    display: block;
+    text-align: center;
+    border-bottom: none;
   }
 }
 
