@@ -62,3 +62,4 @@ the per-category preferences.
 - r58: Report ready is emitted when a report finishes generating.
 - r59: Server offline and proxy dead are emitted from health checks.
 - r60: Preferences live in Settings as a per-category boolean set.
+- r61: The feed polls on an interval through react-query.
