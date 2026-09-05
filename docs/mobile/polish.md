@@ -6,3 +6,4 @@ Notes on the final mobile polish pass.
 - r3: Buttons get a minimum height for easier tapping.
 - r4: Filter chips get a minimum height on mobile.
 - r5: Findings list rows meet the 44px touch minimum.
+- r6: Fixed layers pad around the safe-area insets.
