@@ -10,3 +10,4 @@ the per-category preferences.
 - r6: The account dropdown has a Notifications row with a count.
 - r7: The Notifications page lists the full feed.
 - r8: Settings has a Notifications section with a toggle per category.
+- r9: Defaults are conservative so the bell never floods.
