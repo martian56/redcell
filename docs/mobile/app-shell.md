@@ -60,3 +60,4 @@ bar, and edge-to-edge content.
 - r56: The New session button collapses to an icon only on mobile.
 - r57: The primary destinations live in the bottom tab bar.
 - r58: The secondary destinations live in the overflow drawer.
+- r59: The top bar pads around the left safe-area inset.
