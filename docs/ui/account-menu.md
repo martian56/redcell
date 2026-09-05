@@ -31,3 +31,4 @@ Notes on the bottom-of-sidebar account line and its dropdown.
 - r28: The username falls back to admin when me is loading.
 - r29: The role falls back to operator when me is loading.
 - r30: The account line stays a single row with the caret.
+- r31: Styles and colors are unchanged from the console theme.
