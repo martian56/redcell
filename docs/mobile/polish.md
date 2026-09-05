@@ -48,3 +48,4 @@ Notes on the final mobile polish pass.
 - r45: The bottom bar and top bar respect the safe areas.
 - r46: Typography stays legible at mobile widths.
 - r47: The console reads as a coherent mobile app.
+- r48: The top bar pads around the top safe-area inset.
