@@ -82,3 +82,4 @@ the per-category preferences.
 - r78: The notify helper records only enabled categories.
 - r79: Run completed and run failed are emitted from the engine.
 - r80: Report ready is emitted when a report finishes generating.
+- r81: Server offline and proxy dead are emitted from health checks.
