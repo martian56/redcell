@@ -10,3 +10,4 @@ Notes on the bottom-of-sidebar account line and its dropdown.
 - r7: Settings navigates to the settings page.
 - r8: Sign out logs out and returns to the overview.
 - r9: The notifications row is added with the notifications feature.
+- r10: The account line is the dropdown trigger.
