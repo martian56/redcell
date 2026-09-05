@@ -46,3 +46,4 @@ Notes on how the Settings page reflows on mobile.
 - r43: Section tabs scroll horizontally without a visible scrollbar.
 - r44: Each card spans the full width with comfortable spacing.
 - r45: The combobox search and pagination work on a phone.
+- r46: The layout reads top to bottom like a mobile settings screen.
