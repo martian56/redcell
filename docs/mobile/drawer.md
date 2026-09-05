@@ -101,3 +101,4 @@ actions on mobile.
 - r97: The drawer holds Servers, Proxies, and Settings.
 - r98: The drawer also holds the version and update-available control.
 - r99: The drawer also holds the theme toggle and sign out.
+- r100: It reuses SECONDARY_NAV from the shared nav module.
