@@ -19,3 +19,4 @@ Notes on how the Overview reflows on mobile.
 - r16: KPI tiles collapse from four across to a 2x2 grid on mobile.
 - r17: The chart and severity cards stack to a single column.
 - r18: The page padding tightens on small screens.
+- r19: Wide tables scroll horizontally within their card.
