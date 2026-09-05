@@ -9,3 +9,4 @@ Notes on the bottom-of-sidebar account line and its dropdown.
 - r6: The dropdown closes on outside click and Escape.
 - r7: Settings navigates to the settings page.
 - r8: Sign out logs out and returns to the overview.
+- r9: The notifications row is added with the notifications feature.
