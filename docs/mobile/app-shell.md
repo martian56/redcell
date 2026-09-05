@@ -87,3 +87,4 @@ bar, and edge-to-edge content.
 - r83: The header becomes a compact mobile top bar.
 - r84: The sidebar toggle is hidden on mobile since there is no sidebar.
 - r85: The header subtitle is hidden on mobile to save width.
+- r86: A search button in the top bar opens the command palette.
