@@ -41,3 +41,4 @@ Notes on the mobile layout of the live session console.
 - r38: The console header is trimmed to fit a narrow top bar.
 - r39: The run metrics and spend are hidden on mobile.
 - r40: The Report button and layout dropdown are hidden on mobile.
+- r41: The session name truncates to a single line.
