@@ -18,3 +18,4 @@ the per-category preferences.
 - r14: Report ready is emitted when a report finishes generating.
 - r15: Server offline and proxy dead are emitted from health checks.
 - r16: Preferences live in Settings as a per-category boolean set.
+- r17: The feed polls on an interval through react-query.
