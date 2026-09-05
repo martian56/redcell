@@ -56,3 +56,4 @@ the per-category preferences.
 - r52: Settings has a Notifications section with a toggle per category.
 - r53: Defaults are conservative so the bell never floods.
 - r54: Infrastructure health notifications are off by default.
+- r55: Findings only notify for critical or high severity.
