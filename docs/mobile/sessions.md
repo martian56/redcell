@@ -99,3 +99,4 @@ Notes on the mobile card list and the stacked New Session layout.
 - r96: The Sessions list becomes a stacked card list on mobile.
 - r97: Each session renders as a card instead of a table row.
 - r98: SessionRow cells carry data-label attributes for the card labels.
+- r99: The tbl-cards class opts a session table into the card layout.
