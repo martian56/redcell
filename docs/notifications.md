@@ -28,3 +28,4 @@ the per-category preferences.
 - r24: The panel lists recent notifications with an icon per kind.
 - r25: Each item shows a title, body, and relative time.
 - r26: Mark all read clears every unread item.
+- r27: See all notifications opens the full page.
