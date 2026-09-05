@@ -25,3 +25,4 @@ Notes on the bottom-of-sidebar account line and its dropdown.
 - r22: The dropdown closes on outside click and Escape.
 - r23: Settings navigates to the settings page.
 - r24: Sign out logs out and returns to the overview.
+- r25: The notifications row is added with the notifications feature.
