@@ -81,3 +81,4 @@ the per-category preferences.
 - r77: Findings only notify for critical or high severity.
 - r78: The notify helper records only enabled categories.
 - r79: Run completed and run failed are emitted from the engine.
+- r80: Report ready is emitted when a report finishes generating.
