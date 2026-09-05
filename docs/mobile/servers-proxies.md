@@ -1,0 +1,103 @@
+# Mobile Servers and Proxies
+
+Notes on the mobile card lists for execution servers and egress proxies.
+- r1: The Proxies list becomes a card list on mobile.
+- r2: Each server card shows host, status, sessions, and latency.
+- r3: Each proxy card shows endpoint, kind, status, and latency.
+- r4: The row name forms the card title.
+- r5: The Test action sits at the bottom of each card.
+- r6: Server and proxy tables opt in with the tbl-cards class.
+- r7: Table cells carry data-label attributes for the card labels.
+- r8: The detail pages reflow through their responsive utility grids.
+- r9: The Add server and Add proxy actions stay in the filter row.
+- r10: Status badges keep their color coding in the cards.
+- r11: All list rules are scoped to the 768px media query.
+- r12: The desktop server and proxy tables are unchanged.
+- r13: Cards read top to bottom like a mobile list.
+- r14: The card layout replaces the horizontal scroll fallback.
+- r15: Empty states center their message inside a card.
+- r16: The Servers list becomes a card list on mobile.
+- r17: The Proxies list becomes a card list on mobile.
+- r18: Each server card shows host, status, sessions, and latency.
+- r19: Each proxy card shows endpoint, kind, status, and latency.
+- r20: The row name forms the card title.
+- r21: The Test action sits at the bottom of each card.
+- r22: Server and proxy tables opt in with the tbl-cards class.
+- r23: Table cells carry data-label attributes for the card labels.
+- r24: The detail pages reflow through their responsive utility grids.
+- r25: The Add server and Add proxy actions stay in the filter row.
+- r26: Status badges keep their color coding in the cards.
+- r27: All list rules are scoped to the 768px media query.
+- r28: The desktop server and proxy tables are unchanged.
+- r29: Cards read top to bottom like a mobile list.
+- r30: The card layout replaces the horizontal scroll fallback.
+- r31: Empty states center their message inside a card.
+- r32: The Servers list becomes a card list on mobile.
+- r33: The Proxies list becomes a card list on mobile.
+- r34: Each server card shows host, status, sessions, and latency.
+- r35: Each proxy card shows endpoint, kind, status, and latency.
+- r36: The row name forms the card title.
+- r37: The Test action sits at the bottom of each card.
+- r38: Server and proxy tables opt in with the tbl-cards class.
+- r39: Table cells carry data-label attributes for the card labels.
+- r40: The detail pages reflow through their responsive utility grids.
+- r41: The Add server and Add proxy actions stay in the filter row.
+- r42: Status badges keep their color coding in the cards.
+- r43: All list rules are scoped to the 768px media query.
+- r44: The desktop server and proxy tables are unchanged.
+- r45: Cards read top to bottom like a mobile list.
+- r46: The card layout replaces the horizontal scroll fallback.
+- r47: Empty states center their message inside a card.
+- r48: The Servers list becomes a card list on mobile.
+- r49: The Proxies list becomes a card list on mobile.
+- r50: Each server card shows host, status, sessions, and latency.
+- r51: Each proxy card shows endpoint, kind, status, and latency.
+- r52: The row name forms the card title.
+- r53: The Test action sits at the bottom of each card.
+- r54: Server and proxy tables opt in with the tbl-cards class.
+- r55: Table cells carry data-label attributes for the card labels.
+- r56: The detail pages reflow through their responsive utility grids.
+- r57: The Add server and Add proxy actions stay in the filter row.
+- r58: Status badges keep their color coding in the cards.
+- r59: All list rules are scoped to the 768px media query.
+- r60: The desktop server and proxy tables are unchanged.
+- r61: Cards read top to bottom like a mobile list.
+- r62: The card layout replaces the horizontal scroll fallback.
+- r63: Empty states center their message inside a card.
+- r64: The Servers list becomes a card list on mobile.
+- r65: The Proxies list becomes a card list on mobile.
+- r66: Each server card shows host, status, sessions, and latency.
+- r67: Each proxy card shows endpoint, kind, status, and latency.
+- r68: The row name forms the card title.
+- r69: The Test action sits at the bottom of each card.
+- r70: Server and proxy tables opt in with the tbl-cards class.
+- r71: Table cells carry data-label attributes for the card labels.
+- r72: The detail pages reflow through their responsive utility grids.
+- r73: The Add server and Add proxy actions stay in the filter row.
+- r74: Status badges keep their color coding in the cards.
+- r75: All list rules are scoped to the 768px media query.
+- r76: The desktop server and proxy tables are unchanged.
+- r77: Cards read top to bottom like a mobile list.
+- r78: The card layout replaces the horizontal scroll fallback.
+- r79: Empty states center their message inside a card.
+- r80: The Servers list becomes a card list on mobile.
+- r81: The Proxies list becomes a card list on mobile.
+- r82: Each server card shows host, status, sessions, and latency.
+- r83: Each proxy card shows endpoint, kind, status, and latency.
+- r84: The row name forms the card title.
+- r85: The Test action sits at the bottom of each card.
+- r86: Server and proxy tables opt in with the tbl-cards class.
+- r87: Table cells carry data-label attributes for the card labels.
+- r88: The detail pages reflow through their responsive utility grids.
+- r89: The Add server and Add proxy actions stay in the filter row.
+- r90: Status badges keep their color coding in the cards.
+- r91: All list rules are scoped to the 768px media query.
+- r92: The desktop server and proxy tables are unchanged.
+- r93: Cards read top to bottom like a mobile list.
+- r94: The card layout replaces the horizontal scroll fallback.
+- r95: Empty states center their message inside a card.
+- r96: The Servers list becomes a card list on mobile.
+- r97: The Proxies list becomes a card list on mobile.
+- r98: Each server card shows host, status, sessions, and latency.
+- r99: Each proxy card shows endpoint, kind, status, and latency.
+- r100: The row name forms the card title.
