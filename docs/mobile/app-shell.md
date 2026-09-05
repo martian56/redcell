@@ -10,3 +10,4 @@ bar, and edge-to-edge content.
 - r6: A search button in the top bar opens the command palette.
 - r7: Search stays reachable on mobile after the sidebar is hidden.
 - r8: The New session button collapses to an icon only on mobile.
+- r9: The primary destinations live in the bottom tab bar.
