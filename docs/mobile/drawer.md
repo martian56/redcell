@@ -57,3 +57,4 @@ actions on mobile.
 - r53: It reuses the shell sign-out, theme, version, and update handlers.
 - r54: Escape closes the drawer.
 - r55: Tapping the backdrop closes the drawer.
+- r56: Body scroll is locked while the drawer is open.
