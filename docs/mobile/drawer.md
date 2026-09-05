@@ -40,3 +40,4 @@ actions on mobile.
 - r36: It reuses SECONDARY_NAV from the shared nav module.
 - r37: It reuses the shell sign-out, theme, version, and update handlers.
 - r38: Escape closes the drawer.
+- r39: Tapping the backdrop closes the drawer.
