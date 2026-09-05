@@ -69,3 +69,4 @@ mobile console. See DESIGN.md for the overall plan.
 - r65: Desktop CSS is never edited, so the PC layout cannot regress.
 - r66: mobile.css is imported last so its rules win at the mobile width.
 - r67: useIsMobile reads the same 768px threshold via matchMedia.
+- r68: MOBILE_MAX_WIDTH is the single source of truth for the breakpoint.
