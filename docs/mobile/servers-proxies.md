@@ -37,3 +37,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r34: Each server card shows host, status, sessions, and latency.
 - r35: Each proxy card shows endpoint, kind, status, and latency.
 - r36: The row name forms the card title.
+- r37: The Test action sits at the bottom of each card.
