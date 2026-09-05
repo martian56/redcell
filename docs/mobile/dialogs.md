@@ -17,3 +17,4 @@ Notes on how modals present as sheets on mobile.
 - r14: Sheets pad around the bottom safe-area inset.
 - r15: Sheets read as native mobile panels.
 - r16: Modals present as sheets on mobile instead of centered boxes.
+- r17: The Dialog primitive becomes a full-width bottom sheet.
