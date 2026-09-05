@@ -97,3 +97,4 @@ Notes on how the triage and reporting views reflow on mobile.
 - r94: Cards and stacked panes read top to bottom on a phone.
 - r95: The Generate action stays reachable in the reports card.
 - r96: Findings stacks the triage list and detail to one column.
+- r97: The finding detail stops being sticky on mobile.
