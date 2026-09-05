@@ -42,3 +42,4 @@ bar, and edge-to-edge content.
 - r38: A search button in the top bar opens the command palette.
 - r39: Search stays reachable on mobile after the sidebar is hidden.
 - r40: The New session button collapses to an icon only on mobile.
+- r41: The primary destinations live in the bottom tab bar.
