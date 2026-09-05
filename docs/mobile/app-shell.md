@@ -21,3 +21,4 @@ bar, and edge-to-edge content.
 - r17: The shell grid collapses to a single column on mobile.
 - r18: The main card goes edge to edge with no border or radius.
 - r19: The header becomes a compact mobile top bar.
+- r20: The sidebar toggle is hidden on mobile since there is no sidebar.
