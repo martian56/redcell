@@ -65,3 +65,4 @@ the per-category preferences.
 - r61: The feed polls on an interval through react-query.
 - r62: Marking read updates the cached feed immediately.
 - r63: The panel closes on outside click and Escape.
+- r64: Notifications are global, matching runs and findings.
