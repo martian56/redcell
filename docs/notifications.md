@@ -67,3 +67,4 @@ the per-category preferences.
 - r63: The panel closes on outside click and Escape.
 - r64: Notifications are global, matching runs and findings.
 - r65: The bell and panel use our existing tokens and colors.
+- r66: A bell in the sidebar footer shows an unread dot.
