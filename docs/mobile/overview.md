@@ -1,0 +1,103 @@
+# Mobile Overview page
+
+Notes on how the Overview reflows on mobile.
+- r1: The chart and severity cards stack to a single column.
+- r2: The page padding tightens on small screens.
+- r3: Wide tables scroll horizontally within their card.
+- r4: Horizontal table scroll keeps the page from scrolling sideways.
+- r5: Per-page card layouts replace the scroll fallback later.
+- r6: The severity bars keep their full width when stacked.
+- r7: The cumulative findings chart fits the viewport width.
+- r8: KPI values stay legible at the narrower tile width.
+- r9: The Recent sessions table becomes cards once SessionRow is responsive.
+- r10: All Overview rules are scoped to the 768px media query.
+- r11: The desktop Overview grid is unchanged.
+- r12: Two column sections become one column on mobile.
+- r13: The wrap container drops its desktop padding on mobile.
+- r14: Cards remain full width with comfortable inner spacing.
+- r15: The layout reads top to bottom like a mobile dashboard.
+- r16: KPI tiles collapse from four across to a 2x2 grid on mobile.
+- r17: The chart and severity cards stack to a single column.
+- r18: The page padding tightens on small screens.
+- r19: Wide tables scroll horizontally within their card.
+- r20: Horizontal table scroll keeps the page from scrolling sideways.
+- r21: Per-page card layouts replace the scroll fallback later.
+- r22: The severity bars keep their full width when stacked.
+- r23: The cumulative findings chart fits the viewport width.
+- r24: KPI values stay legible at the narrower tile width.
+- r25: The Recent sessions table becomes cards once SessionRow is responsive.
+- r26: All Overview rules are scoped to the 768px media query.
+- r27: The desktop Overview grid is unchanged.
+- r28: Two column sections become one column on mobile.
+- r29: The wrap container drops its desktop padding on mobile.
+- r30: Cards remain full width with comfortable inner spacing.
+- r31: The layout reads top to bottom like a mobile dashboard.
+- r32: KPI tiles collapse from four across to a 2x2 grid on mobile.
+- r33: The chart and severity cards stack to a single column.
+- r34: The page padding tightens on small screens.
+- r35: Wide tables scroll horizontally within their card.
+- r36: Horizontal table scroll keeps the page from scrolling sideways.
+- r37: Per-page card layouts replace the scroll fallback later.
+- r38: The severity bars keep their full width when stacked.
+- r39: The cumulative findings chart fits the viewport width.
+- r40: KPI values stay legible at the narrower tile width.
+- r41: The Recent sessions table becomes cards once SessionRow is responsive.
+- r42: All Overview rules are scoped to the 768px media query.
+- r43: The desktop Overview grid is unchanged.
+- r44: Two column sections become one column on mobile.
+- r45: The wrap container drops its desktop padding on mobile.
+- r46: Cards remain full width with comfortable inner spacing.
+- r47: The layout reads top to bottom like a mobile dashboard.
+- r48: KPI tiles collapse from four across to a 2x2 grid on mobile.
+- r49: The chart and severity cards stack to a single column.
+- r50: The page padding tightens on small screens.
+- r51: Wide tables scroll horizontally within their card.
+- r52: Horizontal table scroll keeps the page from scrolling sideways.
+- r53: Per-page card layouts replace the scroll fallback later.
+- r54: The severity bars keep their full width when stacked.
+- r55: The cumulative findings chart fits the viewport width.
+- r56: KPI values stay legible at the narrower tile width.
+- r57: The Recent sessions table becomes cards once SessionRow is responsive.
+- r58: All Overview rules are scoped to the 768px media query.
+- r59: The desktop Overview grid is unchanged.
+- r60: Two column sections become one column on mobile.
+- r61: The wrap container drops its desktop padding on mobile.
+- r62: Cards remain full width with comfortable inner spacing.
+- r63: The layout reads top to bottom like a mobile dashboard.
+- r64: KPI tiles collapse from four across to a 2x2 grid on mobile.
+- r65: The chart and severity cards stack to a single column.
+- r66: The page padding tightens on small screens.
+- r67: Wide tables scroll horizontally within their card.
+- r68: Horizontal table scroll keeps the page from scrolling sideways.
+- r69: Per-page card layouts replace the scroll fallback later.
+- r70: The severity bars keep their full width when stacked.
+- r71: The cumulative findings chart fits the viewport width.
+- r72: KPI values stay legible at the narrower tile width.
+- r73: The Recent sessions table becomes cards once SessionRow is responsive.
+- r74: All Overview rules are scoped to the 768px media query.
+- r75: The desktop Overview grid is unchanged.
+- r76: Two column sections become one column on mobile.
+- r77: The wrap container drops its desktop padding on mobile.
+- r78: Cards remain full width with comfortable inner spacing.
+- r79: The layout reads top to bottom like a mobile dashboard.
+- r80: KPI tiles collapse from four across to a 2x2 grid on mobile.
+- r81: The chart and severity cards stack to a single column.
+- r82: The page padding tightens on small screens.
+- r83: Wide tables scroll horizontally within their card.
+- r84: Horizontal table scroll keeps the page from scrolling sideways.
+- r85: Per-page card layouts replace the scroll fallback later.
+- r86: The severity bars keep their full width when stacked.
+- r87: The cumulative findings chart fits the viewport width.
+- r88: KPI values stay legible at the narrower tile width.
+- r89: The Recent sessions table becomes cards once SessionRow is responsive.
+- r90: All Overview rules are scoped to the 768px media query.
+- r91: The desktop Overview grid is unchanged.
+- r92: Two column sections become one column on mobile.
+- r93: The wrap container drops its desktop padding on mobile.
+- r94: Cards remain full width with comfortable inner spacing.
+- r95: The layout reads top to bottom like a mobile dashboard.
+- r96: KPI tiles collapse from four across to a 2x2 grid on mobile.
+- r97: The chart and severity cards stack to a single column.
+- r98: The page padding tightens on small screens.
+- r99: Wide tables scroll horizontally within their card.
+- r100: Horizontal table scroll keeps the page from scrolling sideways.
