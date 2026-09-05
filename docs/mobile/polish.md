@@ -59,3 +59,4 @@ Notes on the final mobile polish pass.
 - r56: The page never scrolls sideways on mobile.
 - r57: Every page was reviewed at a phone width.
 - r58: The desktop layout is verified unchanged.
+- r59: All polish rules are scoped to the 768px media query.
