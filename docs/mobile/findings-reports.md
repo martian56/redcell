@@ -71,3 +71,4 @@ Notes on how the triage and reporting views reflow on mobile.
 - r68: Findings stay grouped by severity in the list.
 - r69: Selecting a finding updates the detail below the list.
 - r70: Reports stacks the reports table and the preview to one column.
+- r71: The reports split overrides its inline two column grid on mobile.
