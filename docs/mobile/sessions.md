@@ -8,3 +8,4 @@ Notes on the mobile card list and the stacked New Session layout.
 - r5: The session name and client form the card title.
 - r6: Each remaining cell shows its label on the left and value on the right.
 - r7: The card layout overrides the horizontal scroll fallback.
+- r8: The filter row wraps when it runs out of width.
