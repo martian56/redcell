@@ -47,3 +47,4 @@ Notes on the bottom-of-sidebar account line and its dropdown.
 - r44: The username falls back to admin when me is loading.
 - r45: The role falls back to operator when me is loading.
 - r46: The account line stays a single row with the caret.
+- r47: Styles and colors are unchanged from the console theme.
