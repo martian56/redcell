@@ -32,3 +32,4 @@ Notes on how the Overview reflows on mobile.
 - r29: The wrap container drops its desktop padding on mobile.
 - r30: Cards remain full width with comfortable inner spacing.
 - r31: The layout reads top to bottom like a mobile dashboard.
+- r32: KPI tiles collapse from four across to a 2x2 grid on mobile.
