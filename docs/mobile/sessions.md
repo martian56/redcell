@@ -49,3 +49,4 @@ Notes on the mobile card list and the stacked New Session layout.
 - r46: All Sessions rules are scoped to the 768px media query.
 - r47: Cards read top to bottom like a mobile list.
 - r48: The Sessions list becomes a stacked card list on mobile.
+- r49: Each session renders as a card instead of a table row.
