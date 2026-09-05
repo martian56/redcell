@@ -72,3 +72,4 @@ Notes on the native-style bottom navigation for the mobile console.
 - r69: The sidebar and the mobile nav read the same PRIMARY_NAV source.
 - r70: The drawer in the next PR reuses SECONDARY_NAV from the same module.
 - r71: Each tab is a NavLink so the active state follows the router.
+- r72: The active tab is tinted with the accent color.
