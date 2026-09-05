@@ -28,3 +28,4 @@ bar, and edge-to-edge content.
 - r24: The New session button collapses to an icon only on mobile.
 - r25: The primary destinations live in the bottom tab bar.
 - r26: The secondary destinations live in the overflow drawer.
+- r27: The top bar pads around the left safe-area inset.
