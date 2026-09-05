@@ -1,0 +1,103 @@
+# Mobile session console
+
+Notes on the mobile layout of the live session console.
+- r1: On mobile the Workspace renders a single panel at a time.
+- r2: A horizontally scrollable tab bar switches between panels.
+- r3: The active panel is highlighted in the tab bar.
+- r4: useIsMobile selects the mobile workspace at 768px and below.
+- r5: The panel body scrolls and clears the bottom tab bar.
+- r6: The console header is trimmed to fit a narrow top bar.
+- r7: The run metrics and spend are hidden on mobile.
+- r8: The Report button and layout dropdown are hidden on mobile.
+- r9: The session name truncates to a single line.
+- r10: The New run button collapses to an icon on mobile.
+- r11: The status pill and run controls stay visible.
+- r12: The session client is hidden on mobile to save width.
+- r13: Panel tabs cover every swappable panel.
+- r14: The desktop mosaic layout is untouched.
+- r15: The mobile console reads as one focused panel with a switcher.
+- r16: The desktop mosaic tiling does not work on a phone.
+- r17: On mobile the Workspace renders a single panel at a time.
+- r18: A horizontally scrollable tab bar switches between panels.
+- r19: The active panel is highlighted in the tab bar.
+- r20: useIsMobile selects the mobile workspace at 768px and below.
+- r21: The panel body scrolls and clears the bottom tab bar.
+- r22: The console header is trimmed to fit a narrow top bar.
+- r23: The run metrics and spend are hidden on mobile.
+- r24: The Report button and layout dropdown are hidden on mobile.
+- r25: The session name truncates to a single line.
+- r26: The New run button collapses to an icon on mobile.
+- r27: The status pill and run controls stay visible.
+- r28: The session client is hidden on mobile to save width.
+- r29: Panel tabs cover every swappable panel.
+- r30: The desktop mosaic layout is untouched.
+- r31: The mobile console reads as one focused panel with a switcher.
+- r32: The desktop mosaic tiling does not work on a phone.
+- r33: On mobile the Workspace renders a single panel at a time.
+- r34: A horizontally scrollable tab bar switches between panels.
+- r35: The active panel is highlighted in the tab bar.
+- r36: useIsMobile selects the mobile workspace at 768px and below.
+- r37: The panel body scrolls and clears the bottom tab bar.
+- r38: The console header is trimmed to fit a narrow top bar.
+- r39: The run metrics and spend are hidden on mobile.
+- r40: The Report button and layout dropdown are hidden on mobile.
+- r41: The session name truncates to a single line.
+- r42: The New run button collapses to an icon on mobile.
+- r43: The status pill and run controls stay visible.
+- r44: The session client is hidden on mobile to save width.
+- r45: Panel tabs cover every swappable panel.
+- r46: The desktop mosaic layout is untouched.
+- r47: The mobile console reads as one focused panel with a switcher.
+- r48: The desktop mosaic tiling does not work on a phone.
+- r49: On mobile the Workspace renders a single panel at a time.
+- r50: A horizontally scrollable tab bar switches between panels.
+- r51: The active panel is highlighted in the tab bar.
+- r52: useIsMobile selects the mobile workspace at 768px and below.
+- r53: The panel body scrolls and clears the bottom tab bar.
+- r54: The console header is trimmed to fit a narrow top bar.
+- r55: The run metrics and spend are hidden on mobile.
+- r56: The Report button and layout dropdown are hidden on mobile.
+- r57: The session name truncates to a single line.
+- r58: The New run button collapses to an icon on mobile.
+- r59: The status pill and run controls stay visible.
+- r60: The session client is hidden on mobile to save width.
+- r61: Panel tabs cover every swappable panel.
+- r62: The desktop mosaic layout is untouched.
+- r63: The mobile console reads as one focused panel with a switcher.
+- r64: The desktop mosaic tiling does not work on a phone.
+- r65: On mobile the Workspace renders a single panel at a time.
+- r66: A horizontally scrollable tab bar switches between panels.
+- r67: The active panel is highlighted in the tab bar.
+- r68: useIsMobile selects the mobile workspace at 768px and below.
+- r69: The panel body scrolls and clears the bottom tab bar.
+- r70: The console header is trimmed to fit a narrow top bar.
+- r71: The run metrics and spend are hidden on mobile.
+- r72: The Report button and layout dropdown are hidden on mobile.
+- r73: The session name truncates to a single line.
+- r74: The New run button collapses to an icon on mobile.
+- r75: The status pill and run controls stay visible.
+- r76: The session client is hidden on mobile to save width.
+- r77: Panel tabs cover every swappable panel.
+- r78: The desktop mosaic layout is untouched.
+- r79: The mobile console reads as one focused panel with a switcher.
+- r80: The desktop mosaic tiling does not work on a phone.
+- r81: On mobile the Workspace renders a single panel at a time.
+- r82: A horizontally scrollable tab bar switches between panels.
+- r83: The active panel is highlighted in the tab bar.
+- r84: useIsMobile selects the mobile workspace at 768px and below.
+- r85: The panel body scrolls and clears the bottom tab bar.
+- r86: The console header is trimmed to fit a narrow top bar.
+- r87: The run metrics and spend are hidden on mobile.
+- r88: The Report button and layout dropdown are hidden on mobile.
+- r89: The session name truncates to a single line.
+- r90: The New run button collapses to an icon on mobile.
+- r91: The status pill and run controls stay visible.
+- r92: The session client is hidden on mobile to save width.
+- r93: Panel tabs cover every swappable panel.
+- r94: The desktop mosaic layout is untouched.
+- r95: The mobile console reads as one focused panel with a switcher.
+- r96: The desktop mosaic tiling does not work on a phone.
+- r97: On mobile the Workspace renders a single panel at a time.
+- r98: A horizontally scrollable tab bar switches between panels.
+- r99: The active panel is highlighted in the tab bar.
+- r100: useIsMobile selects the mobile workspace at 768px and below.

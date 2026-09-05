@@ -93,9 +93,13 @@ export function ConsoleHeader({ sessionId }: { sessionId: string | null }) {
         <svg viewBox="0 0 24 24">
           <path d="M12 5v14M5 12h14" />
         </svg>
-        New run
+        <span className="btn-lbl">New run</span>
       </button>
-      <button type="button" className="btn" onClick={() => nav(sessionId ? `/reports?session=${sessionId}` : '/reports')}>
+      <button
+        type="button"
+        className="btn mobile-hide"
+        onClick={() => nav(sessionId ? `/reports?session=${sessionId}` : '/reports')}
+      >
         Report
       </button>
       <Dropdown
@@ -107,7 +111,7 @@ export function ConsoleHeader({ sessionId }: { sessionId: string | null }) {
         ]}
         onChange={(v) => (v === '__reset' ? reset() : addPanelAsTile(v as PanelId))}
         trigger={
-          <span className="iconbtn" title="Layout & panels">
+          <span className="iconbtn mobile-hide" title="Layout & panels">
             <svg viewBox="0 0 24 24">
               <rect x="3" y="4" width="18" height="16" rx="2" />
               <path d="M15 4v16" />
