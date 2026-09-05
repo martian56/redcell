@@ -25,3 +25,4 @@ actions on mobile.
 - r21: It reuses the shell sign-out, theme, version, and update handlers.
 - r22: Escape closes the drawer.
 - r23: Tapping the backdrop closes the drawer.
+- r24: Body scroll is locked while the drawer is open.
