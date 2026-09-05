@@ -75,3 +75,4 @@ Notes on the final mobile polish pass.
 - r72: The page never scrolls sideways on mobile.
 - r73: Every page was reviewed at a phone width.
 - r74: The desktop layout is verified unchanged.
+- r75: All polish rules are scoped to the 768px media query.
