@@ -12,3 +12,4 @@ actions on mobile.
 - r8: Body scroll is locked while the drawer is open.
 - r9: Selecting a destination closes the drawer and navigates.
 - r10: The drawer slides in from the left edge.
+- r11: The slide animation is disabled under prefers-reduced-motion.
