@@ -91,3 +91,4 @@ Notes on the final mobile polish pass.
 - r88: The page never scrolls sideways on mobile.
 - r89: Every page was reviewed at a phone width.
 - r90: The desktop layout is verified unchanged.
+- r91: All polish rules are scoped to the 768px media query.
