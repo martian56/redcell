@@ -100,3 +100,4 @@ Notes on the bottom-of-sidebar account line and its dropdown.
 - r97: It shows the signed-in username and role from auth.me.
 - r98: Clicking it opens a dropdown that pops upward.
 - r99: The dropdown has Settings, Toggle theme, and Sign out.
+- r100: Menu icons are right aligned and muted.
