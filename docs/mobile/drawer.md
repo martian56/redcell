@@ -13,3 +13,4 @@ actions on mobile.
 - r9: Selecting a destination closes the drawer and navigates.
 - r10: The drawer slides in from the left edge.
 - r11: The slide animation is disabled under prefers-reduced-motion.
+- r12: The panel pads around the safe-area insets.
