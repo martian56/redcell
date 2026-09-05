@@ -85,3 +85,4 @@ Notes on the final mobile polish pass.
 - r82: Icon buttons grow to a friendlier touch target on mobile.
 - r83: Buttons get a minimum height for easier tapping.
 - r84: Filter chips get a minimum height on mobile.
+- r85: Findings list rows meet the 44px touch minimum.
