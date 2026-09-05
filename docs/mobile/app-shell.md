@@ -48,3 +48,4 @@ bar, and edge-to-edge content.
 - r44: Every shell rule is scoped to the 768px media query.
 - r45: The desktop shell grid and header are unchanged.
 - r46: Content scrolls full width beneath the top bar.
+- r47: The bottom bar and top bar frame the scrollable content.
