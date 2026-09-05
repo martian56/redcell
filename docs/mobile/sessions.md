@@ -47,3 +47,4 @@ Notes on the mobile card list and the stacked New Session layout.
 - r44: Form fields span the full width with comfortable spacing.
 - r45: The desktop tables and two column form are unchanged.
 - r46: All Sessions rules are scoped to the 768px media query.
+- r47: Cards read top to bottom like a mobile list.
