@@ -37,3 +37,4 @@ Notes on the bottom-of-sidebar account line and its dropdown.
 - r34: Clicking it opens a dropdown that pops upward.
 - r35: The dropdown has Settings, Toggle theme, and Sign out.
 - r36: Menu icons are right aligned and muted.
+- r37: The useMe hook reads the current user with react-query.
