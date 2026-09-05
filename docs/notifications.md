@@ -57,3 +57,4 @@ the per-category preferences.
 - r53: Defaults are conservative so the bell never floods.
 - r54: Infrastructure health notifications are off by default.
 - r55: Findings only notify for critical or high severity.
+- r56: The notify helper records only enabled categories.
