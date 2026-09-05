@@ -66,3 +66,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r63: Empty states center their message inside a card.
 - r64: The Servers list becomes a card list on mobile.
 - r65: The Proxies list becomes a card list on mobile.
+- r66: Each server card shows host, status, sessions, and latency.
