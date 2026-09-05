@@ -15,3 +15,4 @@ Notes on how the Overview reflows on mobile.
 - r12: Two column sections become one column on mobile.
 - r13: The wrap container drops its desktop padding on mobile.
 - r14: Cards remain full width with comfortable inner spacing.
+- r15: The layout reads top to bottom like a mobile dashboard.
