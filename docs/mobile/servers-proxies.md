@@ -48,3 +48,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r45: Cards read top to bottom like a mobile list.
 - r46: The card layout replaces the horizontal scroll fallback.
 - r47: Empty states center their message inside a card.
+- r48: The Servers list becomes a card list on mobile.
