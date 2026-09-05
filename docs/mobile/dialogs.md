@@ -65,3 +65,4 @@ Notes on how modals present as sheets on mobile.
 - r62: Sheets pad around the bottom safe-area inset.
 - r63: Sheets read as native mobile panels.
 - r64: Modals present as sheets on mobile instead of centered boxes.
+- r65: The Dialog primitive becomes a full-width bottom sheet.
