@@ -19,3 +19,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r16: The Servers list becomes a card list on mobile.
 - r17: The Proxies list becomes a card list on mobile.
 - r18: Each server card shows host, status, sessions, and latency.
+- r19: Each proxy card shows endpoint, kind, status, and latency.
