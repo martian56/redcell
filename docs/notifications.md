@@ -36,3 +36,4 @@ the per-category preferences.
 - r32: Infrastructure health notifications are off by default.
 - r33: Findings only notify for critical or high severity.
 - r34: The notify helper records only enabled categories.
+- r35: Run completed and run failed are emitted from the engine.
