@@ -41,3 +41,4 @@ Notes on the native-style bottom navigation for the mobile console.
 - r38: The drawer in the next PR reuses SECONDARY_NAV from the same module.
 - r39: Each tab is a NavLink so the active state follows the router.
 - r40: The active tab is tinted with the accent color.
+- r41: Tabs stack an icon over a small label for a compact touch target.
