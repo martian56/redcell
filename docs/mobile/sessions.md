@@ -1,0 +1,103 @@
+# Mobile Sessions and New Session
+
+Notes on the mobile card list and the stacked New Session layout.
+- r1: Each session renders as a card instead of a table row.
+- r2: SessionRow cells carry data-label attributes for the card labels.
+- r3: The tbl-cards class opts a session table into the card layout.
+- r4: Overview reuses SessionRow so its recent sessions also become cards.
+- r5: The session name and client form the card title.
+- r6: Each remaining cell shows its label on the left and value on the right.
+- r7: The card layout overrides the horizontal scroll fallback.
+- r8: The filter row wraps when it runs out of width.
+- r9: New Session stacks the planner and the form to one column.
+- r10: Paired form rows collapse from two columns to one on mobile.
+- r11: The planner chat card takes a shorter height on mobile.
+- r12: Form fields span the full width with comfortable spacing.
+- r13: The desktop tables and two column form are unchanged.
+- r14: All Sessions rules are scoped to the 768px media query.
+- r15: Cards read top to bottom like a mobile list.
+- r16: The Sessions list becomes a stacked card list on mobile.
+- r17: Each session renders as a card instead of a table row.
+- r18: SessionRow cells carry data-label attributes for the card labels.
+- r19: The tbl-cards class opts a session table into the card layout.
+- r20: Overview reuses SessionRow so its recent sessions also become cards.
+- r21: The session name and client form the card title.
+- r22: Each remaining cell shows its label on the left and value on the right.
+- r23: The card layout overrides the horizontal scroll fallback.
+- r24: The filter row wraps when it runs out of width.
+- r25: New Session stacks the planner and the form to one column.
+- r26: Paired form rows collapse from two columns to one on mobile.
+- r27: The planner chat card takes a shorter height on mobile.
+- r28: Form fields span the full width with comfortable spacing.
+- r29: The desktop tables and two column form are unchanged.
+- r30: All Sessions rules are scoped to the 768px media query.
+- r31: Cards read top to bottom like a mobile list.
+- r32: The Sessions list becomes a stacked card list on mobile.
+- r33: Each session renders as a card instead of a table row.
+- r34: SessionRow cells carry data-label attributes for the card labels.
+- r35: The tbl-cards class opts a session table into the card layout.
+- r36: Overview reuses SessionRow so its recent sessions also become cards.
+- r37: The session name and client form the card title.
+- r38: Each remaining cell shows its label on the left and value on the right.
+- r39: The card layout overrides the horizontal scroll fallback.
+- r40: The filter row wraps when it runs out of width.
+- r41: New Session stacks the planner and the form to one column.
+- r42: Paired form rows collapse from two columns to one on mobile.
+- r43: The planner chat card takes a shorter height on mobile.
+- r44: Form fields span the full width with comfortable spacing.
+- r45: The desktop tables and two column form are unchanged.
+- r46: All Sessions rules are scoped to the 768px media query.
+- r47: Cards read top to bottom like a mobile list.
+- r48: The Sessions list becomes a stacked card list on mobile.
+- r49: Each session renders as a card instead of a table row.
+- r50: SessionRow cells carry data-label attributes for the card labels.
+- r51: The tbl-cards class opts a session table into the card layout.
+- r52: Overview reuses SessionRow so its recent sessions also become cards.
+- r53: The session name and client form the card title.
+- r54: Each remaining cell shows its label on the left and value on the right.
+- r55: The card layout overrides the horizontal scroll fallback.
+- r56: The filter row wraps when it runs out of width.
+- r57: New Session stacks the planner and the form to one column.
+- r58: Paired form rows collapse from two columns to one on mobile.
+- r59: The planner chat card takes a shorter height on mobile.
+- r60: Form fields span the full width with comfortable spacing.
+- r61: The desktop tables and two column form are unchanged.
+- r62: All Sessions rules are scoped to the 768px media query.
+- r63: Cards read top to bottom like a mobile list.
+- r64: The Sessions list becomes a stacked card list on mobile.
+- r65: Each session renders as a card instead of a table row.
+- r66: SessionRow cells carry data-label attributes for the card labels.
+- r67: The tbl-cards class opts a session table into the card layout.
+- r68: Overview reuses SessionRow so its recent sessions also become cards.
+- r69: The session name and client form the card title.
+- r70: Each remaining cell shows its label on the left and value on the right.
+- r71: The card layout overrides the horizontal scroll fallback.
+- r72: The filter row wraps when it runs out of width.
+- r73: New Session stacks the planner and the form to one column.
+- r74: Paired form rows collapse from two columns to one on mobile.
+- r75: The planner chat card takes a shorter height on mobile.
+- r76: Form fields span the full width with comfortable spacing.
+- r77: The desktop tables and two column form are unchanged.
+- r78: All Sessions rules are scoped to the 768px media query.
+- r79: Cards read top to bottom like a mobile list.
+- r80: The Sessions list becomes a stacked card list on mobile.
+- r81: Each session renders as a card instead of a table row.
+- r82: SessionRow cells carry data-label attributes for the card labels.
+- r83: The tbl-cards class opts a session table into the card layout.
+- r84: Overview reuses SessionRow so its recent sessions also become cards.
+- r85: The session name and client form the card title.
+- r86: Each remaining cell shows its label on the left and value on the right.
+- r87: The card layout overrides the horizontal scroll fallback.
+- r88: The filter row wraps when it runs out of width.
+- r89: New Session stacks the planner and the form to one column.
+- r90: Paired form rows collapse from two columns to one on mobile.
+- r91: The planner chat card takes a shorter height on mobile.
+- r92: Form fields span the full width with comfortable spacing.
+- r93: The desktop tables and two column form are unchanged.
+- r94: All Sessions rules are scoped to the 768px media query.
+- r95: Cards read top to bottom like a mobile list.
+- r96: The Sessions list becomes a stacked card list on mobile.
+- r97: Each session renders as a card instead of a table row.
+- r98: SessionRow cells carry data-label attributes for the card labels.
+- r99: The tbl-cards class opts a session table into the card layout.
+- r100: Overview reuses SessionRow so its recent sessions also become cards.

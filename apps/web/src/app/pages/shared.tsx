@@ -32,24 +32,28 @@ export function SessionRow({ s, onOpen }: { s: Session; onOpen: () => void }) {
           </span>
         </div>
       </td>
-      <td>
+      <td data-label="Type">
         <span className="kind" style={{ textTransform: 'capitalize' }}>
           {s.kind}
         </span>
       </td>
-      <td>
+      <td data-label="Status">
         <span className={`status${s.status === 'active' ? ' live' : ''}`} style={{ textTransform: 'capitalize' }}>
           {s.status}
         </span>
       </td>
-      <td>
+      <td data-label="Findings">
         <div className="sevbar">{sevBar(s.severityCounts)}</div>
       </td>
-      <td className="meta mono">{s.targets.length || '—'}</td>
-      <td>
+      <td className="meta mono" data-label="Targets">
+        {s.targets.length || '—'}
+      </td>
+      <td data-label="Model">
         <span className="model">{s.model ?? '—'}</span>
       </td>
-      <td className="tright meta">{timeAgo(s.createdAt)}</td>
+      <td className="tright meta" data-label="Last active">
+        {timeAgo(s.createdAt)}
+      </td>
     </tr>
   );
 }

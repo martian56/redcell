@@ -126,7 +126,7 @@ export function OverviewPage() {
           </button>
         </div>
         <div className="card-b" style={{ padding: '12px 2px 4px' }}>
-          <table className="tbl">
+          <table className="tbl tbl-cards">
             <thead>
               <tr>
                 <th>Session</th>
