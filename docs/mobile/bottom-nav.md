@@ -14,3 +14,4 @@ Notes on the native-style bottom navigation for the mobile console.
 - r11: The bar reserves height with --rc-bottom-nav-h.
 - r12: The bar pads its bottom with the safe-area inset.
 - r13: The scroll body gets bottom padding so content clears the bar.
+- r14: The bar sits below modals so dialogs still cover it.
