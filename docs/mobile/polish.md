@@ -71,3 +71,4 @@ Notes on the final mobile polish pass.
 - r68: Filter chips get a minimum height on mobile.
 - r69: Findings list rows meet the 44px touch minimum.
 - r70: Fixed layers pad around the safe-area insets.
+- r71: Wide tables that are not cards scroll horizontally.
