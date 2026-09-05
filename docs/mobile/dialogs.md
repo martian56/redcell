@@ -92,3 +92,4 @@ Notes on how modals present as sheets on mobile.
 - r89: The panel max width override beats the inline desktop width.
 - r90: Backdrop dismiss and Escape still close the sheets.
 - r91: All dialog rules are scoped to the 768px media query.
+- r92: Desktop modals keep their centered presentation.
