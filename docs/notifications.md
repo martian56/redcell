@@ -88,3 +88,4 @@ the per-category preferences.
 - r84: Marking read updates the cached feed immediately.
 - r85: The panel closes on outside click and Escape.
 - r86: Notifications are global, matching runs and findings.
+- r87: The bell and panel use our existing tokens and colors.
