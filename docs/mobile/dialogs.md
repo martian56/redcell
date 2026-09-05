@@ -6,3 +6,4 @@ Notes on how modals present as sheets on mobile.
 - r3: New run, Add server, and Add proxy use the Dialog primitive.
 - r4: The Settings dialogs also use the Dialog primitive.
 - r5: The overlay and modal family goes full width on mobile.
+- r6: The command palette anchors to the top of the screen.
