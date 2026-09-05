@@ -47,3 +47,4 @@ Notes on the final mobile polish pass.
 - r44: Touch targets follow the mobile minimum where it matters.
 - r45: The bottom bar and top bar respect the safe areas.
 - r46: Typography stays legible at mobile widths.
+- r47: The console reads as a coherent mobile app.
