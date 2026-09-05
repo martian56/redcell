@@ -98,7 +98,7 @@ export function ServersPage() {
       </div>
       <div className="card">
         <div className="card-b" style={{ padding: '12px 2px 4px' }}>
-          <table className="tbl">
+          <table className="tbl tbl-cards">
             <thead>
               <tr>
                 <th>Server</th>
@@ -133,10 +133,16 @@ export function ServersPage() {
                         {s.region ?? '—'}
                       </div>
                     </td>
-                    <td className="mono meta">{s.host}</td>
-                    <td>{statusBadge(s.status)}</td>
-                    <td className="meta tab">{s.runningSessions}</td>
-                    <td className="mono meta">{s.latencyMs != null ? `${s.latencyMs} ms` : '—'}</td>
+                    <td className="mono meta" data-label="Host">
+                      {s.host}
+                    </td>
+                    <td data-label="Status">{statusBadge(s.status)}</td>
+                    <td className="meta tab" data-label="Sessions">
+                      {s.runningSessions}
+                    </td>
+                    <td className="mono meta" data-label="Latency">
+                      {s.latencyMs != null ? `${s.latencyMs} ms` : '—'}
+                    </td>
                     <td className="tright" onClick={(e) => e.stopPropagation()}>
                       <button type="button" className="btn sm ghost" disabled={test.isPending} onClick={() => void runTest(s.id)}>
                         Test

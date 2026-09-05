@@ -81,7 +81,7 @@ export function ProxiesPage() {
       </div>
       <div className="card">
         <div className="card-b" style={{ padding: '12px 2px 4px' }}>
-          <table className="tbl">
+          <table className="tbl tbl-cards">
             <thead>
               <tr>
                 <th>Label</th>
@@ -113,14 +113,18 @@ export function ProxiesPage() {
                         {p.label}
                       </span>
                     </td>
-                    <td className="mono meta">{p.url}</td>
-                    <td>
+                    <td className="mono meta" data-label="Endpoint">
+                      {p.url}
+                    </td>
+                    <td data-label="Kind">
                       <span className="kind" style={{ textTransform: 'uppercase' }}>
                         {p.kind}
                       </span>
                     </td>
-                    <td>{proxyBadge(p.status)}</td>
-                    <td className="mono meta">{p.latencyMs ? `${p.latencyMs} ms` : '—'}</td>
+                    <td data-label="Status">{proxyBadge(p.status)}</td>
+                    <td className="mono meta" data-label="Latency">
+                      {p.latencyMs ? `${p.latencyMs} ms` : '—'}
+                    </td>
                     <td className="tright" onClick={(e) => e.stopPropagation()}>
                       <button type="button" className="btn sm ghost" disabled={test.isPending} onClick={() => void runTest(p.id)}>
                         Test
