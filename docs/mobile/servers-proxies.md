@@ -98,3 +98,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r95: Empty states center their message inside a card.
 - r96: The Servers list becomes a card list on mobile.
 - r97: The Proxies list becomes a card list on mobile.
+- r98: Each server card shows host, status, sessions, and latency.
