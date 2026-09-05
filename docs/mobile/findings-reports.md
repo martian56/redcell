@@ -47,3 +47,4 @@ Notes on how the triage and reporting views reflow on mobile.
 - r44: All Findings and Reports rules are scoped to the 768px query.
 - r45: The desktop triage and reporting layouts are unchanged.
 - r46: Cards and stacked panes read top to bottom on a phone.
+- r47: The Generate action stays reachable in the reports card.
