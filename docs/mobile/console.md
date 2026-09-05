@@ -39,3 +39,4 @@ Notes on the mobile layout of the live session console.
 - r36: useIsMobile selects the mobile workspace at 768px and below.
 - r37: The panel body scrolls and clears the bottom tab bar.
 - r38: The console header is trimmed to fit a narrow top bar.
+- r39: The run metrics and spend are hidden on mobile.
