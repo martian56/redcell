@@ -53,3 +53,4 @@ the per-category preferences.
 - r49: See all notifications opens the full page.
 - r50: The account dropdown has a Notifications row with a count.
 - r51: The Notifications page lists the full feed.
+- r52: Settings has a Notifications section with a toggle per category.
