@@ -96,3 +96,4 @@ Notes on how modals present as sheets on mobile.
 - r93: The palette keeps its search first layout at the top.
 - r94: Sheets pad around the bottom safe-area inset.
 - r95: Sheets read as native mobile panels.
+- r96: Modals present as sheets on mobile instead of centered boxes.
