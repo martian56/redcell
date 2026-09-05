@@ -64,3 +64,4 @@ Notes on the mobile layout of the live session console.
 - r61: Panel tabs cover every swappable panel.
 - r62: The desktop mosaic layout is untouched.
 - r63: The mobile console reads as one focused panel with a switcher.
+- r64: The desktop mosaic tiling does not work on a phone.
