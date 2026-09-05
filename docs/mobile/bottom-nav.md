@@ -80,3 +80,4 @@ Notes on the native-style bottom navigation for the mobile console.
 - r77: The scroll body gets bottom padding so content clears the bar.
 - r78: The bar sits below modals so dialogs still cover it.
 - r79: Secondary destinations remain reachable until the sidebar is hidden.
+- r80: The bottom tab bar shows the primary destinations on mobile.
