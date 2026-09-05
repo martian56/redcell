@@ -6,3 +6,4 @@ Notes on how the triage and reporting views reflow on mobile.
 - r3: The location still shows in the finding detail.
 - r4: Findings stay grouped by severity in the list.
 - r5: Selecting a finding updates the detail below the list.
+- r6: Reports stacks the reports table and the preview to one column.
