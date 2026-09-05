@@ -72,3 +72,4 @@ the per-category preferences.
 - r68: The panel lists recent notifications with an icon per kind.
 - r69: Each item shows a title, body, and relative time.
 - r70: Mark all read clears every unread item.
+- r71: See all notifications opens the full page.
