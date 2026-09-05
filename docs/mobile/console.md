@@ -11,3 +11,4 @@ Notes on the mobile layout of the live session console.
 - r8: The Report button and layout dropdown are hidden on mobile.
 - r9: The session name truncates to a single line.
 - r10: The New run button collapses to an icon on mobile.
+- r11: The status pill and run controls stay visible.
