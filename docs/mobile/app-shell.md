@@ -25,3 +25,4 @@ bar, and edge-to-edge content.
 - r21: The header subtitle is hidden on mobile to save width.
 - r22: A search button in the top bar opens the command palette.
 - r23: Search stays reachable on mobile after the sidebar is hidden.
+- r24: The New session button collapses to an icon only on mobile.
