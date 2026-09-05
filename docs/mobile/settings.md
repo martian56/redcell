@@ -25,3 +25,4 @@ Notes on how the Settings page reflows on mobile.
 - r22: The reasoning effort segmented control stays inline.
 - r23: The Save action stays reachable in the default model card.
 - r24: Provider key badges and actions stay in each provider row.
+- r25: All Settings rules are scoped to the 768px media query.
