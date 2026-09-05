@@ -22,3 +22,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r19: Each proxy card shows endpoint, kind, status, and latency.
 - r20: The row name forms the card title.
 - r21: The Test action sits at the bottom of each card.
+- r22: Server and proxy tables opt in with the tbl-cards class.
