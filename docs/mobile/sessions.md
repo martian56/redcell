@@ -77,3 +77,4 @@ Notes on the mobile card list and the stacked New Session layout.
 - r74: Paired form rows collapse from two columns to one on mobile.
 - r75: The planner chat card takes a shorter height on mobile.
 - r76: Form fields span the full width with comfortable spacing.
+- r77: The desktop tables and two column form are unchanged.
