@@ -78,3 +78,4 @@ Notes on the mobile card list and the stacked New Session layout.
 - r75: The planner chat card takes a shorter height on mobile.
 - r76: Form fields span the full width with comfortable spacing.
 - r77: The desktop tables and two column form are unchanged.
+- r78: All Sessions rules are scoped to the 768px media query.
