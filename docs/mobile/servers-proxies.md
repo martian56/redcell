@@ -75,3 +75,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r72: The detail pages reflow through their responsive utility grids.
 - r73: The Add server and Add proxy actions stay in the filter row.
 - r74: Status badges keep their color coding in the cards.
+- r75: All list rules are scoped to the 768px media query.
