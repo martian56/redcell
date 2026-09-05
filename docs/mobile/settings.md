@@ -52,3 +52,4 @@ Notes on how the Settings page reflows on mobile.
 - r49: The subnav stops being a sticky side rail and scrolls horizontally.
 - r50: The content column takes the full width below the tabs.
 - r51: The provider and model comboboxes stack through grid2.
+- r52: The searchable combobox popover is portaled and never clipped.
