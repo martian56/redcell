@@ -38,3 +38,4 @@ mobile console. See DESIGN.md for the overall plan.
 - r34: mobile.css is imported last so its rules win at the mobile width.
 - r35: useIsMobile reads the same 768px threshold via matchMedia.
 - r36: MOBILE_MAX_WIDTH is the single source of truth for the breakpoint.
+- r37: The hook is SSR safe and no-ops when matchMedia is unavailable.
