@@ -79,3 +79,4 @@ Notes on the mobile layout of the live session console.
 - r76: The session client is hidden on mobile to save width.
 - r77: Panel tabs cover every swappable panel.
 - r78: The desktop mosaic layout is untouched.
+- r79: The mobile console reads as one focused panel with a switcher.
