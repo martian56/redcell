@@ -92,3 +92,4 @@ Notes on how the Overview reflows on mobile.
 - r89: The Recent sessions table becomes cards once SessionRow is responsive.
 - r90: All Overview rules are scoped to the 768px media query.
 - r91: The desktop Overview grid is unchanged.
+- r92: Two column sections become one column on mobile.
