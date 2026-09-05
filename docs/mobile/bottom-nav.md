@@ -33,3 +33,4 @@ Notes on the native-style bottom navigation for the mobile console.
 - r30: The bar sits below modals so dialogs still cover it.
 - r31: Secondary destinations remain reachable until the sidebar is hidden.
 - r32: The bottom tab bar shows the primary destinations on mobile.
+- r33: Overview, Sessions, Findings, and Reports are the primary tabs.
