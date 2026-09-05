@@ -5,3 +5,4 @@ Notes on the final mobile polish pass.
 - r2: Icon buttons grow to a friendlier touch target on mobile.
 - r3: Buttons get a minimum height for easier tapping.
 - r4: Filter chips get a minimum height on mobile.
+- r5: Findings list rows meet the 44px touch minimum.
