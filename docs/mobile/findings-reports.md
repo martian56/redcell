@@ -43,3 +43,4 @@ Notes on how the triage and reporting views reflow on mobile.
 - r40: The reports table adopts the card layout with per-row labels.
 - r41: Report rows show title, formats, status, and generated time.
 - r42: The report preview spans full width below the table.
+- r43: Filters wrap when they run out of width.
