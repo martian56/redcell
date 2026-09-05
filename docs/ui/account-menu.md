@@ -83,3 +83,4 @@ Notes on the bottom-of-sidebar account line and its dropdown.
 - r80: The account line sits at the bottom of the sidebar.
 - r81: It shows the signed-in username and role from auth.me.
 - r82: Clicking it opens a dropdown that pops upward.
+- r83: The dropdown has Settings, Toggle theme, and Sign out.
