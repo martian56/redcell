@@ -32,3 +32,4 @@ actions on mobile.
 - r28: The panel pads around the safe-area insets.
 - r29: Each row honors the 44px minimum touch target.
 - r30: The drawer sits above the bottom bar and below modal dialogs.
+- r31: The update control opens the progress dialog and closes the drawer.
