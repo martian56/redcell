@@ -20,3 +20,4 @@ Notes on the mobile layout of the live session console.
 - r17: On mobile the Workspace renders a single panel at a time.
 - r18: A horizontally scrollable tab bar switches between panels.
 - r19: The active panel is highlighted in the tab bar.
+- r20: useIsMobile selects the mobile workspace at 768px and below.
