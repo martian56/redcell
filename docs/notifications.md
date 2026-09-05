@@ -34,3 +34,4 @@ the per-category preferences.
 - r30: Settings has a Notifications section with a toggle per category.
 - r31: Defaults are conservative so the bell never floods.
 - r32: Infrastructure health notifications are off by default.
+- r33: Findings only notify for critical or high severity.
