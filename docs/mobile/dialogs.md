@@ -91,3 +91,4 @@ Notes on how modals present as sheets on mobile.
 - r88: Tall sheets scroll inside themselves with a max height.
 - r89: The panel max width override beats the inline desktop width.
 - r90: Backdrop dismiss and Escape still close the sheets.
+- r91: All dialog rules are scoped to the 768px media query.
