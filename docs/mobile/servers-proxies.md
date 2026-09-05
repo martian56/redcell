@@ -80,3 +80,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r77: Cards read top to bottom like a mobile list.
 - r78: The card layout replaces the horizontal scroll fallback.
 - r79: Empty states center their message inside a card.
+- r80: The Servers list becomes a card list on mobile.
