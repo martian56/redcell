@@ -75,3 +75,4 @@ bar, and edge-to-edge content.
 - r71: Search stays reachable on mobile after the sidebar is hidden.
 - r72: The New session button collapses to an icon only on mobile.
 - r73: The primary destinations live in the bottom tab bar.
+- r74: The secondary destinations live in the overflow drawer.
