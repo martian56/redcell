@@ -51,3 +51,4 @@ Notes on how modals present as sheets on mobile.
 - r48: Modals present as sheets on mobile instead of centered boxes.
 - r49: The Dialog primitive becomes a full-width bottom sheet.
 - r50: The bottom sheet has rounded top corners and safe-area padding.
+- r51: New run, Add server, and Add proxy use the Dialog primitive.
