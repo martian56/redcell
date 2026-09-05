@@ -89,3 +89,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r86: Server and proxy tables opt in with the tbl-cards class.
 - r87: Table cells carry data-label attributes for the card labels.
 - r88: The detail pages reflow through their responsive utility grids.
+- r89: The Add server and Add proxy actions stay in the filter row.
