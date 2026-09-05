@@ -10,6 +10,7 @@ import { CommandPalette } from './CommandPalette';
 import { ConsoleHeader } from './ConsoleHeader';
 import { UpdateDialog } from './UpdateDialog';
 import { MobileNav } from './MobileNav';
+import { MobileDrawer } from './MobileDrawer';
 import { SIDEBAR_GROUPS } from './nav';
 
 function ActiveRunRow({ session, onClick }: { session: Session; onClick: () => void }) {
@@ -73,6 +74,7 @@ export function DashboardShell() {
   });
   const [palette, setPalette] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [drawer, setDrawer] = useState(false);
   const [menu, setMenu] = useState<'user' | null>(null);
   const [, force] = useState(0);
   const userRef = useOutside<HTMLSpanElement>(() => setMenu((m) => (m === 'user' ? null : m)));
@@ -250,7 +252,15 @@ export function DashboardShell() {
         </section>
       </div>
 
-      <MobileNav />
+      <MobileNav onMore={() => setDrawer(true)} />
+      <MobileDrawer
+        open={drawer}
+        onClose={() => setDrawer(false)}
+        version={version}
+        onUpdate={() => setUpdating(true)}
+        onToggleTheme={flipTheme}
+        onSignOut={onSignOut}
+      />
 
       {palette ? <CommandPalette open onClose={() => setPalette(false)} /> : null}
       <UpdateDialog open={updating} onClose={() => setUpdating(false)} target={version?.latest} />

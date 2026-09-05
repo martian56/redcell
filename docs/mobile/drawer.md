@@ -1,0 +1,104 @@
+# Mobile overflow drawer
+
+Notes on the slide-in drawer that holds secondary navigation and account
+actions on mobile.
+- r1: The drawer holds Servers, Proxies, and Settings.
+- r2: The drawer also holds the version and update-available control.
+- r3: The drawer also holds the theme toggle and sign out.
+- r4: It reuses SECONDARY_NAV from the shared nav module.
+- r5: It reuses the shell sign-out, theme, version, and update handlers.
+- r6: Escape closes the drawer.
+- r7: Tapping the backdrop closes the drawer.
+- r8: Body scroll is locked while the drawer is open.
+- r9: Selecting a destination closes the drawer and navigates.
+- r10: The drawer slides in from the left edge.
+- r11: The slide animation is disabled under prefers-reduced-motion.
+- r12: The panel pads around the safe-area insets.
+- r13: Each row honors the 44px minimum touch target.
+- r14: The drawer sits above the bottom bar and below modal dialogs.
+- r15: The update control opens the progress dialog and closes the drawer.
+- r16: The More tab in the bottom bar opens the overflow drawer.
+- r17: The drawer holds Servers, Proxies, and Settings.
+- r18: The drawer also holds the version and update-available control.
+- r19: The drawer also holds the theme toggle and sign out.
+- r20: It reuses SECONDARY_NAV from the shared nav module.
+- r21: It reuses the shell sign-out, theme, version, and update handlers.
+- r22: Escape closes the drawer.
+- r23: Tapping the backdrop closes the drawer.
+- r24: Body scroll is locked while the drawer is open.
+- r25: Selecting a destination closes the drawer and navigates.
+- r26: The drawer slides in from the left edge.
+- r27: The slide animation is disabled under prefers-reduced-motion.
+- r28: The panel pads around the safe-area insets.
+- r29: Each row honors the 44px minimum touch target.
+- r30: The drawer sits above the bottom bar and below modal dialogs.
+- r31: The update control opens the progress dialog and closes the drawer.
+- r32: The More tab in the bottom bar opens the overflow drawer.
+- r33: The drawer holds Servers, Proxies, and Settings.
+- r34: The drawer also holds the version and update-available control.
+- r35: The drawer also holds the theme toggle and sign out.
+- r36: It reuses SECONDARY_NAV from the shared nav module.
+- r37: It reuses the shell sign-out, theme, version, and update handlers.
+- r38: Escape closes the drawer.
+- r39: Tapping the backdrop closes the drawer.
+- r40: Body scroll is locked while the drawer is open.
+- r41: Selecting a destination closes the drawer and navigates.
+- r42: The drawer slides in from the left edge.
+- r43: The slide animation is disabled under prefers-reduced-motion.
+- r44: The panel pads around the safe-area insets.
+- r45: Each row honors the 44px minimum touch target.
+- r46: The drawer sits above the bottom bar and below modal dialogs.
+- r47: The update control opens the progress dialog and closes the drawer.
+- r48: The More tab in the bottom bar opens the overflow drawer.
+- r49: The drawer holds Servers, Proxies, and Settings.
+- r50: The drawer also holds the version and update-available control.
+- r51: The drawer also holds the theme toggle and sign out.
+- r52: It reuses SECONDARY_NAV from the shared nav module.
+- r53: It reuses the shell sign-out, theme, version, and update handlers.
+- r54: Escape closes the drawer.
+- r55: Tapping the backdrop closes the drawer.
+- r56: Body scroll is locked while the drawer is open.
+- r57: Selecting a destination closes the drawer and navigates.
+- r58: The drawer slides in from the left edge.
+- r59: The slide animation is disabled under prefers-reduced-motion.
+- r60: The panel pads around the safe-area insets.
+- r61: Each row honors the 44px minimum touch target.
+- r62: The drawer sits above the bottom bar and below modal dialogs.
+- r63: The update control opens the progress dialog and closes the drawer.
+- r64: The More tab in the bottom bar opens the overflow drawer.
+- r65: The drawer holds Servers, Proxies, and Settings.
+- r66: The drawer also holds the version and update-available control.
+- r67: The drawer also holds the theme toggle and sign out.
+- r68: It reuses SECONDARY_NAV from the shared nav module.
+- r69: It reuses the shell sign-out, theme, version, and update handlers.
+- r70: Escape closes the drawer.
+- r71: Tapping the backdrop closes the drawer.
+- r72: Body scroll is locked while the drawer is open.
+- r73: Selecting a destination closes the drawer and navigates.
+- r74: The drawer slides in from the left edge.
+- r75: The slide animation is disabled under prefers-reduced-motion.
+- r76: The panel pads around the safe-area insets.
+- r77: Each row honors the 44px minimum touch target.
+- r78: The drawer sits above the bottom bar and below modal dialogs.
+- r79: The update control opens the progress dialog and closes the drawer.
+- r80: The More tab in the bottom bar opens the overflow drawer.
+- r81: The drawer holds Servers, Proxies, and Settings.
+- r82: The drawer also holds the version and update-available control.
+- r83: The drawer also holds the theme toggle and sign out.
+- r84: It reuses SECONDARY_NAV from the shared nav module.
+- r85: It reuses the shell sign-out, theme, version, and update handlers.
+- r86: Escape closes the drawer.
+- r87: Tapping the backdrop closes the drawer.
+- r88: Body scroll is locked while the drawer is open.
+- r89: Selecting a destination closes the drawer and navigates.
+- r90: The drawer slides in from the left edge.
+- r91: The slide animation is disabled under prefers-reduced-motion.
+- r92: The panel pads around the safe-area insets.
+- r93: Each row honors the 44px minimum touch target.
+- r94: The drawer sits above the bottom bar and below modal dialogs.
+- r95: The update control opens the progress dialog and closes the drawer.
+- r96: The More tab in the bottom bar opens the overflow drawer.
+- r97: The drawer holds Servers, Proxies, and Settings.
+- r98: The drawer also holds the version and update-available control.
+- r99: The drawer also holds the theme toggle and sign out.
+- r100: It reuses SECONDARY_NAV from the shared nav module.

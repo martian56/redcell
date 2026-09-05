@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
-import { PRIMARY_NAV } from './nav';
+import { NAV_ICONS, PRIMARY_NAV } from './nav';
 
-export function MobileNav() {
+export function MobileNav({ onMore }: { onMore: () => void }) {
   return (
     <nav className="mnav" aria-label="Primary">
       {PRIMARY_NAV.map((n) => (
@@ -15,6 +15,10 @@ export function MobileNav() {
           <span>{n.label}</span>
         </NavLink>
       ))}
+      <button type="button" className="mnav-tab" onClick={onMore}>
+        {NAV_ICONS.more}
+        <span>More</span>
+      </button>
     </nav>
   );
 }
