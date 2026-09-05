@@ -61,3 +61,4 @@ Notes on the mobile layout of the live session console.
 - r58: The New run button collapses to an icon on mobile.
 - r59: The status pill and run controls stay visible.
 - r60: The session client is hidden on mobile to save width.
+- r61: Panel tabs cover every swappable panel.
