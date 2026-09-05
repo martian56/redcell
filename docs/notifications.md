@@ -38,3 +38,4 @@ the per-category preferences.
 - r34: The notify helper records only enabled categories.
 - r35: Run completed and run failed are emitted from the engine.
 - r36: Report ready is emitted when a report finishes generating.
+- r37: Server offline and proxy dead are emitted from health checks.
