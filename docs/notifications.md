@@ -26,3 +26,4 @@ the per-category preferences.
 - r22: A bell in the sidebar footer shows an unread dot.
 - r23: Clicking the bell opens a portal panel above it.
 - r24: The panel lists recent notifications with an icon per kind.
+- r25: Each item shows a title, body, and relative time.
