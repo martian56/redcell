@@ -47,3 +47,4 @@ the per-category preferences.
 - r43: The bell and panel use our existing tokens and colors.
 - r44: A bell in the sidebar footer shows an unread dot.
 - r45: Clicking the bell opens a portal panel above it.
+- r46: The panel lists recent notifications with an icon per kind.
