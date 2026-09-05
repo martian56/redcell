@@ -41,3 +41,4 @@ actions on mobile.
 - r37: It reuses the shell sign-out, theme, version, and update handlers.
 - r38: Escape closes the drawer.
 - r39: Tapping the backdrop closes the drawer.
+- r40: Body scroll is locked while the drawer is open.
