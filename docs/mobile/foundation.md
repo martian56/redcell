@@ -72,3 +72,4 @@ mobile console. See DESIGN.md for the overall plan.
 - r68: MOBILE_MAX_WIDTH is the single source of truth for the breakpoint.
 - r69: The hook is SSR safe and no-ops when matchMedia is unavailable.
 - r70: The hook attaches one change listener and detaches it on unmount.
+- r71: Safe-area insets are exposed as --rc-safe-top and friends.
