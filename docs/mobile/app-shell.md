@@ -91,3 +91,4 @@ bar, and edge-to-edge content.
 - r87: Search stays reachable on mobile after the sidebar is hidden.
 - r88: The New session button collapses to an icon only on mobile.
 - r89: The primary destinations live in the bottom tab bar.
+- r90: The secondary destinations live in the overflow drawer.
