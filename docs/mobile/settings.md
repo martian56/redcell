@@ -13,3 +13,4 @@ Notes on how the Settings page reflows on mobile.
 - r10: The desktop Settings side rail layout is unchanged.
 - r11: Section tabs scroll horizontally without a visible scrollbar.
 - r12: Each card spans the full width with comfortable spacing.
+- r13: The combobox search and pagination work on a phone.
