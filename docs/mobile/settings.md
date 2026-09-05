@@ -37,3 +37,4 @@ Notes on how the Settings page reflows on mobile.
 - r34: The content column takes the full width below the tabs.
 - r35: The provider and model comboboxes stack through grid2.
 - r36: The searchable combobox popover is portaled and never clipped.
+- r37: Provider rows wrap when they run out of horizontal space.
