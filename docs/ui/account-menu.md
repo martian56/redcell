@@ -81,3 +81,4 @@ Notes on the bottom-of-sidebar account line and its dropdown.
 - r78: The account line stays a single row with the caret.
 - r79: Styles and colors are unchanged from the console theme.
 - r80: The account line sits at the bottom of the sidebar.
+- r81: It shows the signed-in username and role from auth.me.
