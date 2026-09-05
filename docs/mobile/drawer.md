@@ -89,3 +89,4 @@ actions on mobile.
 - r85: It reuses the shell sign-out, theme, version, and update handlers.
 - r86: Escape closes the drawer.
 - r87: Tapping the backdrop closes the drawer.
+- r88: Body scroll is locked while the drawer is open.
