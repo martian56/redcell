@@ -98,3 +98,4 @@ Notes on the final mobile polish pass.
 - r95: The console reads as a coherent mobile app.
 - r96: The top bar pads around the top safe-area inset.
 - r97: Content clears the notch on phones with a cutout.
+- r98: Icon buttons grow to a friendlier touch target on mobile.
