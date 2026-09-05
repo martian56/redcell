@@ -274,12 +274,36 @@ class ReportSettings(Camel):
     logo_data_url: str | None = None
 
 
+class NotificationSettings(Camel):
+    run_finished: bool = True
+    run_failed: bool = True
+    critical_findings: bool = True
+    report_ready: bool = True
+    infra: bool = False
+
+
 class Settings(Camel):
     llm: LlmSettings = LlmSettings()
     execution: ExecutionSettings = ExecutionSettings()
     scope: ScopeSettings = ScopeSettings()
     proxy: ProxySettings = ProxySettings()
     report: ReportSettings = ReportSettings()
+    notifications: NotificationSettings = NotificationSettings()
+
+
+class Notification(Camel):
+    id: str
+    kind: str
+    title: str
+    body: str = ""
+    link: str | None = None
+    read: bool = False
+    created_at: str
+
+
+class NotificationFeed(Camel):
+    items: list[Notification] = []
+    unread: int = 0
 
 
 class ProviderCatalogEntry(Camel):

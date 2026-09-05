@@ -23,6 +23,7 @@ from ..repositories import hosts as hosts_repo
 from ..repositories import ids
 from ..repositories import listeners as listeners_repo
 from ..repositories import loot as loot_repo
+from ..repositories import notifications as notifications_repo
 from ..repositories import provider_credentials as creds_repo
 from ..repositories import proxies as proxies_repo
 from ..repositories import runs as runs_repo
@@ -182,12 +183,29 @@ class LiveRunner:
                 await self._advance_phase("Reporting")
                 async with session_scope() as s:
                     await runs_repo.set_status(s, self.run_id, "completed")
+                    session = await sessions_repo.get(s, self.session_id)
+                    await notifications_repo.notify(
+                        s,
+                        kind="run_completed",
+                        title="Run completed",
+                        body=f"{session.name} run finished." if session else "A run finished.",
+                        link=f"sessions/{self.session_id}",
+                    )
         except asyncio.CancelledError:
             raise
         except Exception as exc:
             await self._event("orchestrator", "steer", f"engine error: {exc}")
             async with session_scope() as s:
                 await runs_repo.set_status(s, self.run_id, "failed")
+                session = await sessions_repo.get(s, self.session_id)
+                label = session.name if session else "A run"
+                await notifications_repo.notify(
+                    s,
+                    kind="run_failed",
+                    title="Run failed",
+                    body=f"{label} run failed: {str(exc)[:160]}",
+                    link=f"sessions/{self.session_id}",
+                )
         finally:
             for t in self._listener_tasks:
                 t.cancel()
@@ -798,6 +816,14 @@ class LiveRunner:
                 "status": args.get("status", "candidate"), "remediation": args.get("remediation"),
             })
             fid, sev = finding.id, finding.severity
+            if str(sev).lower() in ("critical", "high"):
+                await notifications_repo.notify(
+                    s,
+                    kind="finding",
+                    title=f"{str(sev).capitalize()} finding",
+                    body=f"{title} @ {loc}" if loc else title,
+                    link=f"sessions/{self.session_id}",
+                )
         await self._event("orchestrator", "finding", f"[{sev}] {title} @ {loc}")
         if self.kind != "code" and str(sev).lower() != "info":
             await self._advance_phase("Exploitation")

@@ -13,3 +13,4 @@ class AppSettings(Base):
     scope: Mapped[dict] = mapped_column(JSONB, default=dict)
     proxy: Mapped[dict] = mapped_column(JSONB, default=dict)
     report: Mapped[dict] = mapped_column(JSONB, default=dict)
+    notifications: Mapped[dict] = mapped_column(JSONB, default=dict)

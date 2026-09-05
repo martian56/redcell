@@ -13,6 +13,34 @@ export function useMe() {
   return useQuery({ queryKey: ['auth', 'me'], queryFn: () => api.auth.me(), staleTime: 60_000 });
 }
 
+export function useNotifications() {
+  const api = useApi();
+  return useQuery({
+    queryKey: ['notifications'],
+    queryFn: () => api.notifications.list(),
+    refetchInterval: 30_000,
+    staleTime: 15_000,
+  });
+}
+
+export function useMarkNotificationRead() {
+  const api = useApi();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => api.notifications.markRead(id),
+    onSuccess: (feed) => qc.setQueryData(['notifications'], feed),
+  });
+}
+
+export function useMarkAllNotificationsRead() {
+  const api = useApi();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: () => api.notifications.markAllRead(),
+    onSuccess: (feed) => qc.setQueryData(['notifications'], feed),
+  });
+}
+
 export function useSession(id: string | null) {
   const api = useApi();
   return useQuery({

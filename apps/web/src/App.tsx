@@ -12,6 +12,7 @@ import { ServerDetailPage } from '@/app/pages/ServerDetailPage';
 import { ProxiesPage } from '@/app/pages/ProxiesPage';
 import { ProxyDetailPage } from '@/app/pages/ProxyDetailPage';
 import { SettingsPage } from '@/app/pages/SettingsPage';
+import { NotificationsPage } from '@/app/pages/NotificationsPage';
 import { Toaster } from '@/components/ui/toast';
 import { LiveNotifier } from '@/app/LiveNotifier';
 
@@ -33,6 +34,7 @@ export function App() {
             <Route path="/proxies" element={<ProxiesPage />} />
             <Route path="/proxies/:id" element={<ProxyDetailPage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/notifications" element={<NotificationsPage />} />
           </Route>
           <Route path="*" element={<Navigate to="/overview" replace />} />
         </Routes>

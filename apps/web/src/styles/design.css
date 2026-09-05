@@ -170,6 +170,9 @@
 .side-foot {
   border-top: 1px solid var(--line);
   padding: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 .userbtn {
   display: flex;
@@ -473,6 +476,183 @@
   margin-left: auto;
   color: var(--tx-4);
 }
+.menu-item .mi-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--tx-4);
+}
+.menu-item .mi-count {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.ntf-wrap {
+  flex: none;
+}
+.ntf-btn {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: transparent;
+  border-radius: var(--r);
+  color: var(--tx-3);
+}
+.ntf-btn:hover {
+  background: var(--bg-hover);
+  color: var(--tx);
+}
+.ntf-btn.on {
+  background: var(--bg-active);
+  color: var(--tx);
+}
+.ntf-btn svg {
+  width: 17px;
+  height: 17px;
+  stroke: currentcolor;
+  fill: none;
+  stroke-width: 1.6;
+}
+.ntf-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--crit);
+}
+.ntf-panel {
+  z-index: 120;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transform-origin: bottom left;
+  animation: rc-menu-in 0.12s ease-out;
+}
+.ntf-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+}
+.ntf-title {
+  font-weight: 590;
+  font-size: 13px;
+}
+.ntf-all {
+  border: none;
+  background: transparent;
+  color: var(--tx-3);
+  font-size: 12px;
+}
+.ntf-all:hover:not(:disabled) {
+  color: var(--tx);
+}
+.ntf-all:disabled {
+  opacity: 0.4;
+}
+.ntf-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+}
+.ntf-empty {
+  padding: 22px 14px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--tx-4);
+}
+.ntf-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border: none;
+  background: transparent;
+  border-bottom: 1px solid var(--line-soft);
+}
+.ntf-item:last-child {
+  border-bottom: none;
+}
+.ntf-item:hover {
+  background: var(--bg-hover);
+}
+.ntf-ic {
+  flex: none;
+  margin-top: 1px;
+  color: var(--tx-4);
+}
+.ntf-ic svg {
+  width: 15px;
+  height: 15px;
+  stroke: currentcolor;
+  fill: none;
+  stroke-width: 1.6;
+}
+.ntf-ic.run_failed {
+  color: var(--crit);
+}
+.ntf-ic.finding {
+  color: var(--high);
+}
+.ntf-b {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ntf-it-title {
+  font-size: 12.5px;
+  font-weight: 510;
+  color: var(--tx);
+}
+.ntf-it-sub {
+  font-size: 12px;
+  color: var(--tx-3);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ntf-it-time {
+  font-size: 11px;
+  color: var(--tx-4);
+}
+.ntf-unread {
+  flex: none;
+  margin-top: 5px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--acc);
+}
+.ntf-foot {
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  color: var(--tx-3);
+  font-size: 12px;
+}
+.ntf-foot:hover {
+  background: var(--bg-hover);
+  color: var(--tx);
+}
+
 .menu-sep {
   height: 1px;
   background: var(--line-soft);

@@ -17,6 +17,7 @@ async def get(s: AsyncSession) -> AppSettings:
             scope=defaults.scope.model_dump(),
             proxy=defaults.proxy.model_dump(),
             report=defaults.report.model_dump(),
+            notifications=defaults.notifications.model_dump(),
         )
         s.add(row)
         await s.flush()
@@ -30,5 +31,6 @@ async def save(s: AsyncSession, data: dict) -> AppSettings:
     row.scope = data.get("scope", row.scope)
     row.proxy = data.get("proxy", row.proxy)
     row.report = data.get("report", row.report)
+    row.notifications = data.get("notifications", row.notifications)
     await s.flush()
     return row

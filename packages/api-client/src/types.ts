@@ -16,6 +16,29 @@ export interface User {
   role: 'admin' | 'operator';
 }
 
+export type NotificationKind =
+  | 'run_completed'
+  | 'run_failed'
+  | 'finding'
+  | 'report_ready'
+  | 'infra';
+
+export interface Notification {
+  id: ID;
+  kind: NotificationKind;
+  title: string;
+  body?: string;
+  /** In-app route to open, relative to the app root, e.g. "sessions/ses-1". */
+  link?: string;
+  read: boolean;
+  createdAt: ISODate;
+}
+
+export interface NotificationFeed {
+  items: Notification[];
+  unread: number;
+}
+
 export type SessionKind = 'network' | 'code';
 
 /** A red-team project. */
@@ -275,6 +298,13 @@ export interface Settings {
     classification: string;
     contact?: string;
     logoDataUrl?: string;
+  };
+  notifications: {
+    runFinished: boolean;
+    runFailed: boolean;
+    criticalFindings: boolean;
+    reportReady: boolean;
+    infra: boolean;
   };
 }
 
