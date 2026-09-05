@@ -42,3 +42,4 @@ the per-category preferences.
 - r38: Preferences live in Settings as a per-category boolean set.
 - r39: The feed polls on an interval through react-query.
 - r40: Marking read updates the cached feed immediately.
+- r41: The panel closes on outside click and Escape.
