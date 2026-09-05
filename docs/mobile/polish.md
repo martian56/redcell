@@ -25,3 +25,4 @@ Notes on the final mobile polish pass.
 - r22: Fixed layers pad around the safe-area insets.
 - r23: Wide tables that are not cards scroll horizontally.
 - r24: The page never scrolls sideways on mobile.
+- r25: Every page was reviewed at a phone width.
