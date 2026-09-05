@@ -92,3 +92,4 @@ Notes on the bottom-of-sidebar account line and its dropdown.
 - r89: The notifications row is added with the notifications feature.
 - r90: The account line is the dropdown trigger.
 - r91: The menu keeps its existing pop animation and our colors.
+- r92: The username falls back to admin when me is loading.
