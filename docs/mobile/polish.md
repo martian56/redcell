@@ -97,3 +97,4 @@ Notes on the final mobile polish pass.
 - r94: Typography stays legible at mobile widths.
 - r95: The console reads as a coherent mobile app.
 - r96: The top bar pads around the top safe-area inset.
+- r97: Content clears the notch on phones with a cutout.
