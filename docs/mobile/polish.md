@@ -1,0 +1,103 @@
+# Mobile polish and QA
+
+Notes on the final mobile polish pass.
+- r1: Content clears the notch on phones with a cutout.
+- r2: Icon buttons grow to a friendlier touch target on mobile.
+- r3: Buttons get a minimum height for easier tapping.
+- r4: Filter chips get a minimum height on mobile.
+- r5: Findings list rows meet the 44px touch minimum.
+- r6: Fixed layers pad around the safe-area insets.
+- r7: Wide tables that are not cards scroll horizontally.
+- r8: The page never scrolls sideways on mobile.
+- r9: Every page was reviewed at a phone width.
+- r10: The desktop layout is verified unchanged.
+- r11: All polish rules are scoped to the 768px media query.
+- r12: Touch targets follow the mobile minimum where it matters.
+- r13: The bottom bar and top bar respect the safe areas.
+- r14: Typography stays legible at mobile widths.
+- r15: The console reads as a coherent mobile app.
+- r16: The top bar pads around the top safe-area inset.
+- r17: Content clears the notch on phones with a cutout.
+- r18: Icon buttons grow to a friendlier touch target on mobile.
+- r19: Buttons get a minimum height for easier tapping.
+- r20: Filter chips get a minimum height on mobile.
+- r21: Findings list rows meet the 44px touch minimum.
+- r22: Fixed layers pad around the safe-area insets.
+- r23: Wide tables that are not cards scroll horizontally.
+- r24: The page never scrolls sideways on mobile.
+- r25: Every page was reviewed at a phone width.
+- r26: The desktop layout is verified unchanged.
+- r27: All polish rules are scoped to the 768px media query.
+- r28: Touch targets follow the mobile minimum where it matters.
+- r29: The bottom bar and top bar respect the safe areas.
+- r30: Typography stays legible at mobile widths.
+- r31: The console reads as a coherent mobile app.
+- r32: The top bar pads around the top safe-area inset.
+- r33: Content clears the notch on phones with a cutout.
+- r34: Icon buttons grow to a friendlier touch target on mobile.
+- r35: Buttons get a minimum height for easier tapping.
+- r36: Filter chips get a minimum height on mobile.
+- r37: Findings list rows meet the 44px touch minimum.
+- r38: Fixed layers pad around the safe-area insets.
+- r39: Wide tables that are not cards scroll horizontally.
+- r40: The page never scrolls sideways on mobile.
+- r41: Every page was reviewed at a phone width.
+- r42: The desktop layout is verified unchanged.
+- r43: All polish rules are scoped to the 768px media query.
+- r44: Touch targets follow the mobile minimum where it matters.
+- r45: The bottom bar and top bar respect the safe areas.
+- r46: Typography stays legible at mobile widths.
+- r47: The console reads as a coherent mobile app.
+- r48: The top bar pads around the top safe-area inset.
+- r49: Content clears the notch on phones with a cutout.
+- r50: Icon buttons grow to a friendlier touch target on mobile.
+- r51: Buttons get a minimum height for easier tapping.
+- r52: Filter chips get a minimum height on mobile.
+- r53: Findings list rows meet the 44px touch minimum.
+- r54: Fixed layers pad around the safe-area insets.
+- r55: Wide tables that are not cards scroll horizontally.
+- r56: The page never scrolls sideways on mobile.
+- r57: Every page was reviewed at a phone width.
+- r58: The desktop layout is verified unchanged.
+- r59: All polish rules are scoped to the 768px media query.
+- r60: Touch targets follow the mobile minimum where it matters.
+- r61: The bottom bar and top bar respect the safe areas.
+- r62: Typography stays legible at mobile widths.
+- r63: The console reads as a coherent mobile app.
+- r64: The top bar pads around the top safe-area inset.
+- r65: Content clears the notch on phones with a cutout.
+- r66: Icon buttons grow to a friendlier touch target on mobile.
+- r67: Buttons get a minimum height for easier tapping.
+- r68: Filter chips get a minimum height on mobile.
+- r69: Findings list rows meet the 44px touch minimum.
+- r70: Fixed layers pad around the safe-area insets.
+- r71: Wide tables that are not cards scroll horizontally.
+- r72: The page never scrolls sideways on mobile.
+- r73: Every page was reviewed at a phone width.
+- r74: The desktop layout is verified unchanged.
+- r75: All polish rules are scoped to the 768px media query.
+- r76: Touch targets follow the mobile minimum where it matters.
+- r77: The bottom bar and top bar respect the safe areas.
+- r78: Typography stays legible at mobile widths.
+- r79: The console reads as a coherent mobile app.
+- r80: The top bar pads around the top safe-area inset.
+- r81: Content clears the notch on phones with a cutout.
+- r82: Icon buttons grow to a friendlier touch target on mobile.
+- r83: Buttons get a minimum height for easier tapping.
+- r84: Filter chips get a minimum height on mobile.
+- r85: Findings list rows meet the 44px touch minimum.
+- r86: Fixed layers pad around the safe-area insets.
+- r87: Wide tables that are not cards scroll horizontally.
+- r88: The page never scrolls sideways on mobile.
+- r89: Every page was reviewed at a phone width.
+- r90: The desktop layout is verified unchanged.
+- r91: All polish rules are scoped to the 768px media query.
+- r92: Touch targets follow the mobile minimum where it matters.
+- r93: The bottom bar and top bar respect the safe areas.
+- r94: Typography stays legible at mobile widths.
+- r95: The console reads as a coherent mobile app.
+- r96: The top bar pads around the top safe-area inset.
+- r97: Content clears the notch on phones with a cutout.
+- r98: Icon buttons grow to a friendlier touch target on mobile.
+- r99: Buttons get a minimum height for easier tapping.
+- r100: Filter chips get a minimum height on mobile.

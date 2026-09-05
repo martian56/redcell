@@ -255,6 +255,30 @@
   }
 }
 
+@media (max-width: 768px) {
+  .head {
+    height: auto;
+    min-height: var(--rc-mobile-top-h);
+    padding-top: var(--rc-safe-top);
+  }
+  .iconbtn {
+    width: 38px;
+    height: 38px;
+  }
+  .btn {
+    min-height: 38px;
+  }
+  .chip {
+    min-height: 36px;
+  }
+  .fitem {
+    height: auto;
+    min-height: var(--rc-tap-min);
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+}
+
 .mws {
   display: flex;
   flex-direction: column;
