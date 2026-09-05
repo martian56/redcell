@@ -68,3 +68,4 @@ actions on mobile.
 - r64: The More tab in the bottom bar opens the overflow drawer.
 - r65: The drawer holds Servers, Proxies, and Settings.
 - r66: The drawer also holds the version and update-available control.
+- r67: The drawer also holds the theme toggle and sign out.
