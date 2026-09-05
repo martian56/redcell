@@ -99,3 +99,4 @@ Notes on the final mobile polish pass.
 - r96: The top bar pads around the top safe-area inset.
 - r97: Content clears the notch on phones with a cutout.
 - r98: Icon buttons grow to a friendlier touch target on mobile.
+- r99: Buttons get a minimum height for easier tapping.
