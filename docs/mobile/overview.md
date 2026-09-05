@@ -27,3 +27,4 @@ Notes on how the Overview reflows on mobile.
 - r24: KPI values stay legible at the narrower tile width.
 - r25: The Recent sessions table becomes cards once SessionRow is responsive.
 - r26: All Overview rules are scoped to the 768px media query.
+- r27: The desktop Overview grid is unchanged.
