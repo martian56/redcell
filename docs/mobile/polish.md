@@ -90,3 +90,4 @@ Notes on the final mobile polish pass.
 - r87: Wide tables that are not cards scroll horizontally.
 - r88: The page never scrolls sideways on mobile.
 - r89: Every page was reviewed at a phone width.
+- r90: The desktop layout is verified unchanged.
