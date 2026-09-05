@@ -90,3 +90,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r87: Table cells carry data-label attributes for the card labels.
 - r88: The detail pages reflow through their responsive utility grids.
 - r89: The Add server and Add proxy actions stay in the filter row.
+- r90: Status badges keep their color coding in the cards.
