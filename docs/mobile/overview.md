@@ -8,3 +8,4 @@ Notes on how the Overview reflows on mobile.
 - r5: Per-page card layouts replace the scroll fallback later.
 - r6: The severity bars keep their full width when stacked.
 - r7: The cumulative findings chart fits the viewport width.
+- r8: KPI values stay legible at the narrower tile width.
