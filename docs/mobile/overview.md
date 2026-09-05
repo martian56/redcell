@@ -73,3 +73,4 @@ Notes on how the Overview reflows on mobile.
 - r70: The severity bars keep their full width when stacked.
 - r71: The cumulative findings chart fits the viewport width.
 - r72: KPI values stay legible at the narrower tile width.
+- r73: The Recent sessions table becomes cards once SessionRow is responsive.
