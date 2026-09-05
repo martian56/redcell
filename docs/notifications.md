@@ -66,3 +66,4 @@ the per-category preferences.
 - r62: Marking read updates the cached feed immediately.
 - r63: The panel closes on outside click and Escape.
 - r64: Notifications are global, matching runs and findings.
+- r65: The bell and panel use our existing tokens and colors.
