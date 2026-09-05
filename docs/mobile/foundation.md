@@ -13,3 +13,4 @@ mobile console. See DESIGN.md for the overall plan.
 - r9: Fixed layers pad with the safe-area variables to clear the notch.
 - r10: --rc-bottom-nav-h reserves height for the coming bottom tab bar.
 - r11: --rc-mobile-top-h reserves height for the compact mobile top bar.
+- r12: --rc-tap-min encodes the 44px minimum touch target.
