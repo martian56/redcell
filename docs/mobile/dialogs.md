@@ -32,3 +32,4 @@ Notes on how modals present as sheets on mobile.
 - r29: The palette keeps its search first layout at the top.
 - r30: Sheets pad around the bottom safe-area inset.
 - r31: Sheets read as native mobile panels.
+- r32: Modals present as sheets on mobile instead of centered boxes.
