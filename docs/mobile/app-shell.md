@@ -6,3 +6,4 @@ bar, and edge-to-edge content.
 - r2: The main card goes edge to edge with no border or radius.
 - r3: The header becomes a compact mobile top bar.
 - r4: The sidebar toggle is hidden on mobile since there is no sidebar.
+- r5: The header subtitle is hidden on mobile to save width.
