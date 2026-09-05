@@ -86,3 +86,4 @@ Notes on the mobile layout of the live session console.
 - r83: The active panel is highlighted in the tab bar.
 - r84: useIsMobile selects the mobile workspace at 768px and below.
 - r85: The panel body scrolls and clears the bottom tab bar.
+- r86: The console header is trimmed to fit a narrow top bar.
