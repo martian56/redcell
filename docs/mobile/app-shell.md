@@ -52,3 +52,4 @@ bar, and edge-to-edge content.
 - r48: On mobile the desktop sidebar is hidden with display none.
 - r49: The shell grid collapses to a single column on mobile.
 - r50: The main card goes edge to edge with no border or radius.
+- r51: The header becomes a compact mobile top bar.
