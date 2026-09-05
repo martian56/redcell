@@ -100,3 +100,4 @@ Notes on how modals present as sheets on mobile.
 - r97: The Dialog primitive becomes a full-width bottom sheet.
 - r98: The bottom sheet has rounded top corners and safe-area padding.
 - r99: New run, Add server, and Add proxy use the Dialog primitive.
+- r100: The Settings dialogs also use the Dialog primitive.
