@@ -1,0 +1,103 @@
+# Mobile dialogs and overlays
+
+Notes on how modals present as sheets on mobile.
+- r1: The Dialog primitive becomes a full-width bottom sheet.
+- r2: The bottom sheet has rounded top corners and safe-area padding.
+- r3: New run, Add server, and Add proxy use the Dialog primitive.
+- r4: The Settings dialogs also use the Dialog primitive.
+- r5: The overlay and modal family goes full width on mobile.
+- r6: The command palette anchors to the top of the screen.
+- r7: The update progress panel anchors to the bottom.
+- r8: Tall sheets scroll inside themselves with a max height.
+- r9: The panel max width override beats the inline desktop width.
+- r10: Backdrop dismiss and Escape still close the sheets.
+- r11: All dialog rules are scoped to the 768px media query.
+- r12: Desktop modals keep their centered presentation.
+- r13: The palette keeps its search first layout at the top.
+- r14: Sheets pad around the bottom safe-area inset.
+- r15: Sheets read as native mobile panels.
+- r16: Modals present as sheets on mobile instead of centered boxes.
+- r17: The Dialog primitive becomes a full-width bottom sheet.
+- r18: The bottom sheet has rounded top corners and safe-area padding.
+- r19: New run, Add server, and Add proxy use the Dialog primitive.
+- r20: The Settings dialogs also use the Dialog primitive.
+- r21: The overlay and modal family goes full width on mobile.
+- r22: The command palette anchors to the top of the screen.
+- r23: The update progress panel anchors to the bottom.
+- r24: Tall sheets scroll inside themselves with a max height.
+- r25: The panel max width override beats the inline desktop width.
+- r26: Backdrop dismiss and Escape still close the sheets.
+- r27: All dialog rules are scoped to the 768px media query.
+- r28: Desktop modals keep their centered presentation.
+- r29: The palette keeps its search first layout at the top.
+- r30: Sheets pad around the bottom safe-area inset.
+- r31: Sheets read as native mobile panels.
+- r32: Modals present as sheets on mobile instead of centered boxes.
+- r33: The Dialog primitive becomes a full-width bottom sheet.
+- r34: The bottom sheet has rounded top corners and safe-area padding.
+- r35: New run, Add server, and Add proxy use the Dialog primitive.
+- r36: The Settings dialogs also use the Dialog primitive.
+- r37: The overlay and modal family goes full width on mobile.
+- r38: The command palette anchors to the top of the screen.
+- r39: The update progress panel anchors to the bottom.
+- r40: Tall sheets scroll inside themselves with a max height.
+- r41: The panel max width override beats the inline desktop width.
+- r42: Backdrop dismiss and Escape still close the sheets.
+- r43: All dialog rules are scoped to the 768px media query.
+- r44: Desktop modals keep their centered presentation.
+- r45: The palette keeps its search first layout at the top.
+- r46: Sheets pad around the bottom safe-area inset.
+- r47: Sheets read as native mobile panels.
+- r48: Modals present as sheets on mobile instead of centered boxes.
+- r49: The Dialog primitive becomes a full-width bottom sheet.
+- r50: The bottom sheet has rounded top corners and safe-area padding.
+- r51: New run, Add server, and Add proxy use the Dialog primitive.
+- r52: The Settings dialogs also use the Dialog primitive.
+- r53: The overlay and modal family goes full width on mobile.
+- r54: The command palette anchors to the top of the screen.
+- r55: The update progress panel anchors to the bottom.
+- r56: Tall sheets scroll inside themselves with a max height.
+- r57: The panel max width override beats the inline desktop width.
+- r58: Backdrop dismiss and Escape still close the sheets.
+- r59: All dialog rules are scoped to the 768px media query.
+- r60: Desktop modals keep their centered presentation.
+- r61: The palette keeps its search first layout at the top.
+- r62: Sheets pad around the bottom safe-area inset.
+- r63: Sheets read as native mobile panels.
+- r64: Modals present as sheets on mobile instead of centered boxes.
+- r65: The Dialog primitive becomes a full-width bottom sheet.
+- r66: The bottom sheet has rounded top corners and safe-area padding.
+- r67: New run, Add server, and Add proxy use the Dialog primitive.
+- r68: The Settings dialogs also use the Dialog primitive.
+- r69: The overlay and modal family goes full width on mobile.
+- r70: The command palette anchors to the top of the screen.
+- r71: The update progress panel anchors to the bottom.
+- r72: Tall sheets scroll inside themselves with a max height.
+- r73: The panel max width override beats the inline desktop width.
+- r74: Backdrop dismiss and Escape still close the sheets.
+- r75: All dialog rules are scoped to the 768px media query.
+- r76: Desktop modals keep their centered presentation.
+- r77: The palette keeps its search first layout at the top.
+- r78: Sheets pad around the bottom safe-area inset.
+- r79: Sheets read as native mobile panels.
+- r80: Modals present as sheets on mobile instead of centered boxes.
+- r81: The Dialog primitive becomes a full-width bottom sheet.
+- r82: The bottom sheet has rounded top corners and safe-area padding.
+- r83: New run, Add server, and Add proxy use the Dialog primitive.
+- r84: The Settings dialogs also use the Dialog primitive.
+- r85: The overlay and modal family goes full width on mobile.
+- r86: The command palette anchors to the top of the screen.
+- r87: The update progress panel anchors to the bottom.
+- r88: Tall sheets scroll inside themselves with a max height.
+- r89: The panel max width override beats the inline desktop width.
+- r90: Backdrop dismiss and Escape still close the sheets.
+- r91: All dialog rules are scoped to the 768px media query.
+- r92: Desktop modals keep their centered presentation.
+- r93: The palette keeps its search first layout at the top.
+- r94: Sheets pad around the bottom safe-area inset.
+- r95: Sheets read as native mobile panels.
+- r96: Modals present as sheets on mobile instead of centered boxes.
+- r97: The Dialog primitive becomes a full-width bottom sheet.
+- r98: The bottom sheet has rounded top corners and safe-area padding.
+- r99: New run, Add server, and Add proxy use the Dialog primitive.
+- r100: The Settings dialogs also use the Dialog primitive.
