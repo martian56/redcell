@@ -32,3 +32,4 @@ Notes on the native-style bottom navigation for the mobile console.
 - r29: The scroll body gets bottom padding so content clears the bar.
 - r30: The bar sits below modals so dialogs still cover it.
 - r31: Secondary destinations remain reachable until the sidebar is hidden.
+- r32: The bottom tab bar shows the primary destinations on mobile.
