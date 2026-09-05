@@ -76,3 +76,4 @@ Notes on how the Settings page reflows on mobile.
 - r73: All Settings rules are scoped to the 768px media query.
 - r74: The desktop Settings side rail layout is unchanged.
 - r75: Section tabs scroll horizontally without a visible scrollbar.
+- r76: Each card spans the full width with comfortable spacing.
