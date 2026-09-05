@@ -24,3 +24,4 @@ the per-category preferences.
 - r20: Notifications are global, matching runs and findings.
 - r21: The bell and panel use our existing tokens and colors.
 - r22: A bell in the sidebar footer shows an unread dot.
+- r23: Clicking the bell opens a portal panel above it.
