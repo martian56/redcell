@@ -48,3 +48,4 @@ Notes on how the Settings page reflows on mobile.
 - r45: The combobox search and pagination work on a phone.
 - r46: The layout reads top to bottom like a mobile settings screen.
 - r47: Form fields span the full width of the card.
+- r48: The Settings section subnav becomes a horizontal tab bar on mobile.
