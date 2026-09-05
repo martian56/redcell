@@ -213,7 +213,7 @@ export function DashboardShell() {
         <section className="main-card">
         <header className="head">
           <button type="button"
-            className="iconbtn"
+            className="iconbtn side-toggle"
             onClick={() => setCollapsed((v) => !v)}
             title={collapsed ? 'Show sidebar' : 'Hide sidebar'}
             aria-label={collapsed ? 'Show sidebar' : 'Hide sidebar'}
@@ -235,11 +235,23 @@ export function DashboardShell() {
                   <svg viewBox="0 0 24 24">
                     <path d="M12 5v14M5 12h14" />
                   </svg>
-                  New session
+                  <span className="btn-lbl">New session</span>
                 </button>
               )}
             </>
           )}
+          <button
+            type="button"
+            className="iconbtn head-search"
+            onClick={() => setPalette(true)}
+            title="Search"
+            aria-label="Search"
+          >
+            <svg viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="7" />
+              <path d="M20 20l-3-3" />
+            </svg>
+          </button>
           <button type="button" className="iconbtn" onClick={flipTheme} title="Toggle theme" aria-label="Toggle theme">
             <svg viewBox="0 0 24 24">
               <path d="M12 3v2M12 19v2M5 5l1.5 1.5M17.5 17.5L19 19M3 12h2M19 12h2M5 19l1.5-1.5M17.5 6.5L19 5M12 8a4 4 0 100 8 4 4 0 000-8z" />
