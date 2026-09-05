@@ -9,6 +9,8 @@ import { toggleTheme } from '@/lib/theme';
 import { CommandPalette } from './CommandPalette';
 import { ConsoleHeader } from './ConsoleHeader';
 import { UpdateDialog } from './UpdateDialog';
+import { MobileNav } from './MobileNav';
+import { SIDEBAR_GROUPS } from './nav';
 
 function ActiveRunRow({ session, onClick }: { session: Session; onClick: () => void }) {
   return (
@@ -20,77 +22,6 @@ function ActiveRunRow({ session, onClick }: { session: Session; onClick: () => v
     </button>
   );
 }
-
-interface NavItem {
-  to: string;
-  label: string;
-  icon: JSX.Element;
-  end?: boolean;
-}
-
-const I = {
-  overview: (
-    <svg viewBox="0 0 24 24">
-      <rect x="3" y="3" width="8" height="8" rx="1.5" />
-      <rect x="13" y="3" width="8" height="5" rx="1.5" />
-      <rect x="13" y="11" width="8" height="10" rx="1.5" />
-      <rect x="3" y="14" width="8" height="7" rx="1.5" />
-    </svg>
-  ),
-  sessions: (
-    <svg viewBox="0 0 24 24">
-      <path d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
-  ),
-  servers: (
-    <svg viewBox="0 0 24 24">
-      <rect x="3" y="4" width="18" height="7" rx="1.5" />
-      <rect x="3" y="13" width="18" height="7" rx="1.5" />
-      <path d="M7 7.5h.01M7 16.5h.01" />
-    </svg>
-  ),
-  proxies: (
-    <svg viewBox="0 0 24 24">
-      <path d="M4 12h16M4 12a8 8 0 0 1 8-8M20 12a8 8 0 0 1-8 8" />
-    </svg>
-  ),
-  settings: (
-    <svg viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="3" />
-      <path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2" />
-    </svg>
-  ),
-  findings: (
-    <svg viewBox="0 0 24 24">
-      <path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z" />
-    </svg>
-  ),
-  reports: (
-    <svg viewBox="0 0 24 24">
-      <path d="M6 3h9l4 4v14H6z" />
-      <path d="M14 3v5h5" />
-    </svg>
-  ),
-};
-
-const GROUPS: { label?: string; items: NavItem[] }[] = [
-  {
-    items: [
-      { to: '/overview', label: 'Overview', icon: I.overview },
-      { to: '/sessions', label: 'Sessions', icon: I.sessions, end: true },
-      { to: '/findings', label: 'Findings', icon: I.findings },
-      { to: '/reports', label: 'Reports', icon: I.reports },
-    ],
-  },
-  {
-    label: 'Infrastructure',
-    items: [
-      { to: '/servers', label: 'Servers', icon: I.servers },
-      { to: '/proxies', label: 'Proxies', icon: I.proxies },
-      { to: '/settings', label: 'Settings', icon: I.settings },
-    ],
-  },
-];
 
 const TITLES: Record<string, [string, string]> = {
   '/overview': ['Overview', '· all engagements'],
@@ -222,7 +153,7 @@ export function DashboardShell() {
           <span className="kbd">⌘K</span>
         </button>
         <div className="side-scroll">
-          {GROUPS.map((g, i) => (
+          {SIDEBAR_GROUPS.map((g, i) => (
             <div key={g.label ?? i} className="nav">
               {g.label && <div className="sec-h">{g.label}</div>}
               {g.items.map((n) => (
@@ -318,6 +249,8 @@ export function DashboardShell() {
         </div>
         </section>
       </div>
+
+      <MobileNav />
 
       {palette ? <CommandPalette open onClose={() => setPalette(false)} /> : null}
       <UpdateDialog open={updating} onClose={() => setUpdating(false)} target={version?.latest} />
