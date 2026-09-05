@@ -69,3 +69,4 @@ Notes on the mobile layout of the live session console.
 - r66: A horizontally scrollable tab bar switches between panels.
 - r67: The active panel is highlighted in the tab bar.
 - r68: useIsMobile selects the mobile workspace at 768px and below.
+- r69: The panel body scrolls and clears the bottom tab bar.
