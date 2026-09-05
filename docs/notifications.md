@@ -92,3 +92,4 @@ the per-category preferences.
 - r88: A bell in the sidebar footer shows an unread dot.
 - r89: Clicking the bell opens a portal panel above it.
 - r90: The panel lists recent notifications with an icon per kind.
+- r91: Each item shows a title, body, and relative time.
