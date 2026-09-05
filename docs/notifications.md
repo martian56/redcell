@@ -8,3 +8,4 @@ the per-category preferences.
 - r4: Mark all read clears every unread item.
 - r5: See all notifications opens the full page.
 - r6: The account dropdown has a Notifications row with a count.
+- r7: The Notifications page lists the full feed.
