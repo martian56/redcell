@@ -58,3 +58,4 @@ Notes on the mobile layout of the live session console.
 - r55: The run metrics and spend are hidden on mobile.
 - r56: The Report button and layout dropdown are hidden on mobile.
 - r57: The session name truncates to a single line.
+- r58: The New run button collapses to an icon on mobile.
