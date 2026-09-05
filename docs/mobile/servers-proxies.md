@@ -71,3 +71,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r68: The row name forms the card title.
 - r69: The Test action sits at the bottom of each card.
 - r70: Server and proxy tables opt in with the tbl-cards class.
+- r71: Table cells carry data-label attributes for the card labels.
