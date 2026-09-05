@@ -87,3 +87,4 @@ Notes on how the Settings page reflows on mobile.
 - r84: The searchable combobox popover is portaled and never clipped.
 - r85: Provider rows wrap when they run out of horizontal space.
 - r86: The reasoning effort segmented control stays inline.
+- r87: The Save action stays reachable in the default model card.
