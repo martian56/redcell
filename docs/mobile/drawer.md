@@ -52,3 +52,4 @@ actions on mobile.
 - r48: The More tab in the bottom bar opens the overflow drawer.
 - r49: The drawer holds Servers, Proxies, and Settings.
 - r50: The drawer also holds the version and update-available control.
+- r51: The drawer also holds the theme toggle and sign out.
