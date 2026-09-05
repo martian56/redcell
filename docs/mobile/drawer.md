@@ -63,3 +63,4 @@ actions on mobile.
 - r59: The slide animation is disabled under prefers-reduced-motion.
 - r60: The panel pads around the safe-area insets.
 - r61: Each row honors the 44px minimum touch target.
+- r62: The drawer sits above the bottom bar and below modal dialogs.
