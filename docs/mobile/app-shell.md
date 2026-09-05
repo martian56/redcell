@@ -34,3 +34,4 @@ bar, and edge-to-edge content.
 - r30: Content scrolls full width beneath the top bar.
 - r31: The bottom bar and top bar frame the scrollable content.
 - r32: On mobile the desktop sidebar is hidden with display none.
+- r33: The shell grid collapses to a single column on mobile.
