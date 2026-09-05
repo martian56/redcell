@@ -80,3 +80,4 @@ Notes on the final mobile polish pass.
 - r77: The bottom bar and top bar respect the safe areas.
 - r78: Typography stays legible at mobile widths.
 - r79: The console reads as a coherent mobile app.
+- r80: The top bar pads around the top safe-area inset.
