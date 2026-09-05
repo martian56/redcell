@@ -12,3 +12,4 @@ Notes on the final mobile polish pass.
 - r9: Every page was reviewed at a phone width.
 - r10: The desktop layout is verified unchanged.
 - r11: All polish rules are scoped to the 768px media query.
+- r12: Touch targets follow the mobile minimum where it matters.
