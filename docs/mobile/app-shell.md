@@ -45,3 +45,4 @@ bar, and edge-to-edge content.
 - r41: The primary destinations live in the bottom tab bar.
 - r42: The secondary destinations live in the overflow drawer.
 - r43: The top bar pads around the left safe-area inset.
+- r44: Every shell rule is scoped to the 768px media query.
