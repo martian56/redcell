@@ -65,3 +65,4 @@ Notes on the final mobile polish pass.
 - r62: Typography stays legible at mobile widths.
 - r63: The console reads as a coherent mobile app.
 - r64: The top bar pads around the top safe-area inset.
+- r65: Content clears the notch on phones with a cutout.
