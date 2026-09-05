@@ -93,3 +93,4 @@ Notes on how the Settings page reflows on mobile.
 - r90: The desktop Settings side rail layout is unchanged.
 - r91: Section tabs scroll horizontally without a visible scrollbar.
 - r92: Each card spans the full width with comfortable spacing.
+- r93: The combobox search and pagination work on a phone.
