@@ -61,3 +61,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r58: Status badges keep their color coding in the cards.
 - r59: All list rules are scoped to the 768px media query.
 - r60: The desktop server and proxy tables are unchanged.
+- r61: Cards read top to bottom like a mobile list.
