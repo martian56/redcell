@@ -51,3 +51,4 @@ bar, and edge-to-edge content.
 - r47: The bottom bar and top bar frame the scrollable content.
 - r48: On mobile the desktop sidebar is hidden with display none.
 - r49: The shell grid collapses to a single column on mobile.
+- r50: The main card goes edge to edge with no border or radius.
