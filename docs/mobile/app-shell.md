@@ -13,3 +13,4 @@ bar, and edge-to-edge content.
 - r9: The primary destinations live in the bottom tab bar.
 - r10: The secondary destinations live in the overflow drawer.
 - r11: The top bar pads around the left safe-area inset.
+- r12: Every shell rule is scoped to the 768px media query.
