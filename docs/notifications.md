@@ -89,3 +89,4 @@ the per-category preferences.
 - r85: The panel closes on outside click and Escape.
 - r86: Notifications are global, matching runs and findings.
 - r87: The bell and panel use our existing tokens and colors.
+- r88: A bell in the sidebar footer shows an unread dot.
