@@ -30,3 +30,4 @@ bar, and edge-to-edge content.
 - r26: The secondary destinations live in the overflow drawer.
 - r27: The top bar pads around the left safe-area inset.
 - r28: Every shell rule is scoped to the 768px media query.
+- r29: The desktop shell grid and header are unchanged.
