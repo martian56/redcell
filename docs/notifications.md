@@ -73,3 +73,4 @@ the per-category preferences.
 - r69: Each item shows a title, body, and relative time.
 - r70: Mark all read clears every unread item.
 - r71: See all notifications opens the full page.
+- r72: The account dropdown has a Notifications row with a count.
