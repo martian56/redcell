@@ -26,3 +26,4 @@ mobile console. See DESIGN.md for the overall plan.
 - r22: The hook attaches one change listener and detaches it on unmount.
 - r23: Safe-area insets are exposed as --rc-safe-top and friends.
 - r24: viewport-fit=cover lets the page paint under notches and indicators.
+- r25: Fixed layers pad with the safe-area variables to clear the notch.
