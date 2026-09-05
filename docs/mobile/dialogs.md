@@ -85,3 +85,4 @@ Notes on how modals present as sheets on mobile.
 - r82: The bottom sheet has rounded top corners and safe-area padding.
 - r83: New run, Add server, and Add proxy use the Dialog primitive.
 - r84: The Settings dialogs also use the Dialog primitive.
+- r85: The overlay and modal family goes full width on mobile.
