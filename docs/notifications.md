@@ -19,3 +19,4 @@ the per-category preferences.
 - r15: Server offline and proxy dead are emitted from health checks.
 - r16: Preferences live in Settings as a per-category boolean set.
 - r17: The feed polls on an interval through react-query.
+- r18: Marking read updates the cached feed immediately.
