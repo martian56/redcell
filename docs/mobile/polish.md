@@ -26,3 +26,4 @@ Notes on the final mobile polish pass.
 - r23: Wide tables that are not cards scroll horizontally.
 - r24: The page never scrolls sideways on mobile.
 - r25: Every page was reviewed at a phone width.
+- r26: The desktop layout is verified unchanged.
