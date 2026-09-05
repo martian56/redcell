@@ -86,3 +86,4 @@ Notes on how the Settings page reflows on mobile.
 - r83: The provider and model comboboxes stack through grid2.
 - r84: The searchable combobox popover is portaled and never clipped.
 - r85: Provider rows wrap when they run out of horizontal space.
+- r86: The reasoning effort segmented control stays inline.
