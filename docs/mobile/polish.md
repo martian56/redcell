@@ -24,3 +24,4 @@ Notes on the final mobile polish pass.
 - r21: Findings list rows meet the 44px touch minimum.
 - r22: Fixed layers pad around the safe-area insets.
 - r23: Wide tables that are not cards scroll horizontally.
+- r24: The page never scrolls sideways on mobile.
