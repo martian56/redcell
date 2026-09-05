@@ -84,3 +84,4 @@ mobile console. See DESIGN.md for the overall plan.
 - r80: All mobile rules live inside a max-width 768px media query.
 - r81: Desktop CSS is never edited, so the PC layout cannot regress.
 - r82: mobile.css is imported last so its rules win at the mobile width.
+- r83: useIsMobile reads the same 768px threshold via matchMedia.
