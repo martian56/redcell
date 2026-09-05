@@ -31,3 +31,4 @@ bar, and edge-to-edge content.
 - r27: The top bar pads around the left safe-area inset.
 - r28: Every shell rule is scoped to the 768px media query.
 - r29: The desktop shell grid and header are unchanged.
+- r30: Content scrolls full width beneath the top bar.
