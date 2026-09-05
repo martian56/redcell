@@ -77,3 +77,4 @@ Notes on how the Settings page reflows on mobile.
 - r74: The desktop Settings side rail layout is unchanged.
 - r75: Section tabs scroll horizontally without a visible scrollbar.
 - r76: Each card spans the full width with comfortable spacing.
+- r77: The combobox search and pagination work on a phone.
