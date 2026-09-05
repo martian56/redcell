@@ -22,3 +22,4 @@ Notes on how the Settings page reflows on mobile.
 - r19: The provider and model comboboxes stack through grid2.
 - r20: The searchable combobox popover is portaled and never clipped.
 - r21: Provider rows wrap when they run out of horizontal space.
+- r22: The reasoning effort segmented control stays inline.
