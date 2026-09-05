@@ -18,3 +18,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r15: Empty states center their message inside a card.
 - r16: The Servers list becomes a card list on mobile.
 - r17: The Proxies list becomes a card list on mobile.
+- r18: Each server card shows host, status, sessions, and latency.
