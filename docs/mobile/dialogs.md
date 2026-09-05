@@ -14,3 +14,4 @@ Notes on how modals present as sheets on mobile.
 - r11: All dialog rules are scoped to the 768px media query.
 - r12: Desktop modals keep their centered presentation.
 - r13: The palette keeps its search first layout at the top.
+- r14: Sheets pad around the bottom safe-area inset.
