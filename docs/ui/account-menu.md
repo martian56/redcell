@@ -71,3 +71,4 @@ Notes on the bottom-of-sidebar account line and its dropdown.
 - r68: Menu icons are right aligned and muted.
 - r69: The useMe hook reads the current user with react-query.
 - r70: The dropdown closes on outside click and Escape.
+- r71: Settings navigates to the settings page.
