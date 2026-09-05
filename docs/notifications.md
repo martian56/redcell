@@ -84,3 +84,4 @@ the per-category preferences.
 - r80: Report ready is emitted when a report finishes generating.
 - r81: Server offline and proxy dead are emitted from health checks.
 - r82: Preferences live in Settings as a per-category boolean set.
+- r83: The feed polls on an interval through react-query.
