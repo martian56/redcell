@@ -25,3 +25,4 @@ Notes on the mobile card list and the stacked New Session layout.
 - r22: Each remaining cell shows its label on the left and value on the right.
 - r23: The card layout overrides the horizontal scroll fallback.
 - r24: The filter row wraps when it runs out of width.
+- r25: New Session stacks the planner and the form to one column.
