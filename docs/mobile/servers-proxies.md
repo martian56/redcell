@@ -81,3 +81,4 @@ Notes on the mobile card lists for execution servers and egress proxies.
 - r78: The card layout replaces the horizontal scroll fallback.
 - r79: Empty states center their message inside a card.
 - r80: The Servers list becomes a card list on mobile.
+- r81: The Proxies list becomes a card list on mobile.
