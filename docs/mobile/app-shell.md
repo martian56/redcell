@@ -84,3 +84,4 @@ bar, and edge-to-edge content.
 - r80: On mobile the desktop sidebar is hidden with display none.
 - r81: The shell grid collapses to a single column on mobile.
 - r82: The main card goes edge to edge with no border or radius.
+- r83: The header becomes a compact mobile top bar.
