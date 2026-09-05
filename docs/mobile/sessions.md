@@ -89,3 +89,4 @@ Notes on the mobile card list and the stacked New Session layout.
 - r86: Each remaining cell shows its label on the left and value on the right.
 - r87: The card layout overrides the horizontal scroll fallback.
 - r88: The filter row wraps when it runs out of width.
+- r89: New Session stacks the planner and the form to one column.
