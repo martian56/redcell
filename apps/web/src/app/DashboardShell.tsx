@@ -12,6 +12,7 @@ import { UpdateDialog } from './UpdateDialog';
 import { MobileNav } from './MobileNav';
 import { MobileDrawer } from './MobileDrawer';
 import { NotificationsBell } from './NotificationsBell';
+import { PullToRefresh } from './PullToRefresh';
 import { SIDEBAR_GROUPS } from './nav';
 
 function ActiveRunRow({ session, onClick }: { session: Session; onClick: () => void }) {
@@ -300,9 +301,15 @@ export function DashboardShell() {
             </svg>
           </button>
         </header>
-        <div className={consoleId ? 'console-body' : 'body-normal'}>
-          <Outlet />
-        </div>
+        {consoleId ? (
+          <div className="console-body">
+            <Outlet />
+          </div>
+        ) : (
+          <PullToRefresh className="body-normal">
+            <Outlet />
+          </PullToRefresh>
+        )}
         </section>
       </div>
 

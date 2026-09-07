@@ -653,6 +653,34 @@
   color: var(--tx);
 }
 
+.ptr {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: opacity 0.15s ease;
+}
+.ptr-spin {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--line);
+  border-top-color: var(--acc);
+  border-radius: 50%;
+}
+.ptr-spin.on {
+  animation: ptr-rotate 0.7s linear infinite;
+}
+@keyframes ptr-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ptr-spin.on {
+    animation: none;
+  }
+}
+
 .menu-sep {
   height: 1px;
   background: var(--line-soft);
