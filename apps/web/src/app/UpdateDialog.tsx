@@ -128,9 +128,7 @@ export function UpdateDialog({ open, onClose, target }: { open: boolean; onClose
             <button type="button" className="btn sm" onClick={onClose}>
               Close
             </button>
-          ) : (
-            <span className="meta">You can keep working; the console reconnects on its own.</span>
-          )}
+          ) : null}
         </div>
       </div>
     </div>
