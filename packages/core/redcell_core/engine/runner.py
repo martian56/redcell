@@ -50,6 +50,33 @@ MAX_ORCH_STEPS = 40
 MAX_EXEC_STEPS = 10
 MAX_CONCURRENT_EXECUTORS = 3
 
+
+def summarize_progress(findings, hosts, loot) -> str | None:
+    """A compact recap of what the engagement already found, so a continued run
+    picks up from the durable Postgres state instead of starting cold."""
+    live = [f for f in findings if getattr(f, "status", "") != "dismissed"]
+    if not (live or hosts or loot):
+        return None
+    lines: list[str] = []
+    if live:
+        lines.append("Findings already recorded:")
+        for f in live[:40]:
+            loc = f" @ {f.location}" if getattr(f, "location", "") else ""
+            lines.append(f"- [{f.severity}] {f.title}{loc} (status: {f.status})")
+    if hosts:
+        lines.append("Attack surface already mapped:")
+        for h in hosts[:40]:
+            ip = f" ({h.ip})" if getattr(h, "ip", None) else ""
+            ports = [p.get("port", p) if isinstance(p, dict) else p for p in (h.ports or [])][:12]
+            pstr = f" ports {', '.join(str(p) for p in ports)}" if ports else ""
+            tech = f" tech {', '.join(str(t) for t in (h.tech or [])[:8])}" if h.tech else ""
+            lines.append(f"- {h.host}{ip}{pstr}{tech}")
+    if loot:
+        lines.append("Loot and credentials already collected:")
+        for x in loot[:30]:
+            lines.append(f"- {x.kind}: {x.label}")
+    return "\n".join(lines)
+
 # Fallback CVSS when a finding is recorded without a numeric score.
 _CVSS_BY_SEVERITY = {"critical": 9.5, "high": 8.0, "medium": 5.5, "low": 3.1, "info": 0.0}
 
@@ -294,6 +321,13 @@ class LiveRunner:
         return agent.id
 
     # ---- LangGraph plan/act loop ----
+    async def _prior_progress(self) -> str | None:
+        async with session_scope() as s:
+            findings = await findings_repo.list_for_session(s, self.session_id)
+            hosts = await hosts_repo.list_for_session(s, self.session_id)
+            loot = await loot_repo.list_for_session(s, self.session_id)
+        return summarize_progress(findings, hosts, loot)
+
     async def _orchestrate(self) -> None:
         from langgraph.graph import END, StateGraph
 
@@ -325,11 +359,16 @@ class LiveRunner:
                   else orchestrator_system(self.run_name, self.scope, self.targets, self.roe,
                                            brief=self.brief, instruction=self.instruction,
                                            files=self.assessment_files))
-        init: _State = {
-            "messages": [{"role": "system", "content": system},
-                         {"role": "user", "content": "Begin the engagement."}],
-            "steps": 0, "done": False,
-        }
+        prior = await self._prior_progress()
+        messages: list[dict] = [{"role": "system", "content": system}]
+        if prior:
+            messages.append({
+                "role": "system",
+                "content": ("Progress already made in this engagement. Build on it and do not "
+                            "repeat completed work:\n" + prior),
+            })
+        messages.append({"role": "user", "content": "Begin the engagement."})
+        init: _State = {"messages": messages, "steps": 0, "done": False}
         if not saver:
             await app.ainvoke(init, config={"recursion_limit": MAX_ORCH_STEPS * 2 + 4})
             return
