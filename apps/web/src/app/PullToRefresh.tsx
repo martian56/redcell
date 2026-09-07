@@ -62,16 +62,20 @@ export function PullToRefresh({ className, children }: { className?: string; chi
         setDist(0);
       });
     };
+    const onCancel = () => {
+      startY.current = null;
+      setDist(0);
+    };
 
     el.addEventListener('touchstart', onStart, { passive: true });
     el.addEventListener('touchmove', onMove, { passive: false });
     el.addEventListener('touchend', onEnd);
-    el.addEventListener('touchcancel', onEnd);
+    el.addEventListener('touchcancel', onCancel);
     return () => {
       el.removeEventListener('touchstart', onStart);
       el.removeEventListener('touchmove', onMove);
       el.removeEventListener('touchend', onEnd);
-      el.removeEventListener('touchcancel', onEnd);
+      el.removeEventListener('touchcancel', onCancel);
     };
   }, [isMobile, qc]);
 
