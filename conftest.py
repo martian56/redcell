@@ -40,7 +40,7 @@ settings.bucket_uploads = "test-uploads"
 settings.bucket_loot = "test-loot"
 settings.bucket_reports = "test-reports"
 settings.bucket_public = "test-public"
-settings.checkpoint_db = ""
+settings.checkpoint_enabled = False
 # Pin tests to sim so the suite never shells out to real Docker, independent of
 # the app's default run mode.
 settings.run_mode = "sim"

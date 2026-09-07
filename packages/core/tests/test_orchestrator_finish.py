@@ -23,7 +23,7 @@ class FinishFirstLLM:
 @pytest.mark.asyncio
 async def test_orchestrator_finishes_without_delegating():
     from redcell_core.config import settings as _s
-    _s.checkpoint_db = ""
+    _s.checkpoint_enabled = False
 
     bus = Bus("redis://127.0.0.1:1")  # memory backend
     await bus.connect()

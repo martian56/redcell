@@ -27,8 +27,9 @@ live = [
     "langgraph>=0.2",
     "langchain-core>=0.3",
     "asyncssh>=2.17",
-    "langgraph-checkpoint-sqlite>=2.0",
-    "aiosqlite>=0.20",
+    "langgraph-checkpoint-postgres>=2.0",
+    "psycopg[binary]>=3.2",
+    "psycopg-pool>=3.2",
 ]
 
 [project.scripts]

@@ -35,7 +35,7 @@ def _tc(name, args):
 @pytest.mark.asyncio
 async def test_phase_advances_to_reporting():
     from redcell_core.config import settings as _s
-    _s.checkpoint_db = ""
+    _s.checkpoint_enabled = False
 
     bus = Bus("redis://127.0.0.1:1")
     await bus.connect()
