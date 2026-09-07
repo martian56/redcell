@@ -50,7 +50,7 @@ class ParallelLLM:
 @pytest.mark.asyncio
 async def test_two_executors_run_concurrently():
     from redcell_core.config import settings as _s
-    _s.checkpoint_db = ""
+    _s.checkpoint_enabled = False
 
     bus = Bus("redis://127.0.0.1:1")  # memory backend
     await bus.connect()

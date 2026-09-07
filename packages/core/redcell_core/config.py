@@ -79,9 +79,7 @@ class Settings(BaseSettings):
     s3_public_base_url: str | None = None
     s3_presign_endpoint: str | None = None
 
-    # durable checkpoint store for the agent loop, survives restarts. SQLite so it
-    # runs on any OS/event loop; business data stays in Postgres.
-    checkpoint_db: str = str(_ROOT_ENV.parent / "redcell-checkpoints.sqlite")
+    checkpoint_enabled: bool = True
 
     bucket_uploads: str = "uploads"
     bucket_loot: str = "loot"
