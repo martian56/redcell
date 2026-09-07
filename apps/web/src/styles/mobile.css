@@ -36,6 +36,15 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+  .head .pill {
+    flex: none;
+    gap: 0;
+    padding: 0 7px;
+    font-size: 0;
+  }
+  .head .btn {
+    padding: 0 10px;
+  }
   .app-shell,
   .app-shell.collapsed {
     grid-template-columns: 1fr;
@@ -52,7 +61,7 @@
   }
   .head {
     padding: 0 12px 0 calc(12px + var(--rc-safe-left));
-    gap: 8px;
+    gap: 6px;
   }
   .head .sub {
     display: none;
@@ -218,8 +227,11 @@
   .mnav-tab.on {
     color: var(--acc);
   }
-  .body-normal {
-    padding-bottom: calc(var(--rc-bottom-nav-h) + var(--rc-safe-bottom));
+  .body-normal::after {
+    content: '';
+    display: block;
+    height: calc(var(--rc-bottom-nav-h) + var(--rc-safe-bottom));
+    flex: none;
   }
 }
 
@@ -317,7 +329,11 @@
   flex: 1;
   min-height: 0;
   overflow: auto;
-  padding-bottom: calc(var(--rc-bottom-nav-h) + var(--rc-safe-bottom));
+}
+.mws-body::after {
+  content: '';
+  display: block;
+  height: calc(var(--rc-bottom-nav-h) + var(--rc-safe-bottom));
 }
 
 .mdrawer-backdrop {
