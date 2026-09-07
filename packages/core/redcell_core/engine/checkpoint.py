@@ -5,9 +5,12 @@ tables. One connection pool is shared across runs."""
 
 from __future__ import annotations
 
+import asyncio
+
 from ..config import settings
 
 _saver = None
+_lock = asyncio.Lock()
 
 
 def _checkpoint_uri() -> str:
@@ -25,18 +28,26 @@ async def get_checkpointer():
     if _saver is not None:
         return _saver
 
-    from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
-    from psycopg.rows import dict_row
-    from psycopg_pool import AsyncConnectionPool
+    async with _lock:
+        if _saver is not None:
+            return _saver
 
-    pool = AsyncConnectionPool(
-        conninfo=_checkpoint_uri(),
-        max_size=5,
-        open=False,
-        kwargs={"autocommit": True, "row_factory": dict_row},
-    )
-    await pool.open()
-    saver = AsyncPostgresSaver(pool)
-    await saver.setup()
-    _saver = saver
-    return _saver
+        from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
+        from psycopg.rows import dict_row
+        from psycopg_pool import AsyncConnectionPool
+
+        pool = AsyncConnectionPool(
+            conninfo=_checkpoint_uri(),
+            max_size=5,
+            open=False,
+            kwargs={"autocommit": True, "row_factory": dict_row},
+        )
+        try:
+            await pool.open()
+            saver = AsyncPostgresSaver(pool)
+            await saver.setup()
+        except Exception:
+            await pool.close()
+            raise
+        _saver = saver
+        return _saver
