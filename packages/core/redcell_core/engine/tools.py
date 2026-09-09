@@ -104,11 +104,12 @@ ORCHESTRATOR_TOOLS = [
         "type": "function",
         "function": {
             "name": "start_listener",
-            "description": "Start a TCP listener on the operator host to catch a reverse shell. Returns the address the payload must call back to. Call this BEFORE triggering a reverse-shell payload.",
+            "description": "Start a TCP listener on the operator host to catch a reverse shell. Returns the address the payload must call back to. Call this BEFORE triggering a reverse-shell payload. When an ngrok token is configured the callback is a public ngrok address, so targets can reach it with no open ports on the server.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "port": {"type": "integer", "description": "Port to listen on. Must be in the configured reachable callback range unless a remote VPS execution host is in use."},
+                    "method": {"type": "string", "enum": ["auto", "ngrok", "direct"], "description": "How the target reaches the listener. 'auto' (default) uses ngrok when a token is configured, else a direct port. 'ngrok' forces a tunnel; 'direct' forces the server port."},
                 },
                 "required": ["port"],
             },

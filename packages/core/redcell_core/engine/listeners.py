@@ -46,6 +46,8 @@ class ListenerManager:
         if server is not None:
             server.close()
             await server.wait_closed()
+        from .live import get_ngrok_manager
+        await get_ngrok_manager().close(listener_id)
 
     async def stop_all(self) -> None:
         for lid in list(self._servers):

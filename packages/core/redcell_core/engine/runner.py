@@ -27,6 +27,7 @@ from ..repositories import notifications as notifications_repo
 from ..repositories import provider_credentials as creds_repo
 from ..repositories import proxies as proxies_repo
 from ..repositories import runs as runs_repo
+from ..repositories import secrets as secrets_repo
 from ..repositories import servers as servers_repo
 from ..repositories import sessions as sessions_repo
 from ..repositories import settings as settings_repo
@@ -444,7 +445,8 @@ class LiveRunner:
         if name == "record_host":
             return await self._record_host(args)
         if name == "start_listener":
-            return await self._start_listener(int(args.get("port", 4444)))
+            return await self._start_listener(int(args.get("port", 4444)),
+                                              str(args.get("method", "auto")))
         if name == "open_pivot":
             return await self._open_pivot(args.get("shellId") or args.get("shell_id", ""))
         if name == "close_pivot":
@@ -933,12 +935,18 @@ class LiveRunner:
         await self._event("orchestrator", "net", "pivot closed")
         return {"ok": True}
 
-    async def _start_listener(self, port: int) -> dict[str, Any]:
+    async def _start_listener(self, port: int, method: str = "auto") -> dict[str, Any]:
         remote = self.server is not None and getattr(self.backend, "kind", "") == "remote-docker"
         if not remote and not _in_callback_range(port):
             return {"error": f"port {port} is outside the reachable callback range "
                     f"{settings.callback_port_min}-{settings.callback_port_max}; "
                     f"retry start_listener with a port in that range."}
+        async with session_scope() as s:
+            token = await secrets_repo.get_secret(s, secrets_repo.NGROK_AUTHTOKEN)
+        if method == "ngrok" and not token:
+            return {"error": "ngrok requested but no ngrok auth token is configured "
+                    "(Settings > Integrations); use method 'direct' or add a token."}
+        use_ngrok = not remote and method != "direct" and (method == "ngrok" or bool(token))
         bind = f"0.0.0.0:{port}"
         async with session_scope() as s:
             listener = await listeners_repo.create(s, {"session_id": self.session_id, "kind": "tcp",
@@ -951,9 +959,15 @@ class LiveRunner:
             callback = f"{self.server.host}:{port}"
             status = "listening"
         else:
-            from .live import get_listener_manager
+            from .live import get_listener_manager, get_ngrok_manager
             status = await get_listener_manager().start(lid)
             callback = f"{settings.callback_host}:{port}"
+            if use_ngrok and status == "listening":
+                try:
+                    callback = await get_ngrok_manager().open(lid, port, token)
+                except Exception as exc:
+                    await self._event("listener", "steer",
+                                      f"ngrok tunnel failed, using direct callback: {exc}")
         await self._event("listener", "net", f"listener {bind} ({status}); reverse-shell callback -> {callback}")
         await self._advance_phase("Post-Exploitation")
         return {"listenerId": lid, "bind": bind, "status": status, "callback": callback,
