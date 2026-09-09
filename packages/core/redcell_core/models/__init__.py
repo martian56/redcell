@@ -20,6 +20,7 @@ from .proxy import Proxy  # noqa: E402
 from .proxy_entry import ProxyEntry  # noqa: E402
 from .report import Report  # noqa: E402
 from .run import Run  # noqa: E402
+from .secret import Secret  # noqa: E402
 from .server import Server  # noqa: E402
 from .session import Session  # noqa: E402
 from .settings import AppSettings  # noqa: E402
@@ -30,5 +31,5 @@ __all__ = [
     "Base", "User", "Provider", "AppSettings", "Session", "Run", "Agent",
     "AgentEdge", "Finding", "Shell", "Listener", "ProxyEntry", "Host", "Loot",
     "ChatMessage", "Event", "Server", "Proxy", "File", "Report", "ProviderCredential",
-    "Notification",
+    "Notification", "Secret",
 ]

@@ -16,6 +16,7 @@ import type {
   Listener,
   ListQuery,
   LootItem,
+  NgrokStatus,
   NotificationFeed,
   Proxy,
   ProviderCatalogEntry,
@@ -156,6 +157,9 @@ export interface ApiClient {
     setProviderKey(input: SetProviderKeyInput): Promise<ProviderKeyStatus>;
     removeProviderKey(providerId: string): Promise<void>;
     availableModels(): Promise<AvailableModel[]>;
+    ngrokStatus(): Promise<NgrokStatus>;
+    setNgrokToken(token: string): Promise<NgrokStatus>;
+    clearNgrokToken(): Promise<void>;
   };
   ai: {
     draftChat(input: DraftChatInput): Promise<DraftChatOutput>;

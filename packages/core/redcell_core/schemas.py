@@ -457,6 +457,14 @@ class AvailableModel(Camel):
     model: str
 
 
+class NgrokStatus(Camel):
+    configured: bool = False
+
+
+class NgrokTokenInput(Camel):
+    token: str
+
+
 # ---- draft (new-session) chat ----
 class DraftMessage(Camel):
     role: str
