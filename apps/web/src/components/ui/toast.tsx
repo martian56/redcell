@@ -86,10 +86,7 @@ export function Toaster() {
             key={t.id}
             role="status"
             style={{ borderLeftColor: TONE_ACCENT[t.tone] }}
-            className={cn(
-              'toast-in pointer-events-auto relative flex w-full items-start gap-2 rounded-[var(--radius)] border border-border2 border-l-2 bg-panel2 py-2.5 pl-3.5 pr-8 text-left shadow-[var(--shadow)]',
-              t.tone === 'critical' && 'toast-pulse',
-            )}
+            className="toast-in pointer-events-auto relative flex w-full items-start gap-2 rounded-[var(--radius)] border border-border2 border-l-2 bg-panel2 py-2.5 pl-3.5 pr-8 text-left shadow-[var(--shadow)]"
           >
             <div
               className={cn('min-w-0 flex-1', clickable && 'cursor-pointer')}
