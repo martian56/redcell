@@ -108,7 +108,7 @@ ORCHESTRATOR_TOOLS = [
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "port": {"type": "integer", "description": "Port to listen on (e.g. 4444)."},
+                    "port": {"type": "integer", "description": "Port to listen on. Must be in the reachable callback range 4444-4464 unless a remote VPS execution host is in use."},
                 },
                 "required": ["port"],
             },
