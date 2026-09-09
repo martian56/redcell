@@ -112,6 +112,9 @@ export function createHttpClient(baseUrl: string, rawWsUrl: string): ApiClient {
       removeProviderKey: (providerId) =>
         req(`/provider-keys/${encodeURIComponent(providerId)}`, { method: 'DELETE' }),
       availableModels: () => req('/models/available'),
+      ngrokStatus: () => req('/integrations/ngrok'),
+      setNgrokToken: (token) => req('/integrations/ngrok', json({ token })),
+      clearNgrokToken: () => req('/integrations/ngrok', { method: 'DELETE' }),
     },
     ai: {
       draftChat: (input) => req('/sessions/draft/chat', json(input)),

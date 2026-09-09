@@ -58,6 +58,7 @@ export function createMockClient(): ApiClient {
   const db = makeFixtures();
   let settings = structuredClone(DEFAULT_SETTINGS);
   let mockKeys: string[] = [settings.llm.provider];
+  let mockNgrok = false;
   const chatSubs = new Map<string, Set<(m: ChatMessage) => void>>();
   const now = () => new Date().toISOString();
   let counter = 1000;
@@ -383,6 +384,19 @@ export function createMockClient(): ApiClient {
         return PROVIDERS.filter((p) => !p.needsKey || mockKeys.includes(p.id)).flatMap((p) =>
           p.models.map((model) => ({ provider: p.id, providerLabel: p.label, model })),
         );
+      },
+      async ngrokStatus() {
+        await delay();
+        return { configured: mockNgrok };
+      },
+      async setNgrokToken() {
+        await delay(150);
+        mockNgrok = true;
+        return { configured: true };
+      },
+      async clearNgrokToken() {
+        await delay(150);
+        mockNgrok = false;
       },
     },
 

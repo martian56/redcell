@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import type { ProviderCatalogEntry, Settings } from '@redcell/api-client';
 import {
+  useClearNgrokToken,
+  useNgrokStatus,
   useProviderKeys,
   useProviders,
   useRemoveProviderKey,
   useSaveSettings,
+  useSetNgrokToken,
   useSetProviderKey,
   useSettings,
 } from '@/features/hooks';
@@ -14,7 +17,7 @@ import { Combobox } from '@/components/ui/Combobox';
 import { SelectTrigger } from '@/components/ui/fields';
 import { toast } from '@/components/ui/toast';
 
-type Tab = 'providers' | 'execution' | 'scope' | 'branding' | 'notifications';
+type Tab = 'providers' | 'execution' | 'scope' | 'branding' | 'notifications' | 'integrations';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'providers', label: 'Providers & keys' },
@@ -22,6 +25,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'scope', label: 'Scope guardrails' },
   { id: 'branding', label: 'Report branding' },
   { id: 'notifications', label: 'Notifications' },
+  { id: 'integrations', label: 'Integrations' },
 ];
 
 const NOTIF_CATEGORIES: { key: keyof Settings['notifications']; label: string; desc: string }[] = [
@@ -43,11 +47,15 @@ export function SettingsPage() {
   const setKey = useSetProviderKey();
   const removeKey = useRemoveProviderKey();
   const save = useSaveSettings();
+  const { data: ngrok } = useNgrokStatus();
+  const setNgrok = useSetNgrokToken();
+  const clearNgrok = useClearNgrokToken();
 
   const [tab, setTab] = useState<Tab>('providers');
   const [draft, setDraft] = useState<Settings | null>(null);
   const [keyFor, setKeyFor] = useState<ProviderCatalogEntry | null>(null);
   const [keyInput, setKeyInput] = useState('');
+  const [ngrokInput, setNgrokInput] = useState('');
 
   useEffect(() => {
     if (initial && !draft) setDraft(structuredClone(initial));
@@ -84,6 +92,27 @@ export function SettingsPage() {
   const keyedIds = new Set((keys ?? []).filter((k) => k.hasKey).map((k) => k.providerId));
   const provider = providers.find((p) => p.id === draft.llm.provider);
   const models = provider?.models ?? [];
+
+  const saveNgrok = async () => {
+    const token = ngrokInput.trim();
+    if (!token) return;
+    try {
+      await setNgrok.mutateAsync(token);
+      setNgrokInput('');
+      toast('ngrok token saved', 'success');
+    } catch {
+      toast('That does not look like an ngrok auth token', 'error');
+    }
+  };
+
+  const removeNgrok = async () => {
+    try {
+      await clearNgrok.mutateAsync();
+      toast('ngrok token removed', 'success');
+    } catch {
+      toast('Could not remove the ngrok token', 'error');
+    }
+  };
 
   const saveKey = async () => {
     if (!keyFor || !keyInput.trim() || !keys) return;
@@ -343,6 +372,59 @@ export function SettingsPage() {
                 ))}
                 <button type="button" className="btn pri" disabled={save.isPending} onClick={onSave}>
                   Save notifications
+                </button>
+              </div>
+            </div>
+          )}
+
+          {tab === 'integrations' && (
+            <div className="card">
+              <div className="card-h">
+                <h3>ngrok</h3>
+                <span className="cs">· catch reverse shells without opening a port</span>
+              </div>
+              <div className="card-b">
+                <p className="fd" style={{ marginBottom: 14 }}>
+                  With an ngrok auth token, REDCELL opens a TCP tunnel on demand so a target can call
+                  back through ngrok. Works on a free ngrok account and needs no inbound ports on the
+                  server.
+                </p>
+                <div className="prow">
+                  <span className="plogo">n</span>
+                  <div style={{ flex: 1 }}>
+                    <div className="pn">Auth token</div>
+                    <div className="pm">Encrypted at rest. Find it in your ngrok dashboard.</div>
+                  </div>
+                  {ngrok?.configured ? (
+                    <span className="badge ok">
+                      <span className="hd ok" />
+                      Configured
+                    </span>
+                  ) : (
+                    <span className="badge off">
+                      <span className="hd un" />
+                      Not set
+                    </span>
+                  )}
+                  {ngrok?.configured && (
+                    <button type="button" className="btn sm danger" disabled={clearNgrok.isPending} onClick={() => void removeNgrok()}>
+                      Remove
+                    </button>
+                  )}
+                </div>
+                <div className="field" style={{ marginTop: 14 }}>
+                  <span className="label">{ngrok?.configured ? 'Replace token' : 'Auth token'}</span>
+                  <input
+                    className="input mono"
+                    type="password"
+                    value={ngrokInput}
+                    placeholder="2a…"
+                    onChange={(e) => setNgrokInput(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && ngrokInput.trim() && void saveNgrok()}
+                  />
+                </div>
+                <button type="button" className="btn pri" disabled={!ngrokInput.trim() || setNgrok.isPending} onClick={() => void saveNgrok()}>
+                  Save token
                 </button>
               </div>
             </div>

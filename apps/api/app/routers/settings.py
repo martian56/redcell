@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from redcell_core.repositories import provider_credentials as creds_repo
 from redcell_core.repositories import providers as providers_repo
+from redcell_core.repositories import secrets as secrets_repo
 from redcell_core.repositories import settings as settings_repo
 from redcell_core.schemas import (
     AvailableModel,
+    NgrokStatus,
+    NgrokTokenInput,
     ProviderCatalogEntry,
     ProviderKeyInput,
     ProviderKeyStatus,
@@ -57,6 +60,26 @@ async def set_provider_key(body: ProviderKeyInput, s: AsyncSession = Depends(db)
 @router.delete("/provider-keys/{provider_id}", status_code=204)
 async def remove_provider_key(provider_id: str, s: AsyncSession = Depends(db)) -> None:
     await creds_repo.delete(s, provider_id)
+
+
+# ---- ngrok auth token (Fernet-encrypted at rest) ----
+@router.get("/integrations/ngrok", response_model=NgrokStatus)
+async def ngrok_status(s: AsyncSession = Depends(db)) -> NgrokStatus:
+    return NgrokStatus(configured=await secrets_repo.has_secret(s, secrets_repo.NGROK_AUTHTOKEN))
+
+
+@router.post("/integrations/ngrok", response_model=NgrokStatus)
+async def set_ngrok_token(body: NgrokTokenInput, s: AsyncSession = Depends(db)) -> NgrokStatus:
+    token = body.token.strip()
+    if len(token) < 20 or " " in token:
+        raise HTTPException(status_code=422, detail="that does not look like an ngrok auth token")
+    await secrets_repo.set_secret(s, secrets_repo.NGROK_AUTHTOKEN, token)
+    return NgrokStatus(configured=True)
+
+
+@router.delete("/integrations/ngrok", status_code=204)
+async def clear_ngrok_token(s: AsyncSession = Depends(db)) -> None:
+    await secrets_repo.delete_secret(s, secrets_repo.NGROK_AUTHTOKEN)
 
 
 # ---- models available to the operator (keyed + keyless providers) ----

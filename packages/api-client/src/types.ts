@@ -239,6 +239,10 @@ export interface AvailableModel {
   model: string;
 }
 
+export interface NgrokStatus {
+  configured: boolean;
+}
+
 /** New-session chat with the model to scope an engagement. */
 export interface DraftMessage {
   role: string;

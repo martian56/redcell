@@ -263,6 +263,29 @@ export function useRemoveProviderKey() {
   });
 }
 
+export function useNgrokStatus() {
+  const api = useApi();
+  return useQuery({ queryKey: ['ngrok'], queryFn: () => api.settings.ngrokStatus() });
+}
+
+export function useSetNgrokToken() {
+  const api = useApi();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (token: string) => api.settings.setNgrokToken(token),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['ngrok'] }),
+  });
+}
+
+export function useClearNgrokToken() {
+  const api = useApi();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: () => api.settings.clearNgrokToken(),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['ngrok'] }),
+  });
+}
+
 export function useSaveSettings() {
   const api = useApi();
   const qc = useQueryClient();
