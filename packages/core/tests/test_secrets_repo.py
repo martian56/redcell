@@ -20,6 +20,10 @@ async def test_secret_roundtrip_and_encryption():
         assert "s3cr3t-value-1234567890" not in row.value_enc
 
     async with session_scope() as s:
+        await secrets_repo.set_secret(s, name, "second-value-0987654321")
+        assert await secrets_repo.get_secret(s, name) == "second-value-0987654321"
+
+    async with session_scope() as s:
         assert await secrets_repo.delete_secret(s, name) is True
         assert await secrets_repo.has_secret(s, name) is False
         assert await secrets_repo.get_secret(s, name) == ""

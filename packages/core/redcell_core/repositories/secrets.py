@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..crypto import decrypt, encrypt
@@ -10,11 +11,10 @@ NGROK_AUTHTOKEN = "ngrok_authtoken"
 
 
 async def set_secret(s: AsyncSession, name: str, value: str) -> None:
-    row = await s.get(Secret, name)
-    if row is None:
-        row = Secret(name=name, created_at=ids.now_iso())
-        s.add(row)
-    row.value_enc = encrypt(value)
+    stmt = pg_insert(Secret).values(name=name, value_enc=encrypt(value), created_at=ids.now_iso())
+    stmt = stmt.on_conflict_do_update(index_elements=[Secret.name],
+                                      set_={"value_enc": stmt.excluded.value_enc})
+    await s.execute(stmt)
     await s.flush()
 
 
