@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <img src="images/in-action.png" alt="REDCELL operator console mid-run against DVWA: agent graph, critical RCE finding, the agent-driven browser, and a caught reverse shell" width="900">
+  <img src="images/in-action.png" alt="REDCELL operator console mid-run: the multi-agent graph, verified critical findings, live terminals with sqlmap, a caught reverse shell, and the agent asking the operator before it dumps a user table" width="900">
 </p>
 
 > [!WARNING]
