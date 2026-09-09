@@ -21,7 +21,7 @@
 </p>
 
 > [!WARNING]
-> REDCELL runs real offensive tooling. Only point it at systems you own or are authorized to test. Staying in scope and within the law is on you.
+> REDCELL is provided for education, research, and legal, authorized security testing only. Use it only to test systems you own or have explicit written permission to test, and only within an agreed scope. Unauthorized access to or interference with computer systems is a crime in Azerbaijan (Criminal Code articles 271 to 273) and under the laws of most other countries. How you use it, and staying within the law, is entirely your responsibility.
 
 ---
 
@@ -169,6 +169,15 @@ deploy.sh                    interactive self-host deploy
 
 Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, tests, and conventions, and the [Code of Conduct](CODE_OF_CONDUCT.md). Report security issues privately through [SECURITY.md](SECURITY.md), not public issues.
 
-## Responsible use
+## Legal notice and responsible use
 
-This is defensive and authorized-offensive tooling for security professionals, CTFs, and your own labs. Do not use it against systems you have no written permission to test. The maintainers are not responsible for misuse.
+REDCELL is intended solely for education, research, and legal, authorized security testing. Acceptable use includes your own systems and labs, deliberately vulnerable practice targets, capture-the-flag events, and engagements you are contracted to perform with the target owner's explicit written permission and a defined scope.
+
+Do not use REDCELL to test any system, network, account, or data that you do not own or are not clearly authorized in writing to test. Testing without authorization, reaching systems or data you have no right to, or disrupting services you do not control is illegal.
+
+- In Azerbaijan, unauthorized access to computer systems and the unlawful seizure of or interference with computer information are criminal offences under the Criminal Code of the Republic of Azerbaijan (articles 271, 272, and 273). Azerbaijan is also a party to the Council of Europe Convention on Cybercrime (the Budapest Convention), in force for the country since 2010.
+- Comparable laws apply worldwide, including the Budapest Convention and its parties, EU Directive 2013/40/EU on attacks against information systems, the United Kingdom Computer Misuse Act 1990, and the United States Computer Fraud and Abuse Act (18 U.S.C. § 1030). Wherever you are, and wherever the target is, unauthorized testing is very likely a crime.
+
+You are solely responsible for obtaining proper authorization, staying within scope, and complying with all applicable local, national, and international laws, along with any contracts, rules of engagement, and provider terms of service. Get written permission before you test, and keep a copy.
+
+REDCELL is provided "as is", without warranty of any kind. The authors and contributors accept no liability for any damage, loss, or legal consequence arising from its use or misuse. This notice is general information, not legal advice; if you are unsure whether an activity is lawful, consult a qualified lawyer in the relevant jurisdiction.
