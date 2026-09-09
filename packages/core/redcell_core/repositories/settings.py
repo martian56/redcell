@@ -34,3 +34,18 @@ async def save(s: AsyncSession, data: dict) -> AppSettings:
     row.notifications = data.get("notifications", row.notifications)
     await s.flush()
     return row
+
+
+async def dismissed_actions(s: AsyncSession) -> list[str]:
+    row = await get(s)
+    return list((row.onboarding or {}).get("dismissed", []))
+
+
+async def dismiss_action(s: AsyncSession, key: str) -> list[str]:
+    row = await get(s)
+    dismissed = list((row.onboarding or {}).get("dismissed", []))
+    if key not in dismissed:
+        dismissed.append(key)
+    row.onboarding = {**(row.onboarding or {}), "dismissed": dismissed}
+    await s.flush()
+    return dismissed

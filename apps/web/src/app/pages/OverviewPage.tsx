@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import type { Severity } from '@redcell/api-client';
-import { useSessions } from '@/features/hooks';
+import { useDismissSetupAction, useSessions, useSetupStatus } from '@/features/hooks';
 import { SEVERITIES, sevVar, timeAgo } from '@/lib/format';
 import { AreaChart } from '@/components/ui/AreaChart';
 import { SessionRow } from './shared';
@@ -13,10 +13,33 @@ const SEV_LABEL: Record<Severity, string> = {
   info: 'Info',
 };
 
+const RECOMMENDED: { key: string; satisfied: (s: { hasAiKey: boolean; hasNgrok: boolean }) => boolean; title: string; desc: string; cta: string }[] = [
+  {
+    key: 'ai-key',
+    satisfied: (s) => s.hasAiKey,
+    title: 'Add an AI provider key',
+    desc: 'REDCELL needs a model provider key to run engagements. Add one to start a session.',
+    cta: 'Add a key',
+  },
+  {
+    key: 'ngrok',
+    satisfied: (s) => s.hasNgrok,
+    title: 'Connect ngrok for reverse shells',
+    desc: 'Add an ngrok auth token to catch reverse shells with no open ports. Works on a free ngrok account.',
+    cta: 'Add ngrok token',
+  },
+];
+
 export function OverviewPage() {
   const nav = useNavigate();
   const { data: sessions } = useSessions();
+  const { data: setup } = useSetupStatus();
+  const dismissAction = useDismissSetupAction();
   const list = sessions ?? [];
+
+  const recs = setup
+    ? RECOMMENDED.filter((r) => !r.satisfied(setup) && !setup.dismissed.includes(r.key))
+    : [];
 
   const activeCount = list.filter((s) => s.status === 'active').length;
   const totalFindings = list.reduce((a, s) => a + s.findingsCount, 0);
@@ -45,6 +68,39 @@ export function OverviewPage() {
 
   return (
     <div className="wrap">
+      {recs.length > 0 && (
+        <div className="card" style={{ marginBottom: 16 }}>
+          <div className="card-h">
+            <h3>Recommended actions</h3>
+            <span className="cs">· finish setting up REDCELL</span>
+          </div>
+          <div className="card-b">
+            {recs.map((r) => (
+              <div className="formrow" key={r.key}>
+                <div>
+                  <div className="ft">{r.title}</div>
+                  <div className="fd">{r.desc}</div>
+                </div>
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0 }}>
+                  <button type="button" className="btn sm pri" onClick={() => nav('/settings')}>
+                    {r.cta}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn sm"
+                    aria-label={`Dismiss: ${r.title}`}
+                    disabled={dismissAction.isPending}
+                    onClick={() => dismissAction.mutate(r.key)}
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="kpis">
         <div className="kpi">
           <span className="k">Active sessions</span>

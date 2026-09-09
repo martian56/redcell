@@ -243,6 +243,12 @@ export interface NgrokStatus {
   configured: boolean;
 }
 
+export interface SetupStatus {
+  hasAiKey: boolean;
+  hasNgrok: boolean;
+  dismissed: string[];
+}
+
 /** New-session chat with the model to scope an engagement. */
 export interface DraftMessage {
   role: string;

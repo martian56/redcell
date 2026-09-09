@@ -9,12 +9,14 @@ from redcell_core.repositories import secrets as secrets_repo
 from redcell_core.repositories import settings as settings_repo
 from redcell_core.schemas import (
     AvailableModel,
+    DismissActionInput,
     NgrokStatus,
     NgrokTokenInput,
     ProviderCatalogEntry,
     ProviderKeyInput,
     ProviderKeyStatus,
     Settings,
+    SetupStatus,
 )
 from redcell_core.security import current_user
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -80,6 +82,23 @@ async def set_ngrok_token(body: NgrokTokenInput, s: AsyncSession = Depends(db)) 
 @router.delete("/integrations/ngrok", status_code=204)
 async def clear_ngrok_token(s: AsyncSession = Depends(db)) -> None:
     await secrets_repo.delete_secret(s, secrets_repo.NGROK_AUTHTOKEN)
+
+
+# ---- onboarding / recommended actions ----
+@router.get("/setup-status", response_model=SetupStatus)
+async def setup_status(s: AsyncSession = Depends(db)) -> SetupStatus:
+    keyed = await creds_repo.keyed_ids(s)
+    cfg = await settings_repo.get(s)
+    has_ai = bool(keyed) or bool((cfg.llm or {}).get("api_key"))
+    has_ngrok = await secrets_repo.has_secret(s, secrets_repo.NGROK_AUTHTOKEN)
+    dismissed = await settings_repo.dismissed_actions(s)
+    return SetupStatus(has_ai_key=has_ai, has_ngrok=has_ngrok, dismissed=dismissed)
+
+
+@router.post("/setup-status/dismiss", response_model=SetupStatus)
+async def dismiss_setup_action(body: DismissActionInput, s: AsyncSession = Depends(db)) -> SetupStatus:
+    await settings_repo.dismiss_action(s, body.action)
+    return await setup_status(s)
 
 
 # ---- models available to the operator (keyed + keyless providers) ----

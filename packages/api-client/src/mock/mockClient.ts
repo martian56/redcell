@@ -59,6 +59,7 @@ export function createMockClient(): ApiClient {
   let settings = structuredClone(DEFAULT_SETTINGS);
   let mockKeys: string[] = [settings.llm.provider];
   let mockNgrok = false;
+  const mockDismissed: string[] = [];
   const chatSubs = new Map<string, Set<(m: ChatMessage) => void>>();
   const now = () => new Date().toISOString();
   let counter = 1000;
@@ -397,6 +398,15 @@ export function createMockClient(): ApiClient {
       async clearNgrokToken() {
         await delay(150);
         mockNgrok = false;
+      },
+      async setupStatus() {
+        await delay();
+        return { hasAiKey: mockKeys.length > 0, hasNgrok: mockNgrok, dismissed: [...mockDismissed] };
+      },
+      async dismissSetupAction(action) {
+        await delay(150);
+        if (!mockDismissed.includes(action)) mockDismissed.push(action);
+        return { hasAiKey: mockKeys.length > 0, hasNgrok: mockNgrok, dismissed: [...mockDismissed] };
       },
     },
 
