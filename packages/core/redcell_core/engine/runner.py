@@ -102,6 +102,10 @@ def _safe_source(source: str) -> bool:
     return not any(c in source for c in ("'", '"', ";", "|", "&", "`", "$", "\n", "\\", "<", ">", "("))
 
 
+def _in_callback_range(port: int) -> bool:
+    return settings.callback_port_min <= port <= settings.callback_port_max
+
+
 def _proxy_url_with_creds(proxy, secret: str | None) -> str:
     """Fold proxy credentials into its URL (scheme://user:pass@host:port),
     deriving the scheme from the proxy kind when the URL omits it."""
@@ -930,12 +934,17 @@ class LiveRunner:
         return {"ok": True}
 
     async def _start_listener(self, port: int) -> dict[str, Any]:
+        remote = self.server is not None and getattr(self.backend, "kind", "") == "remote-docker"
+        if not remote and not _in_callback_range(port):
+            return {"error": f"port {port} is outside the reachable callback range "
+                    f"{settings.callback_port_min}-{settings.callback_port_max}; "
+                    f"retry start_listener with a port in that range."}
         bind = f"0.0.0.0:{port}"
         async with session_scope() as s:
             listener = await listeners_repo.create(s, {"session_id": self.session_id, "kind": "tcp",
                                                        "bind": bind, "status": "starting", "sessions_count": 0})
             lid = listener.id
-        if self.server is not None and getattr(self.backend, "kind", "") == "remote-docker":
+        if remote:
             # Listener runs inside the Kali container on the remote VPS (host
             # network) so internet targets can dial back to the server IP.
             await self._open_remote_listener(port, lid)

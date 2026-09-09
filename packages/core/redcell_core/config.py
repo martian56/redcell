@@ -56,6 +56,8 @@ class Settings(BaseSettings):
     # reverse-shell callback address. listener runs on the worker host; a Docker
     # target reaches it via host.docker.internal.
     callback_host: str = "host.docker.internal"
+    callback_port_min: int = 4444
+    callback_port_max: int = 4464
     llm_num_retries: int = 2
     llm_timeout_seconds: float = 120.0
     rate_limit_enabled: bool = True
@@ -115,6 +117,15 @@ class Settings(BaseSettings):
                 raise ValueError(
                     f"env={self.env!r} requires real values (not the dev defaults) for: "
                     f"{', '.join(insecure)}")
+        return self
+
+    @model_validator(mode="after")
+    def _validate_callback_ports(self) -> "Settings":
+        lo, hi = self.callback_port_min, self.callback_port_max
+        if not (1 <= lo <= 65535 and 1 <= hi <= 65535):
+            raise ValueError("REDCELL_CALLBACK_PORT_MIN/MAX must be within 1-65535")
+        if lo > hi:
+            raise ValueError("REDCELL_CALLBACK_PORT_MIN must not exceed REDCELL_CALLBACK_PORT_MAX")
         return self
 
     @property

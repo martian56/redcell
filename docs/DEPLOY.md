@@ -110,6 +110,26 @@ Only Caddy publishes ports: 80 and 443 (plus 443/udp for HTTP/3). Open both in a
 
 Everything else (5432, 6379, 9000) stays on the internal network and should not be opened.
 
+## Catching reverse shells
+
+REDCELL can catch a reverse shell from a compromised target in two ways.
+
+**Over ngrok (no inbound ports).** Add an ngrok auth token in Settings. When a listener is armed, REDCELL opens an on-demand ngrok TCP tunnel and hands the target the tunnel address. Nothing needs to be opened on the server, so this works behind Cloudflare, NAT, or a firewall, and works on a free ngrok account. This is the recommended path.
+
+**Direct to the server (open ports).** If the target can reach the server's public IP and you are willing to open ports, the listener can bind a port on the host directly:
+
+1. Set `REDCELL_CALLBACK_HOST` in `.env` to the server's public IP or hostname, so the payload calls back to a reachable address (the default `host.docker.internal` only resolves inside Docker).
+2. Publish the callback port range on the worker by adding the override file when you bring the stack up:
+
+   ```bash
+   docker compose -f docker-compose.yml -f docker-compose.catch.yml up -d worker
+   ```
+
+   The range defaults to `4444-4464` and is configurable with `REDCELL_CALLBACK_PORT_MIN` / `REDCELL_CALLBACK_PORT_MAX` (keep these in sync with the firewall and with the ports the agent binds).
+3. Open that same range in the cloud firewall or security group.
+
+The direct path is opt-in on purpose: the default stack publishes only 80 and 443, and Docker's published ports bypass host firewalls such as `ufw`, so the range is exposed only when you add the override file. If you are behind Cloudflare, prefer the ngrok path; opening a callback range on the origin widens what is reachable past the proxy.
+
 ## Cookies and HTTPS
 
 `REDCELL_COOKIE_SECURE=true` marks the session cookie `Secure`, so the browser only sends it over HTTPS. Modes 2 and 3 set it to `true`; mode 1 (plain HTTP) uses `false`.
