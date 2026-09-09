@@ -2179,7 +2179,7 @@ wheels = [
 
 [[package]]
 name = "redcell-api"
-version = "0.4.3"
+version = "0.4.7"
 source = { virtual = "apps/api" }
 dependencies = [
     { name = "fastapi" },
@@ -2261,7 +2261,7 @@ live = [
 
 [[package]]
 name = "redcell-worker"
-version = "0.4.3"
+version = "0.4.7"
 source = { virtual = "apps/worker" }
 dependencies = [
     { name = "arq" },
