@@ -1,7 +1,17 @@
 import pytest
+from pydantic import ValidationError
 from redcell_core.bus import Bus
-from redcell_core.config import settings
+from redcell_core.config import Settings, settings
 from redcell_core.engine.runner import LiveRunner, _in_callback_range
+
+
+def test_settings_rejects_invalid_callback_range():
+    with pytest.raises(ValidationError):
+        Settings(callback_port_min=5000, callback_port_max=4000)
+    with pytest.raises(ValidationError):
+        Settings(callback_port_min=0)
+    with pytest.raises(ValidationError):
+        Settings(callback_port_max=70000)
 
 
 def test_in_callback_range_bounds():

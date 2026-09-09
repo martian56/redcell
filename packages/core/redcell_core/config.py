@@ -119,6 +119,15 @@ class Settings(BaseSettings):
                     f"{', '.join(insecure)}")
         return self
 
+    @model_validator(mode="after")
+    def _validate_callback_ports(self) -> "Settings":
+        lo, hi = self.callback_port_min, self.callback_port_max
+        if not (1 <= lo <= 65535 and 1 <= hi <= 65535):
+            raise ValueError("REDCELL_CALLBACK_PORT_MIN/MAX must be within 1-65535")
+        if lo > hi:
+            raise ValueError("REDCELL_CALLBACK_PORT_MIN must not exceed REDCELL_CALLBACK_PORT_MAX")
+        return self
+
     @property
     def origins(self) -> list[str]:
         return [o.strip() for o in self.cors_origins.split(",") if o.strip()]
