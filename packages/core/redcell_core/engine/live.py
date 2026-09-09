@@ -5,8 +5,10 @@ from __future__ import annotations
 
 from ..bus import bus
 from .listeners import ListenerManager
+from .ngrok import NgrokManager
 
 _listeners: ListenerManager | None = None
+_ngrok: NgrokManager | None = None
 
 
 def get_listener_manager() -> ListenerManager:
@@ -14,3 +16,10 @@ def get_listener_manager() -> ListenerManager:
     if _listeners is None:
         _listeners = ListenerManager(bus)
     return _listeners
+
+
+def get_ngrok_manager() -> NgrokManager:
+    global _ngrok
+    if _ngrok is None:
+        _ngrok = NgrokManager()
+    return _ngrok

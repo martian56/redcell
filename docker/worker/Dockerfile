@@ -2,6 +2,14 @@ FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
 COPY --from=docker:cli /usr/local/bin/docker /usr/local/bin/docker
 
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl ca-certificates \
+    && curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc -o /etc/apt/trusted.gpg.d/ngrok.asc \
+    && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" > /etc/apt/sources.list.d/ngrok.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends ngrok \
+    && rm -rf /var/lib/apt/lists/*
+
 ENV UV_LINK_MODE=copy \
     UV_COMPILE_BYTECODE=1 \
     UV_PYTHON_DOWNLOADS=never \
