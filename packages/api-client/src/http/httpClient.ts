@@ -115,6 +115,8 @@ export function createHttpClient(baseUrl: string, rawWsUrl: string): ApiClient {
       ngrokStatus: () => req('/integrations/ngrok'),
       setNgrokToken: (token) => req('/integrations/ngrok', json({ token })),
       clearNgrokToken: () => req('/integrations/ngrok', { method: 'DELETE' }),
+      setupStatus: () => req('/setup-status'),
+      dismissSetupAction: (action) => req('/setup-status/dismiss', json({ action })),
     },
     ai: {
       draftChat: (input) => req('/sessions/draft/chat', json(input)),

@@ -286,6 +286,20 @@ export function useClearNgrokToken() {
   });
 }
 
+export function useSetupStatus() {
+  const api = useApi();
+  return useQuery({ queryKey: ['setup-status'], queryFn: () => api.settings.setupStatus() });
+}
+
+export function useDismissSetupAction() {
+  const api = useApi();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (action: string) => api.settings.dismissSetupAction(action),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['setup-status'] }),
+  });
+}
+
 export function useSaveSettings() {
   const api = useApi();
   const qc = useQueryClient();

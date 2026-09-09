@@ -14,3 +14,4 @@ class AppSettings(Base):
     proxy: Mapped[dict] = mapped_column(JSONB, default=dict)
     report: Mapped[dict] = mapped_column(JSONB, default=dict)
     notifications: Mapped[dict] = mapped_column(JSONB, default=dict)
+    onboarding: Mapped[dict] = mapped_column(JSONB, default=dict)

@@ -30,6 +30,7 @@ import type {
   Session,
   SessionKind,
   SetProviderKeyInput,
+  SetupStatus,
   UpdateProxyInput,
   UpdateServerInput,
   Settings,
@@ -160,6 +161,8 @@ export interface ApiClient {
     ngrokStatus(): Promise<NgrokStatus>;
     setNgrokToken(token: string): Promise<NgrokStatus>;
     clearNgrokToken(): Promise<void>;
+    setupStatus(): Promise<SetupStatus>;
+    dismissSetupAction(action: string): Promise<SetupStatus>;
   };
   ai: {
     draftChat(input: DraftChatInput): Promise<DraftChatOutput>;

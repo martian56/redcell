@@ -465,6 +465,16 @@ class NgrokTokenInput(Camel):
     token: str
 
 
+class SetupStatus(Camel):
+    has_ai_key: bool = False
+    has_ngrok: bool = False
+    dismissed: list[str] = []
+
+
+class DismissActionInput(Camel):
+    action: str
+
+
 # ---- draft (new-session) chat ----
 class DraftMessage(Camel):
     role: str
