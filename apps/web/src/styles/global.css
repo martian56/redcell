@@ -289,11 +289,6 @@
   to   { opacity: 1; transform: translateX(0) scale(1); }
 }
 .toast-in { animation: toast-in 0.18s ease-out; }
-@keyframes toast-pulse {
-  0%, 100% { box-shadow: 0 12px 32px rgba(0,0,0,0.55), 0 0 0 0 rgba(255,51,68,0.0); }
-  50%      { box-shadow: 0 12px 32px rgba(0,0,0,0.55), 0 0 0 3px rgba(255,51,68,0.28); }
-}
-.toast-pulse { animation: toast-pulse 1.6s ease-in-out infinite; }
 
 /* ---- Chat "thinking" indicator (red, Claude-Code style) ---- */
 .thinking {
@@ -322,7 +317,7 @@
 .thinking-bubble { animation: thinking-glow 1.8s ease-in-out infinite; }
 
 @media (prefers-reduced-motion: reduce) {
-  .toast-in, .toast-pulse, .thinking .dot, .thinking-bubble { animation: none; }
+  .toast-in, .thinking .dot, .thinking-bubble { animation: none; }
 }
 
 /* ---- Chat message entrance ---- */
