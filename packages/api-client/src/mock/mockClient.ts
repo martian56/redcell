@@ -41,7 +41,7 @@ const PROVIDERS: ProviderCatalogEntry[] = [
 
 const DEFAULT_SETTINGS: Settings = {
   llm: { provider: 'moonshot', model: 'kimi-k3', apiKey: '', apiBase: '', reasoningEffort: 'high' },
-  execution: { backend: 'local-docker', dockerImage: 'redcell/kali:latest', sshHost: '', sshUser: 'root' },
+  execution: { backend: 'local-docker', dockerImage: 'ghcr.io/martian56/redcell-kali:latest', sshHost: '', sshUser: 'root' },
   scope: { allowPrivateTargets: false, requestsPerSecond: 10 },
   proxy: { enabled: false, url: '', rotation: 'off' },
   report: { companyName: 'REDCELL', classification: 'CONFIDENTIAL', contact: '', logoDataUrl: undefined },
