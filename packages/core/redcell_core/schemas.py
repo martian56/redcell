@@ -248,9 +248,7 @@ class LlmSettings(Camel):
 
 class ExecutionSettings(Camel):
     backend: str = "local-docker"
-    # prebuilt Kali image on Docker Hub. any host can pull it, so remote servers
-    # pull instead of shipping the local build.
-    docker_image: str = "martian56/kali:latest"
+    docker_image: str = "ghcr.io/martian56/redcell-kali:latest"
     ssh_host: str | None = ""
     ssh_user: str | None = "root"
 

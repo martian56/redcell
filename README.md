@@ -96,7 +96,7 @@ Or start all three at once with a process manager (they are declared in the
 
 Open http://localhost:5183 and sign in with `admin` / `admin`.
 
-Runs execute real tools by default. Add a provider API key in Settings and make sure Docker can pull the Kali image (`martian56/kali:latest`). To dry-run against canned output instead, set `REDCELL_RUN_MODE=sim` in `.env`.
+Runs execute real tools by default. Add a provider API key in Settings and make sure Docker can pull the Kali image (`ghcr.io/martian56/redcell-kali:latest`). To dry-run against canned output instead, set `REDCELL_RUN_MODE=sim` in `.env`.
 
 ### Practice targets
 
