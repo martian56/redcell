@@ -2,7 +2,18 @@ import { useUI } from '@/store/ui';
 import { useLoot } from '@/features/hooks';
 import { timeAgo } from '@/lib/format';
 import { Empty, Spinner } from '@/components/ui/primitives';
+import { toast } from '@/components/ui/toast';
 import type { LootKind } from '@redcell/api-client';
+
+async function copyValue(value: string) {
+  if (!value) return;
+  try {
+    await navigator.clipboard.writeText(value);
+    toast('Copied to clipboard', 'success');
+  } catch {
+    toast('Could not copy to clipboard', 'error');
+  }
+}
 
 const KIND_TONE: Record<LootKind, string> = {
   credential: 'var(--color-accent)',
@@ -48,7 +59,21 @@ export function LootPanel() {
                 </span>
               </td>
               <td className="px-3 py-2 font-mono text-text">{l.label}</td>
-              <td className="max-w-[180px] truncate px-3 py-2 font-mono text-faint">{l.value}</td>
+              <td className="px-3 py-2">
+                {l.value ? (
+                  <button
+                    type="button"
+                    title={`${l.value}\n\nClick to copy`}
+                    aria-label="Copy value to clipboard"
+                    onClick={() => void copyValue(l.value)}
+                    className="block max-w-[180px] cursor-pointer truncate text-left font-mono text-faint hover:text-text"
+                  >
+                    {l.value}
+                  </button>
+                ) : (
+                  <span className="font-mono text-faint">—</span>
+                )}
+              </td>
               <td className="px-3 py-2 font-mono text-[11px] text-muted">{l.source}</td>
               <td className="px-3 py-2 font-mono text-[11px] text-faint">{timeAgo(l.ts)}</td>
             </tr>
