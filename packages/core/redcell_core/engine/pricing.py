@@ -21,6 +21,7 @@ PRICES: dict[str, tuple[float, float]] = {
     "gemini-3.1-flash-lite": (0.1, 0.4),
     "deepseek-v4-pro": (0.6, 1.7),
     "deepseek-v4-flash": (0.3, 0.9),
+    "deepseek-v4.1-flash": (0.3, 0.9),
     "deepseek-r2": (0.7, 2.4),
     "kimi-k3": (0.6, 2.5),
     "kimi-k2.7-code": (0.5, 2.0),
