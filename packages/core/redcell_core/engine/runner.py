@@ -95,13 +95,11 @@ class LiveRunner(ReverseShellMixin):
             try:
                 await self.backend.start(on_status=self._status)
             except Exception as exc:
-                # Backend unavailable: keep the agent loop running with simulated output.
-                from .execution import SimBackend
                 await self._event("orchestrator", "steer",
-                                  f"execution backend unavailable ({exc}); using simulated execution")
-                self.backend = SimBackend()
-                if self._browser is not None:
-                    self._browser.backend = self.backend
+                                  f"execution backend failed to start: {exc}. Not producing simulated "
+                                  "output; check Docker on the execution host, or set run mode to sim "
+                                  "for a dry run.")
+                raise RuntimeError(f"execution backend unavailable: {exc}") from exc
             self._listener_tasks.append(asyncio.create_task(self._watch_control()))
             if self._assessment_meta:
                 await self._stage_assessment_files()
