@@ -20,6 +20,13 @@ def test_get_kind_falls_back_to_general():
     assert get_kind("CODE").id == "code"
 
 
+def test_mobile_is_coming_soon_and_not_runnable():
+    assert "mobile" in KINDS
+    assert KINDS["mobile"].available is False
+    # an unavailable kind resolves to the default so it never actually runs
+    assert get_kind("mobile").id == "general"
+
+
 def test_general_is_full_capability():
     g = get_kind("general")
     assert g.uses_browser and g.seeds_hosts and g.exploits and not g.mounts_source

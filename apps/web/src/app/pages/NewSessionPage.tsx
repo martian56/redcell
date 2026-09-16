@@ -206,6 +206,9 @@ export function NewSessionPage() {
                   <button type="button" className={draft.kind === 'code' ? 'on' : ''} onClick={() => patch({ kind: 'code' })}>
                     Code
                   </button>
+                  <button type="button" className="soon" disabled title="Coming soon">
+                    Mobile <span className="opt">soon</span>
+                  </button>
                 </div>
               </div>
             </div>

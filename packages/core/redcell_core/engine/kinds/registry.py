@@ -38,8 +38,18 @@ KINDS: dict[str, Kind] = {
         mounts_source=True,
         exploits=False,
     ),
+    "mobile": Kind(
+        id="mobile",
+        label="Mobile",
+        orchestrator_system=general_orchestrator,
+        executor_system=network_executor,
+        available=False,
+    ),
 }
 
 
 def get_kind(kind_id: str | None) -> Kind:
-    return KINDS.get((kind_id or "").strip().lower(), KINDS[DEFAULT_KIND])
+    kind = KINDS.get((kind_id or "").strip().lower())
+    if kind is None or not kind.available:
+        return KINDS[DEFAULT_KIND]
+    return kind
