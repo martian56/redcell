@@ -77,8 +77,8 @@ export const KIND_LAYOUTS: Record<string, KindLayoutSpec> = {
   ],
   mobile: [
     [['agents'], ['feed']],
-    [['findings', 'context'], ['terminals', 'device', 'files']],
-    [['chat'], ['reports']],
+    [['findings', 'context'], ['device']],
+    [['chat'], ['terminals', 'files', 'reports']],
   ],
   osint: [
     [['agents'], ['feed']],
@@ -242,7 +242,7 @@ export const useWorkspace = create<WorkspaceState>()(
         }),
     }),
     {
-      name: 'redcell.workspace.v5',
+      name: 'redcell.workspace.v6',
       merge: (persisted, current) => {
         const p = (persisted ?? {}) as Partial<WorkspaceState>;
         const kind = p.kind ?? current.kind;

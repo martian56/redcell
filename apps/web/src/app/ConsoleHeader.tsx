@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCapabilities, useRun, useRunControls, useSession } from '@/features/hooks';
+import { useRun, useRunControls, useSession } from '@/features/hooks';
 import { KIND_PANELS, PANEL_LABELS, SWAPPABLE, useWorkspace, usedPanels, type PanelId } from '@/store/workspace';
 import { fmtElapsed, fmtTokens } from '@/lib/format';
 import { Dropdown } from '@/components/ui/Dropdown';
@@ -26,11 +26,7 @@ export function ConsoleHeader({ sessionId }: { sessionId: string | null }) {
   const reset = useWorkspace((s) => s.reset);
   const [newRun, setNewRun] = useState(false);
 
-  const { data: caps } = useCapabilities();
-  const deviceAvailable =
-    session?.kind === 'mobile' &&
-    ((session.servers ?? []).some((sv) => sv.role === 'mobile') ||
-      (caps?.features?.dynamic_mobile?.available ?? false));
+  const deviceAvailable = session?.kind === 'mobile';
   const kindPanels = (session && KIND_PANELS[session.kind]) || null;
   const addable = SWAPPABLE.filter(
     (id) =>
