@@ -81,6 +81,14 @@ class Bus:
     def transport(self) -> str:
         return "redis" if self._redis is not None else "memory"
 
+    async def ping(self) -> bool:
+        if self._redis is not None:
+            try:
+                return bool(await self._redis.ping())
+            except Exception:
+                return False
+        return self._memory is not None
+
     async def publish(self, channel: str, message: str) -> None:
         if self._redis is not None:
             await self._redis.publish(channel, message)

@@ -28,6 +28,7 @@ x-app-env: &app-env
 services:
   postgres:
     image: postgres:16-alpine
+    restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-redcell}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-redcell}
@@ -42,6 +43,7 @@ services:
 
   redis:
     image: redis:7-alpine
+    restart: unless-stopped
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
       interval: 5s
@@ -50,6 +52,7 @@ services:
 
   minio:
     image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
+    restart: unless-stopped
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
@@ -101,12 +104,19 @@ services:
 
   api:
     image: ghcr.io/martian56/redcell-api:latest
+    restart: unless-stopped
     environment: *app-env
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - redcell_secrets:/run/redcell:ro
     extra_hosts:
       - 'host.docker.internal:host-gateway'
+    healthcheck:
+      test: ['CMD', 'python', '-c', "import urllib.request; urllib.request.urlopen('http://localhost:8080/health', timeout=4).read()"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
     depends_on:
       postgres:
         condition: service_healthy
@@ -119,12 +129,19 @@ services:
 
   worker:
     image: ghcr.io/martian56/redcell-worker:latest
+    restart: unless-stopped
     environment: *app-env
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - redcell_secrets:/run/redcell:ro
     extra_hosts:
       - 'host.docker.internal:host-gateway'
+    healthcheck:
+      test: ['CMD', 'python', '-c', 'import worker.settings']
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
     depends_on:
       postgres:
         condition: service_healthy
@@ -137,8 +154,16 @@ services:
 
   web:
     image: ghcr.io/martian56/redcell-web:latest
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '-q', '-O', '/dev/null', 'http://localhost:80/']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
     depends_on:
-      - api
+      api:
+        condition: service_healthy
 
   caddy:
     image: caddy:2-alpine
@@ -154,8 +179,10 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     depends_on:
-      - web
-      - api
+      web:
+        condition: service_healthy
+      api:
+        condition: service_healthy
 
 volumes:
   redcell_pg: {}

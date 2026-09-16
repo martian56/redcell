@@ -35,7 +35,10 @@ def test_api_smoke():
     asyncio.run(_boot())
     with TestClient(app) as c:
         r = c.get("/health")
-        check("health", r.status_code == 200 and r.json()["status"] == "ok")
+        h = r.json()
+        check("health", r.status_code == 200 and h["status"] in ("ok", "degraded"))
+        check("health-version", "version" in h and h["version"] != "0.2.0")
+        check("health-checks", set(h.get("checks", {})) == {"db", "redis", "storage"})
 
         check("me-401-before-login", c.get("/api/v1/auth/me").status_code == 401)
         check("first-run", c.get("/api/v1/auth/first-run").status_code == 200)

@@ -42,6 +42,14 @@ class Storage:
         return [settings.bucket_uploads, settings.bucket_loot,
                 settings.bucket_reports, settings.bucket_public]
 
+    async def ping(self) -> bool:
+        try:
+            async with self._client() as s3:
+                await s3.list_buckets()
+            return True
+        except Exception:
+            return False
+
     async def ensure_buckets(self) -> None:
         async with self._client() as s3:
             existing = {b["Name"] for b in (await s3.list_buckets())["Buckets"]}
