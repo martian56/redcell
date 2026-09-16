@@ -147,11 +147,40 @@ export function createMockClient(): ApiClient {
           proxyId: input.proxyId,
           provider: input.provider,
           model: input.model,
+          servers: [
+            ...(input.serverId ? [{ serverId: input.serverId, role: 'execution' as const }] : []),
+            ...(input.servers ?? []),
+          ],
           findingsCount: 0,
           severityCounts: { critical: 0, high: 0, medium: 0, low: 0, info: 0 },
         };
         db.sessions.unshift(session);
         return structuredClone(session);
+      },
+    },
+
+    sessionServers: {
+      async list(sessionId) {
+        await delay();
+        return structuredClone(requireSession(sessionId).servers);
+      },
+      async attach(sessionId, input) {
+        await delay();
+        const session = requireSession(sessionId);
+        const singular = input.role === 'execution' || input.role === 'mobile';
+        session.servers = session.servers.filter((sv) =>
+          singular ? sv.role !== input.role : !(sv.role === input.role && sv.serverId === input.serverId),
+        );
+        session.servers.push({ serverId: input.serverId, role: input.role });
+        if (input.role === 'execution') session.serverId = input.serverId;
+        return structuredClone(session.servers);
+      },
+      async detach(sessionId, serverId, role) {
+        await delay();
+        const session = requireSession(sessionId);
+        session.servers = session.servers.filter((sv) => !(sv.serverId === serverId && sv.role === role));
+        if (role === 'execution') session.serverId = undefined;
+        return structuredClone(session.servers);
       },
     },
 

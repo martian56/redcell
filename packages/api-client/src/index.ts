@@ -3,6 +3,7 @@ export type {
   ApiClient,
   Unsubscribe,
   CreateSessionInput,
+  AttachServerInput,
   CreateRunInput,
   OpenShellInput,
   StartListenerInput,

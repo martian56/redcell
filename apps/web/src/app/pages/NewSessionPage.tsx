@@ -21,6 +21,7 @@ type Draft = {
   proxyId: string;
   provider: string;
   model: string;
+  extraServers: { serverId: string; role: 'mobile' | 'pivot' }[];
 };
 
 const apiBase = (import.meta.env.VITE_API_BASE_URL ?? '/api/v1') as string;
@@ -49,6 +50,7 @@ export function NewSessionPage() {
     proxyId: '',
     provider: '',
     model: '',
+    extraServers: [],
   });
   const [files, setFiles] = useState<File[]>([]);
   const [messages, setMessages] = useState<Msg[]>([
@@ -136,6 +138,7 @@ export function NewSessionPage() {
       proxyId: draft.proxyId || undefined,
       provider: draft.provider || undefined,
       model: draft.model || undefined,
+      servers: draft.extraServers.length ? draft.extraServers : undefined,
     });
     for (const f of files) {
       const fd = new FormData();
@@ -272,6 +275,58 @@ export function NewSessionPage() {
                   ))}
                 </select>
               </label>
+            </div>
+
+            <div className="field">
+              <span className="label">
+                Additional hosts <span className="opt">(mobile device / pivot, optional)</span>
+              </span>
+              {draft.extraServers.map((es, i) => (
+                <div key={`${es.serverId}-${i}`} className="mt-1.5 flex items-center gap-2">
+                  <span className="min-w-0 flex-1 truncate font-mono text-xs text-muted">
+                    {(servers ?? []).find((x) => x.id === es.serverId)?.name ?? es.serverId}
+                  </span>
+                  <select
+                    className="selectn w-28"
+                    value={es.role}
+                    onChange={(e) =>
+                      patch({
+                        extraServers: draft.extraServers.map((x, j) =>
+                          j === i ? { ...x, role: e.target.value as 'mobile' | 'pivot' } : x,
+                        ),
+                      })
+                    }
+                  >
+                    <option value="pivot">Pivot</option>
+                    <option value="mobile">Mobile device</option>
+                  </select>
+                  <button
+                    type="button"
+                    className="tiletb-btn"
+                    title="Remove host"
+                    onClick={() => patch({ extraServers: draft.extraServers.filter((_, j) => j !== i) })}
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+              <select
+                className="selectn mt-1.5"
+                value=""
+                onChange={(e) => {
+                  const id = e.target.value;
+                  if (id) patch({ extraServers: [...draft.extraServers, { serverId: id, role: 'pivot' }] });
+                }}
+              >
+                <option value="">Add a host…</option>
+                {(servers ?? [])
+                  .filter((s) => s.id !== draft.serverId && !draft.extraServers.some((es) => es.serverId === s.id))
+                  .map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.name}
+                    </option>
+                  ))}
+              </select>
             </div>
 
             <label className="field">

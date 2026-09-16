@@ -27,6 +27,7 @@ from ..repositories import provider_credentials as creds_repo
 from ..repositories import proxies as proxies_repo
 from ..repositories import runs as runs_repo
 from ..repositories import servers as servers_repo
+from ..repositories import session_servers as session_servers_repo
 from ..repositories import sessions as sessions_repo
 from ..repositories import settings as settings_repo
 from ..repositories import shells as shells_repo
@@ -77,6 +78,7 @@ class LiveRunner(ReverseShellMixin):
         self.assessment_files: list[str] = []
         self._assessment_meta: list[tuple[str, str, str]] = []  # (bucket, key, filename)
         self.server = None  # the chosen remote Server row, or None for local
+        self.role_servers = {}
         self._listener_tasks: list[asyncio.Task] = []
         self._browser: BrowserManager | None = None
         self._pivot: pivot.PivotManager | None = None
@@ -193,11 +195,20 @@ class LiveRunner(ReverseShellMixin):
             )
             exec_cfg = ExecutionSettings(**cfg.execution) if cfg.execution else ExecutionSettings()
             exec_cfg.docker_image = getattr(exec_cfg, self._kindspec.image_setting, exec_cfg.docker_image)
-            # Per-session execution routing: a chosen server (SSH) and/or proxy.
-            if session.server_id:
-                server = await servers_repo.get(s, session.server_id)
+            attached = await session_servers_repo.list_for_session(s, session.id)
+            exec_server_id = next((a.server_id for a in attached if a.role == "execution"), None)
+            exec_server_id = exec_server_id or session.server_id
+            if exec_server_id:
+                server = await servers_repo.get(s, exec_server_id)
                 if server is not None:
-                    server_secret = await servers_repo.get_secret(s, session.server_id)
+                    server_secret = await servers_repo.get_secret(s, exec_server_id)
+            for a in attached:
+                if a.role == "execution":
+                    continue
+                role_server = await servers_repo.get(s, a.server_id)
+                if role_server is not None:
+                    secret = await servers_repo.get_secret(s, a.server_id)
+                    self.role_servers.setdefault(a.role, []).append({"server": role_server, "secret": secret})
             self.server = server
             if session.proxy_id:
                 proxy = await proxies_repo.get(s, session.proxy_id)

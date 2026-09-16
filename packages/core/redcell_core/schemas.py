@@ -32,6 +32,16 @@ class FirstRun(Camel):
 
 
 # ---- sessions / runs / agents ----
+class SessionServer(Camel):
+    server_id: str
+    role: str = "execution"
+
+
+class AttachServerInput(Camel):
+    server_id: str
+    role: str = "execution"
+
+
 class Session(Camel):
     id: str
     name: str
@@ -51,6 +61,7 @@ class Session(Camel):
     model: str | None = None
     findings_count: int = 0
     severity_counts: dict[str, int] = {}
+    servers: list[SessionServer] = []
 
 
 class CreateSessionInput(Camel):
@@ -66,6 +77,7 @@ class CreateSessionInput(Camel):
     proxy_id: str | None = None
     provider: str | None = None
     model: str | None = None
+    servers: list[AttachServerInput] = []
 
 
 class Run(Camel):

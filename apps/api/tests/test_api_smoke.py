@@ -88,7 +88,18 @@ def test_api_smoke():
 
         r = c.post("/api/v1/servers", json={"name": "t1", "host": "1.2.3.4", "username": "root", "authMethod": "password", "password": "x"})
         check("server-create", r.status_code == 200)
-        check("server-delete", c.delete(f"/api/v1/servers/{r.json()['id']}").status_code == 204)
+        srv_id = r.json()["id"]
+        # multi-server: attach an execution + a pivot host, list, detach
+        att = c.post(f"/api/v1/sessions/{sid}/servers", json={"serverId": srv_id, "role": "execution"})
+        check("server-attach", att.status_code == 200 and {"serverId": srv_id, "role": "execution"} in att.json())
+        check("session-server-mirror", c.get(f"/api/v1/sessions/{sid}").json()["serverId"] == srv_id)
+        att2 = c.post(f"/api/v1/sessions/{sid}/servers", json={"serverId": srv_id, "role": "pivot"})
+        check("server-attach-pivot", any(x["role"] == "pivot" for x in att2.json()))
+        check("server-bad-role", c.post(f"/api/v1/sessions/{sid}/servers", json={"serverId": srv_id, "role": "bogus"}).status_code == 422)
+        det = c.delete(f"/api/v1/sessions/{sid}/servers/{srv_id}", params={"role": "execution"})
+        check("server-detach", det.status_code == 200 and all(x["role"] != "execution" for x in det.json()))
+        check("session-server-unmirror", c.get(f"/api/v1/sessions/{sid}").json()["serverId"] is None)
+        check("server-delete", c.delete(f"/api/v1/servers/{srv_id}").status_code == 204)
         r = c.post("/api/v1/proxies", json={"label": "p1", "url": "http://p:8080", "kind": "http", "auth": "open"})
         check("proxy-create", r.status_code == 200)
         check("proxy-delete", c.delete(f"/api/v1/proxies/{r.json()['id']}").status_code == 204)

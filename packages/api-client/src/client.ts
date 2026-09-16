@@ -26,9 +26,11 @@ import type {
   Report,
   Run,
   Server,
+  ServerRole,
   ServerTestResult,
   Session,
   SessionKind,
+  SessionServer,
   SetProviderKeyInput,
   SetupStatus,
   UpdateProxyInput,
@@ -56,6 +58,12 @@ export interface CreateSessionInput {
   proxyId?: ID;
   provider?: string;
   model?: string;
+  servers?: AttachServerInput[];
+}
+
+export interface AttachServerInput {
+  serverId: ID;
+  role: ServerRole;
 }
 
 export interface CreateRunInput {
@@ -105,6 +113,11 @@ export interface ApiClient {
     list(params?: ListQuery): Promise<Session[]>;
     get(id: string): Promise<Session>;
     create(input: CreateSessionInput): Promise<Session>;
+  };
+  sessionServers: {
+    list(sessionId: string): Promise<SessionServer[]>;
+    attach(sessionId: string, input: AttachServerInput): Promise<SessionServer[]>;
+    detach(sessionId: string, serverId: string, role: ServerRole): Promise<SessionServer[]>;
   };
   runs: {
     list(sessionId: string, params?: ListQuery): Promise<Run[]>;

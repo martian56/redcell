@@ -32,6 +32,16 @@ async def create(s: AsyncSession, data: dict) -> Session:
     return row
 
 
+async def update(s: AsyncSession, sid: str, data: dict) -> Session | None:
+    row = await s.get(Session, sid)
+    if not row:
+        return None
+    for k, v in data.items():
+        setattr(row, k, v)
+    await s.flush()
+    return row
+
+
 async def set_active_run(s: AsyncSession, sid: str, run_id: str) -> None:
     row = await s.get(Session, sid)
     if row:

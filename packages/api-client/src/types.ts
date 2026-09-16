@@ -67,6 +67,17 @@ export interface Session {
   model?: string;
   findingsCount: number;
   severityCounts: Record<Severity, number>;
+  /** Servers attached to this session by role. */
+  servers: SessionServer[];
+}
+
+/** How an attached server is used within a session. */
+export type ServerRole = 'execution' | 'mobile' | 'pivot';
+
+/** A server bound to a session in a given role. */
+export interface SessionServer {
+  serverId: ID;
+  role: ServerRole;
 }
 
 /** One execution against a session's targets. */

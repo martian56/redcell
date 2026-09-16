@@ -23,6 +23,7 @@ from .run import Run  # noqa: E402
 from .secret import Secret  # noqa: E402
 from .server import Server  # noqa: E402
 from .session import Session  # noqa: E402
+from .session_server import SessionServer  # noqa: E402
 from .settings import AppSettings  # noqa: E402
 from .shell import Shell  # noqa: E402
 from .user import User  # noqa: E402
@@ -31,5 +32,5 @@ __all__ = [
     "Base", "User", "Provider", "AppSettings", "Session", "Run", "Agent",
     "AgentEdge", "Finding", "Shell", "Listener", "ProxyEntry", "Host", "Loot",
     "ChatMessage", "Event", "Server", "Proxy", "File", "Report", "ProviderCredential",
-    "Notification", "Secret",
+    "Notification", "Secret", "SessionServer",
 ]

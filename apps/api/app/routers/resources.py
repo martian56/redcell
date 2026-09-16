@@ -25,12 +25,14 @@ from redcell_core.repositories import listeners as listeners_repo
 from redcell_core.repositories import loot as loot_repo
 from redcell_core.repositories import proxy_entries as proxy_repo
 from redcell_core.repositories import runs as runs_repo
+from redcell_core.repositories import session_servers as session_servers_repo
 from redcell_core.repositories import sessions as sessions_repo
 from redcell_core.repositories import shells as shells_repo
 from redcell_core.schemas import (
     Agent,
     AgentEdge,
     AgentGraph,
+    AttachServerInput,
     BrowserControlInput,
     ChatMessage,
     ChatSendInput,
@@ -46,6 +48,7 @@ from redcell_core.schemas import (
     ProxyEntry,
     Run,
     Session,
+    SessionServer,
     SetFindingStatusInput,
     Shell,
     ShellWriteInput,
@@ -64,6 +67,8 @@ async def _session_schema(s: AsyncSession, row) -> Session:
     sch = Session.model_validate(row)
     sch.findings_count = await sessions_repo.findings_count(s, row.id)
     sch.severity_counts = await sessions_repo.severity_counts(s, row.id)
+    attached = await session_servers_repo.list_for_session(s, row.id)
+    sch.servers = [SessionServer(server_id=a.server_id, role=a.role) for a in attached]
     return sch
 
 
@@ -107,7 +112,44 @@ async def create_session(body: CreateSessionInput, s: AsyncSession = Depends(db)
         "status": "active", "server_id": body.server_id, "proxy_id": body.proxy_id,
         "provider": body.provider, "model": body.model,
     })
+    if body.server_id:
+        await session_servers_repo.attach(s, row.id, body.server_id, "execution")
+    for sv in body.servers:
+        await session_servers_repo.attach(s, row.id, sv.server_id, sv.role)
     return await _session_schema(s, row)
+
+
+# ---- session servers (multi-server per session) ----
+@router.get("/sessions/{sid}/servers", response_model=list[SessionServer])
+async def list_session_servers(sid: str, s: AsyncSession = Depends(db)) -> list[SessionServer]:
+    await _get_session(s, sid)
+    rows = await session_servers_repo.list_for_session(s, sid)
+    return [SessionServer(server_id=r.server_id, role=r.role) for r in rows]
+
+
+@router.post("/sessions/{sid}/servers", response_model=list[SessionServer])
+async def attach_session_server(sid: str, body: AttachServerInput,
+                                s: AsyncSession = Depends(db)) -> list[SessionServer]:
+    await _get_session(s, sid)
+    try:
+        await session_servers_repo.attach(s, sid, body.server_id, body.role)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    if body.role == "execution":
+        await sessions_repo.update(s, sid, {"server_id": body.server_id})
+    rows = await session_servers_repo.list_for_session(s, sid)
+    return [SessionServer(server_id=r.server_id, role=r.role) for r in rows]
+
+
+@router.delete("/sessions/{sid}/servers/{server_id}", response_model=list[SessionServer])
+async def detach_session_server(sid: str, server_id: str, role: str = Query("execution"),
+                                s: AsyncSession = Depends(db)) -> list[SessionServer]:
+    await _get_session(s, sid)
+    await session_servers_repo.detach(s, sid, server_id, role)
+    if role == "execution":
+        await sessions_repo.update(s, sid, {"server_id": None})
+    rows = await session_servers_repo.list_for_session(s, sid)
+    return [SessionServer(server_id=r.server_id, role=r.role) for r in rows]
 
 
 # ---- runs ----
