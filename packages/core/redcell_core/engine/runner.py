@@ -415,6 +415,32 @@ class LiveRunner(ReverseShellMixin):
             await self._event("orchestrator", "steer", f"browser control watch ended: {exc}")
 
     # ---- structured tool integrations ----
+    _INFRA_HOSTS = frozenset({
+        "github.com", "raw.githubusercontent.com", "objects.githubusercontent.com",
+        "codeload.github.com", "pypi.org", "files.pythonhosted.org", "bin.equinox.io",
+    })
+
+    async def _command_scope_block(self, command: str) -> dict[str, Any] | None:
+        """Scope-gate a free-form command for offensive kinds. Passive kinds
+        (osint/code/mobile) legitimately reach third-party sources, so they are
+        never gated here; tool/infra download hosts and loopback are allowed."""
+        if not self._kindspec.exploits or not self.scope:
+            return None
+        violations = []
+        for host in scope.hosts_in_command(command):
+            hl = host.lower()
+            if hl == "localhost" or hl.startswith("127.") or hl == "::1":
+                continue
+            if hl in self._INFRA_HOSTS or hl.endswith(".ngrok.io"):
+                continue
+            if not scope.in_scope(host, self.scope):
+                violations.append(host)
+        if not violations:
+            return None
+        await self._event("orchestrator", "steer", f"blocked out-of-scope command target: {', '.join(violations)}")
+        return {"error": f"command targets out-of-scope host(s) {', '.join(violations)} "
+                         f"(scope: {', '.join(self.scope)}); target an in-scope host or ask the operator to widen scope"}
+
     async def _scope_block(self, target: str) -> dict[str, Any] | None:
         if scope.in_scope(target, self.scope):
             return None
@@ -510,6 +536,11 @@ class LiveRunner(ReverseShellMixin):
         if not msf.valid_module(module):
             return {"error": "invalid module path"}
         options = args.get("options") if isinstance(args.get("options"), dict) else {}
+        rhosts = options.get("RHOSTS") or options.get("RHOST") or options.get("rhosts")
+        if rhosts:
+            for tok in str(rhosts).replace(",", " ").split():
+                if (blocked := await self._scope_block(tok)):
+                    return blocked
         cmd = msf.build_msf_run(module, {str(k): str(v) for k, v in options.items()})
         res = await self._exec(cmd)
         if self._was_interrupted(res):
@@ -595,6 +626,10 @@ class LiveRunner(ReverseShellMixin):
                         await self._event(agent_name, "tool", f"blocked destructive command: {cmd[:80]}")
                         messages.append({"role": "tool", "tool_call_id": call["id"], "name": cname,
                                          "content": "blocked: the scope guardrail refused a destructive command"})
+                        continue
+                    if (blk := await self._command_scope_block(cmd)):
+                        messages.append({"role": "tool", "tool_call_id": call["id"], "name": cname,
+                                         "content": blk["error"]})
                         continue
                     calls += 1
                     async with session_scope() as s:

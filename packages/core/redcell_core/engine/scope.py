@@ -46,6 +46,25 @@ def _scope_host(entry: str) -> str:
     return e.split("/", 1)[0].rstrip(".")
 
 
+_URL_HOST_RE = re.compile(r"https?://([^/\s:\"'`)]+(?::\d+)?)", re.I)
+_BARE_IP_RE = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
+
+
+def hosts_in_command(command: str) -> list[str]:
+    """Best-effort extraction of target hosts from a shell command: hostnames from
+    http(s) URLs and bare IPv4 addresses, normalized to bare host/IP. Used to
+    scope-gate free-form commands without false-positiving on flags/paths."""
+    raw: list[str] = list(_URL_HOST_RE.findall(command or "")) + list(_BARE_IP_RE.findall(command or ""))
+    seen: set[str] = set()
+    out: list[str] = []
+    for h in raw:
+        host = target_host(h.split("@")[-1])
+        if host and host not in seen:
+            seen.add(host)
+            out.append(host)
+    return out
+
+
 def in_scope(target: str, scope: list[str] | None) -> bool:
     """True if target falls within scope. An empty scope is unrestricted by design
     (the UI documents this); a non-empty scope is enforced."""
