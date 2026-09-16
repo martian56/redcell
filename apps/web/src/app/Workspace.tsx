@@ -19,7 +19,7 @@ import { Icon } from '@/components/ui/Icon';
 import { Empty } from '@/components/ui/primitives';
 import { useIsMobile } from '@/lib/useIsMobile';
 import { useUI } from '@/store/ui';
-import { useSession } from '@/features/hooks';
+import { useCapabilities, useSession } from '@/features/hooks';
 import { PanelView } from './panels/PanelView';
 import { MobileWorkspace } from './MobileWorkspace';
 
@@ -31,7 +31,11 @@ function TileToolbar({ tileId, path }: { tileId: TileId; path: MosaicBranch[] })
   const addTab = useWorkspace((s) => s.addTab);
   const sessionId = useUI((s) => s.activeSessionId);
   const { data: session } = useSession(sessionId);
-  const deviceAvailable = session?.kind === 'mobile' && (session.servers ?? []).some((sv) => sv.role === 'mobile');
+  const { data: caps } = useCapabilities();
+  const deviceAvailable =
+    session?.kind === 'mobile' &&
+    ((session.servers ?? []).some((sv) => sv.role === 'mobile') ||
+      (caps?.features?.dynamic_mobile?.available ?? false));
   const kindPanels = (session && KIND_PANELS[session.kind]) || null;
   const tile = tiles[tileId];
   if (!tile) return <div className="tiletb" />;

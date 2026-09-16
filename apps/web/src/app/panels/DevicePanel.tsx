@@ -95,7 +95,7 @@ export function DevicePanel() {
         <span className="font-mono text-[10px] uppercase tracking-wider text-faint">Device</span>
         <span className="min-w-0 truncate font-mono text-[10px] text-muted">
           {status === 'disconnected' || status === 'error'
-            ? 'no device host attached, or the device is not up'
+            ? 'device not up yet (it boots on the first mobile run; Reconnect to retry)'
             : status}
           {operator ? ' · you have control' : ''}
         </span>

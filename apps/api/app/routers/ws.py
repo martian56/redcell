@@ -197,10 +197,22 @@ def _adb_input(action: dict) -> str | None:
     return None
 
 
+async def _local_run(argv: list[str]) -> bytes:
+    proc = await asyncio.create_subprocess_exec(
+        *argv, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.DEVNULL)
+    assert proc.stdout is not None
+    out = await proc.stdout.read()
+    await proc.wait()
+    return out
+
+
 @router.websocket("/ws/device/{session_id}")
 async def ws_device(ws: WebSocket, session_id: str) -> None:
-    """Stream the attached Android device's screen (periodic screencap PNGs) over
-    SSH to the device host, and forward operator tap/text/key input back."""
+    """Stream the Android device's screen (periodic screencap PNGs) and forward
+    operator tap/text/key input. Works over SSH to an attached mobile device host,
+    or against the local deployment host (local-first) when none is attached."""
+    from redcell_core.capabilities import host_capabilities
+
     if not _authed(ws):
         await ws.close(code=4401)
         return
@@ -210,29 +222,45 @@ async def ws_device(ws: WebSocket, session_id: str) -> None:
             await ws.close(code=4404)
             return
         row = await session_servers_repo.get_by_role(s, session_id, "mobile")
-        if row is None:
-            await ws.close(code=4403)  # no device host attached
-            return
-        server = await servers_repo.get(s, row.server_id)
-        secret = await servers_repo.get_secret(s, row.server_id)
-    if server is None:
-        await ws.close(code=4404)
-        return
+        server = secret = None
+        if row is not None:
+            server = await servers_repo.get(s, row.server_id)
+            secret = await servers_repo.get_secret(s, row.server_id)
+
     container = f"redcell-exec-{session_id[:12]}"
-    cap = (f"docker exec {container} sh -c "
-           f"'adb connect {_DEVICE_SERIAL} >/dev/null 2>&1; "
-           f"adb -s {_DEVICE_SERIAL} exec-out screencap -p'")
+    cap = (f"adb connect {_DEVICE_SERIAL} >/dev/null 2>&1; "
+           f"adb -s {_DEVICE_SERIAL} exec-out screencap -p")
+
+    conn = None
+    if server is not None:
+        try:
+            conn = await _ssh_connect(server.host, getattr(server, "username", None) or "root", secret)
+        except Exception:
+            await ws.close(code=1011)
+            return
+    else:
+        caps = await host_capabilities()
+        if not caps["features"]["dynamic_mobile"]["available"]:
+            await ws.close(code=4403)  # no device host, and this host can't run one
+            return
+
+    async def capture() -> bytes:
+        if conn is not None:
+            r = await conn.run(f"docker exec {container} sh -c {json.dumps(cap)}", encoding=None, check=False)
+            return r.stdout or b""
+        return await _local_run(["docker", "exec", container, "sh", "-c", cap])
+
+    async def send(cmd: str) -> None:
+        if conn is not None:
+            await conn.run(f"docker exec {container} sh -c {json.dumps(cmd)}", check=False)
+        else:
+            await _local_run(["docker", "exec", container, "sh", "-c", cmd])
+
     await ws.accept()
-    try:
-        conn = await _ssh_connect(server.host, getattr(server, "username", None) or "root", secret)
-    except Exception:
-        await ws.close(code=1011)
-        return
 
     async def stream() -> None:
         while True:
-            r = await conn.run(cap, encoding=None, check=False)
-            frame = r.stdout or b""
+            frame = await capture()
             if frame[:8] == b"\x89PNG\r\n\x1a\n":
                 await ws.send_bytes(frame)
             await asyncio.sleep(0.35)
@@ -247,7 +275,7 @@ async def ws_device(ws: WebSocket, session_id: str) -> None:
                     continue
                 cmd = _adb_input(action)
                 if cmd:
-                    await conn.run(f"docker exec {container} sh -c {json.dumps(cmd)}", check=False)
+                    await send(cmd)
         except WebSocketDisconnect:
             return
         except Exception:
@@ -260,4 +288,5 @@ async def ws_device(ws: WebSocket, session_id: str) -> None:
         for t in tasks:
             t.cancel()
         await asyncio.gather(*tasks, return_exceptions=True)
-        conn.close()
+        if conn is not None:
+            conn.close()

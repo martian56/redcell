@@ -452,9 +452,10 @@ class LiveRunner(ReverseShellMixin, ToolsetMixin):
         return {"error": f"unknown browser tool {name}"}
 
     async def _mobile(self, args: dict[str, Any]) -> dict[str, Any]:
-        if getattr(self.backend, "kind", "") != "device-host":
-            return {"ok": False, "error": "no Android device host is attached to this session; "
-                    "this is a static-only mobile review (attach a device host to run dynamic checks)"}
+        if getattr(self.backend, "kind", "") not in ("device-host", "local-device-host"):
+            return {"ok": False, "error": "no Android device is available for this session; this is a "
+                    "static-only mobile review (run on a Linux host that can run redroid, or attach a "
+                    "device host, to enable dynamic checks)"}
         action = str(args.get("action", ""))
         pkg = str(args.get("package") or "")
         command = str(args.get("command") or "")
