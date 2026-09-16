@@ -249,6 +249,7 @@ class LlmSettings(Camel):
 class ExecutionSettings(Camel):
     backend: str = "local-docker"
     docker_image: str = "ghcr.io/martian56/redcell-kali:latest"
+    mobile_docker_image: str = "ghcr.io/martian56/redcell-mobile:latest"
     ssh_host: str | None = ""
     ssh_user: str | None = "root"
 

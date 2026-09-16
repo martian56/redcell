@@ -20,11 +20,20 @@ def test_get_kind_falls_back_to_general():
     assert get_kind("CODE").id == "code"
 
 
-def test_mobile_is_coming_soon_and_not_runnable():
-    assert "mobile" in KINDS
-    assert KINDS["mobile"].available is False
-    # an unavailable kind resolves to the default so it never actually runs
-    assert get_kind("mobile").id == "general"
+def test_mobile_is_a_static_kind_on_the_mobile_image():
+    m = get_kind("mobile")
+    assert m.id == "mobile" and m.available is True
+    assert not m.uses_browser and not m.seeds_hosts and not m.exploits and not m.mounts_source
+    assert m.image_setting == "mobile_docker_image"
+    p = m.orchestrator_system(OrchestratorContext(goal="Review app", scope=[], targets=[],
+                                                   files=["app.apk"]))
+    assert "mobile application security review" in p
+    assert "/root/assessment/: app.apk" in p
+
+
+def test_default_kind_uses_the_kali_image_setting():
+    assert get_kind("network").image_setting == "docker_image"
+    assert get_kind("general").image_setting == "docker_image"
 
 
 def test_general_is_full_capability():

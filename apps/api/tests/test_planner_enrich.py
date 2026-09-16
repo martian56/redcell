@@ -67,3 +67,10 @@ def test_osint_person_without_host_still_drafts():
     p = enrich_proposal(model, "profile the username jdoe across platforms")
     assert p is not None
     assert p.kind == "osint"
+
+
+def test_mobile_kind_is_preserved():
+    model = SessionProposal(name="App review", kind="mobile", brief="static review of the apk")
+    p = enrich_proposal(model, "pentest my android app, I'll upload the APK")
+    assert p is not None
+    assert p.kind == "mobile"

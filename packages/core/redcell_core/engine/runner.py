@@ -107,7 +107,7 @@ class LiveRunner(ReverseShellMixin):
                 await self._stage_assessment_files()
             if self._kindspec.mounts_source:
                 await self._prepare_source()
-            else:
+            elif self._kindspec.seeds_hosts:
                 await self._seed_hosts()
             await self._orchestrate()
             async with session_scope() as s:
@@ -194,6 +194,7 @@ class LiveRunner(ReverseShellMixin):
                 reasoning_effort=base.reasoning_effort,
             )
             exec_cfg = ExecutionSettings(**cfg.execution) if cfg.execution else ExecutionSettings()
+            exec_cfg.docker_image = getattr(exec_cfg, self._kindspec.image_setting, exec_cfg.docker_image)
             # Per-session execution routing: a chosen server (SSH) and/or proxy.
             if session.server_id:
                 server = await servers_repo.get(s, session.server_id)

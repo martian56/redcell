@@ -46,3 +46,4 @@ class Kind:
     seeds_hosts: bool = True
     mounts_source: bool = False
     exploits: bool = True
+    image_setting: str = "docker_image"

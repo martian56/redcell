@@ -28,7 +28,8 @@ _SYSTEM = (
     "rules of engagement if given, and a short brief. Pick the kind that fits: code for a git repo "
     "or local source review; network for external, infra, or web testing; osint for passive "
     "intelligence gathering or footprinting from public sources (profiling an org, domain, person, "
-    "username, or email). Use general for anything that does not clearly fit a specific kind, or a "
+    "username, or email); mobile for a static security review of a mobile app the operator uploads "
+    "(an APK, AAB, or IPA). Use general for anything that does not clearly fit a specific kind, or a "
     "task that spans several; general is a full-capability engagement, so when in doubt use general "
     "rather than declining. For a general, osint, or research task the subject can be an "
     "organization, person, product, or topic, not just a URL or IP, so still draft even when there "
@@ -49,7 +50,7 @@ _PROPOSE_TOOL = [{
             "properties": {
                 "name": {"type": "string", "description": "Short engagement name."},
                 "client": {"type": "string", "description": "Client / org name."},
-                "kind": {"type": "string", "enum": ["network", "code", "osint", "general"], "description": "network for external, infra, or web testing; code for a source code review; osint for passive public-source intelligence gathering; general for anything else or a task spanning several (full capability, the safe default when unsure)."},
+                "kind": {"type": "string", "enum": ["network", "code", "osint", "mobile", "general"], "description": "network for external, infra, or web testing; code for a source code review; osint for passive public-source intelligence gathering; mobile for a static review of an uploaded mobile app (APK/AAB/IPA); general for anything else or a task spanning several (full capability, the safe default when unsure)."},
                 "source": {"type": "string", "description": "For a code review: the git URL or local folder path."},
                 "scope": {"type": "array", "items": {"type": "string"}, "description": "In-scope domains, wildcards, or CIDRs."},
                 "targets": {"type": "array", "items": {"type": "string"}, "description": "Concrete target URLs or IPs."},
@@ -102,7 +103,7 @@ def enrich_proposal(proposal: SessionProposal | None, operator_text: str) -> Ses
         source, roe, kind = proposal.source, proposal.roe, proposal.kind
         scope, targets = list(proposal.scope), list(proposal.targets)
 
-    if kind not in ("code", "network", "general", "osint"):
+    if kind not in ("code", "network", "general", "osint", "mobile"):
         kind = "code" if git else ("network" if (domains or cidrs or urls) else None)
 
     if kind == "code":

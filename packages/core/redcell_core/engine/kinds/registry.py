@@ -3,6 +3,7 @@ from __future__ import annotations
 from .base import Kind
 from .code import code_executor, code_orchestrator
 from .general import general_orchestrator
+from .mobile import mobile_executor, mobile_orchestrator
 from .network import network_executor, network_orchestrator
 from .osint import osint_executor, osint_orchestrator
 
@@ -41,9 +42,12 @@ KINDS: dict[str, Kind] = {
     "mobile": Kind(
         id="mobile",
         label="Mobile",
-        orchestrator_system=general_orchestrator,
-        executor_system=network_executor,
-        available=False,
+        orchestrator_system=mobile_orchestrator,
+        executor_system=mobile_executor,
+        uses_browser=False,
+        seeds_hosts=False,
+        exploits=False,
+        image_setting="mobile_docker_image",
     ),
 }
 
