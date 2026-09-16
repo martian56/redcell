@@ -17,7 +17,7 @@ import { SIDEBAR_GROUPS } from './nav';
 
 function ActiveRunRow({ session, onClick }: { session: Session; onClick: () => void }) {
   return (
-    <button type="button" className="run live" onClick={onClick} title={`${session.name} · ${session.client}`}>
+    <button type="button" className="run live" onClick={onClick} data-tip={`${session.name} · ${session.client}`}>
       <span className="d" />
       <span className="rt">
         {session.name} <span style={{ color: 'var(--tx-4)' }}>· {session.client}</span>
@@ -148,7 +148,7 @@ export function DashboardShell() {
           {version?.updateAvailable ? (
             <button type="button" className="upd-badge"
               onClick={() => setUpdating(true)}
-              title={`Update available: ${version.latest}`}
+              data-tip={`Update available: ${version.latest}`}
             >
               Update
             </button>
@@ -258,7 +258,7 @@ export function DashboardShell() {
           <button type="button"
             className="iconbtn side-toggle"
             onClick={() => setCollapsed((v) => !v)}
-            title={collapsed ? 'Show sidebar' : 'Hide sidebar'}
+            data-tip={collapsed ? 'Show sidebar' : 'Hide sidebar'}
             aria-label={collapsed ? 'Show sidebar' : 'Hide sidebar'}
           >
             <svg viewBox="0 0 24 24">
@@ -287,7 +287,7 @@ export function DashboardShell() {
             type="button"
             className="iconbtn head-search"
             onClick={() => setPalette(true)}
-            title="Search"
+            data-tip="Search"
             aria-label="Search"
           >
             <svg viewBox="0 0 24 24">
@@ -295,7 +295,7 @@ export function DashboardShell() {
               <path d="M20 20l-3-3" />
             </svg>
           </button>
-          <button type="button" className="iconbtn" onClick={flipTheme} title="Toggle theme" aria-label="Toggle theme">
+          <button type="button" className="iconbtn" onClick={flipTheme} data-tip="Toggle theme" aria-label="Toggle theme">
             <svg viewBox="0 0 24 24">
               <path d="M12 3v2M12 19v2M5 5l1.5 1.5M17.5 17.5L19 19M3 12h2M19 12h2M5 19l1.5-1.5M17.5 6.5L19 5M12 8a4 4 0 100 8 4 4 0 000-8z" />
             </svg>

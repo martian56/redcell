@@ -69,7 +69,7 @@ export function FilesPanel() {
                 <a
                   href={api.files.downloadUrl(f.id)}
                   className="block truncate font-mono text-xs text-text hover:text-accent-ink"
-                  title={f.filename}
+                  data-tip={f.filename}
                 >
                   {f.filename}
                 </a>
@@ -84,7 +84,7 @@ export function FilesPanel() {
               <button
                 type="button"
                 className="tiletb-btn"
-                title="Delete file"
+                data-tip="Delete file"
                 onClick={() => remove.mutate(f.id)}
               >
                 ✕

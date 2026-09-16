@@ -63,7 +63,7 @@ export function SessionRow({ s, onOpen }: { s: Session; onOpen: () => void }) {
           <button
             type="button"
             className="font-mono text-[11px] text-faint hover:text-text"
-            title={archived ? 'Restore to active' : 'Archive session'}
+            data-tip={archived ? 'Restore to active' : 'Archive session'}
             onClick={(e) => {
               e.stopPropagation();
               update.mutate({ id: s.id, input: { status: archived ? 'active' : 'archived' } });
@@ -74,7 +74,7 @@ export function SessionRow({ s, onOpen }: { s: Session; onOpen: () => void }) {
           <button
             type="button"
             className="font-mono text-[11px] text-faint hover:text-[color:var(--crit)]"
-            title="Delete session"
+            data-tip="Delete session"
             onClick={(e) => {
               e.stopPropagation();
               if (confirm(`Delete session "${s.name}"? This cannot be undone.`)) remove.mutate(s.id);

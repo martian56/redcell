@@ -66,7 +66,7 @@ export function TerminalsPanel() {
           <span
             role="button"
             tabIndex={-1}
-            title="Close terminal"
+            data-tip="Close terminal"
             onClick={(e) => {
               e.stopPropagation();
               void closeTab(s.id);
@@ -80,7 +80,7 @@ export function TerminalsPanel() {
       <button type="button"
         onClick={() => void newTerminal()}
         disabled={!sid || openShell.isPending}
-        title="New terminal"
+        data-tip="New terminal"
         className="ml-1 flex flex-none items-center gap-1 rounded-[var(--radius)] border border-transparent px-2 py-1.5 font-mono text-xs text-muted hover:bg-panel hover:text-text disabled:opacity-40"
       >
         <Icon name="plus" size={13} />

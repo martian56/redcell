@@ -81,13 +81,13 @@ function TileToolbar({ tileId, path }: { tileId: TileId; path: MosaicBranch[] })
             options={addable.map((id) => ({ value: id, label: `Add ${PANEL_LABELS[id]}` }))}
             onChange={(v) => addTab(tileId, v as PanelId)}
             trigger={
-              <span className="tiletb-btn" title="Add a tab to this panel">
+              <span className="tiletb-btn" data-tip="Add a tab to this panel">
                 <Icon name="plus" size={13} />
               </span>
             }
           />
         )}
-        <button type="button" className="tiletb-btn" title="Close panel" onClick={closeTile}>
+        <button type="button" className="tiletb-btn" data-tip="Close panel" onClick={closeTile}>
           <Icon name="close" size={13} />
         </button>
       </div>

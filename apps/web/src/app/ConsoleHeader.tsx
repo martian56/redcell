@@ -118,7 +118,7 @@ export function ConsoleHeader({ sessionId }: { sessionId: string | null }) {
         ]}
         onChange={(v) => (v === '__reset' ? reset() : addPanelAsTile(v as PanelId))}
         trigger={
-          <span className="iconbtn mobile-hide" title="Layout & panels">
+          <span className="iconbtn mobile-hide" data-tip="Layout & panels">
             <svg viewBox="0 0 24 24">
               <rect x="3" y="4" width="18" height="16" rx="2" />
               <path d="M15 4v16" />

@@ -15,6 +15,7 @@ import { SettingsPage } from '@/app/pages/SettingsPage';
 import { NotificationsPage } from '@/app/pages/NotificationsPage';
 import { Toaster } from '@/components/ui/toast';
 import { LiveNotifier } from '@/app/LiveNotifier';
+import { TooltipLayer } from '@/components/ui/Tooltip';
 
 export function App() {
   return (
@@ -40,6 +41,7 @@ export function App() {
         </Routes>
       </AuthGate>
       <Toaster />
+      <TooltipLayer />
     </BrowserRouter>
   );
 }

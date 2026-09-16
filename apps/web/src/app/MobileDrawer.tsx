@@ -62,7 +62,7 @@ export function MobileDrawer({
                 onClose();
                 onUpdate();
               }}
-              title={`Update available: ${version.latest}`}
+              data-tip={`Update available: ${version.latest}`}
             >
               Update
             </button>

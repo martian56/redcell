@@ -130,7 +130,7 @@ export function NotificationsBell() {
         className={`ntf-btn${open ? ' on' : ''}`}
         aria-label={unread ? `${unread} unread notifications` : 'Notifications'}
         aria-expanded={open}
-        title={unread ? `${unread} unread` : 'Notifications'}
+        data-tip={unread ? `${unread} unread` : 'Notifications'}
         onClick={() => (open ? close() : place())}
       >
         <svg viewBox="0 0 24 24">

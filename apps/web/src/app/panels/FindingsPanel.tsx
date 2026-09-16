@@ -175,7 +175,7 @@ export function FindingsPanel() {
                           e.stopPropagation();
                           merge.mutate({ primaryId: f.id, duplicateIds: dupIds });
                         }}
-                        title="Dismiss the likely duplicates of this finding"
+                        data-tip="Dismiss the likely duplicates of this finding"
                       >
                         Merge {dupIds.length}
                       </Button>

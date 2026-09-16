@@ -84,7 +84,7 @@ export function LootPanel() {
                 {l.value ? (
                   <button
                     type="button"
-                    title={`${l.value}\n\nClick to copy`}
+                    data-tip={`${l.value}\n\nClick to copy`}
                     aria-label="Copy value to clipboard"
                     onClick={() => void copyValue(l.value)}
                     className="block max-w-[180px] cursor-pointer truncate text-left font-mono text-faint hover:text-text"

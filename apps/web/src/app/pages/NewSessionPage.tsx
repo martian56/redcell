@@ -314,7 +314,7 @@ export function NewSessionPage() {
                   <button
                     type="button"
                     className="tiletb-btn"
-                    title="Remove host"
+                    data-tip="Remove host"
                     onClick={() => patch({ extraServers: draft.extraServers.filter((_, j) => j !== i) })}
                   >
                     ✕

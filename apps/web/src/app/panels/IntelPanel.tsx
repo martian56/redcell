@@ -72,7 +72,7 @@ export function IntelPanel() {
             return (
               <div key={e.id} className="mb-1.5 rounded-[var(--radius)] border border-border bg-panel2 px-3 py-2">
                 <div className="flex items-baseline gap-2">
-                  <span className="min-w-0 flex-1 truncate font-mono text-xs text-text" title={e.value}>
+                  <span className="min-w-0 flex-1 truncate font-mono text-xs text-text" data-tip={e.value}>
                     {e.value}
                   </span>
                   {e.source ? <span className="font-mono text-[10px] text-faint">{e.source}</span> : null}

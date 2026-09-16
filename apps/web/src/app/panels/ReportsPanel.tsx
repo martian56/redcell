@@ -121,7 +121,7 @@ export function ReportsPanel() {
                   </div>
                   <button type="button"
                     onClick={() => del.mutate(r.id)}
-                    title="Delete report"
+                    data-tip="Delete report"
                     className="flex-none p-1 text-faint hover:text-crit"
                   >
                     <Icon name="close" size={14} />

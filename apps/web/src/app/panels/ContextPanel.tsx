@@ -106,7 +106,7 @@ function AgentDetail({ agent, recent }: { agent: Agent; recent: EventMsg[] }) {
             {recent.map((e) => (
               <div key={e.id} className="flex gap-2 font-mono text-[11px] leading-relaxed">
                 <span className="text-faint">{new Date(e.ts).toLocaleTimeString()}</span>
-                <span className="min-w-0 flex-1 truncate text-muted" title={e.text}>
+                <span className="min-w-0 flex-1 truncate text-muted" data-tip={e.text}>
                   {e.text}
                 </span>
               </div>
