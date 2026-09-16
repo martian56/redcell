@@ -34,6 +34,10 @@ jobs:
             file: docker/kali/Dockerfile
             context: docker/kali
             version_file: docker/kali/VERSION
+          - app: mobile
+            file: docker/mobile/Dockerfile
+            context: docker/mobile
+            version_file: docker/mobile/VERSION
     steps:
       - uses: actions/checkout@v4
         with:
@@ -51,7 +55,7 @@ jobs:
         run: |
           case "${{ matrix.app }}" in
             web) ver=$(jq -r .version "${{ matrix.version_file }}") ;;
-            kali) ver=$(tr -d '[:space:]' < "${{ matrix.version_file }}") ;;
+            kali|mobile) ver=$(tr -d '[:space:]' < "${{ matrix.version_file }}") ;;
             *) ver=$(grep -m1 -E '^version' "${{ matrix.version_file }}" | sed -E 's/.*"([^"]+)".*/\1/') ;;
           esac
           owner=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
@@ -69,7 +73,7 @@ jobs:
           fi
 
       - name: Free disk space
-        if: steps.gate.outputs.publish == 'true' && matrix.app == 'kali'
+        if: steps.gate.outputs.publish == 'true' && (matrix.app == 'kali' || matrix.app == 'mobile')
         uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
         with:
           tool-cache: true
@@ -112,6 +116,7 @@ jobs:
           worker=$(grep -m1 -E '^version' apps/worker/pyproject.toml | sed -E 's/.*"([^"]+)".*/\1/')
           web=$(jq -r .version apps/web/package.json)
           kali=$(tr -d '[:space:]' < docker/kali/VERSION)
+          mobile=$(tr -d '[:space:]' < docker/mobile/VERSION)
           {
             echo "body<<EOF"
             echo "Container images on GHCR (only versions not already published were pushed this release):"
@@ -122,6 +127,7 @@ jobs:
             echo "| Worker | \`ghcr.io/$owner/redcell-worker\` | $worker |"
             echo "| Web | \`ghcr.io/$owner/redcell-web\` | $web |"
             echo "| Kali | \`ghcr.io/$owner/redcell-kali\` | $kali |"
+            echo "| Mobile | \`ghcr.io/$owner/redcell-mobile\` | $mobile |"
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
       - name: Create GitHub release
