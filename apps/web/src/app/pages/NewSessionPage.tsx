@@ -1,6 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAvailableModels, useCreateSession, useProxies, useServers } from '@/features/hooks';
+import {
+  useAvailableModels,
+  useCapabilities,
+  useCreateSession,
+  useProxies,
+  useServers,
+} from '@/features/hooks';
 import { useApi } from '@/lib/api';
 import { Markdown } from '@/components/ui/Markdown';
 import { Thinking } from '@/components/ui/Thinking';
@@ -282,12 +288,7 @@ export function NewSessionPage() {
               <span className="label">
                 Additional hosts <span className="opt">(mobile device / pivot, optional)</span>
               </span>
-              {isMobile ? (
-                <p className="mb-1 text-[11px] text-faint">
-                  Attach a Linux host running redroid as a “Mobile device” to run the app live (install +
-                  Frida). Without one, the mobile review stays static-only.
-                </p>
-              ) : null}
+              {isMobile ? <MobileDeviceHint /> : null}
               {draft.extraServers.map((es, i) => (
                 <div key={`${es.serverId}-${i}`} className="mt-1.5 flex items-center gap-2">
                   <span className="min-w-0 flex-1 truncate font-mono text-xs text-muted">
@@ -400,4 +401,20 @@ export function NewSessionPage() {
       </div>
     </div>
   );
+}
+
+function MobileDeviceHint() {
+  const { data: caps } = useCapabilities();
+  const dyn = caps?.features?.dynamic_mobile;
+  let text: string;
+  if (dyn?.available) {
+    text =
+      'This deployment can run the app live on its own host, so no device host is required. You can still attach a Linux host below to run the device elsewhere.';
+  } else if (dyn) {
+    text = `${dyn.reason.charAt(0).toUpperCase()}${dyn.reason.slice(1)}. The mobile review stays static-only until then.`;
+  } else {
+    text =
+      'To run the app live, this deployment must be a Linux host with redroid, or attach a Linux host below as a “Mobile device”. Otherwise the mobile review stays static-only.';
+  }
+  return <p className="mb-1 text-[11px] text-faint">{text}</p>;
 }

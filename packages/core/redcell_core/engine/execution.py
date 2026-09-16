@@ -489,29 +489,13 @@ class RemoteDockerBackend(ExecutionBackend):
             self._conn = None
 
 
-class DeviceHostBackend(RemoteDockerBackend):
-    """A mobile device host: a mobile-tools container plus a redroid Android
-    container on the same SSH-reachable host. The tools container (with adb and
-    frida) runs the agent's commands against the device over 127.0.0.1:5555."""
+class _RedroidProvision:
+    """Shared redroid Android provisioning, over whichever host transport the
+    concrete backend provides: `_host_sh` runs a command on the host (SSH for a
+    remote device host, the local shell for the deploy host), and `run` runs
+    inside the mobile-tools container that talks to the device over adb."""
 
-    kind = "device-host"
     DEVICE_SERIAL = "127.0.0.1:5555"
-
-    def __init__(self, host: str, user: str | None = None, password: str | None = None,
-                 private_key: str | None = None, image: str = "ghcr.io/martian56/redcell-mobile:latest",
-                 name: str = "redcell-exec", proxy_env: dict[str, str] | None = None,
-                 mounts: list[str] | None = None,
-                 redroid_image: str = "redroid/redroid:13.0.0_64only-latest",
-                 screen: str = "720x1280", redroid_name: str = "redcell-redroid") -> None:
-        super().__init__(host, user, password=password, private_key=private_key,
-                         image=image, name=name, proxy_env=proxy_env, mounts=mounts)
-        self.redroid_image = redroid_image
-        self.screen = screen
-        self.redroid_name = redroid_name
-
-    async def start(self, on_status: OnOutput | None = None) -> None:
-        await super().start(on_status)
-        await self.provision_device(on_status)
 
     def _dims(self) -> tuple[str, str]:
         try:
@@ -535,31 +519,32 @@ class DeviceHostBackend(RemoteDockerBackend):
                 "&& exit 0; sleep 3; done; exit 1")
 
     async def _ensure_binder(self) -> None:
-        await self._sh("[ -e /dev/binder ] || modprobe binder_linux "
-                       "devices=binder,hwbinder,vndbinder 2>/dev/null || true")
+        await self._host_sh("[ -e /dev/binder ] || modprobe binder_linux "
+                            "devices=binder,hwbinder,vndbinder 2>/dev/null || true")
 
     async def _ensure_redroid_image(self, on_status: OnOutput | None) -> None:
-        if (await self._sh(f"docker image inspect {self.redroid_image} >/dev/null 2>&1"))[0] == 0:
+        if (await self._host_sh(f"docker image inspect {self.redroid_image} >/dev/null 2>&1"))[0] == 0:
             return
         if on_status:
-            await on_status(f"pulling {self.redroid_image} on the device host...")
-        code, out = await self._sh(f"docker pull {self.redroid_image}")
+            await on_status(f"pulling {self.redroid_image} on {self._host_label}...")
+        code, out = await self._host_sh(f"docker pull {self.redroid_image}")
         if code != 0:
-            raise RuntimeError(f"device host can't pull {self.redroid_image}: {out.strip()[-200:]}")
+            raise RuntimeError(f"can't pull {self.redroid_image} on {self._host_label}: {out.strip()[-200:]}")
 
     async def provision_device(self, on_status: OnOutput | None = None) -> None:
         await self._ensure_binder()
         await self._ensure_redroid_image(on_status)
-        running = (await self._sh(
+        running = (await self._host_sh(
             f"docker inspect -f '{{{{.State.Running}}}}' {self.redroid_name} 2>/dev/null"))[1].strip()
         if running != "true":
-            await self._sh(f"docker rm -f {self.redroid_name} >/dev/null 2>&1")
-            code, out = await self._sh(self._redroid_run_cmd())
+            await self._host_sh(f"docker rm -f {self.redroid_name} >/dev/null 2>&1")
+            code, out = await self._host_sh(self._redroid_run_cmd())
             if code != 0:
-                raise RuntimeError(f"redroid run failed on device host: {out.strip()[-200:]}")
+                raise RuntimeError(f"redroid failed to start on {self._host_label} (is the binder kernel "
+                                   f"module loaded?): {out.strip()[-200:]}")
             if on_status:
                 w, h = self._dims()
-                await on_status(f"redroid Android booting on {self.host} ({w}x{h})...")
+                await on_status(f"redroid Android booting on {self._host_label} ({w}x{h})...")
         result = await self.run(self._boot_wait_script())
         if result.exit_code != 0:
             raise RuntimeError("redroid device did not finish booting (sys.boot_completed)")
@@ -572,7 +557,71 @@ class DeviceHostBackend(RemoteDockerBackend):
         return r.output.strip().endswith("1")
 
     async def teardown_device(self) -> None:
-        await self._sh(f"docker rm -f {self.redroid_name} >/dev/null 2>&1")
+        await self._host_sh(f"docker rm -f {self.redroid_name} >/dev/null 2>&1")
+
+
+class DeviceHostBackend(RemoteDockerBackend, _RedroidProvision):
+    """A mobile device host on a remote SSH-reachable server: a mobile-tools
+    container plus a redroid Android container, driven over adb at 127.0.0.1:5555."""
+
+    kind = "device-host"
+
+    def __init__(self, host: str, user: str | None = None, password: str | None = None,
+                 private_key: str | None = None, image: str = "ghcr.io/martian56/redcell-mobile:latest",
+                 name: str = "redcell-exec", proxy_env: dict[str, str] | None = None,
+                 mounts: list[str] | None = None,
+                 redroid_image: str = "redroid/redroid:13.0.0_64only-latest",
+                 screen: str = "720x1280", redroid_name: str = "redcell-redroid") -> None:
+        super().__init__(host, user, password=password, private_key=private_key,
+                         image=image, name=name, proxy_env=proxy_env, mounts=mounts)
+        self.redroid_image = redroid_image
+        self.screen = screen
+        self.redroid_name = redroid_name
+
+    @property
+    def _host_label(self) -> str:
+        return self.host
+
+    async def _host_sh(self, cmd: str) -> tuple[int, str]:
+        return await self._sh(cmd)
+
+    async def start(self, on_status: OnOutput | None = None) -> None:
+        await super().start(on_status)
+        await self.provision_device(on_status)
+
+
+class LocalDeviceHostBackend(LocalDockerBackend, _RedroidProvision):
+    """A mobile device host on the deployment host itself: brings up redroid and
+    the mobile-tools container via the local Docker socket, so dynamic mobile
+    works with no extra server when REDCELL runs on a Linux host with binder."""
+
+    kind = "local-device-host"
+
+    def __init__(self, image: str = "ghcr.io/martian56/redcell-mobile:latest",
+                 name: str = "redcell-exec", proxy_env: dict[str, str] | None = None,
+                 mounts: list[str] | None = None,
+                 redroid_image: str = "redroid/redroid:13.0.0_64only-latest",
+                 screen: str = "720x1280", redroid_name: str = "redcell-redroid") -> None:
+        super().__init__(image, name=name, proxy_env=proxy_env, mounts=mounts)
+        self.redroid_image = redroid_image
+        self.screen = screen
+        self.redroid_name = redroid_name
+
+    _host_label = "this host"
+
+    async def _host_sh(self, cmd: str) -> tuple[int, str]:
+        proc = await asyncio.create_subprocess_exec(
+            "sh", "-c", cmd,
+            stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT,
+        )
+        assert proc.stdout is not None
+        out = (await proc.stdout.read()).decode(errors="replace")
+        await proc.wait()
+        return (proc.returncode or 0), out
+
+    async def start(self, on_status: OnOutput | None = None) -> None:
+        await super().start(on_status)
+        await self.provision_device(on_status)
 
 
 def _shq(s: str) -> str:
@@ -648,3 +697,15 @@ def build_device_backend(cfg: ExecutionSettings | None = None, *, server, server
                              password=pw, private_key=pk, image=cfg.mobile_docker_image,
                              name=name, proxy_env=penv, mounts=mounts,
                              redroid_image=cfg.redroid_image, screen=cfg.redroid_screen)
+
+
+def build_local_device_backend(cfg: ExecutionSettings | None = None, *, proxy_url: str | None = None,
+                               name: str = "redcell-exec", mounts: list[str] | None = None) -> ExecutionBackend:
+    """A mobile device host on the deployment host itself (no server attached).
+    Used when REDCELL runs on a Linux host that can run redroid locally."""
+    cfg = cfg or ExecutionSettings()
+    if settings.run_mode != "live":
+        return SimBackend()
+    return LocalDeviceHostBackend(cfg.mobile_docker_image, name=name,
+                                  proxy_env=proxy_env_from_url(proxy_url), mounts=mounts,
+                                  redroid_image=cfg.redroid_image, screen=cfg.redroid_screen)

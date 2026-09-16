@@ -1,5 +1,10 @@
 from redcell_core.config import settings
-from redcell_core.engine.execution import DeviceHostBackend, build_device_backend
+from redcell_core.engine.execution import (
+    DeviceHostBackend,
+    LocalDeviceHostBackend,
+    build_device_backend,
+    build_local_device_backend,
+)
 from redcell_core.schemas import ExecutionSettings
 
 
@@ -43,3 +48,28 @@ def test_build_device_backend_uses_mobile_image():
     assert b.image == "ghcr.io/x/redcell-mobile:latest"
     assert b.screen == "480x800"
     assert b.kind == "device-host"
+
+
+def test_local_device_backend_shares_provisioning():
+    b = LocalDeviceHostBackend(screen="1080x1920")
+    cmd = b._redroid_run_cmd()
+    assert "-p 127.0.0.1:5555:5555" in cmd
+    assert "androidboot.redroid_width=1080" in cmd
+    assert b.kind == "local-device-host"
+    assert b._host_label == "this host"
+    s = b._boot_wait_script(tries=5)
+    assert "getprop sys.boot_completed" in s
+
+
+def test_build_local_device_backend_uses_mobile_image():
+    cfg = ExecutionSettings(mobileDockerImage="ghcr.io/x/redcell-mobile:latest", redroidScreen="480x800")
+    prev = settings.run_mode
+    settings.run_mode = "live"
+    try:
+        b = build_local_device_backend(cfg)
+    finally:
+        settings.run_mode = prev
+    assert isinstance(b, LocalDeviceHostBackend)
+    assert b.image == "ghcr.io/x/redcell-mobile:latest"
+    assert b.screen == "480x800"
+    assert b.kind == "local-device-host"

@@ -12,6 +12,7 @@ from typing import Any, TypedDict
 
 from .. import steer
 from ..bus import Bus, browser_channel, chat_channel, control_channel, shell_channel
+from ..capabilities import host_capabilities
 from ..config import settings
 from ..db import session_scope
 from ..logs import get_logger
@@ -36,7 +37,7 @@ from ..storage import safe_filename, storage
 from . import mobile as mobkit
 from . import msf, nmap, pivot, scope, webscan
 from .browser import BrowserManager
-from .execution import ExecResult, build_backend, build_device_backend
+from .execution import ExecResult, build_backend, build_device_backend, build_local_device_backend
 from .kinds import DEFAULT_KIND, OrchestratorContext, get_kind
 from .llm import LlmClient
 from .run import ReverseShellMixin
@@ -231,11 +232,21 @@ class LiveRunner(ReverseShellMixin):
                 self.backend = build_device_backend(exec_cfg, server=dev["server"],
                                                     server_secret=dev["secret"], proxy_url=proxy_url,
                                                     name=exec_name, mounts=mounts)
+            elif self.kind == "mobile" and server is None and await self._can_run_local_device():
+                self.backend = build_local_device_backend(exec_cfg, proxy_url=proxy_url,
+                                                          name=exec_name, mounts=mounts)
             else:
                 self.backend = build_backend(exec_cfg, server=server, server_secret=server_secret,
                                              proxy_url=proxy_url, name=exec_name, mounts=mounts)
         if self._browser is None and self._kindspec.uses_browser:
             self._browser = BrowserManager(self.backend, self.session_id, self.bus)
+
+    async def _can_run_local_device(self) -> bool:
+        try:
+            caps = await host_capabilities()
+            return bool(caps["features"]["dynamic_mobile"]["available"])
+        except Exception:
+            return False
 
     async def _ensure_orchestrator(self, s) -> str:
         nodes, _ = await agents_repo.graph(s, self.run_id)

@@ -132,22 +132,22 @@ The direct path is opt-in on purpose: the default stack publishes only 80 and 44
 
 ## Dynamic mobile device host
 
-A mobile session can run the app *live* (install it, drive it, instrument it with Frida) instead of only reviewing it statically. This needs an Android device, which REDCELL provides with [redroid](https://github.com/remote-android/redroid-doc) (Android in a container). redroid needs a **Linux host with the `binder` kernel module** — it cannot run on macOS or Windows, so this is a separate host you attach to the session, not the REDCELL box unless that box is Linux with binder.
+A mobile session can run the app *live* (install it, drive it, instrument it with Frida) instead of only reviewing it statically. This needs an Android device, which REDCELL provides with [redroid](https://github.com/remote-android/redroid-doc) (Android in a container). redroid needs a **Linux host with the `binder` kernel module** — it cannot run on macOS or Windows.
 
-Set up a device host:
+**REDCELL knows where it is running.** Settings → Execution shows a "This deployment can" panel; the *Dynamic mobile (Android)* row says whether this host can run apps live. There are two ways to get a device:
 
-1. On a Linux host (Ubuntu/Debian works well), load binder and confirm it:
+**A. On the deployment host itself (no extra server).** If REDCELL is deployed on a Linux host with the `binder` module, a mobile session runs the app live right there — nothing to attach. Load binder on the host and confirm it:
 
-   ```bash
-   sudo modprobe binder_linux devices=binder,hwbinder,vndbinder
-   ls /dev/binder    # should exist
-   ```
+```bash
+sudo modprobe binder_linux devices=binder,hwbinder,vndbinder
+ls /dev/binder    # should exist
+```
 
-   To make it persist across reboots, add `binder_linux` to `/etc/modules-load.d/` and the `devices=` option to `/etc/modprobe.d/`.
+To make it persist across reboots, add `binder_linux` to `/etc/modules-load.d/` and the `devices=` option to `/etc/modprobe.d/`. That is all — create a mobile session and it uses the local device automatically.
 
-2. Make sure Docker is installed and the host is reachable over SSH (key or password). REDCELL brings up redroid and the mobile toolchain itself; you do not pre-install anything else.
+**B. On a separate Linux host (optional).** If REDCELL runs where redroid can't (Windows/macOS/Docker Desktop), or you want to offload the device to another box, stand up a Linux host (binder loaded as above, Docker installed, reachable over SSH), add it under **Servers**, and on a **mobile** session attach it as an **Additional host** with the role **Mobile device**.
 
-3. In REDCELL, add the host under **Servers**, then on a **mobile** session attach it as an **Additional host** with the role **Mobile device**. REDCELL will start a redroid Android container (published on `127.0.0.1:5555`), wait for it to boot, and connect `adb` from the mobile-tools container.
+Either way REDCELL starts a redroid Android container (published on `127.0.0.1:5555`), waits for it to boot, and connects `adb` from the mobile-tools container; you pre-install nothing else. If the host can't run a device and none is attached, the mobile review stays static-only (the New Session screen tells you which case you are in).
 
 Notes:
 

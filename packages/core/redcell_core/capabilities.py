@@ -53,9 +53,10 @@ def derive_capabilities(info: dict | None) -> dict:
             else "needs a native Linux Docker host; not available on Docker Desktop (network split)"),
         "dynamic_mobile": _feature(
             linux_native,
-            "Linux host: redroid Android runs here (the binder module is loaded on demand)" if linux_native
-            else f"needs a Linux host with the binder kernel module; not available on "
-                 f"{os_name or 'this OS'}. Attach an external Linux device host instead"),
+            "runs the app live on this host with redroid (requires the binder kernel module on the host)"
+            if linux_native
+            else f"this host can't run Android live ({os_name or 'this OS'} has no binder module); "
+                 f"attach a Linux host with redroid as a device host to run apps live"),
     }
     return {"host": host, "features": features}
 

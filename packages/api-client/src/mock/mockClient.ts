@@ -701,7 +701,7 @@ export function createMockClient(): ApiClient {
               live_execution: { available: true, reason: 'Docker is reachable on the deployment host' },
               reverse_shell_catch: { available: true, reason: 'native Linux Docker host' },
               network_pivot: { available: true, reason: 'native Linux Docker host' },
-              dynamic_mobile: { available: true, reason: 'Linux host: redroid Android runs here (binder loaded on demand)' },
+              dynamic_mobile: { available: true, reason: 'runs the app live on this host with redroid (requires the binder kernel module on the host)' },
             },
           };
         },
