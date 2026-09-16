@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 
 import jwt
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
@@ -10,6 +11,8 @@ from redcell_core.bus import bus, chat_channel, events_channel, shell_channel
 from redcell_core.config import settings
 from redcell_core.db import session_scope
 from redcell_core.logs import get_logger
+from redcell_core.repositories import servers as servers_repo
+from redcell_core.repositories import session_servers as session_servers_repo
 from redcell_core.repositories import sessions as sessions_repo
 from redcell_core.security import COOKIE_NAME
 
@@ -150,3 +153,102 @@ async def ws_browser(ws: WebSocket, session_id: str) -> None:
         await ws.close(code=1011)
         return
     await _bridge(ws, proc)
+
+
+_DEVICE_SERIAL = "127.0.0.1:5555"
+
+
+def _looks_like_key(secret: str | None) -> bool:
+    return bool(secret) and "PRIVATE KEY" in secret
+
+
+async def _ssh_connect(host: str, user: str, secret: str | None):
+    import asyncssh
+    opts: dict = {"username": user or "root", "known_hosts": None}
+    if _looks_like_key(secret):
+        opts["client_keys"] = [asyncssh.import_private_key(secret)]
+    elif secret:
+        opts["password"] = secret
+    return await asyncssh.connect(host, **opts)
+
+
+def _adb_input(action: dict) -> str | None:
+    kind = str(action.get("type") or "")
+    base = f"adb -s {_DEVICE_SERIAL} shell input"
+    if kind == "tap":
+        return f"{base} tap {int(action['x'])} {int(action['y'])}"
+    if kind == "swipe":
+        return f"{base} swipe {int(action['x1'])} {int(action['y1'])} {int(action['x2'])} {int(action['y2'])}"
+    if kind == "text":
+        text = str(action.get("text") or "").replace("'", "")
+        return f"{base} text '{text}'"
+    if kind == "key":
+        key = str(action.get("key") or "").replace("'", "")
+        return f"{base} keyevent '{key}'"
+    return None
+
+
+@router.websocket("/ws/device/{session_id}")
+async def ws_device(ws: WebSocket, session_id: str) -> None:
+    """Stream the attached Android device's screen (periodic screencap PNGs) over
+    SSH to the device host, and forward operator tap/text/key input back."""
+    if not _authed(ws):
+        await ws.close(code=4401)
+        return
+    async with session_scope() as s:
+        session = await sessions_repo.get(s, session_id)
+        if session is None:
+            await ws.close(code=4404)
+            return
+        row = await session_servers_repo.get_by_role(s, session_id, "mobile")
+        if row is None:
+            await ws.close(code=4403)  # no device host attached
+            return
+        server = await servers_repo.get(s, row.server_id)
+        secret = await servers_repo.get_secret(s, row.server_id)
+    if server is None:
+        await ws.close(code=4404)
+        return
+    container = f"redcell-exec-{session_id[:12]}"
+    cap = (f"docker exec {container} sh -c "
+           f"'adb connect {_DEVICE_SERIAL} >/dev/null 2>&1; "
+           f"adb -s {_DEVICE_SERIAL} exec-out screencap -p'")
+    await ws.accept()
+    try:
+        conn = await _ssh_connect(server.host, getattr(server, "username", None) or "root", secret)
+    except Exception:
+        await ws.close(code=1011)
+        return
+
+    async def stream() -> None:
+        while True:
+            r = await conn.run(cap, encoding=None, check=False)
+            frame = r.stdout or b""
+            if frame[:8] == b"\x89PNG\r\n\x1a\n":
+                await ws.send_bytes(frame)
+            await asyncio.sleep(0.35)
+
+    async def control() -> None:
+        try:
+            while True:
+                msg = await ws.receive_text()
+                try:
+                    action = json.loads(msg)
+                except json.JSONDecodeError:
+                    continue
+                cmd = _adb_input(action)
+                if cmd:
+                    await conn.run(f"docker exec {container} sh -c {json.dumps(cmd)}", check=False)
+        except WebSocketDisconnect:
+            return
+        except Exception:
+            return
+
+    tasks = {asyncio.create_task(stream()), asyncio.create_task(control())}
+    try:
+        await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
+    finally:
+        for t in tasks:
+            t.cancel()
+        await asyncio.gather(*tasks, return_exceptions=True)
+        conn.close()

@@ -14,7 +14,8 @@ export type PanelId =
   | 'surface'
   | 'loot'
   | 'reports'
-  | 'browser';
+  | 'browser'
+  | 'device';
 
 export const PANEL_LABELS: Record<PanelId, string> = {
   agents: 'Agents',
@@ -29,6 +30,7 @@ export const PANEL_LABELS: Record<PanelId, string> = {
   loot: 'Loot & creds',
   reports: 'Reports',
   browser: 'Browser',
+  device: 'Device',
 };
 
 export const SWAPPABLE: PanelId[] = [
@@ -44,6 +46,7 @@ export const SWAPPABLE: PanelId[] = [
   'proxy',
   'reports',
   'browser',
+  'device',
 ];
 
 export type TileId = string;

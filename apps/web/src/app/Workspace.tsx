@@ -10,6 +10,8 @@ import { Dropdown } from '@/components/ui/Dropdown';
 import { Icon } from '@/components/ui/Icon';
 import { Empty } from '@/components/ui/primitives';
 import { useIsMobile } from '@/lib/useIsMobile';
+import { useUI } from '@/store/ui';
+import { useSession } from '@/features/hooks';
 import { PanelView } from './panels/PanelView';
 import { MobileWorkspace } from './MobileWorkspace';
 
@@ -19,10 +21,15 @@ function TileToolbar({ tileId, path }: { tileId: TileId; path: MosaicBranch[] })
   const setActive = useWorkspace((s) => s.setActive);
   const closeTab = useWorkspace((s) => s.closeTab);
   const addTab = useWorkspace((s) => s.addTab);
+  const sessionId = useUI((s) => s.activeSessionId);
+  const { data: session } = useSession(sessionId);
+  const deviceAvailable = session?.kind === 'mobile' && (session.servers ?? []).some((sv) => sv.role === 'mobile');
   const tile = tiles[tileId];
   if (!tile) return <div className="tiletb" />;
 
-  const addable = SWAPPABLE.filter((id) => !usedPanels(tiles).has(id));
+  const addable = SWAPPABLE.filter(
+    (id) => !usedPanels(tiles).has(id) && (id !== 'device' || deviceAvailable),
+  );
   const closeTile = () => mosaicActions.remove(path);
 
   return (

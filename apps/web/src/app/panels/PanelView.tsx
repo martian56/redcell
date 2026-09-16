@@ -11,6 +11,7 @@ import { AttackSurfacePanel } from './AttackSurfacePanel';
 import { LootPanel } from './LootPanel';
 import { ReportsPanel } from './ReportsPanel';
 import { BrowserPanel } from './BrowserPanel';
+import { DevicePanel } from './DevicePanel';
 
 export function PanelView({ id }: { id: PanelId }) {
   switch (id) {
@@ -38,6 +39,8 @@ export function PanelView({ id }: { id: PanelId }) {
       return <ReportsPanel />;
     case 'browser':
       return <BrowserPanel />;
+    case 'device':
+      return <DevicePanel />;
     default:
       return null;
   }

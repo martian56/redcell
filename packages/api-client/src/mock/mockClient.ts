@@ -671,6 +671,11 @@ export function createMockClient(): ApiClient {
         return `ws://mock/api/v1/ws/browser/${sessionId}`;
       },
     },
+    device: {
+      screenUrl(sessionId) {
+        return `ws://mock/api/v1/ws/device/${sessionId}`;
+      },
+    },
     system: (() => {
       let updated = false;
       return {

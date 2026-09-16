@@ -214,6 +214,9 @@ export interface ApiClient {
     control(sessionId: string, owner: 'operator' | 'agent'): Promise<{ owner: string }>;
     vncUrl(sessionId: string): string;
   };
+  device: {
+    screenUrl(sessionId: string): string;
+  };
   system: {
     version(): Promise<SystemVersion>;
     update(): Promise<UpdateStarted>;

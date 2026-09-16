@@ -161,6 +161,9 @@ export function createHttpClient(baseUrl: string, rawWsUrl: string): ApiClient {
       control: (sessionId, owner) => req(`/sessions/${sessionId}/browser/control`, json({ owner })),
       vncUrl: (sessionId) => `${wsUrl}/browser/${encodeURIComponent(sessionId)}`,
     },
+    device: {
+      screenUrl: (sessionId) => `${wsUrl}/device/${encodeURIComponent(sessionId)}`,
+    },
     system: {
       version: () => req('/system/version'),
       update: () => req('/system/update', { method: 'POST' }),
