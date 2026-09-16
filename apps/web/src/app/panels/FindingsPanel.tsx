@@ -92,13 +92,14 @@ export function FindingsPanel() {
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Filter findings…"
-          className="h-6 min-w-0 flex-1 rounded-[var(--radius)] border border-border bg-bg px-2 text-[11px] text-text outline-none placeholder:text-faint focus:border-accent"
+          className="h-7 min-w-0 flex-1 rounded-[var(--radius)] border border-border bg-bg px-2 text-[11px] text-text outline-none placeholder:text-faint focus:border-accent"
         />
         <div className="w-28 flex-none">
           <Select
             value={sev}
             onChange={setSev}
             placeholder="Severity"
+            className="!h-7 !py-0 !text-[11px]"
             options={[
               { value: '', label: 'All severities' },
               ...['critical', 'high', 'medium', 'low', 'info'].map((s) => ({ value: s, label: s })),
@@ -110,6 +111,7 @@ export function FindingsPanel() {
             value={statusFilter}
             onChange={setStatusFilter}
             placeholder="Status"
+            className="!h-7 !py-0 !text-[11px]"
             options={[
               { value: '', label: 'All statuses' },
               ...['candidate', 'verified', 'dismissed'].map((s) => ({ value: s, label: s })),

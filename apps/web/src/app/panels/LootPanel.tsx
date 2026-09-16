@@ -46,6 +46,7 @@ export function LootPanel() {
             value={kind}
             onChange={setKind}
             placeholder="Kind"
+            className="!h-7 !py-0 !text-[11px]"
             options={[
               { value: '', label: 'All kinds' },
               ...['credential', 'token', 'hash', 'file'].map((k) => ({ value: k, label: k })),
