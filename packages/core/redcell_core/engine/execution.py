@@ -518,6 +518,15 @@ class _RedroidProvision:
                 f"[ \"$(adb -s {s} shell getprop sys.boot_completed 2>/dev/null | tr -d '\\r')\" = \"1\" ] "
                 "&& exit 0; sleep 3; done; exit 1")
 
+    async def _wait_redroid_boot(self, tries: int = 60) -> bool:
+        for _ in range(tries):
+            code, out = await self._host_sh(
+                f"docker exec {self.redroid_name} getprop sys.boot_completed 2>/dev/null")
+            if out.strip().endswith("1"):
+                return True
+            await asyncio.sleep(3)
+        return False
+
     async def _ensure_binder(self) -> None:
         await self._host_sh("[ -e /dev/binder ] || modprobe binder_linux "
                             "devices=binder,hwbinder,vndbinder 2>/dev/null || true")
@@ -545,9 +554,14 @@ class _RedroidProvision:
             if on_status:
                 w, h = self._dims()
                 await on_status(f"redroid Android booting on {self._host_label} ({w}x{h})...")
-        result = await self.run(self._boot_wait_script())
-        if result.exit_code != 0:
+        if not await self._wait_redroid_boot():
             raise RuntimeError("redroid device did not finish booting (sys.boot_completed)")
+        adb_ok = await self.run(
+            f"command -v adb >/dev/null 2>&1 && adb connect {self.DEVICE_SERIAL} >/dev/null 2>&1 "
+            f"&& adb -s {self.DEVICE_SERIAL} wait-for-device && echo adb-ok")
+        if "adb-ok" not in adb_ok.output:
+            raise RuntimeError("the mobile-tools image is missing adb or could not reach the device; "
+                               f"ensure {self.image} is current (it must include adb/frida)")
         if on_status:
             await on_status(f"Android device ready (adb online at {self.DEVICE_SERIAL})")
 
@@ -558,6 +572,10 @@ class _RedroidProvision:
 
     async def teardown_device(self) -> None:
         await self._host_sh(f"docker rm -f {self.redroid_name} >/dev/null 2>&1")
+
+    async def _refresh_tools_image(self) -> None:
+        if str(self.image).endswith(":latest"):
+            await self._host_sh(f"docker pull {self.image} >/dev/null 2>&1 || true")
 
 
 class DeviceHostBackend(RemoteDockerBackend, _RedroidProvision):
@@ -586,6 +604,7 @@ class DeviceHostBackend(RemoteDockerBackend, _RedroidProvision):
         return await self._sh(cmd)
 
     async def start(self, on_status: OnOutput | None = None) -> None:
+        await self._refresh_tools_image()
         await super().start(on_status)
         await self.provision_device(on_status)
 
@@ -620,6 +639,7 @@ class LocalDeviceHostBackend(LocalDockerBackend, _RedroidProvision):
         return (proc.returncode or 0), out
 
     async def start(self, on_status: OnOutput | None = None) -> None:
+        await self._refresh_tools_image()
         await super().start(on_status)
         await self.provision_device(on_status)
 
