@@ -2,7 +2,15 @@ from redcell_core.engine.kinds import KINDS, OrchestratorContext, get_kind
 
 
 def test_registry_has_core_kinds():
-    assert set(KINDS) >= {"general", "network", "code"}
+    assert set(KINDS) >= {"general", "network", "osint", "code"}
+
+
+def test_osint_is_passive():
+    o = get_kind("osint")
+    assert o.uses_browser and o.seeds_hosts and not o.exploits and not o.mounts_source
+    p = o.orchestrator_system(OrchestratorContext(goal="Profile", scope=["acme.com"], targets=[]))
+    assert "OSINT engagement" in p
+    assert "passive" in p.lower()
 
 
 def test_get_kind_falls_back_to_general():

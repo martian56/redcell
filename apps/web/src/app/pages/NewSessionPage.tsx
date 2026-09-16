@@ -200,6 +200,9 @@ export function NewSessionPage() {
                   <button type="button" className={draft.kind === 'network' ? 'on' : ''} onClick={() => patch({ kind: 'network' })}>
                     Network
                   </button>
+                  <button type="button" className={draft.kind === 'osint' ? 'on' : ''} onClick={() => patch({ kind: 'osint' })}>
+                    OSINT
+                  </button>
                   <button type="button" className={draft.kind === 'code' ? 'on' : ''} onClick={() => patch({ kind: 'code' })}>
                     Code
                   </button>

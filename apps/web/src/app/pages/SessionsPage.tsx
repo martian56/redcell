@@ -35,6 +35,7 @@ export function SessionsPage() {
             { value: 'all', label: 'All' },
             { value: 'general', label: 'General' },
             { value: 'network', label: 'Network' },
+            { value: 'osint', label: 'OSINT' },
             { value: 'code', label: 'Code scan' },
           ]}
         />

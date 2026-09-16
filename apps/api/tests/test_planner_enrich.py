@@ -53,3 +53,17 @@ def test_general_task_without_host_still_drafts():
     p = enrich_proposal(model, "help me threat model our product")
     assert p is not None
     assert p.kind == "general"
+
+
+def test_osint_kind_is_preserved_and_filled():
+    model = SessionProposal(name="Footprint Globex", kind="osint", brief="public footprint")
+    p = enrich_proposal(model, "profile Globex, their domain is globex.com")
+    assert p.kind == "osint"
+    assert "globex.com" in p.scope
+
+
+def test_osint_person_without_host_still_drafts():
+    model = SessionProposal(name="Profile", kind="osint", brief="profile a person")
+    p = enrich_proposal(model, "profile the username jdoe across platforms")
+    assert p is not None
+    assert p.kind == "osint"

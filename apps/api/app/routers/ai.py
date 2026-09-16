@@ -26,11 +26,13 @@ _SYSTEM = (
     "once the operator has described what they want, call propose_session with your best draft and "
     "fill every field you can infer: a short name, the client if stated, kind, scope, targets, "
     "rules of engagement if given, and a short brief. Pick the kind that fits: code for a git repo "
-    "or local source review; network for external, infra, or web testing. Use general for anything "
-    "that does not clearly fit a specific kind, or a task that spans several; general is a "
-    "full-capability engagement, so when in doubt use general rather than declining. For a general "
-    "or research task the subject can be an organization, person, product, or topic, not just a URL "
-    "or IP, so still draft even when there is no host. Prefer drafting over asking; the operator can "
+    "or local source review; network for external, infra, or web testing; osint for passive "
+    "intelligence gathering or footprinting from public sources (profiling an org, domain, person, "
+    "username, or email). Use general for anything that does not clearly fit a specific kind, or a "
+    "task that spans several; general is a full-capability engagement, so when in doubt use general "
+    "rather than declining. For a general, osint, or research task the subject can be an "
+    "organization, person, product, or topic, not just a URL or IP, so still draft even when there "
+    "is no host. Prefer drafting over asking; the operator can "
     "edit anything. Refine the proposal as the conversation continues. The brief is a few sentences "
     "of objectives, constraints, and specifics handed to the agents that run the engagement. Only "
     "in-scope, authorized subjects. Write in plain text; do not use em-dashes (use commas, periods, "
@@ -47,7 +49,7 @@ _PROPOSE_TOOL = [{
             "properties": {
                 "name": {"type": "string", "description": "Short engagement name."},
                 "client": {"type": "string", "description": "Client / org name."},
-                "kind": {"type": "string", "enum": ["network", "code", "general"], "description": "network for external, infra, or web testing; code for a source code review; general for anything else or a task spanning several (full capability, the safe default when unsure)."},
+                "kind": {"type": "string", "enum": ["network", "code", "osint", "general"], "description": "network for external, infra, or web testing; code for a source code review; osint for passive public-source intelligence gathering; general for anything else or a task spanning several (full capability, the safe default when unsure)."},
                 "source": {"type": "string", "description": "For a code review: the git URL or local folder path."},
                 "scope": {"type": "array", "items": {"type": "string"}, "description": "In-scope domains, wildcards, or CIDRs."},
                 "targets": {"type": "array", "items": {"type": "string"}, "description": "Concrete target URLs or IPs."},
@@ -100,13 +102,13 @@ def enrich_proposal(proposal: SessionProposal | None, operator_text: str) -> Ses
         source, roe, kind = proposal.source, proposal.roe, proposal.kind
         scope, targets = list(proposal.scope), list(proposal.targets)
 
-    if kind not in ("code", "network", "general"):
+    if kind not in ("code", "network", "general", "osint"):
         kind = "code" if git else ("network" if (domains or cidrs or urls) else None)
 
     if kind == "code":
         if not source:
             source = git.group(0) if git else (urls[0] if urls else None)
-    elif kind in ("network", "general"):
+    elif kind in ("network", "general", "osint"):
         if not scope:
             scope = _uniq(domains + cidrs)
         if not targets:

@@ -4,6 +4,7 @@ from .base import Kind
 from .code import code_executor, code_orchestrator
 from .general import general_orchestrator
 from .network import network_executor, network_orchestrator
+from .osint import osint_executor, osint_orchestrator
 
 DEFAULT_KIND = "general"
 
@@ -19,6 +20,13 @@ KINDS: dict[str, Kind] = {
         label="Network",
         orchestrator_system=network_orchestrator,
         executor_system=network_executor,
+    ),
+    "osint": Kind(
+        id="osint",
+        label="OSINT",
+        orchestrator_system=osint_orchestrator,
+        executor_system=osint_executor,
+        exploits=False,
     ),
     "code": Kind(
         id="code",
