@@ -291,6 +291,7 @@ export interface Settings {
   execution: {
     backend: ExecutionBackendKind;
     dockerImage: string;
+    mobileDockerImage: string;
     sshHost?: string;
     sshUser?: string;
   };

@@ -76,9 +76,14 @@ export function NewSessionPage() {
 
   const patch = (p: Partial<Draft>) => setDraft((d) => ({ ...d, ...p }));
   const isCode = draft.kind === 'code';
+  const isMobile = draft.kind === 'mobile';
   const canCreate =
     draft.name.trim().length > 0 &&
-    (isCode ? draft.source.trim().length > 0 : lines(draft.targets).length > 0 || lines(draft.scope).length > 0);
+    (isCode
+      ? draft.source.trim().length > 0
+      : isMobile
+        ? files.length > 0
+        : lines(draft.targets).length > 0 || lines(draft.scope).length > 0);
 
   const send = async () => {
     const text = input.trim();
@@ -123,8 +128,8 @@ export function NewSessionPage() {
       client: draft.client.trim() || 'Unknown',
       kind: draft.kind,
       source: isCode ? draft.source.trim() : undefined,
-      targets: isCode ? [] : lines(draft.targets),
-      scope: isCode ? [] : lines(draft.scope),
+      targets: isCode || isMobile ? [] : lines(draft.targets),
+      scope: isCode || isMobile ? [] : lines(draft.scope),
       roe: draft.roe.trim() || undefined,
       brief: draft.brief.trim() || undefined,
       serverId: draft.serverId || undefined,
@@ -206,8 +211,8 @@ export function NewSessionPage() {
                   <button type="button" className={draft.kind === 'code' ? 'on' : ''} onClick={() => patch({ kind: 'code' })}>
                     Code
                   </button>
-                  <button type="button" className="soon" disabled title="Coming soon">
-                    Mobile <span className="opt">soon</span>
+                  <button type="button" className={draft.kind === 'mobile' ? 'on' : ''} onClick={() => patch({ kind: 'mobile' })}>
+                    Mobile
                   </button>
                 </div>
               </div>
@@ -220,6 +225,11 @@ export function NewSessionPage() {
                 </span>
                 <input className="input mono" value={draft.source} placeholder="https://github.com/org/repo" onChange={(e) => patch({ source: e.target.value })} />
               </label>
+            ) : isMobile ? (
+              <div className="field">
+                <span className="label">App binary</span>
+                <div className="fd">Upload the APK, AAB, or IPA below. It is staged in the container and reviewed statically.</div>
+              </div>
             ) : (
               <>
                 <label className="field">

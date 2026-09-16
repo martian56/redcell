@@ -265,6 +265,12 @@ export function SettingsPage() {
                   <span className="label">Kali image</span>
                   <input className="input mono" value={draft.execution.dockerImage} onChange={(e) => setExec({ dockerImage: e.target.value })} />
                 </label>
+                <label className="field">
+                  <span className="label">
+                    Mobile image <span className="opt">(used by mobile sessions)</span>
+                  </span>
+                  <input className="input mono" value={draft.execution.mobileDockerImage} onChange={(e) => setExec({ mobileDockerImage: e.target.value })} />
+                </label>
                 <button type="button" className="btn pri" disabled={save.isPending} onClick={onSave}>
                   Save
                 </button>
