@@ -32,6 +32,27 @@ class FirstRun(Camel):
 
 
 # ---- sessions / runs / agents ----
+class IntelEntity(Camel):
+    id: str
+    type: str
+    value: str
+    label: str = ""
+    source: str = ""
+    meta: dict = {}
+    created_at: str
+
+
+class IntelRelation(Camel):
+    from_id: str
+    to_id: str
+    label: str = "related"
+
+
+class IntelGraph(Camel):
+    entities: list[IntelEntity] = []
+    relations: list[IntelRelation] = []
+
+
 class SessionServer(Camel):
     server_id: str
     role: str = "execution"

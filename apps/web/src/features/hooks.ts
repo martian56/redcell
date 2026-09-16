@@ -561,3 +561,12 @@ export function useDeleteFile(sessionId: string) {
     onSuccess: () => qc.invalidateQueries({ queryKey: ['files', sessionId] }),
   });
 }
+
+export function useIntel(sessionId: string | null) {
+  const api = useApi();
+  return useQuery({
+    queryKey: ['intel', sessionId],
+    queryFn: () => api.intel.get(sessionId as string),
+    enabled: !!sessionId,
+  });
+}

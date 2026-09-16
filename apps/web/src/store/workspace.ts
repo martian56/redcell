@@ -16,7 +16,8 @@ export type PanelId =
   | 'reports'
   | 'browser'
   | 'device'
-  | 'files';
+  | 'files'
+  | 'intel';
 
 export const PANEL_LABELS: Record<PanelId, string> = {
   agents: 'Agents',
@@ -33,6 +34,7 @@ export const PANEL_LABELS: Record<PanelId, string> = {
   browser: 'Browser',
   device: 'Device',
   files: 'Files',
+  intel: 'Intel',
 };
 
 export const SWAPPABLE: PanelId[] = [
@@ -50,6 +52,7 @@ export const SWAPPABLE: PanelId[] = [
   'browser',
   'device',
   'files',
+  'intel',
 ];
 
 export type TileId = string;
@@ -79,8 +82,8 @@ export const KIND_LAYOUTS: Record<string, KindLayoutSpec> = {
   ],
   osint: [
     [['agents'], ['feed']],
-    [['findings', 'context']],
-    [['chat'], ['reports']],
+    [['intel', 'findings', 'context'], ['surface']],
+    [['chat'], ['loot', 'reports']],
   ],
 };
 KIND_LAYOUTS.general = KIND_LAYOUTS.network!;

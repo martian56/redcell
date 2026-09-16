@@ -13,6 +13,7 @@ import type {
   Finding,
   FindingStatus,
   Host,
+  IntelGraph,
   ID,
   Listener,
   ListQuery,
@@ -125,6 +126,9 @@ export interface ApiClient {
     upload(sessionId: string, file: File, kind?: string): Promise<FileMeta>;
     remove(fileId: string): Promise<void>;
     downloadUrl(fileId: string): string;
+  };
+  intel: {
+    get(sessionId: string): Promise<IntelGraph>;
   };
   runs: {
     list(sessionId: string, params?: ListQuery): Promise<Run[]>;

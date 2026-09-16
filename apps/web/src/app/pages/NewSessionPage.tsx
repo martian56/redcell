@@ -86,13 +86,16 @@ export function NewSessionPage() {
   const patch = (p: Partial<Draft>) => setDraft((d) => ({ ...d, ...p }));
   const isCode = draft.kind === 'code';
   const isMobile = draft.kind === 'mobile';
+  const isNetwork = draft.kind === 'network';
   const canCreate =
     draft.name.trim().length > 0 &&
     (isCode
       ? draft.source.trim().length > 0
       : isMobile
         ? files.length > 0
-        : lines(draft.targets).length > 0 || lines(draft.scope).length > 0);
+        : isNetwork
+          ? lines(draft.targets).length > 0 || lines(draft.scope).length > 0
+          : true);
 
   const send = async () => {
     const text = input.trim();

@@ -80,6 +80,28 @@ export interface SessionServer {
   role: ServerRole;
 }
 
+/** An OSINT intel entity (person, email, username, org, profile, breach, …). */
+export interface IntelEntity {
+  id: ID;
+  type: string;
+  value: string;
+  label: string;
+  source: string;
+  meta: Record<string, unknown>;
+  createdAt: ISODate;
+}
+
+export interface IntelRelation {
+  fromId: ID;
+  toId: ID;
+  label: string;
+}
+
+export interface IntelGraph {
+  entities: IntelEntity[];
+  relations: IntelRelation[];
+}
+
 /** A file staged in a session (uploaded app/source, or an extracted artifact). */
 export interface FileMeta {
   id: ID;

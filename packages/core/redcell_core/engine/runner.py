@@ -22,6 +22,7 @@ from ..repositories import files as files_repo
 from ..repositories import findings as findings_repo
 from ..repositories import hosts as hosts_repo
 from ..repositories import ids
+from ..repositories import intel as intel_repo
 from ..repositories import loot as loot_repo
 from ..repositories import notifications as notifications_repo
 from ..repositories import provider_credentials as creds_repo
@@ -375,6 +376,8 @@ class LiveRunner(ReverseShellMixin):
             return await self._record_loot(args)
         if name == "record_host":
             return await self._record_host(args)
+        if name == "record_entity":
+            return await self._record_entity(args)
         if name == "start_listener":
             return await self._start_listener(int(args.get("port", 4444)),
                                               str(args.get("method", "auto")))
@@ -962,6 +965,24 @@ class LiveRunner(ReverseShellMixin):
                                         "source": args.get("source", "")})
         await self._event("recon", "net", f"host: {host}")
         return {"recorded": True}
+
+    async def _record_entity(self, args: dict[str, Any]) -> dict[str, Any]:
+        etype = str(args.get("type", "")).strip() or "other"
+        value = str(args.get("value", "")).strip()
+        if not value:
+            return {"recorded": False}
+        async with session_scope() as s:
+            entity = await intel_repo.add_entity(s, self.session_id, {
+                "type": etype, "value": value, "label": args.get("label", ""),
+                "source": args.get("source", ""), "meta": args.get("meta") or {}})
+            related = str(args.get("relatedTo", "")).strip()
+            if related:
+                other = await intel_repo.find_value(s, self.session_id, related)
+                if other is not None:
+                    await intel_repo.add_relation(s, self.session_id, entity.id, other.id,
+                                                  args.get("relation", "related"))
+        await self._event("orchestrator", "net", f"intel: {etype} {value}")
+        return {"recorded": True, "id": entity.id}
 
     async def _shell_exec(self, args: dict[str, Any], source: str = "orchestrator") -> dict[str, Any]:
         shell_id = str(args.get("shellId", "")).strip()

@@ -215,6 +215,27 @@ export function createMockClient(): ApiClient {
       },
     },
 
+    intel: {
+      async get() {
+        await delay();
+        return {
+          entities: [
+            { id: 'e-person', type: 'person', value: 'Jane Roe', label: 'CTO', source: 'linkedin', meta: {}, createdAt: now() },
+            { id: 'e-email', type: 'email', value: 'jane.roe@acme-corp.io', label: '', source: 'hunter.io', meta: {}, createdAt: now() },
+            { id: 'e-user', type: 'username', value: 'jroe', label: '', source: 'github', meta: {}, createdAt: now() },
+            { id: 'e-breach', type: 'breach', value: 'Collection#1 (2019)', label: '', source: 'hibp', meta: {}, createdAt: now() },
+            { id: 'e-org', type: 'org', value: 'ACME Corp', label: '', source: 'whois', meta: {}, createdAt: now() },
+          ],
+          relations: [
+            { fromId: 'e-email', toId: 'e-person', label: 'owned by' },
+            { fromId: 'e-user', toId: 'e-person', label: 'owned by' },
+            { fromId: 'e-person', toId: 'e-org', label: 'member of' },
+            { fromId: 'e-email', toId: 'e-breach', label: 'exposed in' },
+          ],
+        };
+      },
+    },
+
     runs: {
       async list(sessionId) {
         await delay();

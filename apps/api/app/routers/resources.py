@@ -21,6 +21,7 @@ from redcell_core.repositories import chat as chat_repo
 from redcell_core.repositories import events as events_repo
 from redcell_core.repositories import findings as findings_repo
 from redcell_core.repositories import hosts as hosts_repo
+from redcell_core.repositories import intel as intel_repo
 from redcell_core.repositories import listeners as listeners_repo
 from redcell_core.repositories import loot as loot_repo
 from redcell_core.repositories import proxy_entries as proxy_repo
@@ -41,6 +42,9 @@ from redcell_core.schemas import (
     EventMsg,
     Finding,
     Host,
+    IntelEntity,
+    IntelGraph,
+    IntelRelation,
     Listener,
     LootItem,
     MergeFindingsInput,
@@ -407,6 +411,16 @@ async def loot(sid: str, s: AsyncSession = Depends(db), p: ListParams = Depends(
     await _get_session(s, sid)
     rows = await loot_repo.list_for_session(s, sid, kind=kind, q=p.q, limit=p.limit, offset=p.offset)
     return [LootItem.model_validate(x) for x in rows]
+
+
+@router.get("/sessions/{sid}/intel", response_model=IntelGraph)
+async def intel(sid: str, s: AsyncSession = Depends(db)) -> IntelGraph:
+    await _get_session(s, sid)
+    entities, relations = await intel_repo.list_for_session(s, sid)
+    return IntelGraph(
+        entities=[IntelEntity.model_validate(e) for e in entities],
+        relations=[IntelRelation(from_id=r.from_id, to_id=r.to_id, label=r.label) for r in relations],
+    )
 
 
 # ---- chat + events ----

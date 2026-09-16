@@ -103,6 +103,33 @@ ORCHESTRATOR_TOOLS = [
     {
         "type": "function",
         "function": {
+            "name": "record_entity",
+            "description": (
+                "Record an OSINT intel entity and its relationships. Use for subjects that are not hosts: "
+                "a person, email, username, org, social profile, phone, or a breach/paste the subject "
+                "appears in. Set 'type' (person|email|username|org|profile|breach|phone|domain|other), "
+                "'value' (the identifier, e.g. the email address or handle), an optional human 'label', and "
+                "'source' (where it came from). To link entities, set 'relatedTo' to the value of an "
+                "already-recorded entity and 'relation' to how they relate (e.g. 'owns', 'member of', "
+                "'exposed in'), so the Intel panel shows the graph."),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "type": {"type": "string", "enum": [
+                        "person", "email", "username", "org", "profile", "breach", "phone", "domain", "other"]},
+                    "value": {"type": "string"},
+                    "label": {"type": "string"},
+                    "source": {"type": "string"},
+                    "relatedTo": {"type": "string", "description": "value of an existing entity to link to"},
+                    "relation": {"type": "string", "description": "how they relate, e.g. owns / member of / exposed in"},
+                },
+                "required": ["type", "value"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
             "name": "start_listener",
             "description": "Start a TCP listener on the operator host to catch a reverse shell. Returns the address the payload must call back to. Call this BEFORE triggering a reverse-shell payload. When an ngrok token is configured the callback is a public ngrok address, so targets can reach it with no open ports on the server.",
             "parameters": {

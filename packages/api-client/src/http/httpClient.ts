@@ -82,6 +82,9 @@ export function createHttpClient(baseUrl: string, rawWsUrl: string): ApiClient {
       remove: (fileId) => req(`/files/${fileId}`, { method: 'DELETE' }),
       downloadUrl: (fileId) => `${baseUrl}/files/${encodeURIComponent(fileId)}`,
     },
+    intel: {
+      get: (sessionId) => req(`/sessions/${sessionId}/intel`),
+    },
     runs: {
       list: (sessionId, params) => req(`/sessions/${sessionId}/runs${qs(params)}`),
       get: (id) => req(`/runs/${id}`),

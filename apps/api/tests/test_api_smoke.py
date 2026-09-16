@@ -79,6 +79,8 @@ def test_api_smoke():
         check("proxy-history", c.get(f"/api/v1/sessions/{sid}/proxy").status_code == 200)
         check("hosts", c.get(f"/api/v1/sessions/{sid}/hosts").status_code == 200)
         check("loot", c.get(f"/api/v1/sessions/{sid}/loot").status_code == 200)
+        ig = c.get(f"/api/v1/sessions/{sid}/intel")
+        check("intel", ig.status_code == 200 and ig.json() == {"entities": [], "relations": []})
 
         check("chat-history", c.get(f"/api/v1/runs/{rid}/chat").json() == [])
         r = c.post(f"/api/v1/runs/{rid}/chat", json={"text": "focus on auth"})
