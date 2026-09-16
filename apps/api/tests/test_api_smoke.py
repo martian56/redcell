@@ -54,6 +54,11 @@ def test_api_smoke():
         check("sessions-list", any(x["id"] == sid for x in c.get("/api/v1/sessions").json()))
         check("session-get", c.get(f"/api/v1/sessions/{sid}").status_code == 200)
         check("session-404", c.get("/api/v1/sessions/nope").status_code == 404)
+        tmp = c.post("/api/v1/sessions", json={"name": "Tmp", "client": "QA", "scope": ["*.t"], "targets": ["https://t"]}).json()["id"]
+        pr = c.patch(f"/api/v1/sessions/{tmp}", json={"status": "archived", "client": "QA2"})
+        check("session-patch", pr.status_code == 200 and pr.json()["status"] == "archived" and pr.json()["client"] == "QA2")
+        check("session-delete", c.delete(f"/api/v1/sessions/{tmp}").status_code == 204)
+        check("session-delete-gone", c.get(f"/api/v1/sessions/{tmp}").status_code == 404)
 
         r = c.post(f"/api/v1/sessions/{sid}/runs", json={"name": "assess", "model": "kimi-k3"})
         check("create-run", r.status_code == 200 and r.json()["status"] == "queued")

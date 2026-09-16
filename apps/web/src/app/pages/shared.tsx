@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import type { Session, Severity } from '@redcell/api-client';
 import { sevVar, timeAgo } from '@/lib/format';
+import { useDeleteSession, useUpdateSession } from '@/features/hooks';
 
 export function onActivate(fn: () => void) {
   return (e: KeyboardEvent) => {
@@ -22,6 +23,9 @@ export function sevBar(counts: Record<Severity, number>) {
 
 export function SessionRow({ s, onOpen }: { s: Session; onOpen: () => void }) {
   const dot = s.status === 'active' ? 'live' : 'done';
+  const update = useUpdateSession();
+  const remove = useDeleteSession();
+  const archived = s.status === 'archived';
   return (
     <tr className="row" tabIndex={0} onClick={onOpen} onKeyDown={onActivate(onOpen)}>
       <td>
@@ -53,6 +57,32 @@ export function SessionRow({ s, onOpen }: { s: Session; onOpen: () => void }) {
       </td>
       <td className="tright meta" data-label="Last active">
         {timeAgo(s.createdAt)}
+      </td>
+      <td className="tright" data-label="Actions">
+        <div className="flex justify-end gap-3" onClick={(e) => e.stopPropagation()}>
+          <button
+            type="button"
+            className="font-mono text-[11px] text-faint hover:text-text"
+            title={archived ? 'Restore to active' : 'Archive session'}
+            onClick={(e) => {
+              e.stopPropagation();
+              update.mutate({ id: s.id, input: { status: archived ? 'active' : 'archived' } });
+            }}
+          >
+            {archived ? 'Restore' : 'Archive'}
+          </button>
+          <button
+            type="button"
+            className="font-mono text-[11px] text-faint hover:text-[color:var(--crit)]"
+            title="Delete session"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (confirm(`Delete session "${s.name}"? This cannot be undone.`)) remove.mutate(s.id);
+            }}
+          >
+            Delete
+          </button>
+        </div>
       </td>
     </tr>
   );

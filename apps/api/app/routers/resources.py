@@ -57,6 +57,7 @@ from redcell_core.schemas import (
     Shell,
     ShellWriteInput,
     StartListenerInput,
+    UpdateSessionInput,
 )
 from redcell_core.security import current_user
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -121,6 +122,20 @@ async def create_session(body: CreateSessionInput, s: AsyncSession = Depends(db)
     for sv in body.servers:
         await session_servers_repo.attach(s, row.id, sv.server_id, sv.role)
     return await _session_schema(s, row)
+
+
+@router.patch("/sessions/{sid}", response_model=Session)
+async def update_session(sid: str, body: UpdateSessionInput, s: AsyncSession = Depends(db)) -> Session:
+    await _get_session(s, sid)
+    data = {k: v for k, v in body.model_dump().items() if v is not None}
+    row = await sessions_repo.update(s, sid, data)
+    return await _session_schema(s, row)
+
+
+@router.delete("/sessions/{sid}", status_code=204)
+async def delete_session(sid: str, s: AsyncSession = Depends(db)) -> None:
+    if not await sessions_repo.delete(s, sid):
+        raise HTTPException(404, "session not found")
 
 
 # ---- session servers (multi-server per session) ----

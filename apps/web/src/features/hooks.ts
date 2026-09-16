@@ -570,3 +570,25 @@ export function useIntel(sessionId: string | null) {
     enabled: !!sessionId,
   });
 }
+
+export function useUpdateSession() {
+  const api = useApi();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, input }: { id: string; input: Parameters<typeof api.sessions.update>[1] }) =>
+      api.sessions.update(id, input),
+    onSuccess: (_r, { id }) => {
+      void qc.invalidateQueries({ queryKey: ['sessions'] });
+      void qc.invalidateQueries({ queryKey: ['session', id] });
+    },
+  });
+}
+
+export function useDeleteSession() {
+  const api = useApi();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => api.sessions.remove(id),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['sessions'] }),
+  });
+}

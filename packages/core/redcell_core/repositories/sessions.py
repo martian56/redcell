@@ -42,6 +42,15 @@ async def update(s: AsyncSession, sid: str, data: dict) -> Session | None:
     return row
 
 
+async def delete(s: AsyncSession, sid: str) -> bool:
+    row = await s.get(Session, sid)
+    if not row:
+        return False
+    await s.delete(row)
+    await s.flush()
+    return True
+
+
 async def set_active_run(s: AsyncSession, sid: str, run_id: str) -> None:
     row = await s.get(Session, sid)
     if row:

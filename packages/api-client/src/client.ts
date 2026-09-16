@@ -69,6 +69,16 @@ export interface AttachServerInput {
   role: ServerRole;
 }
 
+export interface UpdateSessionInput {
+  name?: string;
+  client?: string;
+  scope?: string[];
+  targets?: string[];
+  roe?: string;
+  brief?: string;
+  status?: 'active' | 'archived';
+}
+
 export interface CreateRunInput {
   name: string;
   model: string;
@@ -116,6 +126,8 @@ export interface ApiClient {
     list(params?: ListQuery): Promise<Session[]>;
     get(id: string): Promise<Session>;
     create(input: CreateSessionInput): Promise<Session>;
+    update(id: string, input: UpdateSessionInput): Promise<Session>;
+    remove(id: string): Promise<void>;
   };
   sessionServers: {
     list(sessionId: string): Promise<SessionServer[]>;

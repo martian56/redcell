@@ -157,6 +157,17 @@ export function createMockClient(): ApiClient {
         db.sessions.unshift(session);
         return structuredClone(session);
       },
+      async update(id, input) {
+        await delay(100);
+        const session = requireSession(id);
+        Object.assign(session, input);
+        return structuredClone(session);
+      },
+      async remove(id) {
+        await delay(100);
+        const i = db.sessions.findIndex((x) => x.id === id);
+        if (i >= 0) db.sessions.splice(i, 1);
+      },
     },
 
     sessionServers: {

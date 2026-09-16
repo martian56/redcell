@@ -53,18 +53,19 @@ export function SessionsPage() {
                 <th>Targets</th>
                 <th>Model</th>
                 <th className="tright">Last active</th>
+                <th className="tright">Actions</th>
               </tr>
             </thead>
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={7} className="meta" style={{ padding: '22px', textAlign: 'center' }}>
+                  <td colSpan={8} className="meta" style={{ padding: '22px', textAlign: 'center' }}>
                     Loading sessions…
                   </td>
                 </tr>
               ) : rows.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="meta" style={{ padding: '22px', textAlign: 'center' }}>
+                  <td colSpan={8} className="meta" style={{ padding: '22px', textAlign: 'center' }}>
                     No sessions match.
                   </td>
                 </tr>

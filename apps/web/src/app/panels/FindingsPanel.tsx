@@ -1,9 +1,10 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import type { Finding, FindingStatus } from '@redcell/api-client';
 import { cn } from '@/lib/cn';
 import { useUI } from '@/store/ui';
 import { useFindings, useMergeFindings, useSetFindingStatus } from '@/features/hooks';
 import { Button, Empty, SeverityTag, Spinner } from '@/components/ui/primitives';
+import { Select } from '@/components/ui/Dropdown';
 
 // Group active findings that likely describe the same issue: same location and
 // either the same title or the same CWE. The first in each group (most recent)
@@ -58,7 +59,21 @@ export function FindingsPanel() {
   const merge = useMergeFindings();
   const busy = setStatus.isPending || merge.isPending;
 
+  const [q, setQ] = useState('');
+  const [sev, setSev] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
+
   const { dupsOf, isDup } = useMemo(() => duplicateGroups(data ?? []), [data]);
+  const filtered = useMemo(
+    () =>
+      (data ?? []).filter(
+        (f) =>
+          (!sev || f.severity === sev) &&
+          (!statusFilter || f.status === statusFilter) &&
+          (!q || `${f.title} ${f.location} ${f.id}`.toLowerCase().includes(q.toLowerCase())),
+      ),
+    [data, sev, statusFilter, q],
+  );
 
   if (isLoading) return <div className="grid h-full place-items-center"><Spinner /></div>;
   if (!data || data.length === 0) return <Empty>No findings yet.</Empty>;
@@ -71,7 +86,38 @@ export function FindingsPanel() {
   };
 
   return (
-    <div className="h-full overflow-auto">
+    <div className="flex h-full flex-col">
+      <div className="flex flex-none items-center gap-2 border-b border-border bg-bg2 px-3 py-1.5">
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="Filter findings…"
+          className="h-6 min-w-0 flex-1 rounded-[var(--radius)] border border-border bg-bg px-2 text-[11px] text-text outline-none placeholder:text-faint focus:border-accent"
+        />
+        <div className="w-28 flex-none">
+          <Select
+            value={sev}
+            onChange={setSev}
+            placeholder="Severity"
+            options={[
+              { value: '', label: 'All severities' },
+              ...['critical', 'high', 'medium', 'low', 'info'].map((s) => ({ value: s, label: s })),
+            ]}
+          />
+        </div>
+        <div className="w-28 flex-none">
+          <Select
+            value={statusFilter}
+            onChange={setStatusFilter}
+            placeholder="Status"
+            options={[
+              { value: '', label: 'All statuses' },
+              ...['candidate', 'verified', 'dismissed'].map((s) => ({ value: s, label: s })),
+            ]}
+          />
+        </div>
+      </div>
+      <div className="min-h-0 flex-1 overflow-auto">
       <table className="w-full border-collapse text-xs">
         <thead>
           <tr>
@@ -84,7 +130,7 @@ export function FindingsPanel() {
           </tr>
         </thead>
         <tbody>
-          {data.map((f) => {
+          {filtered.map((f) => {
             const active = selection?.type === 'finding' && selection.id === f.id;
             const dupIds = dupsOf.get(f.id);
             const dismissed = f.status === 'dismissed';
@@ -156,6 +202,8 @@ export function FindingsPanel() {
           })}
         </tbody>
       </table>
+      {filtered.length === 0 ? <Empty>No findings match the filter.</Empty> : null}
+      </div>
     </div>
   );
 }

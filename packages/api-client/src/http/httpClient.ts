@@ -58,6 +58,8 @@ export function createHttpClient(baseUrl: string, rawWsUrl: string): ApiClient {
       list: (params) => req(`/sessions${qs(params)}`),
       get: (id) => req(`/sessions/${id}`),
       create: (input) => req('/sessions', json(input)),
+      update: (id, input) => req(`/sessions/${id}`, { method: 'PATCH', body: JSON.stringify(input) }),
+      remove: (id) => req(`/sessions/${id}`, { method: 'DELETE' }),
     },
     sessionServers: {
       list: (sessionId) => req(`/sessions/${sessionId}/servers`),

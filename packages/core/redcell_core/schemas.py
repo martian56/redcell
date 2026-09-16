@@ -85,6 +85,16 @@ class Session(Camel):
     servers: list[SessionServer] = []
 
 
+class UpdateSessionInput(Camel):
+    name: str | None = None
+    client: str | None = None
+    scope: list[str] | None = None
+    targets: list[str] | None = None
+    roe: str | None = None
+    brief: str | None = None
+    status: str | None = None
+
+
 class CreateSessionInput(Camel):
     name: str
     client: str

@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { useUI } from '@/store/ui';
 import { useLoot } from '@/features/hooks';
 import { timeAgo } from '@/lib/format';
 import { Empty, Spinner } from '@/components/ui/primitives';
+import { Select } from '@/components/ui/Dropdown';
 import { toast } from '@/components/ui/toast';
 import type { LootKind } from '@redcell/api-client';
 
@@ -28,12 +30,30 @@ const th =
 export function LootPanel() {
   const engId = useUI((s) => s.activeSessionId);
   const { data, isLoading } = useLoot(engId);
+  const [kind, setKind] = useState('');
 
   if (isLoading) return <div className="grid h-full place-items-center"><Spinner /></div>;
   if (!data || data.length === 0) return <Empty>No loot collected yet.</Empty>;
 
+  const filtered = kind ? data.filter((l) => l.kind === kind) : data;
+
   return (
-    <div className="h-full overflow-auto">
+    <div className="flex h-full flex-col">
+      <div className="flex flex-none items-center gap-2 border-b border-border bg-bg2 px-3 py-1.5">
+        <span className="font-mono text-[10px] uppercase tracking-wider text-faint">Loot</span>
+        <div className="ml-auto w-32 flex-none">
+          <Select
+            value={kind}
+            onChange={setKind}
+            placeholder="Kind"
+            options={[
+              { value: '', label: 'All kinds' },
+              ...['credential', 'token', 'hash', 'file'].map((k) => ({ value: k, label: k })),
+            ]}
+          />
+        </div>
+      </div>
+      <div className="min-h-0 flex-1 overflow-auto">
       <table className="w-full border-collapse text-xs">
         <thead>
           <tr>
@@ -45,7 +65,7 @@ export function LootPanel() {
           </tr>
         </thead>
         <tbody>
-          {data.map((l) => (
+          {filtered.map((l) => (
             <tr key={l.id} className="border-b border-border hover:bg-panel2">
               <td className="px-3 py-2">
                 <span
@@ -80,6 +100,8 @@ export function LootPanel() {
           ))}
         </tbody>
       </table>
+      {filtered.length === 0 ? <Empty>No loot of that kind.</Empty> : null}
+      </div>
     </div>
   );
 }
