@@ -4,6 +4,7 @@ import { useAvailableModels, useCreateSession, useProxies, useServers } from '@/
 import { useApi } from '@/lib/api';
 import { Markdown } from '@/components/ui/Markdown';
 import { Thinking } from '@/components/ui/Thinking';
+import { Select } from '@/components/ui/Dropdown';
 import { toast } from '@/components/ui/toast';
 import type { SessionKind } from '@redcell/api-client';
 
@@ -253,27 +254,27 @@ export function NewSessionPage() {
             <div className="grid2">
               <label className="field">
                 <span className="label">Execution server</span>
-                <select className="selectn" value={draft.serverId} onChange={(e) => patch({ serverId: e.target.value })}>
-                  <option value="">Local (this host)</option>
-                  {(servers ?? []).map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.name}
-                    </option>
-                  ))}
-                </select>
+                <Select
+                  value={draft.serverId}
+                  onChange={(v) => patch({ serverId: v })}
+                  options={[
+                    { value: '', label: 'Local (this host)' },
+                    ...(servers ?? []).map((s) => ({ value: s.id, label: s.name })),
+                  ]}
+                />
               </label>
               <label className="field">
                 <span className="label">
                   Egress proxy <span className="opt">(optional)</span>
                 </span>
-                <select className="selectn" value={draft.proxyId} onChange={(e) => patch({ proxyId: e.target.value })}>
-                  <option value="">Direct (no proxy)</option>
-                  {(proxies ?? []).map((p) => (
-                    <option key={p.id} value={p.id}>
-                      {p.label}
-                    </option>
-                  ))}
-                </select>
+                <Select
+                  value={draft.proxyId}
+                  onChange={(v) => patch({ proxyId: v })}
+                  options={[
+                    { value: '', label: 'Direct (no proxy)' },
+                    ...(proxies ?? []).map((p) => ({ value: p.id, label: p.label })),
+                  ]}
+                />
               </label>
             </div>
 
@@ -292,20 +293,20 @@ export function NewSessionPage() {
                   <span className="min-w-0 flex-1 truncate font-mono text-xs text-muted">
                     {(servers ?? []).find((x) => x.id === es.serverId)?.name ?? es.serverId}
                   </span>
-                  <select
-                    className="selectn w-28"
-                    value={es.role}
-                    onChange={(e) =>
-                      patch({
-                        extraServers: draft.extraServers.map((x, j) =>
-                          j === i ? { ...x, role: e.target.value as 'mobile' | 'pivot' } : x,
-                        ),
-                      })
-                    }
-                  >
-                    <option value="pivot">Pivot</option>
-                    <option value="mobile">Mobile device</option>
-                  </select>
+                  <div className="w-36 flex-none">
+                    <Select
+                      value={es.role}
+                      onChange={(role) =>
+                        patch({
+                          extraServers: draft.extraServers.map((x, j) => (j === i ? { ...x, role } : x)),
+                        })
+                      }
+                      options={[
+                        { value: 'pivot', label: 'Pivot' },
+                        { value: 'mobile', label: 'Mobile device' },
+                      ]}
+                    />
+                  </div>
                   <button
                     type="button"
                     className="tiletb-btn"
@@ -316,43 +317,31 @@ export function NewSessionPage() {
                   </button>
                 </div>
               ))}
-              <select
-                className="selectn mt-1.5"
-                value=""
-                onChange={(e) => {
-                  const id = e.target.value;
-                  if (id) patch({ extraServers: [...draft.extraServers, { serverId: id, role: 'pivot' }] });
-                }}
-              >
-                <option value="">Add a host…</option>
-                {(servers ?? [])
-                  .filter((s) => s.id !== draft.serverId && !draft.extraServers.some((es) => es.serverId === s.id))
-                  .map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.name}
-                    </option>
-                  ))}
-              </select>
+              <div className="mt-1.5">
+                <Select
+                  value=""
+                  placeholder="Add a host…"
+                  onChange={(id) => {
+                    if (id) patch({ extraServers: [...draft.extraServers, { serverId: id, role: 'pivot' }] });
+                  }}
+                  options={(servers ?? [])
+                    .filter((s) => s.id !== draft.serverId && !draft.extraServers.some((es) => es.serverId === s.id))
+                    .map((s) => ({ value: s.id, label: s.name }))}
+                />
+              </div>
             </div>
 
             <label className="field">
               <span className="label">Model</span>
-              <select
-                className="selectn"
+              <Select
                 value={draft.model ? `${draft.provider}::${draft.model}` : ''}
-                onChange={(e) => {
-                  const id = e.target.value;
+                onChange={(id) => {
                   if (!id) return patch({ provider: '', model: '' });
                   const [provider, model] = id.split('::');
                   patch({ provider: provider ?? '', model: model ?? '' });
                 }}
-              >
-                {modelOptions.map((o) => (
-                  <option key={o.id} value={o.id}>
-                    {o.label}
-                  </option>
-                ))}
-              </select>
+                options={modelOptions.map((o) => ({ value: o.id, label: o.label }))}
+              />
             </label>
 
             <label className="field">

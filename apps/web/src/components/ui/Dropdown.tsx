@@ -6,6 +6,37 @@ export interface DropdownOption<T extends string> {
   label: ReactNode;
 }
 
+export function Select<T extends string>({
+  value,
+  options,
+  onChange,
+  placeholder = 'Select…',
+  className,
+}: {
+  value: T | '';
+  options: DropdownOption<T>[];
+  onChange: (value: T) => void;
+  placeholder?: ReactNode;
+  className?: string;
+}) {
+  const current = options.find((o) => o.value === value);
+  return (
+    <Dropdown
+      block
+      value={value || undefined}
+      options={options}
+      onChange={onChange}
+      trigger={
+        <span className={cn('selectn flex items-center text-left', className)}>
+          <span className={cn('min-w-0 flex-1 truncate', current ? '' : 'text-faint')}>
+            {current ? current.label : placeholder}
+          </span>
+        </span>
+      }
+    />
+  );
+}
+
 // Custom (non-native) dropdown matching the Steel theme.
 export function Dropdown<T extends string>({
   value,
@@ -55,7 +86,7 @@ export function Dropdown<T extends string>({
       {open ? (
         <div
           role="listbox"
-          style={{ width, [align]: 0 }}
+          style={block ? { left: 0, right: 0 } : { width, [align]: 0 }}
           className="absolute top-[calc(100%+4px)] z-50 max-h-72 overflow-auto rounded-[var(--radius)] border border-border2 bg-panel2 p-1 shadow-[var(--shadow)]"
         >
           {options.map((o) => (
