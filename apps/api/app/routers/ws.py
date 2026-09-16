@@ -7,7 +7,7 @@ import json
 
 import jwt
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
-from redcell_core.bus import bus, chat_channel, events_channel, shell_channel
+from redcell_core.bus import bus, chat_channel, events_channel, notifications_channel, shell_channel
 from redcell_core.config import settings
 from redcell_core.db import session_scope
 from redcell_core.logs import get_logger
@@ -72,6 +72,15 @@ async def ws_chat(ws: WebSocket, run_id: str) -> None:
         return
     await ws.accept()
     await _pump(ws, chat_channel(run_id))
+
+
+@router.websocket("/ws/notifications")
+async def ws_notifications(ws: WebSocket) -> None:
+    if not _authed(ws):
+        await ws.close(code=4401)
+        return
+    await ws.accept()
+    await _pump(ws, notifications_channel())
 
 
 @router.websocket("/ws/shell/{shell_id}")

@@ -19,6 +19,7 @@ import type {
   ListQuery,
   LootItem,
   NgrokStatus,
+  Notification,
   NotificationFeed,
   Proxy,
   ProviderCatalogEntry,
@@ -237,5 +238,6 @@ export interface ApiClient {
     list(params?: ListQuery): Promise<NotificationFeed>;
     markRead(id: string): Promise<NotificationFeed>;
     markAllRead(): Promise<NotificationFeed>;
+    subscribe(cb: (n: Notification) => void): Unsubscribe;
   };
 }

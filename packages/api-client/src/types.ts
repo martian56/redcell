@@ -21,6 +21,7 @@ export type NotificationKind =
   | 'run_failed'
   | 'finding'
   | 'report_ready'
+  | 'report_failed'
   | 'infra';
 
 export interface Notification {

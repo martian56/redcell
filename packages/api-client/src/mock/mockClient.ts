@@ -818,6 +818,9 @@ export function createMockClient(): ApiClient {
           items = items.map((n) => ({ ...n, read: true }));
           return feed();
         },
+        subscribe() {
+          return () => {};
+        },
       };
     })(),
   };

@@ -24,8 +24,8 @@ _SYSTEM = (
     '  "executive_summary": "2-4 short paragraphs for a non-technical executive: what was tested, the '
     'headline risk, and the overall security posture.",\n'
     '  "overview": "1-2 paragraphs on the engagement approach and what the team did.",\n'
-    '  "methodology": "1 paragraph describing the methodology (recon, mapping, exploitation, '
-    'post-exploitation) referencing PTES and OWASP WSTG where relevant.",\n'
+    '  "methodology": "1 paragraph describing the methodology appropriate to the engagement kind '
+    '(see the framework hint), not a generic pentest description.",\n'
     '  "posture": "1 short paragraph summarizing overall risk posture.",\n'
     '  "recommendations": ["prioritized strategic recommendation", "..."],\n'
     '  "findings": {"<finding_id>": {"impact": "business/technical impact in 1-3 sentences", '
@@ -35,6 +35,23 @@ _SYSTEM = (
 )
 
 
+_KIND_HINT = {
+    "network": "Engagement kind: network/host penetration test. Frame methodology around PTES and OWASP "
+               "WSTG (recon, mapping, exploitation, post-exploitation, pivoting).",
+    "general": "Engagement kind: general security assessment. Adapt the methodology to what was actually "
+               "tested; do not force a network-pentest framing.",
+    "code": "Engagement kind: source code security review (SAST). Frame methodology around code review "
+            "and OWASP ASVS (data flow, input handling, auth, crypto, dependencies). Do not describe "
+            "network exploitation or post-exploitation.",
+    "mobile": "Engagement kind: mobile application security assessment. Frame methodology around OWASP "
+              "MASVS/MASTG (package and permission review, static analysis, and dynamic instrumentation "
+              "if a device was used). Do not describe network pentest phases.",
+    "osint": "Engagement kind: OSINT intelligence gathering. Frame methodology around passive collection "
+             "and public-source analysis (entities, profiles, sources, and exposure). Do not describe "
+             "exploitation or post-exploitation. Emphasize the subject's public footprint and exposures.",
+}
+
+
 def _finding_brief(f) -> dict:
     tail = ((f.evidence_response or f.evidence_request or "") or "")[:400]
     return {
@@ -42,6 +59,22 @@ def _finding_brief(f) -> dict:
         "cwe": f.cwe, "location": f.location, "status": f.status,
         "existing_remediation": (f.remediation or "")[:400], "evidence": tail,
     }
+
+
+_FALLBACK_METHOD = {
+    "network": "Testing followed a standard methodology covering reconnaissance, surface mapping, "
+               "exploitation, and post-exploitation, aligned with PTES and the OWASP Web Security "
+               "Testing Guide.",
+    "general": "The assessment covered reconnaissance, surface mapping, and validation of the issues "
+               "recorded below.",
+    "code": "The review followed a source code security methodology (data-flow and control-flow review "
+            "of authentication, input handling, and cryptography), aligned with OWASP ASVS.",
+    "mobile": "The assessment followed a mobile application security methodology (package and permission "
+              "review, static analysis, and dynamic instrumentation where a device was available), "
+              "aligned with the OWASP MASVS and MASTG.",
+    "osint": "Collection followed a passive OSINT methodology using public sources only, building a "
+             "picture of the subject's entities, profiles, and public exposure.",
+}
 
 
 def _fallback(session, findings) -> dict:
@@ -57,10 +90,7 @@ def _fallback(session, findings) -> dict:
         "overview": humanize(
             "The team enumerated the in-scope targets, mapped the attack surface, and validated "
             "exploitable conditions. Findings below are recorded with evidence and remediation guidance."),
-        "methodology": humanize(
-            "Testing followed a standard methodology covering reconnaissance, surface mapping, "
-            "exploitation, and post-exploitation, aligned with PTES and the OWASP Web Security Testing "
-            "Guide."),
+        "methodology": humanize(_FALLBACK_METHOD.get(session.kind or "network", _FALLBACK_METHOD["network"])),
         "posture": humanize(
             "Overall posture reflects the severity distribution of the findings recorded in this report."),
         "recommendations": [humanize("Prioritize remediation of critical and high severity findings."),
@@ -87,6 +117,7 @@ async def write_narrative(llm, session, findings, hosts, loot, max_findings: int
     }
     messages = [
         {"role": "system", "content": _SYSTEM},
+        {"role": "user", "content": _KIND_HINT.get(session.kind or "network", _KIND_HINT["network"])},
         {"role": "user", "content": "Engagement data:\n" + json.dumps(payload, default=str)},
     ]
     try:

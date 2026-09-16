@@ -1,11 +1,12 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { useApi } from '@/lib/api';
 import { useUI } from '@/store/ui';
 import { useRun } from '@/features/hooks';
 import { notifyToast } from '@/components/ui/toast';
 import { browserNotify, requestNotifyPermission } from '@/lib/notify';
-import type { ChatMessage, EventMsg } from '@redcell/api-client';
+import type { ChatMessage, EventMsg, Notification } from '@redcell/api-client';
 
 // Headless: bridges the active run's chat/event streams to in-app toasts and
 // browser notifications. Mounted once at the app root.
@@ -27,9 +28,28 @@ export function LiveNotifier() {
     if (sessionId) navigate(`/sessions/${sessionId}`);
   };
 
+  const qc = useQueryClient();
+
   // Ask for notification permission once (best effort; harmless if blocked).
   useEffect(() => {
     void requestNotifyPermission();
+  }, []);
+
+  useEffect(() => {
+    const onNotif = (n: Notification) => {
+      void qc.invalidateQueries({ queryKey: ['notifications'] });
+      const tone = n.kind === 'run_failed' || n.kind === 'report_failed' ? 'critical' : 'success';
+      notifyToast({
+        title: n.title,
+        body: n.body?.slice(0, 160),
+        tone,
+        onClick: () => {
+          if (n.link) navigate(n.link.startsWith('/') ? n.link : `/${n.link}`);
+        },
+      });
+    };
+    return api.notifications.subscribe(onNotif);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

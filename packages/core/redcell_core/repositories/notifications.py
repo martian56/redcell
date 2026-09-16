@@ -3,6 +3,8 @@ from __future__ import annotations
 from sqlalchemy import func, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from ..bus import bus, notifications_channel
+from ..logs import get_logger
 from ..models import Notification
 from ..schemas import NotificationSettings
 from . import ids
@@ -13,6 +15,7 @@ _KIND_PREF = {
     "run_failed": "run_failed",
     "finding": "critical_findings",
     "report_ready": "report_ready",
+    "report_failed": "report_ready",
     "infra": "infra",
 }
 
@@ -65,4 +68,12 @@ async def notify(
     prefs = {**NotificationSettings().model_dump(), **(cfg.notifications or {})}
     if pref_key is not None and not prefs.get(pref_key, False):
         return None
-    return await create(s, kind=kind, title=title, body=body, link=link)
+    row = await create(s, kind=kind, title=title, body=body, link=link)
+    try:
+        await bus.publish_json(notifications_channel(), {
+            "id": row.id, "kind": row.kind, "title": row.title, "body": row.body,
+            "link": row.link, "createdAt": row.created_at,
+        })
+    except Exception:
+        get_logger("notifications").debug("live notification publish failed", exc_info=True)
+    return row

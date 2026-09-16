@@ -14,6 +14,7 @@ from ...repositories import files as files_repo
 from ...repositories import findings as findings_repo
 from ...repositories import hosts as hosts_repo
 from ...repositories import ids
+from ...repositories import intel as intel_repo
 from ...repositories import loot as loot_repo
 from ...repositories import notifications as notifications_repo
 from ...repositories import provider_credentials as creds_repo
@@ -49,6 +50,7 @@ def _findings_json(findings) -> list:
 
 
 async def generate_report(report_id: str) -> None:
+    report = None
     try:
         async with session_scope() as s:
             report = await reports_repo.get(s, report_id)
@@ -58,6 +60,8 @@ async def generate_report(report_id: str) -> None:
             findings = select_report_findings(await findings_repo.list_for_session(s, report.session_id))
             hosts = await hosts_repo.list_for_session(s, report.session_id)
             loot = await loot_repo.list_for_session(s, report.session_id)
+            intel_entities, _ = await intel_repo.list_for_session(s, report.session_id)
+            kind = session.kind or "network"
             cfg = await settings_repo.get(s)
             base = LlmSettings(**cfg.llm) if cfg.llm else LlmSettings()
             brand = ReportSettings(**cfg.report) if cfg.report else ReportSettings()
@@ -89,16 +93,21 @@ async def generate_report(report_id: str) -> None:
                     "contact": brand.contact, "logo_data_url": brand.logo_data_url,
                     "report_id": report_ref, "generated_at": generated_at, "session": session,
                     "findings": findings, "hosts": hosts, "loot": loot, "narrative": narrative,
+                    "kind": kind, "intel": intel_entities,
                 }
                 data = await asyncio.to_thread(build_pdf, ctx)
             elif fmt == "json":
                 data = json.dumps({
-                    "reportId": report_ref, "title": title, "generatedAt": generated_at,
+                    "reportId": report_ref, "title": title, "kind": kind, "generatedAt": generated_at,
                     "client": session.client, "engagement": session.name,
                     "scope": session.scope or [], "targets": session.targets or [],
+                    "counts": {"findings": len(findings), "hosts": len(hosts), "loot": len(loot),
+                               "intel": len(intel_entities)},
                     "narrative": narrative, "findings": _findings_json(findings),
                     "hosts": [{"host": h.host, "ip": h.ip, "tech": h.tech or []} for h in hosts],
                     "loot": [{"kind": x.kind, "label": x.label, "source": x.source} for x in loot],
+                    "intel": [{"type": e.type, "value": e.value, "label": e.label, "source": e.source}
+                              for e in intel_entities],
                 }, indent=2).encode()
             elif fmt == "sarif":
                 data = json.dumps(build_sarif(findings), indent=2).encode()
@@ -131,4 +140,11 @@ async def generate_report(report_id: str) -> None:
     except Exception as exc:
         async with session_scope() as s:
             await reports_repo.update(s, report_id, {"status": "failed", "error": str(exc)[:500]})
+            await notifications_repo.notify(
+                s,
+                kind="report_failed",
+                title="Report generation failed",
+                body=f"{report.title if report else 'A report'} could not be generated: {str(exc)[:160]}",
+                link="reports",
+            )
         raise

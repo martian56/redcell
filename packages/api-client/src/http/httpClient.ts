@@ -193,6 +193,17 @@ export function createHttpClient(baseUrl: string, rawWsUrl: string): ApiClient {
       list: () => req('/notifications'),
       markRead: (id) => req(`/notifications/${id}/read`, { method: 'POST' }),
       markAllRead: () => req('/notifications/read-all', { method: 'POST' }),
+      subscribe: (cb) => {
+        const ws = new WebSocket(`${wsUrl}/notifications`);
+        ws.onmessage = (ev) => {
+          try {
+            cb(JSON.parse(ev.data as string));
+          } catch {
+            /* ignore malformed frames */
+          }
+        };
+        return () => ws.close();
+      },
     },
   };
 }

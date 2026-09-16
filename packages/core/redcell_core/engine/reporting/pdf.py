@@ -136,6 +136,15 @@ class _Doc(BaseDocTemplate):
                 self.notify("TOCEntry", (1, flowable.getPlainText(), page))
 
 
+REPORT_SUBTITLES = {
+    "network": "Penetration Test Report",
+    "general": "Security Assessment Report",
+    "code": "Source Code Security Review",
+    "mobile": "Mobile Application Security Assessment",
+    "osint": "OSINT Intelligence Report",
+}
+
+
 def _cover(st, ctx) -> list:
     out: list = []
     out.append(Spacer(1, 6 * mm))
@@ -150,7 +159,7 @@ def _cover(st, ctx) -> list:
     out.append(HRFlowable(width="100%", thickness=2, color=ACCENT, spaceAfter=14))
     out.append(_p(ctx["title"], st["title"]))
     out.append(Spacer(1, 3 * mm))
-    out.append(_p("Penetration Test Report", st["subtitle"]))
+    out.append(_p(REPORT_SUBTITLES.get(ctx.get("kind", ""), REPORT_SUBTITLES["network"]), st["subtitle"]))
     out.append(Spacer(1, 16 * mm))
     rows = [
         ("Client", ctx["session"].client or "Unknown"),
@@ -357,6 +366,23 @@ def build_pdf(ctx: dict) -> bytes:
             rows.append([_p(x.kind, st["small"]), _p(x.label, st["meta"]),
                          _p((x.value or "")[:60], st["mono"]), _p(x.source or "-", st["small"])])
         t = Table(rows, colWidths=[20 * mm, None, 55 * mm, 26 * mm], repeatRows=1)
+        t.setStyle(TableStyle([("BACKGROUND", (0, 0), (-1, 0), PANEL),
+                               ("LINEBELOW", (0, 0), (-1, -1), 0.4, RULE),
+                               ("TOPPADDING", (0, 0), (-1, -1), 5), ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+                               ("LEFTPADDING", (0, 0), (-1, -1), 6), ("VALIGN", (0, 0), (-1, -1), "MIDDLE")]))
+        story.append(t)
+
+    entities = ctx.get("intel") or []
+    if entities:
+        story.append(PageBreak())
+        story.append(_p("Intelligence", st["h1"]))
+        story.append(_p("Entities and exposures gathered from public sources.", st["small"]))
+        rows = [[_p("Type", st["label"]), _p("Value", st["label"]), _p("Detail", st["label"]),
+                 _p("Source", st["label"])]]
+        for e in entities:
+            rows.append([_p(e.type, st["small"]), _p(e.value, st["meta"]),
+                         _p(e.label or "-", st["small"]), _p(e.source or "-", st["small"])])
+        t = Table(rows, colWidths=[24 * mm, None, 45 * mm, 26 * mm], repeatRows=1)
         t.setStyle(TableStyle([("BACKGROUND", (0, 0), (-1, 0), PANEL),
                                ("LINEBELOW", (0, 0), (-1, -1), 0.4, RULE),
                                ("TOPPADDING", (0, 0), (-1, -1), 5), ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
