@@ -39,7 +39,7 @@ export interface NotificationFeed {
   unread: number;
 }
 
-export type SessionKind = 'network' | 'code';
+export type SessionKind = 'network' | 'code' | 'general';
 
 /** A red-team project. */
 export interface Session {

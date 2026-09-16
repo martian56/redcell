@@ -33,6 +33,7 @@ export function SessionsPage() {
           onChange={setKind}
           options={[
             { value: 'all', label: 'All' },
+            { value: 'general', label: 'General' },
             { value: 'network', label: 'Network' },
             { value: 'code', label: 'Code scan' },
           ]}

@@ -2,11 +2,18 @@ from __future__ import annotations
 
 from .base import Kind
 from .code import code_executor, code_orchestrator
+from .general import general_orchestrator
 from .network import network_executor, network_orchestrator
 
-DEFAULT_KIND = "network"
+DEFAULT_KIND = "general"
 
 KINDS: dict[str, Kind] = {
+    "general": Kind(
+        id="general",
+        label="General",
+        orchestrator_system=general_orchestrator,
+        executor_system=network_executor,
+    ),
     "network": Kind(
         id="network",
         label="Network",

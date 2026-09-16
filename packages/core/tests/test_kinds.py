@@ -1,15 +1,22 @@
 from redcell_core.engine.kinds import KINDS, OrchestratorContext, get_kind
 
 
-def test_registry_has_network_and_code():
-    assert set(KINDS) >= {"network", "code"}
+def test_registry_has_core_kinds():
+    assert set(KINDS) >= {"general", "network", "code"}
 
 
-def test_get_kind_falls_back_to_network():
-    assert get_kind(None).id == "network"
-    assert get_kind("").id == "network"
-    assert get_kind("does-not-exist").id == "network"
+def test_get_kind_falls_back_to_general():
+    assert get_kind(None).id == "general"
+    assert get_kind("").id == "general"
+    assert get_kind("does-not-exist").id == "general"
     assert get_kind("CODE").id == "code"
+
+
+def test_general_is_full_capability():
+    g = get_kind("general")
+    assert g.uses_browser and g.seeds_hosts and g.exploits and not g.mounts_source
+    assert "authorized security engagement" in g.orchestrator_system(
+        OrchestratorContext(goal="G", scope=[], targets=[]))
 
 
 def test_network_and_code_flags():

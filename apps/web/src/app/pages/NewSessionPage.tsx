@@ -194,6 +194,9 @@ export function NewSessionPage() {
               <div className="field">
                 <span className="label">Type</span>
                 <div className="seg">
+                  <button type="button" className={draft.kind === 'general' ? 'on' : ''} onClick={() => patch({ kind: 'general' })}>
+                    General
+                  </button>
                   <button type="button" className={draft.kind === 'network' ? 'on' : ''} onClick={() => patch({ kind: 'network' })}>
                     Network
                   </button>

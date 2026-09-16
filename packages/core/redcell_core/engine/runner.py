@@ -37,7 +37,7 @@ from ..storage import safe_filename, storage
 from . import msf, nmap, pivot, scope, webscan
 from .browser import BrowserManager
 from .execution import ExecResult, build_backend
-from .kinds import OrchestratorContext, get_kind
+from .kinds import DEFAULT_KIND, OrchestratorContext, get_kind
 from .llm import LlmClient
 from .tools import EXECUTOR_TOOLS, ORCHESTRATOR_TOOLS
 
@@ -162,7 +162,7 @@ class LiveRunner:
         self.targets: list[str] = []
         self.roe: str | None = None
         self.run_name = ""
-        self.kind = "network"
+        self.kind = DEFAULT_KIND
         self._kindspec = get_kind(self.kind)
         self.source: str | None = None
         self.brief: str | None = None
@@ -263,7 +263,7 @@ class LiveRunner:
             self.targets = session.targets or []
             self.roe = session.roe
             self.run_name = run.name
-            self.kind = session.kind or "network"
+            self.kind = session.kind or DEFAULT_KIND
             self._kindspec = get_kind(self.kind)
             self.source = session.source
             self.brief = session.brief

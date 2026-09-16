@@ -38,3 +38,18 @@ def test_cidr_goes_to_scope():
 
 def test_no_target_no_proposal():
     assert enrich_proposal(None, "hi, can you help me plan something later?") is None
+
+
+def test_general_kind_is_preserved_and_filled():
+    model = SessionProposal(name="Footprint", kind="general", brief="map public footprint")
+    p = enrich_proposal(model, "subject is Globex, globex.com")
+    assert p.kind == "general"
+    assert "globex.com" in p.scope
+    assert p.targets == ["https://globex.com"]
+
+
+def test_general_task_without_host_still_drafts():
+    model = SessionProposal(name="Threat model", kind="general", brief="threat model our product")
+    p = enrich_proposal(model, "help me threat model our product")
+    assert p is not None
+    assert p.kind == "general"
