@@ -5,6 +5,7 @@ import { queryClient } from '@/lib/query';
 import { ApiProvider } from '@/lib/api';
 import { App } from '@/App';
 import { applyStoredTheme } from '@/lib/theme';
+import { registerSW } from 'virtual:pwa-register';
 import '@/styles/tokens.css';
 import 'react-mosaic-component/react-mosaic-component.css';
 import '@xterm/xterm/css/xterm.css';
@@ -13,6 +14,18 @@ import '@/styles/design.css';
 import '@/styles/mobile.css';
 
 applyStoredTheme();
+
+const updateSW = registerSW({
+  immediate: true,
+  onRegisteredSW(_swUrl, registration) {
+    if (registration) {
+      setInterval(() => void registration.update(), 60_000);
+    }
+  },
+  onNeedRefresh() {
+    void updateSW(true);
+  },
+});
 
 const el = document.getElementById('root');
 if (!el) throw new Error('#root not found');

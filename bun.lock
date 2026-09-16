@@ -45,6 +45,7 @@
         "vite": "^6.0.0",
         "vite-plugin-pwa": "^0.21.1",
         "vitest": "3.2.4",
+        "workbox-window": "^7",
       },
     },
     "packages/api-client": {

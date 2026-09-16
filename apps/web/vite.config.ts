@@ -12,7 +12,7 @@ export default defineConfig({
     tailwind(),
     VitePWA({
       registerType: 'autoUpdate',
-      injectRegister: 'auto',
+      injectRegister: null,
       includeAssets: ['apple-touch-icon.png'],
       manifest: {
         name: 'REDCELL',
