@@ -5,10 +5,13 @@ from redcell_core.engine.runner import LiveRunner
 from redcell_core.engine.tools import EXECUTOR_TOOLS, ORCHESTRATOR_TOOLS
 
 
+def _names(ts):
+    return {t["function"]["name"] for t in ts}
+
+
 def test_shell_exec_tool_exposed_to_both_tiers():
-    names = lambda ts: {t["function"]["name"] for t in ts}
-    assert "shell_exec" in names(ORCHESTRATOR_TOOLS)
-    assert "shell_exec" in names(EXECUTOR_TOOLS)
+    assert "shell_exec" in _names(ORCHESTRATOR_TOOLS)
+    assert "shell_exec" in _names(EXECUTOR_TOOLS)
 
 
 @pytest.mark.asyncio
