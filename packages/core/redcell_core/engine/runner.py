@@ -36,7 +36,7 @@ from ..storage import safe_filename, storage
 from . import mobile as mobkit
 from . import msf, nmap, pivot, scope, webscan
 from .browser import BrowserManager
-from .execution import ExecResult, build_backend
+from .execution import ExecResult, build_backend, build_device_backend
 from .kinds import DEFAULT_KIND, OrchestratorContext, get_kind
 from .llm import LlmClient
 from .run import ReverseShellMixin
@@ -224,9 +224,16 @@ class LiveRunner(ReverseShellMixin):
             self.llm = LlmClient(llm_cfg)
         if self.backend is None:
             # Name the container per session so a session's runs reuse it.
-            self.backend = build_backend(exec_cfg, server=server, server_secret=server_secret,
-                                         proxy_url=proxy_url, name=f"redcell-exec-{self.session_id[:12]}",
-                                         mounts=mounts)
+            exec_name = f"redcell-exec-{self.session_id[:12]}"
+            mobile_hosts = self.role_servers.get("mobile") or []
+            if self.kind == "mobile" and mobile_hosts:
+                dev = mobile_hosts[0]
+                self.backend = build_device_backend(exec_cfg, server=dev["server"],
+                                                    server_secret=dev["secret"], proxy_url=proxy_url,
+                                                    name=exec_name, mounts=mounts)
+            else:
+                self.backend = build_backend(exec_cfg, server=server, server_secret=server_secret,
+                                             proxy_url=proxy_url, name=exec_name, mounts=mounts)
         if self._browser is None and self._kindspec.uses_browser:
             self._browser = BrowserManager(self.backend, self.session_id, self.bus)
 

@@ -130,6 +130,31 @@ REDCELL can catch a reverse shell from a compromised target in two ways.
 
 The direct path is opt-in on purpose: the default stack publishes only 80 and 443, and Docker's published ports bypass host firewalls such as `ufw`, so the range is exposed only when you add the override file. If you are behind Cloudflare, prefer the ngrok path; opening a callback range on the origin widens what is reachable past the proxy.
 
+## Dynamic mobile device host
+
+A mobile session can run the app *live* (install it, drive it, instrument it with Frida) instead of only reviewing it statically. This needs an Android device, which REDCELL provides with [redroid](https://github.com/remote-android/redroid-doc) (Android in a container). redroid needs a **Linux host with the `binder` kernel module** — it cannot run on macOS or Windows, so this is a separate host you attach to the session, not the REDCELL box unless that box is Linux with binder.
+
+Set up a device host:
+
+1. On a Linux host (Ubuntu/Debian works well), load binder and confirm it:
+
+   ```bash
+   sudo modprobe binder_linux devices=binder,hwbinder,vndbinder
+   ls /dev/binder    # should exist
+   ```
+
+   To make it persist across reboots, add `binder_linux` to `/etc/modules-load.d/` and the `devices=` option to `/etc/modprobe.d/`.
+
+2. Make sure Docker is installed and the host is reachable over SSH (key or password). REDCELL brings up redroid and the mobile toolchain itself; you do not pre-install anything else.
+
+3. In REDCELL, add the host under **Servers**, then on a **mobile** session attach it as an **Additional host** with the role **Mobile device**. REDCELL will start a redroid Android container (published on `127.0.0.1:5555`), wait for it to boot, and connect `adb` from the mobile-tools container.
+
+Notes:
+
+- No KVM is required; redroid boots on a plain VPS as long as the binder module is present.
+- The default image is `redroid/redroid:13.0.0_64only-latest` (x86_64) at 720×1280; both are configurable in Settings (`redroidImage`, `redroidScreen`). On an ARM host, use an ARM/`arm64` redroid tag; on x86 hosts wanting to run ARM-only apps, use a redroid image with `libndk`/`libhoudini` ARM translation.
+- **iOS dynamic analysis is not supported** — it needs a jailbroken device or Corellium, which is out of scope. iOS sessions stay static (IPA review).
+
 ## Cookies and HTTPS
 
 `REDCELL_COOKIE_SECURE=true` marks the session cookie `Secure`, so the browser only sends it over HTTPS. Modes 2 and 3 set it to `true`; mode 1 (plain HTTP) uses `false`.

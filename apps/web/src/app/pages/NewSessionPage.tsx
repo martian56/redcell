@@ -281,6 +281,12 @@ export function NewSessionPage() {
               <span className="label">
                 Additional hosts <span className="opt">(mobile device / pivot, optional)</span>
               </span>
+              {isMobile ? (
+                <p className="mb-1 text-[11px] text-faint">
+                  Attach a Linux host running redroid as a “Mobile device” to run the app live (install +
+                  Frida). Without one, the mobile review stays static-only.
+                </p>
+              ) : null}
               {draft.extraServers.map((es, i) => (
                 <div key={`${es.serverId}-${i}`} className="mt-1.5 flex items-center gap-2">
                   <span className="min-w-0 flex-1 truncate font-mono text-xs text-muted">
