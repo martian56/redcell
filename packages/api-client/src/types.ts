@@ -431,3 +431,23 @@ export interface UpdateStarted {
   started: boolean;
   detail: string;
 }
+
+export interface FeatureAvailability {
+  available: boolean;
+  reason: string;
+}
+
+export interface HostInfo {
+  dockerReachable: boolean;
+  os: string;
+  osType: string;
+  kernel: string;
+  arch: string;
+  cpus: number;
+  ramGb: number;
+}
+
+export interface Capabilities {
+  host: HostInfo;
+  features: Record<string, FeatureAvailability>;
+}

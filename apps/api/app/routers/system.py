@@ -7,6 +7,7 @@ import os
 import time
 
 from fastapi import APIRouter, Depends, HTTPException
+from redcell_core.capabilities import host_capabilities
 from redcell_core.schemas import Camel
 from redcell_core.security import User, current_user
 
@@ -26,6 +27,26 @@ class VersionInfo(Camel):
 class UpdateStarted(Camel):
     started: bool
     detail: str
+
+
+class FeatureAvailability(Camel):
+    available: bool
+    reason: str
+
+
+class HostInfo(Camel):
+    docker_reachable: bool = False
+    os: str = ""
+    os_type: str = ""
+    kernel: str = ""
+    arch: str = ""
+    cpus: int = 0
+    ram_gb: float = 0.0
+
+
+class Capabilities(Camel):
+    host: HostInfo
+    features: dict[str, FeatureAvailability]
 
 
 def current_version() -> str:
@@ -73,6 +94,15 @@ async def version() -> VersionInfo:
     current = current_version()
     latest = await _latest_version()
     return VersionInfo(current=current, latest=latest, update_available=update_available(current, latest))
+
+
+@router.get("/system/capabilities", response_model=Capabilities)
+async def capabilities() -> Capabilities:
+    data = await host_capabilities()
+    return Capabilities(
+        host=HostInfo(**data["host"]),
+        features={k: FeatureAvailability(**v) for k, v in data["features"].items()},
+    )
 
 
 @router.post("/system/update", response_model=UpdateStarted)

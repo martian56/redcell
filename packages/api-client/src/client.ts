@@ -36,6 +36,7 @@ import type {
   Settings,
   Shell,
   User,
+  Capabilities,
   SystemVersion,
   UpdateStarted,
 } from './types';
@@ -203,6 +204,7 @@ export interface ApiClient {
   system: {
     version(): Promise<SystemVersion>;
     update(): Promise<UpdateStarted>;
+    capabilities(): Promise<Capabilities>;
   };
   notifications: {
     list(params?: ListQuery): Promise<NotificationFeed>;

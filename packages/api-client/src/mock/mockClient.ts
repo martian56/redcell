@@ -656,6 +656,21 @@ export function createMockClient(): ApiClient {
           updated = true;
           return { started: true, detail: 'Update started (mock).' };
         },
+        async capabilities() {
+          await delay();
+          return {
+            host: {
+              dockerReachable: true, os: 'Ubuntu 26.04.1 LTS', osType: 'linux',
+              kernel: '7.0.0-30-generic', arch: 'x86_64', cpus: 2, ramGb: 3.7,
+            },
+            features: {
+              live_execution: { available: true, reason: 'Docker is reachable on the deployment host' },
+              reverse_shell_catch: { available: true, reason: 'native Linux Docker host' },
+              network_pivot: { available: true, reason: 'native Linux Docker host' },
+              dynamic_mobile: { available: true, reason: 'Linux host: redroid Android runs here (binder loaded on demand)' },
+            },
+          };
+        },
       };
     })(),
     notifications: (() => {

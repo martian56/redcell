@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { ProviderCatalogEntry, Settings } from '@redcell/api-client';
 import {
+  useCapabilities,
   useClearNgrokToken,
   useNgrokStatus,
   useProviderKeys,
@@ -274,6 +275,7 @@ export function SettingsPage() {
                 <button type="button" className="btn pri" disabled={save.isPending} onClick={onSave}>
                   Save
                 </button>
+                <CapabilitiesList />
               </div>
             </div>
           )}
@@ -466,6 +468,40 @@ export function SettingsPage() {
           />
         </label>
       </Dialog>
+    </div>
+  );
+}
+
+const FEATURE_LABELS: Record<string, string> = {
+  live_execution: 'Live execution',
+  reverse_shell_catch: 'Catch reverse shells',
+  network_pivot: 'Network pivoting',
+  dynamic_mobile: 'Dynamic mobile (Android)',
+};
+
+function CapabilitiesList() {
+  const { data } = useCapabilities();
+  if (!data) return null;
+  const { host, features } = data;
+  const meta = [host.os, host.arch, host.cpus ? `${host.cpus} vCPU` : '', host.ramGb ? `${host.ramGb} GB` : '']
+    .filter(Boolean)
+    .join(' · ');
+  return (
+    <div style={{ marginTop: 18, borderTop: '1px solid var(--line-soft)', paddingTop: 14 }}>
+      <div className="ft" style={{ marginBottom: 2 }}>This deployment can</div>
+      <div className="fd" style={{ marginBottom: 10 }}>{meta || 'host capabilities'}</div>
+      {Object.entries(features).map(([key, f]) => (
+        <div className="formrow" key={key}>
+          <div>
+            <div className="ft">{FEATURE_LABELS[key] ?? key}</div>
+            <div className="fd">{f.reason}</div>
+          </div>
+          <span className={`badge ${f.available ? 'ok' : 'off'}`}>
+            <span className={`hd ${f.available ? 'ok' : 'un'}`} />
+            {f.available ? 'Available' : 'Unavailable'}
+          </span>
+        </div>
+      ))}
     </div>
   );
 }

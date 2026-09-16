@@ -158,6 +158,7 @@ export function createHttpClient(baseUrl: string, rawWsUrl: string): ApiClient {
     system: {
       version: () => req('/system/version'),
       update: () => req('/system/update', { method: 'POST' }),
+      capabilities: () => req('/system/capabilities'),
     },
     notifications: {
       list: () => req('/notifications'),

@@ -286,6 +286,11 @@ export function useClearNgrokToken() {
   });
 }
 
+export function useCapabilities() {
+  const api = useApi();
+  return useQuery({ queryKey: ['capabilities'], queryFn: () => api.system.capabilities() });
+}
+
 export function useSetupStatus() {
   const api = useApi();
   return useQuery({ queryKey: ['setup-status'], queryFn: () => api.settings.setupStatus() });
