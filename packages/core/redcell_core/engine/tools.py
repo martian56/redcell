@@ -217,6 +217,36 @@ EXECUTOR_TOOLS = [
     {
         "type": "function",
         "function": {
+            "name": "mobile",
+            "description": (
+                "Drive the running Android device for DYNAMIC analysis via ADB and Frida. Only works in a "
+                "mobile session with a device host attached (otherwise the review is static-only). Actions: "
+                "'install' (install the session's uploaded APK from /root/assessment), 'packages' (list "
+                "installed third-party apps), 'launch' (start an app by package), 'shell' (run an adb shell "
+                "command given in 'command', e.g. 'run-as pkg cat databases/x'), 'screencap' (capture the "
+                "screen and store it as evidence), 'input' (UI input via 'command', e.g. 'tap 200 400', "
+                "'text hello', 'key KEYCODE_HOME'), 'pull' (base64 a device file at 'command'), 'frida_setup' "
+                "(push and start a matching frida-server, required once before frida), 'frida_ps' (list device "
+                "processes), 'frida_run' (run the Frida JS in 'script' against 'package'), 'ssl_unpin' (disable "
+                "TLS certificate pinning for 'package' so you can observe its traffic)."),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "action": {"type": "string", "enum": [
+                        "install", "packages", "launch", "shell", "screencap", "input", "pull",
+                        "frida_setup", "frida_ps", "frida_run", "ssl_unpin"]},
+                    "package": {"type": "string", "description": "Target app package name (for launch/frida_run/ssl_unpin)."},
+                    "command": {"type": "string", "description": "For shell/input/pull: the adb shell command, input args, or device file path."},
+                    "script": {"type": "string", "description": "For frida_run: the Frida JavaScript hook to run."},
+                    "timeout": {"type": "integer", "description": "Seconds to wait (default 30, max 300)."},
+                },
+                "required": ["action"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
             "name": "report",
             "description": "Report the executor's result back to the orchestrator, optionally with a finding.",
             "parameters": {

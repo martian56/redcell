@@ -33,6 +33,7 @@ from ..repositories import settings as settings_repo
 from ..repositories import shells as shells_repo
 from ..schemas import ExecutionSettings, LlmSettings
 from ..storage import safe_filename, storage
+from . import mobile as mobkit
 from . import msf, nmap, pivot, scope, webscan
 from .browser import BrowserManager
 from .execution import ExecResult, build_backend
@@ -404,6 +405,87 @@ class LiveRunner(ReverseShellMixin):
             return res
         return {"error": f"unknown browser tool {name}"}
 
+    async def _mobile(self, args: dict[str, Any]) -> dict[str, Any]:
+        if getattr(self.backend, "kind", "") != "device-host":
+            return {"ok": False, "error": "no Android device host is attached to this session; "
+                    "this is a static-only mobile review (attach a device host to run dynamic checks)"}
+        action = str(args.get("action", ""))
+        pkg = str(args.get("package") or "")
+        command = str(args.get("command") or "")
+        timeout = max(1, min(int(args.get("timeout") or 30), 300))
+
+        async def run(cmd: str) -> tuple[int, str]:
+            res = await self.backend.run(cmd)
+            return res.exit_code, res.output
+
+        if action == "install":
+            code, out = await run(
+                "apk=$(ls /root/assessment/*.apk /root/assessment/*.aab 2>/dev/null | head -1); "
+                "[ -n \"$apk\" ] || { echo 'no APK/AAB staged in /root/assessment'; exit 2; }; "
+                f"{mobkit.connect()}; adb -s {mobkit.DEVICE_SERIAL} install -r -g \"$apk\" 2>&1")
+            return {"ok": code == 0, "output": out[-2000:]}
+        if action in ("packages", "launch", "shell", "input", "frida_ps"):
+            builders = {
+                "packages": lambda: mobkit.packages(True),
+                "launch": lambda: mobkit.launch(pkg),
+                "shell": lambda: mobkit.device_shell(command),
+                "frida_ps": mobkit.frida_ps,
+            }
+            if action == "input":
+                parts = command.split(" ", 1)
+                cmd = mobkit.input_action(parts[0], parts[1] if len(parts) > 1 else "")
+            else:
+                cmd = builders[action]()
+            code, out = await run(f"{mobkit.connect()}; {cmd} 2>&1")
+            return {"ok": code == 0, "output": out[-3000:]}
+        if action == "screencap":
+            code, out = await run(f"{mobkit.connect()}; {mobkit.screencap_b64()}")
+            b64 = out.strip().splitlines()[-1] if out.strip() else ""
+            try:
+                key = f"mobile/{self.run_id}/{ids.new_id('shot')}.png"
+                await storage.put(settings.bucket_loot, key, base64.b64decode(b64), "image/png")
+                await self._record_loot({"kind": "file", "label": "device screenshot",
+                                         "value": key, "source": "mobile"})
+            except Exception as exc:
+                return {"ok": False, "error": f"screencap ok but store failed: {exc}"[:200]}
+            return {"ok": True, "captured": True, "artifact": key}
+        if action == "pull":
+            code, out = await run(f"{mobkit.connect()}; {mobkit.pull_b64(command)}")
+            b64 = out.strip().splitlines()[-1] if out.strip() else ""
+            try:
+                data = base64.b64decode(b64)
+                key = f"mobile/{self.run_id}/{ids.new_id('pull')}"
+                await storage.put(settings.bucket_loot, key, data, "application/octet-stream")
+                await self._record_loot({"kind": "file", "label": f"device file {command}",
+                                         "value": key, "source": "mobile"})
+            except Exception as exc:
+                return {"ok": False, "error": f"pull failed: {exc}"[:200]}
+            return {"ok": True, "artifact": key, "bytes": len(data)}
+        if action == "frida_setup":
+            _, ver = await run("frida --version")
+            _, abi = await run(f"{mobkit.connect()}; {mobkit.adb('shell getprop ro.product.cpu.abi')}")
+            version = ver.strip().splitlines()[-1].strip() if ver.strip() else ""
+            abi_v = abi.strip().splitlines()[-1].strip() if abi.strip() else ""
+            if not version or not abi_v:
+                return {"ok": False, "error": "could not detect frida version or device abi"}
+            code, out = await run(mobkit.frida_setup_script(version, abi_v))
+            return {"ok": "started" in out, "output": out[-1500:]}
+        if action == "frida_run":
+            script = str(args.get("script") or "")
+            if not pkg or not script:
+                return {"ok": False, "error": "frida_run needs both package and script"}
+            path = f"/tmp/hook_{ids.new_id('fr')}.js"
+            await self.backend.stage_file(path, script.encode())
+            code, out = await run(f"{mobkit.connect()}; {mobkit.frida_run_script(pkg, path, timeout)} 2>&1")
+            return {"ok": code == 0, "output": out[-3000:]}
+        if action == "ssl_unpin":
+            if not pkg:
+                return {"ok": False, "error": "ssl_unpin needs a package"}
+            code, out = await run(
+                f"{mobkit.connect()}; {mobkit.objection_startup(pkg, mobkit.SSL_UNPIN_STARTUP, timeout)} 2>&1")
+            return {"ok": code == 0, "output": out[-3000:]}
+        return {"ok": False, "error": f"unknown mobile action: {action}"}
+
     async def _watch_browser_control(self) -> None:
         """Flip the browser's control owner when the operator takes or releases it.
         Loads the persisted owner first so a take-control that landed before this
@@ -688,6 +770,16 @@ class LiveRunner(ReverseShellMixin):
                     if res.get("interrupted"):
                         interrupted = True
                         break
+                elif cname == "mobile":
+                    calls += 1
+                    action = str(cargs.get("action", ""))
+                    label = f"{action} {str(cargs.get('package') or cargs.get('command') or '')}".strip()
+                    async with session_scope() as s:
+                        await agents_repo.update(s, agent_id, action=f"[device] {label}"[:80], calls=calls)
+                    await self._event(agent_name, "tool", f"[device] {label}".strip())
+                    res = await self._mobile(cargs)
+                    messages.append({"role": "tool", "tool_call_id": call["id"], "name": cname,
+                                     "content": json.dumps(res)[:4000]})
             if stop or interrupted:
                 break
 
