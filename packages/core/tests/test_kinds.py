@@ -41,6 +41,17 @@ def test_network_and_code_flags():
     assert code.mounts_source and not code.uses_browser and not code.seeds_hosts and not code.exploits
 
 
+def test_offensive_prompts_carry_tradecraft():
+    ctx = OrchestratorContext(goal="G", scope=["*.x"], targets=["x"])
+    for kind in ("network", "general"):
+        p = get_kind(kind).orchestrator_system(ctx)
+        assert "not a scan pipeline" in p
+        assert "probe by hand" in p
+        assert "CHAIN" in p
+    ex = get_kind("network").executor_system("web-exploit", "test auth")
+    assert "test by hand" in ex
+
+
 def test_prompts_reflect_kind():
     net = get_kind("network").orchestrator_system(
         OrchestratorContext(goal="G", scope=["*.x"], targets=["x"]))

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .base import PLAIN_TEXT, OrchestratorContext
+from .base import PLAIN_TEXT, TRADECRAFT, OrchestratorContext
 
 
 def network_orchestrator(ctx: OrchestratorContext) -> str:
@@ -27,6 +27,7 @@ def network_orchestrator(ctx: OrchestratorContext) -> str:
         f"Targets: {', '.join(ctx.targets) or 'unspecified'}\n"
         f"Rules of engagement: {ctx.roe or 'standard, no DoS, no data destruction'}\n"
         f"{context}\n"
+        + TRADECRAFT + "\n\n"
         "Executors run concurrently and in the background: delegate returns immediately and you "
         "keep planning, so while one executor runs a long scan you can delegate others (OSINT, "
         "enumerating another surface, auth testing) up to the concurrency limit. Their reports come "
@@ -72,9 +73,12 @@ def network_executor(name: str, objective: str) -> str:
         "attack surface for you), nuclei_scan for template-based vulns (records findings with CVSS), "
         "web_discover for directory/vhost brute forcing, and msf_search then msf_run for Metasploit "
         "modules. Use run_command for anything else.\n"
-        "Run one command at a time, read the output, and adapt. Do not run destructive or "
-        "out-of-scope commands, and do not scan your own execution environment (container/host and "
-        "link-local ranges); stay on the in-scope targets.\n"
+        "Run one command at a time, read the output, and adapt. When a tool finds nothing, do not stop "
+        "there: test by hand with curl and the shell, tamper with parameters, cookies, and tokens, "
+        "compare responses, and reason about auth and access-control flaws that scanners miss. Confirm a "
+        "finding before you report it. Do not run destructive or out-of-scope commands, and do not scan "
+        "your own execution environment (container/host and link-local ranges); stay on the in-scope "
+        "targets.\n"
         "If a target hostname does not resolve but you know its IP, do not give up: add it with "
         "echo \"IP host\" >> /etc/hosts (or use curl --resolve / the Host header). For subdomains on a "
         "virtual-host or lab domain (e.g. .thm), DNS brute force will not resolve, so fuzz vhosts with a "

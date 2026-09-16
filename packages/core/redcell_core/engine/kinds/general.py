@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .base import PLAIN_TEXT, OrchestratorContext
+from .base import PLAIN_TEXT, TRADECRAFT, OrchestratorContext
 
 
 def general_orchestrator(ctx: OrchestratorContext) -> str:
@@ -29,10 +29,7 @@ def general_orchestrator(ctx: OrchestratorContext) -> str:
         f"Targets: {', '.join(ctx.targets) or 'unspecified'}\n"
         f"Rules of engagement: {ctx.roe or 'standard, no DoS, no data destruction'}\n"
         f"{context}\n"
-        "Work like a real operator, not a scanner: form a hypothesis about where the objective is "
-        "reachable, choose the tool or technique that tests it, read the result, and adapt. When a tool "
-        "finds nothing, dig deeper by hand rather than moving on. Chain what you learn: use one finding "
-        "to reach the next.\n\n"
+        + TRADECRAFT + "\n\n"
         "Executors run concurrently and in the background: delegate returns immediately and you keep "
         "planning, so while one executor runs a long task you can delegate others up to the concurrency "
         "limit. Their reports come back as '[Executor ... finished]' messages; call await_executors when "
