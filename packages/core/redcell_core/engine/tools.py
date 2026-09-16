@@ -427,3 +427,6 @@ EXECUTOR_TOOLS = [
         },
     },
 ]
+
+_EXECUTOR_RECORD = ("record_finding", "record_loot", "record_host", "record_entity")
+EXECUTOR_TOOLS += [t for t in ORCHESTRATOR_TOOLS if t["function"]["name"] in _EXECUTOR_RECORD]

@@ -266,6 +266,30 @@ class LiveRunner(ReverseShellMixin):
             loot = await loot_repo.list_for_session(s, self.session_id)
         return summarize_progress(findings, hosts, loot)
 
+    async def _delegate_context(self) -> str:
+        """Engagement state handed to each executor so it reuses known hosts and
+        credentials instead of rediscovering them, and sprays recovered creds."""
+        async with session_scope() as s:
+            findings = await findings_repo.list_for_session(s, self.session_id)
+            hosts = await hosts_repo.list_for_session(s, self.session_id)
+            loot = await loot_repo.list_for_session(s, self.session_id)
+        summary = summarize_progress(findings, hosts, loot)
+        if not summary:
+            return ""
+        creds = [x for x in loot if x.kind in ("credential", "hash", "token", "key") and x.value]
+        parts = ["Current engagement state (reuse these hosts, services, and credentials instead of "
+                 "rediscovering them):", summary]
+        if creds:
+            parts.append("Recovered credentials you can reuse directly:")
+            for x in creds[:20]:
+                src = f" (from {x.source})" if x.source else ""
+                parts.append(f"- {x.kind} {x.label}: {x.value}{src}")
+            if hosts:
+                parts.append("Credential reuse: try each recovered credential, hash, or token against the "
+                             "other known hosts and services (SSH, SMB, web logins, databases). Record any "
+                             "that work with record_loot and any resulting access with record_finding.")
+        return "\n".join(parts)
+
     async def _orchestrate(self) -> None:
         from langgraph.graph import END, StateGraph
 
@@ -706,8 +730,13 @@ class LiveRunner(ReverseShellMixin):
         await self._event(agent_name, "steer", f"delegated: {objective}")
 
         exec_system = self._kindspec.executor_system(agent_name, objective)
-        messages = [{"role": "system", "content": exec_system},
-                    {"role": "user", "content": "Start."}]
+        messages = [{"role": "system", "content": exec_system}]
+        context = await self._delegate_context()
+        if context:
+            messages.append({"role": "user", "content": context})
+        messages.append({"role": "user", "content": (
+            "Record concrete results as you find them with record_finding, record_loot, and record_host "
+            "(do not wait for the final report). Then call report with a concise summary. Start.")})
         report: dict[str, Any] = {}
         outputs: list[str] = []
         findings_here: list[str] = []
@@ -801,6 +830,12 @@ class LiveRunner(ReverseShellMixin):
                     res = await self._mobile(cargs)
                     messages.append({"role": "tool", "tool_call_id": call["id"], "name": cname,
                                      "content": json.dumps(res)[:4000]})
+                elif cname in ("record_finding", "record_loot", "record_host", "record_entity"):
+                    res = await self._dispatch(cname, cargs)
+                    if cname == "record_finding" and cargs.get("title"):
+                        findings_here.append(cargs["title"])
+                    messages.append({"role": "tool", "tool_call_id": call["id"], "name": cname,
+                                     "content": json.dumps(res)[:800]})
             if stop or interrupted:
                 break
 
