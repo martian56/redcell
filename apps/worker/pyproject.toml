@@ -1,6 +1,6 @@
 [project]
 name = "redcell-worker"
-version = "0.12.10"
+version = "0.12.11"
 description = "REDCELL background worker (arq)"
 requires-python = ">=3.12"
 dependencies = ["redcell-core", "arq>=0.26"]
