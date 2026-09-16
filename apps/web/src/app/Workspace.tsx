@@ -5,7 +5,15 @@ import {
   MosaicWindow,
   type MosaicBranch,
 } from 'react-mosaic-component';
-import { PANEL_LABELS, SWAPPABLE, useWorkspace, usedPanels, type PanelId, type TileId } from '@/store/workspace';
+import {
+  KIND_PANELS,
+  PANEL_LABELS,
+  SWAPPABLE,
+  useWorkspace,
+  usedPanels,
+  type PanelId,
+  type TileId,
+} from '@/store/workspace';
 import { Dropdown } from '@/components/ui/Dropdown';
 import { Icon } from '@/components/ui/Icon';
 import { Empty } from '@/components/ui/primitives';
@@ -24,11 +32,15 @@ function TileToolbar({ tileId, path }: { tileId: TileId; path: MosaicBranch[] })
   const sessionId = useUI((s) => s.activeSessionId);
   const { data: session } = useSession(sessionId);
   const deviceAvailable = session?.kind === 'mobile' && (session.servers ?? []).some((sv) => sv.role === 'mobile');
+  const kindPanels = (session && KIND_PANELS[session.kind]) || null;
   const tile = tiles[tileId];
   if (!tile) return <div className="tiletb" />;
 
   const addable = SWAPPABLE.filter(
-    (id) => !usedPanels(tiles).has(id) && (id !== 'device' || deviceAvailable),
+    (id) =>
+      !usedPanels(tiles).has(id) &&
+      (id !== 'device' || deviceAvailable) &&
+      (!kindPanels || kindPanels.includes(id)),
   );
   const closeTile = () => mosaicActions.remove(path);
 

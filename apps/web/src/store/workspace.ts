@@ -56,26 +56,69 @@ export interface Tile {
 }
 type Node = MosaicNode<TileId>;
 
-const DEFAULT_TILES: Record<TileId, Tile> = {
-  t_agents: { panels: ['agents'], active: 'agents' },
-  t_feed: { panels: ['feed'], active: 'feed' },
-  t_findings: { panels: ['findings', 'context'], active: 'findings' },
-  t_shell: { panels: ['terminals', 'browser'], active: 'terminals' },
-  t_chat: { panels: ['chat'], active: 'chat' },
-  t_data: { panels: ['surface', 'loot', 'listeners', 'proxy'], active: 'surface' },
-};
+type KindLayoutSpec = PanelId[][][]; // columns -> tiles -> tabs
 
-const DEFAULT_LAYOUT: Node = {
-  direction: 'row',
-  splitPercentage: 22,
-  first: { direction: 'column', splitPercentage: 44, first: 't_agents', second: 't_feed' },
-  second: {
-    direction: 'row',
-    splitPercentage: 64,
-    first: { direction: 'column', splitPercentage: 54, first: 't_findings', second: 't_shell' },
-    second: { direction: 'column', splitPercentage: 56, first: 't_chat', second: 't_data' },
-  },
+export const KIND_LAYOUTS: Record<string, KindLayoutSpec> = {
+  network: [
+    [['agents'], ['feed']],
+    [['findings', 'context'], ['terminals', 'browser']],
+    [['chat'], ['surface', 'loot', 'listeners', 'proxy']],
+  ],
+  code: [
+    [['agents'], ['feed']],
+    [['findings', 'context'], ['terminals']],
+    [['chat'], ['reports']],
+  ],
+  mobile: [
+    [['agents'], ['feed']],
+    [['findings', 'context'], ['terminals', 'device']],
+    [['chat'], ['reports']],
+  ],
+  osint: [
+    [['agents'], ['feed']],
+    [['findings', 'context']],
+    [['chat'], ['reports']],
+  ],
 };
+KIND_LAYOUTS.general = KIND_LAYOUTS.network!;
+
+export const KIND_PANELS: Record<string, PanelId[]> = Object.fromEntries(
+  Object.entries(KIND_LAYOUTS).map(([k, cols]) => [k, [...new Set(cols.flat().flat())]]),
+);
+
+function foldTree(nodes: Node[], direction: 'row' | 'column'): Node {
+  return nodes.reduce((acc, node, i) =>
+    i === 0 ? node : { direction, first: acc, second: node, splitPercentage: (i / (i + 1)) * 100 });
+}
+
+function buildFromSpec(kind: string, spec: KindLayoutSpec): { tiles: Record<TileId, Tile>; layout: Node } {
+  const tiles: Record<TileId, Tile> = {};
+  const columns: Node[] = spec.map((col, ci) =>
+    foldTree(
+      col.map((tabs, ti) => {
+        const id = `${kind}-${ci}-${ti}`;
+        tiles[id] = { panels: [...tabs], active: tabs[0]! };
+        return id;
+      }),
+      'column',
+    ),
+  );
+  const layout =
+    columns.length <= 1
+      ? columns[0]!
+      : { direction: 'row' as const, splitPercentage: 22, first: columns[0]!, second: foldTree(columns.slice(1), 'row') };
+  return { tiles, layout };
+}
+
+const DEFAULT_KIND = 'network';
+const _NET = buildFromSpec(DEFAULT_KIND, KIND_LAYOUTS[DEFAULT_KIND]!);
+const DEFAULT_TILES = _NET.tiles;
+const DEFAULT_LAYOUT = _NET.layout;
+
+function defaultsForKind(kind: string): { tiles: Record<TileId, Tile>; layout: Node } {
+  const k = KIND_LAYOUTS[kind] ? kind : DEFAULT_KIND;
+  return buildFromSpec(k, KIND_LAYOUTS[k]!);
+}
 
 function newTileId(): TileId {
   return 'tile-' + Math.random().toString(36).slice(2, 9);
@@ -119,10 +162,12 @@ function consistent(layout: Node | null, tiles: Record<TileId, Tile>): boolean {
 }
 
 interface WorkspaceState {
+  kind: string;
   layout: Node | null;
   tiles: Record<TileId, Tile>;
   setLayout: (n: Node | null) => void;
   reset: () => void;
+  applyKind: (kind: string) => void;
   addPanelAsTile: (id: PanelId) => void;
   showPanel: (id: PanelId) => void;
   addTab: (tileId: TileId, id: PanelId) => void;
@@ -133,6 +178,7 @@ interface WorkspaceState {
 export const useWorkspace = create<WorkspaceState>()(
   persist(
     (set) => ({
+      kind: DEFAULT_KIND,
       layout: DEFAULT_LAYOUT,
       tiles: structuredClone(DEFAULT_TILES),
       setLayout: (layout) =>
@@ -140,7 +186,9 @@ export const useWorkspace = create<WorkspaceState>()(
           const next = hasDuplicateLeaves(layout) ? dedupeLeaves(layout) : layout;
           return { layout: next, tiles: pruneTiles(s.tiles, next) };
         }),
-      reset: () => set({ layout: DEFAULT_LAYOUT, tiles: structuredClone(DEFAULT_TILES) }),
+      reset: () => set((s) => defaultsForKind(s.kind)),
+      applyKind: (kind) =>
+        set((s) => (kind === s.kind ? {} : { kind, ...defaultsForKind(kind) })),
       addPanelAsTile: (id) =>
         set((s) => {
           if (usedPanelSet(s.tiles).has(id)) return {};
@@ -183,15 +231,16 @@ export const useWorkspace = create<WorkspaceState>()(
         }),
     }),
     {
-      name: 'redcell.workspace.v4',
+      name: 'redcell.workspace.v5',
       merge: (persisted, current) => {
         const p = (persisted ?? {}) as Partial<WorkspaceState>;
+        const kind = p.kind ?? current.kind;
         const layout = p.layout !== undefined ? p.layout : current.layout;
         const tiles = p.tiles ?? current.tiles;
         if (!consistent(layout ?? null, tiles ?? {})) {
-          return { ...current, ...p, layout: DEFAULT_LAYOUT, tiles: structuredClone(DEFAULT_TILES) };
+          return { ...current, ...p, kind, ...defaultsForKind(kind) };
         }
-        return { ...current, ...p, layout: layout ?? null, tiles };
+        return { ...current, ...p, kind, layout: layout ?? null, tiles };
       },
     },
   ),

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRun, useRunControls, useSession } from '@/features/hooks';
-import { PANEL_LABELS, SWAPPABLE, useWorkspace, usedPanels, type PanelId } from '@/store/workspace';
+import { KIND_PANELS, PANEL_LABELS, SWAPPABLE, useWorkspace, usedPanels, type PanelId } from '@/store/workspace';
 import { fmtElapsed, fmtTokens } from '@/lib/format';
 import { Dropdown } from '@/components/ui/Dropdown';
 import { NewRunDialog } from './NewRunDialog';
@@ -26,7 +26,14 @@ export function ConsoleHeader({ sessionId }: { sessionId: string | null }) {
   const reset = useWorkspace((s) => s.reset);
   const [newRun, setNewRun] = useState(false);
 
-  const addable = SWAPPABLE.filter((id) => !usedPanels(tiles).has(id));
+  const deviceAvailable = session?.kind === 'mobile' && (session.servers ?? []).some((sv) => sv.role === 'mobile');
+  const kindPanels = (session && KIND_PANELS[session.kind]) || null;
+  const addable = SWAPPABLE.filter(
+    (id) =>
+      !usedPanels(tiles).has(id) &&
+      (id !== 'device' || deviceAvailable) &&
+      (!kindPanels || kindPanels.includes(id)),
+  );
 
   const status = run?.status ?? 'queued';
   const isRunning = status === 'running';
