@@ -262,6 +262,8 @@ class ExecutionSettings(Camel):
     backend: str = "local-docker"
     docker_image: str = "ghcr.io/martian56/redcell-kali:latest"
     mobile_docker_image: str = "ghcr.io/martian56/redcell-mobile:latest"
+    redroid_image: str = "redroid/redroid:13.0.0_64only-latest"
+    redroid_screen: str = "720x1280"
     ssh_host: str | None = ""
     ssh_user: str | None = "root"
 
