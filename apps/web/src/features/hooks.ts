@@ -534,3 +534,30 @@ export function useSelfUpdate() {
   const api = useApi();
   return useMutation({ mutationFn: () => api.system.update() });
 }
+
+export function useFiles(sessionId: string | null) {
+  const api = useApi();
+  return useQuery({
+    queryKey: ['files', sessionId],
+    queryFn: () => api.files.list(sessionId as string),
+    enabled: !!sessionId,
+  });
+}
+
+export function useUploadFile(sessionId: string) {
+  const api = useApi();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ file, kind }: { file: File; kind?: string }) => api.files.upload(sessionId, file, kind),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['files', sessionId] }),
+  });
+}
+
+export function useDeleteFile(sessionId: string) {
+  const api = useApi();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (fileId: string) => api.files.remove(fileId),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['files', sessionId] }),
+  });
+}

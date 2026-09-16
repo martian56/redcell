@@ -2,6 +2,7 @@ import type {
   Agent,
   AgentEdge,
   ChatMessage,
+  FileMeta,
   Finding,
   Host,
   Listener,
@@ -30,6 +31,7 @@ export interface Fixtures {
   servers: Server[];
   proxies: Proxy[];
   reports: Report[];
+  files: FileMeta[];
 }
 
 /** Builds a fresh dataset for the mock client. */
@@ -188,7 +190,20 @@ export function makeFixtures(): Fixtures {
     { id: 'px-3', label: 'burner-1', url: 'http://10.8.0.9:3128', kind: 'http', status: 'dead', lastCheck: minutesAgo(15) },
   ];
 
-  return { sessions, runs, agents, edges, findings, shells, listeners, proxy, hosts, loot, chat, servers, proxies, reports: [] };
+  const files: FileMeta[] = [
+    {
+      id: 'file-apk',
+      sessionId: s1,
+      filename: 'acme-mobile.apk',
+      kind: 'assessment',
+      contentType: 'application/vnd.android.package-archive',
+      size: 8_421_120,
+      visibility: 'private',
+      source: 'operator',
+      createdAt: minutesAgo(175),
+    },
+  ];
+  return { sessions, runs, agents, edges, findings, shells, listeners, proxy, hosts, loot, chat, servers, proxies, reports: [], files };
 }
 
 /** Terminal output lines for the mock shell stream, by shell kind. */

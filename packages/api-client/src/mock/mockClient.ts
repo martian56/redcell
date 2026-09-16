@@ -184,6 +184,37 @@ export function createMockClient(): ApiClient {
       },
     },
 
+    files: {
+      async list(sessionId) {
+        await delay();
+        return structuredClone(db.files.filter((f) => f.sessionId === sessionId));
+      },
+      async upload(sessionId, file, kind) {
+        await delay(150);
+        const meta = {
+          id: nid('file'),
+          sessionId,
+          filename: file.name,
+          kind: kind ?? 'upload',
+          contentType: file.type || 'application/octet-stream',
+          size: file.size,
+          visibility: 'private',
+          source: 'operator',
+          createdAt: now(),
+        };
+        db.files.unshift(meta);
+        return structuredClone(meta);
+      },
+      async remove(fileId) {
+        await delay();
+        const i = db.files.findIndex((f) => f.id === fileId);
+        if (i >= 0) db.files.splice(i, 1);
+      },
+      downloadUrl(fileId) {
+        return `/mock/files/${fileId}`;
+      },
+    },
+
     runs: {
       async list(sessionId) {
         await delay();

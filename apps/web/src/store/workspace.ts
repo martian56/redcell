@@ -15,7 +15,8 @@ export type PanelId =
   | 'loot'
   | 'reports'
   | 'browser'
-  | 'device';
+  | 'device'
+  | 'files';
 
 export const PANEL_LABELS: Record<PanelId, string> = {
   agents: 'Agents',
@@ -31,6 +32,7 @@ export const PANEL_LABELS: Record<PanelId, string> = {
   reports: 'Reports',
   browser: 'Browser',
   device: 'Device',
+  files: 'Files',
 };
 
 export const SWAPPABLE: PanelId[] = [
@@ -47,6 +49,7 @@ export const SWAPPABLE: PanelId[] = [
   'reports',
   'browser',
   'device',
+  'files',
 ];
 
 export type TileId = string;
@@ -66,12 +69,12 @@ export const KIND_LAYOUTS: Record<string, KindLayoutSpec> = {
   ],
   code: [
     [['agents'], ['feed']],
-    [['findings', 'context'], ['terminals']],
+    [['findings', 'context'], ['terminals', 'files']],
     [['chat'], ['reports']],
   ],
   mobile: [
     [['agents'], ['feed']],
-    [['findings', 'context'], ['terminals', 'device']],
+    [['findings', 'context'], ['terminals', 'device', 'files']],
     [['chat'], ['reports']],
   ],
   osint: [
@@ -82,8 +85,13 @@ export const KIND_LAYOUTS: Record<string, KindLayoutSpec> = {
 };
 KIND_LAYOUTS.general = KIND_LAYOUTS.network!;
 
+const UNIVERSAL_PANELS: PanelId[] = ['reports', 'files'];
+
 export const KIND_PANELS: Record<string, PanelId[]> = Object.fromEntries(
-  Object.entries(KIND_LAYOUTS).map(([k, cols]) => [k, [...new Set(cols.flat().flat())]]),
+  Object.entries(KIND_LAYOUTS).map(([k, cols]) => [
+    k,
+    [...new Set([...cols.flat().flat(), ...UNIVERSAL_PANELS])],
+  ]),
 );
 
 function foldTree(nodes: Node[], direction: 'row' | 'column'): Node {

@@ -12,6 +12,7 @@ import { LootPanel } from './LootPanel';
 import { ReportsPanel } from './ReportsPanel';
 import { BrowserPanel } from './BrowserPanel';
 import { DevicePanel } from './DevicePanel';
+import { FilesPanel } from './FilesPanel';
 
 export function PanelView({ id }: { id: PanelId }) {
   switch (id) {
@@ -41,6 +42,8 @@ export function PanelView({ id }: { id: PanelId }) {
       return <BrowserPanel />;
     case 'device':
       return <DevicePanel />;
+    case 'files':
+      return <FilesPanel />;
     default:
       return null;
   }

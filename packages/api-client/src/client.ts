@@ -9,6 +9,7 @@ import type {
   DraftChatInput,
   DraftChatOutput,
   EventMsg,
+  FileMeta,
   Finding,
   FindingStatus,
   Host,
@@ -118,6 +119,12 @@ export interface ApiClient {
     list(sessionId: string): Promise<SessionServer[]>;
     attach(sessionId: string, input: AttachServerInput): Promise<SessionServer[]>;
     detach(sessionId: string, serverId: string, role: ServerRole): Promise<SessionServer[]>;
+  };
+  files: {
+    list(sessionId: string): Promise<FileMeta[]>;
+    upload(sessionId: string, file: File, kind?: string): Promise<FileMeta>;
+    remove(fileId: string): Promise<void>;
+    downloadUrl(fileId: string): string;
   };
   runs: {
     list(sessionId: string, params?: ListQuery): Promise<Run[]>;

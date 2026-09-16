@@ -65,6 +65,23 @@ export function createHttpClient(baseUrl: string, rawWsUrl: string): ApiClient {
       detach: (sessionId, serverId, role) =>
         req(`/sessions/${sessionId}/servers/${serverId}${qs({ role })}`, { method: 'DELETE' }),
     },
+    files: {
+      list: (sessionId) => req(`/sessions/${sessionId}/files`),
+      upload: async (sessionId, file, kind) => {
+        const fd = new FormData();
+        fd.append('file', file);
+        if (kind) fd.append('kind', kind);
+        const res = await fetch(`${baseUrl}/sessions/${sessionId}/files`, {
+          method: 'POST',
+          credentials: 'include',
+          body: fd,
+        });
+        if (!res.ok) throw new Error(`${res.status} ${res.statusText} on upload`);
+        return res.json();
+      },
+      remove: (fileId) => req(`/files/${fileId}`, { method: 'DELETE' }),
+      downloadUrl: (fileId) => `${baseUrl}/files/${encodeURIComponent(fileId)}`,
+    },
     runs: {
       list: (sessionId, params) => req(`/sessions/${sessionId}/runs${qs(params)}`),
       get: (id) => req(`/runs/${id}`),

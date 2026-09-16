@@ -80,6 +80,19 @@ export interface SessionServer {
   role: ServerRole;
 }
 
+/** A file staged in a session (uploaded app/source, or an extracted artifact). */
+export interface FileMeta {
+  id: ID;
+  sessionId?: ID;
+  filename: string;
+  kind: string;
+  contentType: string;
+  size: number;
+  visibility: string;
+  source: string;
+  createdAt: ISODate;
+}
+
 /** One execution against a session's targets. */
 export interface Run {
   id: ID;
