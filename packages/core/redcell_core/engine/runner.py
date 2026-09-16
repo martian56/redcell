@@ -11,7 +11,7 @@ import re
 from typing import Any, TypedDict
 
 from .. import steer
-from ..bus import Bus, browser_channel, chat_channel, control_channel, shell_channel, shell_input_channel
+from ..bus import Bus, browser_channel, chat_channel, control_channel, shell_channel
 from ..config import settings
 from ..db import session_scope
 from ..logs import get_logger
@@ -21,13 +21,11 @@ from ..repositories import files as files_repo
 from ..repositories import findings as findings_repo
 from ..repositories import hosts as hosts_repo
 from ..repositories import ids
-from ..repositories import listeners as listeners_repo
 from ..repositories import loot as loot_repo
 from ..repositories import notifications as notifications_repo
 from ..repositories import provider_credentials as creds_repo
 from ..repositories import proxies as proxies_repo
 from ..repositories import runs as runs_repo
-from ..repositories import secrets as secrets_repo
 from ..repositories import servers as servers_repo
 from ..repositories import sessions as sessions_repo
 from ..repositories import settings as settings_repo
@@ -39,108 +37,17 @@ from .browser import BrowserManager
 from .execution import ExecResult, build_backend
 from .kinds import DEFAULT_KIND, OrchestratorContext, get_kind
 from .llm import LlmClient
+from .run import ReverseShellMixin
+from .run.support import is_source_url as _is_source_url
+from .run.support import proxy_url_with_creds as _proxy_url_with_creds
+from .run.support import resolve_cvss as _resolve_cvss
+from .run.support import safe_source as _safe_source
+from .run.support import summarize_progress
 from .tools import EXECUTOR_TOOLS, ORCHESTRATOR_TOOLS
 
 MAX_ORCH_STEPS = 40
 MAX_EXEC_STEPS = 10
 MAX_CONCURRENT_EXECUTORS = 3
-
-
-def summarize_progress(findings, hosts, loot) -> str | None:
-    """A compact recap of what the engagement already found, so a continued run
-    picks up from the durable Postgres state instead of starting cold."""
-    live = [f for f in findings if getattr(f, "status", "") != "dismissed"]
-    if not (live or hosts or loot):
-        return None
-    lines: list[str] = []
-    if live:
-        lines.append("Findings already recorded:")
-        for f in live[:40]:
-            loc = f" @ {f.location}" if getattr(f, "location", "") else ""
-            lines.append(f"- [{f.severity}] {f.title}{loc} (status: {f.status})")
-    if hosts:
-        lines.append("Attack surface already mapped:")
-        for h in hosts[:40]:
-            ip = f" ({h.ip})" if getattr(h, "ip", None) else ""
-            ports = [p.get("port", p) if isinstance(p, dict) else p for p in (h.ports or [])][:12]
-            pstr = f" ports {', '.join(str(p) for p in ports)}" if ports else ""
-            tech = f" tech {', '.join(str(t) for t in (h.tech or [])[:8])}" if h.tech else ""
-            lines.append(f"- {h.host}{ip}{pstr}{tech}")
-    if loot:
-        lines.append("Loot and credentials already collected:")
-        for x in loot[:30]:
-            lines.append(f"- {x.kind}: {x.label}")
-    return "\n".join(lines)
-
-# Fallback CVSS when a finding is recorded without a numeric score.
-_CVSS_BY_SEVERITY = {"critical": 9.5, "high": 8.0, "medium": 5.5, "low": 3.1, "info": 0.0}
-
-
-def _resolve_cvss(args: dict[str, Any]) -> float:
-    raw = args.get("cvss")
-    try:
-        score = float(raw) if raw is not None else 0.0
-    except (TypeError, ValueError):
-        score = 0.0
-    if score <= 0.0:
-        score = _CVSS_BY_SEVERITY.get(str(args.get("severity", "info")).lower(), 0.0)
-    return round(max(0.0, min(10.0, score)), 1)
-
-
-def _is_source_url(source: str) -> bool:
-    s = source.strip().lower()
-    return "://" in s or s.startswith("git@")
-
-
-def _safe_source(source: str) -> bool:
-    """Reject shell metacharacters to prevent command injection via a source path."""
-    return not any(c in source for c in ("'", '"', ";", "|", "&", "`", "$", "\n", "\\", "<", ">", "("))
-
-
-def _in_callback_range(port: int) -> bool:
-    return settings.callback_port_min <= port <= settings.callback_port_max
-
-
-def _proxy_url_with_creds(proxy, secret: str | None) -> str:
-    """Fold proxy credentials into its URL (scheme://user:pass@host:port),
-    deriving the scheme from the proxy kind when the URL omits it."""
-    url = (proxy.url or "").strip()
-    if "://" not in url:
-        scheme = "socks5" if getattr(proxy, "kind", "") == "socks5" else "http"
-        url = f"{scheme}://{url}"
-    user = getattr(proxy, "username", None)
-    if user and secret and "@" not in url.split("://", 1)[1]:
-        scheme, rest = url.split("://", 1)
-        return f"{scheme}://{user}:{secret}@{rest}"
-    return url
-
-
-# TCP catcher run inside the remote Kali container (--network host binds on the
-# VPS public interface). Accepts one reverse shell, bridges the socket to its
-# stdin/stdout over the SSH `docker exec -i` channel. Base64-shipped to avoid
-# shell quoting.
-_REMOTE_LISTENER_PY = (
-    "import socket,sys,os,threading\n"
-    "p=int(sys.argv[1])\n"
-    "s=socket.socket()\n"
-    "s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)\n"
-    "s.bind(('0.0.0.0',p))\n"
-    "s.listen(1)\n"
-    "sys.stderr.write('LISTENING %d\\n'%p);sys.stderr.flush()\n"
-    "c,a=s.accept()\n"
-    "sys.stderr.write('CONNECT %s:%d\\n'%(a[0],a[1]));sys.stderr.flush()\n"
-    "def _pin():\n"
-    "    while True:\n"
-    "        d=os.read(0,4096)\n"
-    "        if not d:break\n"
-    "        try:c.sendall(d)\n"
-    "        except Exception:break\n"
-    "threading.Thread(target=_pin,daemon=True).start()\n"
-    "while True:\n"
-    "    d=c.recv(4096)\n"
-    "    if not d:break\n"
-    "    os.write(1,d)\n"
-)
 
 
 class _State(TypedDict, total=False):
@@ -150,7 +57,7 @@ class _State(TypedDict, total=False):
     pending: dict[str, Any] | None
 
 
-class LiveRunner:
+class LiveRunner(ReverseShellMixin):
     def __init__(self, bus: Bus, run_id: str) -> None:
         self.bus = bus
         self.run_id = run_id
@@ -928,127 +835,6 @@ class LiveRunner:
         self._pivot = None
         await self._event("orchestrator", "net", "pivot closed")
         return {"ok": True}
-
-    async def _start_listener(self, port: int, method: str = "auto") -> dict[str, Any]:
-        remote = self.server is not None and getattr(self.backend, "kind", "") == "remote-docker"
-        if not remote and not _in_callback_range(port):
-            return {"error": f"port {port} is outside the reachable callback range "
-                    f"{settings.callback_port_min}-{settings.callback_port_max}; "
-                    f"retry start_listener with a port in that range."}
-        async with session_scope() as s:
-            token = await secrets_repo.get_secret(s, secrets_repo.NGROK_AUTHTOKEN)
-        if method == "ngrok" and not token:
-            return {"error": "ngrok requested but no ngrok auth token is configured "
-                    "(Settings > Integrations); use method 'direct' or add a token."}
-        use_ngrok = not remote and method != "direct" and (method == "ngrok" or bool(token))
-        bind = f"0.0.0.0:{port}"
-        async with session_scope() as s:
-            listener = await listeners_repo.create(s, {"session_id": self.session_id, "kind": "tcp",
-                                                       "bind": bind, "status": "starting", "sessions_count": 0})
-            lid = listener.id
-        if remote:
-            # Listener runs inside the Kali container on the remote VPS (host
-            # network) so internet targets can dial back to the server IP.
-            await self._open_remote_listener(port, lid)
-            callback = f"{self.server.host}:{port}"
-            status = "listening"
-        else:
-            from .live import get_listener_manager, get_ngrok_manager
-            status = await get_listener_manager().start(lid)
-            callback = f"{settings.callback_host}:{port}"
-            if use_ngrok and status == "listening":
-                try:
-                    callback = await get_ngrok_manager().open(lid, port, token)
-                except Exception as exc:
-                    await self._event("listener", "steer",
-                                      f"ngrok tunnel failed, using direct callback: {exc}")
-        await self._event("listener", "net", f"listener {bind} ({status}); reverse-shell callback -> {callback}")
-        await self._advance_phase("Post-Exploitation")
-        return {"listenerId": lid, "bind": bind, "status": status, "callback": callback,
-                "note": "Use this callback address (host:port) in the reverse-shell payload."}
-
-    async def _open_remote_listener(self, port: int, listener_id: str) -> None:
-        """Arm a listener in the remote Kali container and bridge a caught reverse
-        shell to a Terminal over the run's SSH connection."""
-        async with session_scope() as s:
-            await listeners_repo.set_status(s, listener_id, "listening")
-            shell = await shells_repo.create(s, {"session_id": self.session_id, "kind": "reverse",
-                                                 "label": f"revsh :{port} @ {self.server.host}",
-                                                 "status": "running", "host": self.server.host, "pty": True})
-            shell_id = shell.id
-        self._listener_tasks.append(
-            asyncio.create_task(self._remote_listener_bridge(port, listener_id, shell_id)))
-
-    async def _remote_listener_bridge(self, port: int, listener_id: str, shell_id: str) -> None:
-        import base64
-        try:
-            conn = await self.backend.connection()
-            b64 = base64.b64encode(_REMOTE_LISTENER_PY.encode()).decode()
-            inner = f"import base64;exec(base64.b64decode('{b64}'))"
-            from .execution import _shq
-            cmd = f"docker exec -i {self.backend.name} python3 -c {_shq(inner)} {int(port)}"
-            proc = await conn.create_process(cmd, encoding=None)
-        except Exception as exc:
-            await self._event("listener", "steer", f"remote listener failed: {exc}")
-            async with session_scope() as s:
-                await shells_repo.set_status(s, shell_id, "closed")
-            return
-
-        async def pump_out() -> None:
-            while True:
-                data = await proc.stdout.read(4096)
-                if not data:
-                    break
-                await self.bus.publish(shell_channel(shell_id), data.decode(errors="replace"))
-
-        async def pump_in() -> None:
-            async for keys in self.bus.subscribe(shell_input_channel(shell_id)):
-                try:
-                    proc.stdin.write(keys.encode())
-                    await proc.stdin.drain()
-                except Exception:
-                    break
-
-        async def watch() -> None:
-            buf = b""
-            while True:
-                data = await proc.stderr.read(1024)
-                if not data:
-                    break
-                buf += data
-                while b"\n" in buf:
-                    line, buf = buf.split(b"\n", 1)
-                    text = line.decode(errors="replace").strip()
-                    if text.startswith("CONNECT"):
-                        remote = text[7:].strip()
-                        async with session_scope() as s:
-                            sh = await shells_repo.get(s, shell_id)
-                            if sh:
-                                sh.label = f"revsh {remote}"
-                                sh.remote_addr = remote
-                            lst = await listeners_repo.get(s, listener_id)
-                            if lst:
-                                lst.sessions_count += 1
-                        await self._event("listener", "net",
-                                          f"caught reverse shell from {remote} on {self.server.host}:{port}")
-                        await self._advance_phase("Post-Exploitation")
-
-        out_t = asyncio.create_task(pump_out())
-        in_t = asyncio.create_task(pump_in())
-        try:
-            await watch()
-            await proc.wait()
-        except asyncio.CancelledError:
-            raise
-        finally:
-            out_t.cancel()
-            in_t.cancel()
-            try:
-                proc.close()
-            except Exception:
-                pass
-            async with session_scope() as s:
-                await shells_repo.set_status(s, shell_id, "closed")
 
     async def _prepare_source(self) -> None:
         """For a code-scan run, make the source available at /src in the backend:

@@ -2,7 +2,8 @@ import pytest
 from pydantic import ValidationError
 from redcell_core.bus import Bus
 from redcell_core.config import Settings, settings
-from redcell_core.engine.runner import LiveRunner, _in_callback_range
+from redcell_core.engine.run.support import in_callback_range as _in_callback_range
+from redcell_core.engine.runner import LiveRunner
 
 
 def test_settings_rejects_invalid_callback_range():
