@@ -1,13 +1,17 @@
 import pytest
 from redcell_core.engine.execution import SimBackend
-from redcell_core.engine.tools import orchestrator_system
+from redcell_core.engine.kinds import OrchestratorContext, get_kind
+
+
+def _network(**kw) -> str:
+    return get_kind("network").orchestrator_system(OrchestratorContext(**kw))
 
 
 def test_context_sections_render():
-    p = orchestrator_system("Goal", ["*.t"], ["t"], "no dos",
-                            brief="focus on prompt injection, skip recon",
-                            instruction="this run: try IDOR instead",
-                            files=["challenge.bin", "capture.pcap"])
+    p = _network(goal="Goal", scope=["*.t"], targets=["t"], roe="no dos",
+                 brief="focus on prompt injection, skip recon",
+                 instruction="this run: try IDOR instead",
+                 files=["challenge.bin", "capture.pcap"])
     assert "Engagement brief: focus on prompt injection, skip recon" in p
     assert "This run's instructions: this run: try IDOR instead" in p
     assert "follow this run's instructions" in p
@@ -15,7 +19,7 @@ def test_context_sections_render():
 
 
 def test_empty_sections_omitted():
-    p = orchestrator_system("Goal", [], [], None)
+    p = _network(goal="Goal", scope=[], targets=[], roe=None)
     assert "Engagement brief:" not in p
     assert "This run's instructions:" not in p
     assert "/root/assessment/" not in p

@@ -37,15 +37,9 @@ from ..storage import safe_filename, storage
 from . import msf, nmap, pivot, scope, webscan
 from .browser import BrowserManager
 from .execution import ExecResult, build_backend
+from .kinds import OrchestratorContext, get_kind
 from .llm import LlmClient
-from .tools import (
-    EXECUTOR_TOOLS,
-    ORCHESTRATOR_TOOLS,
-    codescan_executor_system,
-    codescan_orchestrator_system,
-    executor_system,
-    orchestrator_system,
-)
+from .tools import EXECUTOR_TOOLS, ORCHESTRATOR_TOOLS
 
 MAX_ORCH_STEPS = 40
 MAX_EXEC_STEPS = 10
@@ -169,6 +163,7 @@ class LiveRunner:
         self.roe: str | None = None
         self.run_name = ""
         self.kind = "network"
+        self._kindspec = get_kind(self.kind)
         self.source: str | None = None
         self.brief: str | None = None
         self.instruction: str | None = None
@@ -187,7 +182,7 @@ class LiveRunner:
         await self._load()
         if self._browser is not None:
             self._listener_tasks.append(asyncio.create_task(self._watch_browser_control()))
-        if self.kind != "code":
+        if self._kindspec.seeds_hosts:
             await self._seed_targets()
         try:
             try:
@@ -203,7 +198,7 @@ class LiveRunner:
             self._listener_tasks.append(asyncio.create_task(self._watch_control()))
             if self._assessment_meta:
                 await self._stage_assessment_files()
-            if self.kind == "code":
+            if self._kindspec.mounts_source:
                 await self._prepare_source()
             else:
                 await self._seed_hosts()
@@ -269,6 +264,7 @@ class LiveRunner:
             self.roe = session.roe
             self.run_name = run.name
             self.kind = session.kind or "network"
+            self._kindspec = get_kind(self.kind)
             self.source = session.source
             self.brief = session.brief
             self.instruction = run.instruction
@@ -304,7 +300,7 @@ class LiveRunner:
                     proxy_url = _proxy_url_with_creds(proxy, secret)
             self.orch_id = await self._ensure_orchestrator(s)
         # A code scan against a local folder mounts it read-only at /src.
-        if self.kind == "code" and self.source and not _is_source_url(self.source):
+        if self._kindspec.mounts_source and self.source and not _is_source_url(self.source):
             mounts = [f"{self.source}:/src:ro"]
         if self.llm is None:
             self.llm = LlmClient(llm_cfg)
@@ -313,7 +309,7 @@ class LiveRunner:
             self.backend = build_backend(exec_cfg, server=server, server_secret=server_secret,
                                          proxy_url=proxy_url, name=f"redcell-exec-{self.session_id[:12]}",
                                          mounts=mounts)
-        if self._browser is None and self.kind != "code":
+        if self._browser is None and self._kindspec.uses_browser:
             self._browser = BrowserManager(self.backend, self.session_id, self.bus)
 
     async def _ensure_orchestrator(self, s) -> str:
@@ -359,11 +355,10 @@ class LiveRunner:
 
         app = graph.compile(checkpointer=saver) if saver else graph.compile()
 
-        system = (codescan_orchestrator_system(self.run_name, self.source or "")
-                  if self.kind == "code"
-                  else orchestrator_system(self.run_name, self.scope, self.targets, self.roe,
-                                           brief=self.brief, instruction=self.instruction,
-                                           files=self.assessment_files))
+        system = self._kindspec.orchestrator_system(OrchestratorContext(
+            goal=self.run_name, scope=self.scope, targets=self.targets, roe=self.roe,
+            brief=self.brief, instruction=self.instruction, files=self.assessment_files,
+            source=self.source))
         prior = await self._prior_progress()
         messages: list[dict] = [{"role": "system", "content": system}]
         if prior:
@@ -657,8 +652,7 @@ class LiveRunner:
             agent_id, shell_id = agent.id, shell.id
         await self._event(agent_name, "steer", f"delegated: {objective}")
 
-        exec_system = (codescan_executor_system(agent_name, objective) if self.kind == "code"
-                       else executor_system(agent_name, objective))
+        exec_system = self._kindspec.executor_system(agent_name, objective)
         messages = [{"role": "system", "content": exec_system},
                     {"role": "user", "content": "Start."}]
         report: dict[str, Any] = {}
@@ -870,7 +864,7 @@ class LiveRunner:
                     link=f"sessions/{self.session_id}",
                 )
         await self._event("orchestrator", "finding", f"[{sev}] {title} @ {loc}")
-        if self.kind != "code" and str(sev).lower() != "info":
+        if self._kindspec.exploits and str(sev).lower() != "info":
             await self._advance_phase("Exploitation")
         return {"id": fid, "recorded": True}
 
