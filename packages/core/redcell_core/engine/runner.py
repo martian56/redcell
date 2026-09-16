@@ -350,6 +350,8 @@ class LiveRunner(ReverseShellMixin):
         if name == "start_listener":
             return await self._start_listener(int(args.get("port", 4444)),
                                               str(args.get("method", "auto")))
+        if name == "shell_exec":
+            return await self._shell_exec(args)
         if name == "open_pivot":
             return await self._open_pivot(args.get("shellId") or args.get("shell_id", ""))
         if name == "close_pivot":
@@ -632,6 +634,13 @@ class LiveRunner(ReverseShellMixin):
                     res = await self._dispatch_toolset(cname, cargs)
                     messages.append({"role": "tool", "tool_call_id": call["id"], "name": cname,
                                      "content": json.dumps(res)[:4000]})
+                elif cname == "shell_exec":
+                    calls += 1
+                    async with session_scope() as s:
+                        await agents_repo.update(s, agent_id, action=f"shell {str(cargs.get('command',''))[:70]}".strip(), calls=calls)
+                    res = await self._shell_exec(cargs, source=agent_name)
+                    messages.append({"role": "tool", "tool_call_id": call["id"], "name": cname,
+                                     "content": json.dumps(res)[:4000]})
                     if res.get("interrupted"):
                         interrupted = True
                         break
@@ -799,6 +808,28 @@ class LiveRunner(ReverseShellMixin):
                                         "source": args.get("source", "")})
         await self._event("recon", "net", f"host: {host}")
         return {"recorded": True}
+
+    async def _shell_exec(self, args: dict[str, Any], source: str = "orchestrator") -> dict[str, Any]:
+        shell_id = str(args.get("shellId", "")).strip()
+        command = str(args.get("command", "")).strip()
+        if not shell_id or not command:
+            return {"error": "shellId and command are required"}
+        if scope.is_destructive(command):
+            return {"error": "blocked: the scope guardrail refused a destructive command"}
+        async with session_scope() as s:
+            shell = await shells_repo.get(s, shell_id)
+        if shell is None or shell.session_id != self.session_id:
+            return {"error": "reverse shell not found in this session"}
+        if shell.kind != "reverse" or shell.status != "running":
+            return {"error": "target must be a running reverse shell"}
+        await self._event(source, "tool", f"[shell {shell_id[:8]}] $ {command[:100]}")
+        try:
+            timeout = float(args.get("timeout", 30) or 30)
+        except (TypeError, ValueError):
+            timeout = 30.0
+        result = await pivot.FootholdRunner(self.bus, shell_id).run(command, timeout=min(timeout, 300))
+        await self._advance_phase("Post-Exploitation")
+        return {"output": result.output[:4000], "exitCode": result.exit_code, "timedOut": result.timed_out}
 
     async def _open_pivot(self, shell_id: str) -> dict[str, Any]:
         """Route tool traffic through a caught reverse shell so internal hosts

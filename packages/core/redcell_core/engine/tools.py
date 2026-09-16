@@ -118,6 +118,22 @@ ORCHESTRATOR_TOOLS = [
     {
         "type": "function",
         "function": {
+            "name": "shell_exec",
+            "description": "Run a shell command on a caught reverse shell (the compromised foothold) and return its output. Use this for post-exploitation: enumerate the box (id, uname -a, sudo -l, SUID binaries, /etc/passwd), read files, hunt for credentials and keys, and set up deeper access. Pass the reverse shell's id (from the Terminals panel or the caught-shell event).",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "shellId": {"type": "string", "description": "Id of the caught reverse shell to run the command on."},
+                    "command": {"type": "string", "description": "The shell command to run on the foothold."},
+                    "timeout": {"type": "integer", "description": "Seconds to wait for output (default 30, max 300)."},
+                },
+                "required": ["shellId", "command"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
             "name": "open_pivot",
             "description": "Route tool traffic through a caught reverse shell so hosts only reachable from the compromised machine become scannable. Pass the reverse shell's id (from the Terminals panel / the caught-shell event). After this succeeds, delegate executors to scan or reach the internal network; record discovered internal hosts with record_host (source 'pivot').",
             "parameters": {
@@ -179,6 +195,22 @@ EXECUTOR_TOOLS = [
                     "rationale": {"type": "string", "description": "One line: why run this."},
                 },
                 "required": ["command"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "shell_exec",
+            "description": "Run a shell command ON a caught reverse shell (the compromised foothold), not in your own Kali container. Use for post-exploitation on the box you compromised: enumerate (id, uname -a, sudo -l, SUID, /etc/passwd), read files, hunt credentials/keys, escalate. Pass the reverse shell's id.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "shellId": {"type": "string", "description": "Id of the caught reverse shell to run the command on."},
+                    "command": {"type": "string", "description": "The shell command to run on the foothold."},
+                    "timeout": {"type": "integer", "description": "Seconds to wait for output (default 30, max 300)."},
+                },
+                "required": ["shellId", "command"],
             },
         },
     },
