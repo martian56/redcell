@@ -13,6 +13,21 @@ def test_hosts_in_command():
     assert scope.hosts_in_command("curl http://user@t.example.com:8080/") == ["t.example.com"]
 
 
+def test_hosts_in_command_bare_hostname_and_ipv6():
+    # bare hostnames (the natural form) are now extracted, not just URLs/IPv4
+    assert scope.hosts_in_command("nmap -sV evil.com") == ["evil.com"]
+    assert scope.hosts_in_command("sqlmap -u https://t.acme.io/s --batch") == ["t.acme.io"]
+    assert "fe80::1" in scope.hosts_in_command("ping fe80::1")
+    assert "2001:db8::1" in scope.hosts_in_command("curl http://[2001:db8::1]:8080/")
+
+
+def test_hosts_in_command_ignores_filenames_and_times():
+    assert scope.hosts_in_command("python app.py --config config.json") == []
+    assert scope.hosts_in_command("cat /etc/passwd && ls src/main.py") == []
+    assert scope.hosts_in_command("grep 12:30:45 app.log") == []
+    assert scope.hosts_in_command("echo hi > out.txt") == []
+
+
 @pytest.mark.asyncio
 async def test_command_scope_block_offensive_kind():
     r = LiveRunner(bus=Bus(settings.redis_url), run_id="x")

@@ -15,7 +15,6 @@ from sqlalchemy import text
 
 from .routers import ai, auth, files, infra, notifications, reports, resources, system, ws
 from .routers import settings as settings_router
-from .routers.system import current_version
 
 
 async def _health_report() -> dict[str, object]:
@@ -35,8 +34,7 @@ async def _health_report() -> dict[str, object]:
     except Exception:
         checks["storage"] = "down"
     overall = "ok" if all(v == "ok" for v in checks.values()) else "degraded"
-    return {"status": overall, "version": current_version(), "mode": settings.run_mode,
-            "bus": bus.transport, "checks": checks}
+    return {"status": overall, "checks": checks}
 
 
 @contextlib.asynccontextmanager
@@ -50,7 +48,8 @@ async def lifespan(app: FastAPI):
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title="REDCELL API", version=current_version(), lifespan=lifespan)
+    app = FastAPI(title="REDCELL API", version="0", lifespan=lifespan,
+                  docs_url=None, redoc_url=None, openapi_url=None)
 
     app.add_middleware(
         CORSMiddleware,

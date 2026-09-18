@@ -21,6 +21,7 @@ x-app-env: &app-env
   REDCELL_CORS_ORIGINS: ${REDCELL_CORS_ORIGINS:-http://localhost:5183}
   REDCELL_COMPOSE_DIR: ${REDCELL_COMPOSE_DIR:-}
   REDCELL_UPDATER_IMAGE: ${REDCELL_UPDATER_IMAGE:-docker:cli}
+  REDCELL_KNOWN_HOSTS: /var/lib/redcell/known_hosts
   REDCELL_CALLBACK_HOST: ${REDCELL_CALLBACK_HOST:-host.docker.internal}
   REDCELL_CALLBACK_PORT_MIN: ${REDCELL_CALLBACK_PORT_MIN:-4444}
   REDCELL_CALLBACK_PORT_MAX: ${REDCELL_CALLBACK_PORT_MAX:-4464}
@@ -109,6 +110,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - redcell_secrets:/run/redcell:ro
+      - redcell_data:/var/lib/redcell
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     healthcheck:
@@ -134,6 +136,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - redcell_secrets:/run/redcell:ro
+      - redcell_data:/var/lib/redcell
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     healthcheck:
@@ -186,6 +189,7 @@ services:
 
 volumes:
   redcell_pg: {}
+  redcell_data: {}
   redcell_minio: {}
   redcell_secrets: {}
   caddy_data: {}

@@ -252,14 +252,10 @@ class SSHBackend(ExecutionBackend):
         return f"env {prefix} sh -c {_shq(command)}"
 
     async def start(self, on_status: OnOutput | None = None) -> None:
-        import asyncssh  # lazy
+        from . import ssh
 
-        opts: dict = {"username": self.user, "known_hosts": None}
-        if self.private_key:
-            opts["client_keys"] = [asyncssh.import_private_key(self.private_key)]
-        elif self.password:
-            opts["password"] = self.password
-        self._conn = await asyncssh.connect(self.host, **opts)
+        self._conn = await ssh.connect(self.host, username=self.user, password=self.password,
+                                       private_key=self.private_key)
 
     async def run(self, command: str, on_output: OnOutput | None = None) -> ExecResult:
         import asyncssh  # lazy
@@ -329,13 +325,9 @@ class RemoteDockerBackend(ExecutionBackend):
 
     async def connection(self):
         if self._conn is None:
-            import asyncssh
-            opts: dict = {"username": self.user, "known_hosts": None}
-            if self.private_key:
-                opts["client_keys"] = [asyncssh.import_private_key(self.private_key)]
-            elif self.password:
-                opts["password"] = self.password
-            self._conn = await asyncssh.connect(self.host, **opts)
+            from . import ssh
+            self._conn = await ssh.connect(self.host, username=self.user, password=self.password,
+                                           private_key=self.private_key)
         return self._conn
 
     async def _sh(self, cmd: str) -> tuple[int, str]:

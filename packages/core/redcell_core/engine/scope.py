@@ -48,18 +48,39 @@ def _scope_host(entry: str) -> str:
 
 _URL_HOST_RE = re.compile(r"https?://([^/\s:\"'`)]+(?::\d+)?)", re.I)
 _BARE_IP_RE = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
+_IPV6_RE = re.compile(r"(?<![\w:])(?:[0-9a-fA-F]{0,4}:){2,7}[0-9a-fA-F]{0,4}(?![\w:])")
+_HOSTNAME_RE = re.compile(
+    r"(?<![\w@./-])(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+([a-zA-Z]{2,24})\b")
+
+_FILE_EXT = frozenset(
+    "py js ts tsx jsx mjs cjs json txt md markdown sh bash zsh fish yml yaml toml cfg ini conf log "
+    "png jpg jpeg gif webp ico bmp svg css scss sass less html htm xml csv tsv pdf doc docx xls xlsx "
+    "zip tar gz tgz bz2 xz 7z rar lock env sample sql db sqlite so dll dylib exe out bin dat bak tmp "
+    "swp key pem crt cert pfx pub asc gpg sig c cc cpp cxx h hpp hh go rs rb php java kt kts scala "
+    "swift lua pl pm r m mm ttf otf woff woff2 eot map o a class jar war ear apk ipa aab dex smali "
+    "gradle properties lock mod sum dockerfile gitignore npmrc".split())
+
+
+def _looks_ipv6(tok: str) -> bool:
+    return "::" in tok or any(c in "abcdefABCDEF" for c in tok)
 
 
 def hosts_in_command(command: str) -> list[str]:
     """Best-effort extraction of target hosts from a shell command: hostnames from
-    http(s) URLs and bare IPv4 addresses, normalized to bare host/IP. Used to
-    scope-gate free-form commands without false-positiving on flags/paths."""
-    raw: list[str] = list(_URL_HOST_RE.findall(command or "")) + list(_BARE_IP_RE.findall(command or ""))
+    http(s) URLs, bare IPv4 and IPv6 addresses, and bare FQDNs (excluding tokens
+    whose last label is a common file extension). Used to scope-gate free-form
+    commands without false-positiving on flags/paths/filenames."""
+    cmd = command or ""
+    raw: list[str] = list(_URL_HOST_RE.findall(cmd)) + list(_BARE_IP_RE.findall(cmd))
+    raw += [m for m in _IPV6_RE.findall(cmd) if _looks_ipv6(m)]
+    for m in _HOSTNAME_RE.finditer(cmd):
+        if m.group(1).lower() not in _FILE_EXT:
+            raw.append(m.group(0))
     seen: set[str] = set()
     out: list[str] = []
     for h in raw:
-        host = target_host(h.split("@")[-1])
-        if host and host not in seen:
+        host = target_host(h.split("@")[-1]).strip("[]")
+        if host and "[" not in host and not host.isdigit() and host not in seen:
             seen.add(host)
             out.append(host)
     return out

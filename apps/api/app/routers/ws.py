@@ -167,18 +167,9 @@ async def ws_browser(ws: WebSocket, session_id: str) -> None:
 _DEVICE_SERIAL = "127.0.0.1:5555"
 
 
-def _looks_like_key(secret: str | None) -> bool:
-    return bool(secret) and "PRIVATE KEY" in secret
-
-
 async def _ssh_connect(host: str, user: str, secret: str | None):
-    import asyncssh
-    opts: dict = {"username": user or "root", "known_hosts": None}
-    if _looks_like_key(secret):
-        opts["client_keys"] = [asyncssh.import_private_key(secret)]
-    elif secret:
-        opts["password"] = secret
-    return await asyncssh.connect(host, **opts)
+    from redcell_core.engine import ssh
+    return await ssh.connect(host, username=user or "root", secret=secret)
 
 
 def _adb_input(action: dict) -> str | None:

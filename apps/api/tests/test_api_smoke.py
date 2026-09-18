@@ -37,8 +37,9 @@ def test_api_smoke():
         r = c.get("/health")
         h = r.json()
         check("health", r.status_code == 200 and h["status"] in ("ok", "degraded"))
-        check("health-version", "version" in h and h["version"] != "0.2.0")
+        check("health-no-version", "version" not in h and "mode" not in h and "bus" not in h)
         check("health-checks", set(h.get("checks", {})) == {"db", "redis", "storage"})
+        check("docs-disabled", c.get("/openapi.json").status_code == 404 and c.get("/docs").status_code == 404)
 
         check("me-401-before-login", c.get("/api/v1/auth/me").status_code == 401)
         check("first-run", c.get("/api/v1/auth/first-run").status_code == 200)
