@@ -18,7 +18,15 @@ def test_hosts_in_command_bare_hostname_and_ipv6():
     assert scope.hosts_in_command("nmap -sV evil.com") == ["evil.com"]
     assert scope.hosts_in_command("sqlmap -u https://t.acme.io/s --batch") == ["t.acme.io"]
     assert "fe80::1" in scope.hosts_in_command("ping fe80::1")
-    assert "2001:db8::1" in scope.hosts_in_command("curl http://[2001:db8::1]:8080/")
+    assert scope.hosts_in_command("curl http://[2001:db8::1]:8080/") == ["2001:db8::1"]
+
+
+def test_encoded_ipv4_is_scoped():
+    # integer-encoded IPv4 (2130706433 == 127.0.0.1) is extracted and canonicalised
+    assert scope.hosts_in_command("curl http://2130706433/") == ["2130706433"]
+    assert scope.in_scope("2130706433", ["*.example.com"]) is False
+    assert scope.in_scope("2130706433", ["127.0.0.0/8"]) is True
+    assert scope.in_scope("0x7f000001", ["127.0.0.0/8"]) is True
 
 
 def test_hosts_in_command_ignores_filenames_and_times():
