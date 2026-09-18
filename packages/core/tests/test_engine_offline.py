@@ -56,7 +56,8 @@ async def test_engine_runs_and_persists():
     await bus.connect()
 
     async with session_scope() as s:
-        ses = await sessions_repo.create(s, {"name": "Engine T", "client": "C", "scope": ["*.t"], "targets": ["https://t"]})
+        ses = await sessions_repo.create(s, {"name": "Engine T", "client": "C",
+                                             "scope": ["*.acme-corp.io"], "targets": ["https://app.acme-corp.io"]})
         run = await runs_repo.create(s, {"session_id": ses.id, "name": "r", "status": "running",
                                          "phase": "Recon", "model": "kimi-k3"})
         sid, rid = ses.id, run.id
