@@ -1,7 +1,7 @@
 # Intentionally-vulnerable practice targets for REDCELL (authorized local use only).
 # Start:  docker compose -f docker-compose.targets.yml up -d
 # Stop:   docker compose -f docker-compose.targets.yml down
-# Isolated project name so it never touches the dev infra (redis/postgres/minio).
+# Isolated project name so it never touches the dev infra (redis/postgres/seaweedfs).
 name: redcell-targets
 services:
   juice-shop:

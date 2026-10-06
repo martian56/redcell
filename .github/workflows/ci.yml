@@ -44,7 +44,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Start infrastructure (Postgres, Redis, MinIO)
+      - name: Start infrastructure (Postgres, Redis, SeaweedFS)
         run: docker compose -f docker-compose.dev.yml up -d
 
       - name: Install uv
@@ -61,7 +61,7 @@ jobs:
           for i in $(seq 1 60); do
             if docker compose -f docker-compose.dev.yml exec -T postgres pg_isready -U redcell -q \
               && docker compose -f docker-compose.dev.yml exec -T redis redis-cli ping | grep -q PONG \
-              && curl -fsS http://localhost:9000/minio/health/ready >/dev/null; then
+              && curl -fsS http://localhost:8333/healthz >/dev/null; then
               echo "infrastructure ready"
               exit 0
             fi

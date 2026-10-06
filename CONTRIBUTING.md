@@ -15,7 +15,7 @@ By taking part you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
 You will need Docker, [uv](https://docs.astral.sh/uv/), and [bun](https://bun.sh/).
 
 ```bash
-# infrastructure (Postgres, Redis, MinIO)
+# infrastructure (Postgres, Redis, SeaweedFS)
 docker compose -f docker-compose.dev.yml up -d
 
 # python deps, database, seed data

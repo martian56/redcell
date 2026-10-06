@@ -1,0 +1,11 @@
+{
+  "identities": [
+    {
+      "name": "redcell",
+      "credentials": [
+        { "accessKey": "redcelldev", "secretKey": "redcelldevsecret" }
+      ],
+      "actions": ["Admin", "Read", "Write", "List", "Tagging"]
+    }
+  ]
+}

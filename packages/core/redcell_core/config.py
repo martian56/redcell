@@ -74,9 +74,11 @@ class Settings(BaseSettings):
     secret_key_file: str | None = None
     cookie_secure: bool | None = None
 
-    s3_endpoint: str = "http://localhost:9000"
-    s3_access_key: str = "minioadmin"
-    s3_secret_key: str = "minioadmin"
+    s3_endpoint: str = "http://localhost:8333"
+    s3_access_key: str = "redcelldev"
+    s3_access_key_file: str | None = None
+    s3_secret_key: str = "redcelldevsecret"
+    s3_secret_key_file: str | None = None
     s3_region: str = "us-east-1"
     s3_public_base_url: str | None = None
     s3_presign_endpoint: str | None = None
@@ -107,6 +109,10 @@ class Settings(BaseSettings):
         if not self.admin_password:
             self.admin_password = _read_file(self.admin_password_file) or (
                 _DEV_ADMIN_PASSWORD if self.env == "dev" else "")
+        if ak := _read_file(self.s3_access_key_file):
+            self.s3_access_key = ak
+        if sk := _read_file(self.s3_secret_key_file):
+            self.s3_secret_key = sk
         if self.env != "dev":
             insecure = [name for name, ok in (
                 ("REDCELL_SECRET_KEY", bool(self.secret_key)),

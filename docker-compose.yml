@@ -4,10 +4,10 @@ x-app-env: &app-env
   REDCELL_RUN_MODE: ${REDCELL_RUN_MODE:-live}
   REDCELL_DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-redcell}:${POSTGRES_PASSWORD:-redcell}@postgres:5432/${POSTGRES_DB:-redcell}
   REDCELL_REDIS_URL: redis://redis:6379/0
-  REDCELL_S3_ENDPOINT: http://minio:9000
-  REDCELL_S3_PRESIGN_ENDPOINT: ${REDCELL_S3_PRESIGN_ENDPOINT:-http://localhost:9000}
-  REDCELL_S3_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
-  REDCELL_S3_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
+  REDCELL_S3_ENDPOINT: http://seaweedfs:8333
+  REDCELL_S3_PRESIGN_ENDPOINT: ${REDCELL_S3_PRESIGN_ENDPOINT:-http://localhost:8333}
+  REDCELL_S3_ACCESS_KEY_FILE: /run/redcell/s3_access_key
+  REDCELL_S3_SECRET_KEY_FILE: /run/redcell/s3_secret_key
   REDCELL_S3_REGION: ${REDCELL_S3_REGION:-us-east-1}
   REDCELL_ENV: ${REDCELL_ENV:-production}
   REDCELL_SECRET_KEY: ${REDCELL_SECRET_KEY:-}
@@ -51,20 +51,21 @@ services:
       timeout: 3s
       retries: 10
 
-  minio:
-    image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
+  seaweedfs:
+    image: chrislusf/seaweedfs:3.97
     restart: unless-stopped
-    command: server /data --console-address ":9001"
-    environment:
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    command: server -s3 -s3.config=/run/redcell/s3.json -dir=/data
     volumes:
-      - redcell_minio:/data
+      - redcell_seaweed:/data
+      - redcell_secrets:/run/redcell:ro
     healthcheck:
-      test: ['CMD-SHELL', 'mc ready local || exit 1']
+      test: ['CMD-SHELL', 'wget -q -O /dev/null http://127.0.0.1:8333/healthz || exit 1']
       interval: 5s
       timeout: 3s
       retries: 10
+    depends_on:
+      init-secrets:
+        condition: service_completed_successfully
 
   init-secrets:
     image: ghcr.io/martian56/redcell-api:latest
@@ -76,6 +77,12 @@ services:
         mkdir -p "$$d"
         [ -s "$$d/secret_key" ] || (umask 077; python -c 'from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())' > "$$d/secret_key")
         [ -s "$$d/jwt_secret" ] || (umask 077; python -c 'import secrets; print(secrets.token_urlsafe(48))' > "$$d/jwt_secret")
+        [ -s "$$d/s3_access_key" ] || (umask 077; python -c 'import secrets; print("redcell" + secrets.token_hex(8))' > "$$d/s3_access_key")
+        [ -s "$$d/s3_secret_key" ] || (umask 077; python -c 'import secrets; print(secrets.token_urlsafe(32))' > "$$d/s3_secret_key")
+        if [ ! -s "$$d/s3.json" ]; then
+          umask 077
+          python -c 'import json,sys; ak,sk=open(sys.argv[1]).read().strip(),open(sys.argv[2]).read().strip(); print(json.dumps({"identities":[{"name":"redcell","credentials":[{"accessKey":ak,"secretKey":sk}],"actions":["Admin","Read","Write","List","Tagging"]}]}))' "$$d/s3_access_key" "$$d/s3_secret_key" > "$$d/s3.json"
+        fi
         if [ ! -s "$$d/admin_password" ]; then
           umask 077; python -c 'import secrets; print(secrets.token_urlsafe(18))' > "$$d/admin_password"
           echo "=================================================================="
@@ -100,7 +107,7 @@ services:
         condition: service_completed_successfully
       postgres:
         condition: service_healthy
-      minio:
+      seaweedfs:
         condition: service_healthy
 
   api:
@@ -124,7 +131,7 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-      minio:
+      seaweedfs:
         condition: service_healthy
       migrate:
         condition: service_completed_successfully
@@ -150,7 +157,7 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-      minio:
+      seaweedfs:
         condition: service_healthy
       migrate:
         condition: service_completed_successfully
@@ -190,7 +197,7 @@ services:
 volumes:
   redcell_pg: {}
   redcell_data: {}
-  redcell_minio: {}
+  redcell_seaweed: {}
   redcell_secrets: {}
   caddy_data: {}
   caddy_config: {}

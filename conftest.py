@@ -1,6 +1,6 @@
 """Test isolation for the whole suite.
 
-The suite runs against REAL infrastructure (Postgres, Redis, MinIO) rather than
+The suite runs against REAL infrastructure (Postgres, Redis, SeaweedFS) rather than
 mocks. Those must NEVER be the same instances the dev app uses: some tests are
 destructive (test_seed calls seed.unseed(), which DELETEs every row and empties
 every bucket). To keep the dev data safe, this conftest rebinds all shared infra
@@ -9,7 +9,7 @@ them:
 
   - Postgres : a separate `<db>_test` database (created here if missing)
   - Redis    : logical DB index 15 (the app uses 0)
-  - MinIO    : `test-*` buckets (the app uses uploads/loot/reports/public)
+  - SeaweedFS    : `test-*` buckets (the app uses uploads/loot/reports/public)
   - Checkpts : disabled (SQLite checkpoint store off during tests)
 
 The redirection happens at import time, ahead of importing redcell_core.db, so
