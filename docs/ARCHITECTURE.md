@@ -8,7 +8,7 @@ flowchart LR
   UI["Operator console<br/>React + Vite"] -->|REST + WebSocket| API["FastAPI"]
   API --> PG[(PostgreSQL)]
   API --> RS[(Redis<br/>pub/sub + queue)]
-  API --> S3[(MinIO<br/>files & reports)]
+  API --> S3[(SeaweedFS<br/>files & reports)]
   RS --> W["Worker (arq)"]
   W --> ENG["Engine<br/>LangGraph + LiteLLM"]
   ENG -->|docker exec| KALI["Kali container<br/>local or remote over SSH"]
@@ -37,7 +37,7 @@ flowchart LR
   - `models/`, `repositories/` — async SQLAlchemy models and data access.
   - `bus.py` — Redis pub/sub (with an in-process fallback) for events, chat, shell
     I/O, and run control.
-  - `storage.py` — S3/MinIO for uploads, loot, and reports.
+  - `storage.py` — S3/SeaweedFS for uploads, loot, and reports.
   - `config.py`, `security.py`, `logs.py`, `steer.py`.
 
 ## How a run flows

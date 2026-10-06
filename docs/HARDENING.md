@@ -31,7 +31,7 @@ address each.
   `REDCELL_COOKIE_SECURE=true`; the `docker-compose.local.yml` override turns it off
   only for local http. Behind a TLS reverse proxy, keep it on.
 - **Lock down the network.** The API binds `127.0.0.1` by default. Do not publish
-  it, the worker, Postgres, Redis, or MinIO to untrusted networks. The Kali
+  it, the worker, Postgres, Redis, or SeaweedFS to untrusted networks. The Kali
   container runs with host networking so it can reach targets and catch shells —
   run REDCELL on a host you control and segment it from anything you care about.
 - **Scope every engagement.** Set the session scope; the engine enforces it in code
@@ -45,7 +45,7 @@ address each.
 ## Data retention
 
 - **Loot and credentials** the agent captures are stored in Postgres (the `loot`
-  table) and MinIO (the `loot` bucket), encrypted where marked sensitive. There is
+  table) and SeaweedFS (the `loot` bucket), encrypted where marked sensitive. There is
   no automatic expiry today — treat the database and buckets as holding live secrets
   for the duration you keep them, and purge a session's data when the engagement
   ends if you do not need the record.

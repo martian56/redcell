@@ -1,11 +1,11 @@
 # REDCELL platform
 
 Red-team platform backend. Postgres holds state, Redis carries pub/sub plus the
-job queue and cache, MinIO stores files, and a separate arq worker runs the
+job queue and cache, SeaweedFS stores files, and a separate arq worker runs the
 agents. The API stays thin: it serves REST and WebSockets and enqueues runs.
 
 - `packages/core` (`redcell_core`): shared library. Config, db (async
-  SQLAlchemy 2.0), models, schemas, repositories, storage (MinIO), bus (Redis),
+  SQLAlchemy 2.0), models, schemas, repositories, storage (SeaweedFS), bus (Redis),
   crypto (Fernet), the engine (LangGraph runner, sim, execution, listeners,
   reporting), the `rc` CLI, and Alembic migrations.
 - `apps/api`: FastAPI. Routers go through repositories and enqueue worker jobs.
@@ -27,7 +27,7 @@ Both publish onto the same channels (`events:{runId}`, `chat:{runId}`,
 
 ```bash
 # 1. infrastructure (from repo root)
-docker compose -f docker-compose.dev.yml up -d      # redis + postgres + minio
+docker compose -f docker-compose.dev.yml up -d      # redis + postgres + seaweedfs
 
 # 2. Python deps (uv workspace, shared .venv at repo root)
 uv sync --group live                                 # omit --group live for sim-only
@@ -36,7 +36,7 @@ uv sync --group live                                 # omit --group live for sim
 uv run rc db upgrade                                 # apply migrations
 uv run rc seed --demo                                # admin + providers + demo data
 #   rc seed            bootstrap only (buckets, providers, admin, settings)
-#   rc seed --unseed   wipe Postgres app data + empty MinIO buckets
+#   rc seed --unseed   wipe Postgres app data + empty object-storage buckets
 
 # 4. run the three processes (separate terminals)
 cd apps/api    && uv run uvicorn app.main:app --host 0.0.0.0 --port 8080
@@ -55,7 +55,7 @@ Open http://localhost:5183 and sign in with `admin` / `admin`. Health check:
 | `REDCELL_DATABASE_URL` | `postgresql+asyncpg://redcell:redcell@localhost:5432/redcell` | |
 | `REDCELL_REDIS_URL` | `redis://localhost:6379/0` | pub/sub + arq + cache |
 | `REDCELL_RUN_MODE` | `sim` | `sim` or `live` |
-| `REDCELL_S3_ENDPOINT` / `_ACCESS_KEY` / `_SECRET_KEY` | localhost:9000 / minioadmin | MinIO / S3 |
+| `REDCELL_S3_ENDPOINT` / `_ACCESS_KEY` / `_SECRET_KEY` | localhost:8333 / redcelldev | SeaweedFS / S3 (`_ACCESS_KEY_FILE` / `_SECRET_KEY_FILE` also supported) |
 | `REDCELL_SECRET_KEY` | dev Fernet key | encrypts stored SSH/proxy creds; set a real one in prod |
 | `REDCELL_JWT_SECRET` | dev value | set 32+ bytes in prod |
 | `REDCELL_ADMIN_USERNAME` / `_PASSWORD` | admin / admin | seeded admin |
@@ -64,7 +64,7 @@ Open http://localhost:5183 and sign in with `admin` / `admin`. Health check:
 ## Tests
 
 ```bash
-uv run pytest        # repos, storage vs MinIO, engine, worker, API smoke, seed
+uv run pytest        # repos, storage vs SeaweedFS, engine, worker, API smoke, seed
 ```
 
 ## Files and reports

@@ -4,6 +4,7 @@ import json
 
 import aioboto3
 from botocore.config import Config as BotoConfig
+from botocore.exceptions import ClientError
 
 from .config import settings
 
@@ -56,7 +57,10 @@ class Storage:
             for b in self.buckets:
                 if b not in existing:
                     await s3.create_bucket(Bucket=b)
-            await s3.put_bucket_policy(Bucket=settings.bucket_public, Policy=json.dumps(_PUBLIC_POLICY))
+            try:
+                await s3.put_bucket_policy(Bucket=settings.bucket_public, Policy=json.dumps(_PUBLIC_POLICY))
+            except ClientError:
+                pass
 
     async def put(self, bucket: str, key: str, data: bytes, content_type: str) -> None:
         async with self._client() as s3:

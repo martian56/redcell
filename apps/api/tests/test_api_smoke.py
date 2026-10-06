@@ -1,4 +1,4 @@
-"""End-to-end API smoke test against Postgres + Redis + MinIO. Boots the app in
+"""End-to-end API smoke test against Postgres + Redis + SeaweedFS. Boots the app in
 a TestClient (lifespan connects the bus), then hits the REST endpoints, file
 upload/download, reports, and a WebSocket chat round-trip."""
 

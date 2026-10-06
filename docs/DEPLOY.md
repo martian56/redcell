@@ -8,15 +8,15 @@ The short version lives in the [README](../README.md#deploy-self-host); this gui
 
 Caddy is the only service that publishes ports (80 and 443). It serves the web app and proxies `/api/*` to the API on the same origin, so there is no CORS to configure.
 
-Postgres, Redis, MinIO, the API, and the web app stay on the internal Docker network and are never exposed to the internet.
+Postgres, Redis, SeaweedFS, the API, and the web app stay on the internal Docker network and are never exposed to the internet.
 
-Stored files (reports, loot, uploads) are streamed through the API, so MinIO never needs a public route.
+Stored files (reports, loot, uploads) are streamed through the API, so SeaweedFS never needs a public route.
 
 ## What gets deployed
 
 - **postgres** — application database (named volume `redcell_pg`).
 - **redis** — job queue and pub/sub for live updates.
-- **minio** — S3-compatible object storage (named volume `redcell_minio`).
+- **seaweedfs** — S3-compatible object storage (named volume `redcell_seaweed`).
 - **init-secrets** — generates the secret key, JWT secret, and first admin password on first run.
 - **migrate** — applies database migrations and seeds the provider catalog, then exits.
 - **api** — the FastAPI backend.
@@ -108,7 +108,7 @@ Let DNS propagate before the first request so the certificate can be issued. `ge
 
 Only Caddy publishes ports: 80 and 443 (plus 443/udp for HTTP/3). Open both in any cloud firewall or security group.
 
-Everything else (5432, 6379, 9000) stays on the internal network and should not be opened.
+Everything else (5432, 6379, 8333) stays on the internal network and should not be opened.
 
 ## Catching reverse shells
 
@@ -190,7 +190,7 @@ Re-run `./deploy.sh` and pick a different option, or edit `SITE_ADDRESS`, `CADDY
 
 ## Backups
 
-State lives in named volumes: `redcell_pg` (database), `redcell_minio` (files), and `redcell_secrets` (keys and admin password). Back these up.
+State lives in named volumes: `redcell_pg` (database), `redcell_seaweed` (files), and `redcell_secrets` (keys and admin password). Back these up.
 
 Database dump:
 

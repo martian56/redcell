@@ -72,7 +72,7 @@ The deploy supports automatic HTTPS for a direct domain and a proxy mode for a f
 
 - Keep the deployment current so fixes land quickly.
 
-- Expose only ports 80 and 443. Keep Postgres, Redis, and MinIO on the internal network.
+- Expose only ports 80 and 443. Keep Postgres, Redis, and SeaweedFS on the internal network.
 
 ## Verifying
 
