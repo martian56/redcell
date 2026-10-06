@@ -164,7 +164,7 @@ services:
     image: ghcr.io/martian56/redcell-web:latest
     restart: unless-stopped
     healthcheck:
-      test: ['CMD', 'wget', '-q', '-O', '/dev/null', 'http://localhost:80/']
+      test: ['CMD', 'wget', '-q', '-O', '/dev/null', 'http://127.0.0.1:80/']
       interval: 10s
       timeout: 5s
       retries: 5
