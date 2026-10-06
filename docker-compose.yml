@@ -79,10 +79,8 @@ services:
         [ -s "$$d/jwt_secret" ] || (umask 077; python -c 'import secrets; print(secrets.token_urlsafe(48))' > "$$d/jwt_secret")
         [ -s "$$d/s3_access_key" ] || (umask 077; python -c 'import secrets; print("redcell" + secrets.token_hex(8))' > "$$d/s3_access_key")
         [ -s "$$d/s3_secret_key" ] || (umask 077; python -c 'import secrets; print(secrets.token_urlsafe(32))' > "$$d/s3_secret_key")
-        if [ ! -s "$$d/s3.json" ]; then
-          umask 077
-          python -c 'import json,sys; ak,sk=open(sys.argv[1]).read().strip(),open(sys.argv[2]).read().strip(); print(json.dumps({"identities":[{"name":"redcell","credentials":[{"accessKey":ak,"secretKey":sk}],"actions":["Admin","Read","Write","List","Tagging"]}]}))' "$$d/s3_access_key" "$$d/s3_secret_key" > "$$d/s3.json"
-        fi
+        umask 077
+        python -c 'import json,sys; ak,sk=open(sys.argv[1]).read().strip(),open(sys.argv[2]).read().strip(); print(json.dumps({"identities":[{"name":"redcell","credentials":[{"accessKey":ak,"secretKey":sk}],"actions":["Admin","Read","Write","List","Tagging"]}]}))' "$$d/s3_access_key" "$$d/s3_secret_key" > "$$d/s3.json.tmp" && mv "$$d/s3.json.tmp" "$$d/s3.json"
         if [ ! -s "$$d/admin_password" ]; then
           umask 077; python -c 'import secrets; print(secrets.token_urlsafe(18))' > "$$d/admin_password"
           echo "=================================================================="

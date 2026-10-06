@@ -118,6 +118,8 @@ class Settings(BaseSettings):
                 ("REDCELL_SECRET_KEY", bool(self.secret_key)),
                 ("REDCELL_JWT_SECRET", bool(self.jwt_secret)),
                 ("REDCELL_ADMIN_PASSWORD", self.admin_password not in ("", _DEV_ADMIN_PASSWORD)),
+                ("REDCELL_S3_ACCESS_KEY", self.s3_access_key not in ("", "redcelldev")),
+                ("REDCELL_S3_SECRET_KEY", self.s3_secret_key not in ("", "redcelldevsecret")),
             ) if not ok]
             if insecure:
                 raise ValueError(
