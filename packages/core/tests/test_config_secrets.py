@@ -44,8 +44,28 @@ def test_non_dev_rejects_whitespace_secrets():
 
 def test_non_dev_accepts_real_secrets():
     s = Settings(env="production", jwt_secret="a-real-jwt-secret",
-                 secret_key="a-real-fernet-key", admin_password="a-strong-password")
+                 secret_key="a-real-fernet-key", admin_password="a-strong-password",
+                 s3_access_key="real-access", s3_secret_key="real-secret")
     assert s.secure_cookies is True
+
+
+def test_non_dev_rejects_default_s3_credentials():
+    with pytest.raises(ValidationError) as exc:
+        Settings(env="production", secret_key="k", jwt_secret="j", admin_password="pw")
+    msg = str(exc.value)
+    assert "REDCELL_S3_ACCESS_KEY" in msg
+    assert "REDCELL_S3_SECRET_KEY" in msg
+
+
+def test_non_dev_reads_s3_credential_files(tmp_path):
+    ak = tmp_path / "s3_access_key"
+    sk = tmp_path / "s3_secret_key"
+    ak.write_text("filed-access\n")
+    sk.write_text("filed-secret\n")
+    s = Settings(env="production", secret_key="k", jwt_secret="j", admin_password="pw",
+                 s3_access_key_file=str(ak), s3_secret_key_file=str(sk))
+    assert s.s3_access_key == "filed-access"
+    assert s.s3_secret_key == "filed-secret"
 
 
 def test_secret_files_are_read(tmp_path):
@@ -56,7 +76,8 @@ def test_secret_files_are_read(tmp_path):
     jw.write_text("filed-jwt-secret\n")
     pw.write_text("filed-admin-password\n")
     s = Settings(env="production", secret_key="", jwt_secret="", admin_password="",
-                 secret_key_file=str(sk), jwt_secret_file=str(jw), admin_password_file=str(pw))
+                 secret_key_file=str(sk), jwt_secret_file=str(jw), admin_password_file=str(pw),
+                 s3_access_key="real-access", s3_secret_key="real-secret")
     assert s.secret_key == "filed-fernet-key"
     assert s.jwt_secret == "filed-jwt-secret"
     assert s.admin_password == "filed-admin-password"
@@ -66,11 +87,11 @@ def test_explicit_env_beats_file(tmp_path):
     sk = tmp_path / "secret_key"
     sk.write_text("from-file")
     s = Settings(env="production", secret_key="from-env", jwt_secret="x", admin_password="y",
-                 secret_key_file=str(sk))
+                 secret_key_file=str(sk), s3_access_key="real-access", s3_secret_key="real-secret")
     assert s.secret_key == "from-env"
 
 
 def test_cookie_secure_override():
     s = Settings(env="production", jwt_secret="x", secret_key="y", admin_password="z",
-                 cookie_secure=False)
+                 s3_access_key="real-access", s3_secret_key="real-secret", cookie_secure=False)
     assert s.secure_cookies is False
