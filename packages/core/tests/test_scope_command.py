@@ -36,16 +36,38 @@ def test_hosts_in_command_ignores_filenames_and_times():
     assert scope.hosts_in_command("echo hi > out.txt") == []
 
 
-@pytest.mark.asyncio
-async def test_command_scope_block_offensive_kind():
+def test_hosts_in_command_ignores_dotted_code_tokens():
+    assert scope.hosts_in_command('python3 -c "page.evaluate(1)"') == []
+    assert scope.hosts_in_command('python3 -c "json.load(f)"') == []
+    assert scope.hosts_in_command("import os; os.path") == []
+    assert scope.hosts_in_command("subprocess.run(['id'])") == []
+    assert scope.hosts_in_command("requests.get('http://t.co/')") == ["t.co"]
+    assert scope.hosts_in_command("socket.connect(('evil.com', 80))") == ["evil.com"]
+    assert scope.hosts_in_command("driver.get('http://target.io')") == ["target.io"]
+    assert scope.hosts_in_command("response.text; curl evil.com") == ["evil.com"]
+
+
+def _make_runner(scope_list, kind="network", llm_verdict="BLOCK"):
     r = LiveRunner(bus=Bus(settings.redis_url), run_id="x")
 
     async def _noop(*a, **k):
         return None
 
     r._event = _noop
-    r.scope = ["*.example.com"]
-    r._kindspec = get_kind("network")
+    r.scope = scope_list
+    r._kindspec = get_kind(kind)
+
+    class _FakeLlm:
+        async def complete(self, messages, **kw):
+            return {"content": llm_verdict, "usage_tokens": 0, "cost": 0}
+
+    r.llm = _FakeLlm()
+    return r
+
+
+@pytest.mark.asyncio
+async def test_command_scope_block_offensive_kind():
+    r = _make_runner(["*.example.com"], llm_verdict="BLOCK")
     assert await r._command_scope_block("id") is None
     assert await r._command_scope_block("curl https://app.example.com") is None
     assert await r._command_scope_block("curl https://raw.githubusercontent.com/o/r/x.sh") is None
@@ -54,15 +76,23 @@ async def test_command_scope_block_offensive_kind():
 
 
 @pytest.mark.asyncio
+async def test_command_scope_block_llm_allows_recon_tools():
+    r = _make_runner(["*.example.com"], llm_verdict="ALLOW")
+    assert await r._command_scope_block("curl 'https://crt.sh/?q=%25.example.com&output=json'") is None
+    assert await r._command_scope_block("curl https://api.shodan.io/shodan/host/1.2.3.4") is None
+    assert await r._command_scope_block("curl https://urlscan.io/api/v1/search/?q=example.com") is None
+
+
+@pytest.mark.asyncio
+async def test_command_scope_block_llm_blocks_real_attack():
+    r = _make_runner(["*.example.com"], llm_verdict="BLOCK")
+    blk = await r._command_scope_block("nmap -sV evil.com")
+    assert blk and "out-of-scope" in blk["error"]
+
+
+@pytest.mark.asyncio
 async def test_command_scope_block_passive_and_empty_scope():
-    r = LiveRunner(bus=Bus(settings.redis_url), run_id="x")
-
-    async def _noop(*a, **k):
-        return None
-
-    r._event = _noop
-    r.scope = ["*.example.com"]
-    r._kindspec = get_kind("osint")
+    r = _make_runner(["*.example.com"], kind="osint")
     assert await r._command_scope_block("curl https://evil.com") is None
     r._kindspec = get_kind("network")
     r.scope = []

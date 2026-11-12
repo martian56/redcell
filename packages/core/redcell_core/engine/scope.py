@@ -76,6 +76,15 @@ _FILE_EXT = frozenset(
     "swift lua pl pm r m mm ttf otf woff woff2 eot map o a class jar war ear apk ipa aab dex smali "
     "gradle properties lock mod sum dockerfile gitignore npmrc".split())
 
+_NOT_TLDS = frozenset(
+    "evaluate load path connect close open read write send recv listen accept bind "
+    "decode encode parse format split join strip replace find search match compile "
+    "execute call apply invoke create update remove append insert push pop init setup "
+    "start stop reset flush sync validate verify check print log debug warn error sleep "
+    "lock unlock wait release keys values items entries length text content headers body "
+    "method status result response request session config settings environ getenv dumps "
+    "loads urlopen makefile popen communicate readline readlines writelines".split())
+
 
 def _looks_ipv6(tok: str) -> bool:
     return "::" in tok or any(c in "abcdefABCDEF" for c in tok)
@@ -91,8 +100,12 @@ def hosts_in_command(command: str) -> list[str]:
     raw: list[str] = list(_URL_HOST_RE.findall(cmd)) + list(_BARE_IP_RE.findall(cmd))
     raw += [m for m in _IPV6_RE.findall(cmd) if _looks_ipv6(m)]
     for m in _HOSTNAME_RE.finditer(cmd):
-        if m.group(1).lower() not in _FILE_EXT:
-            raw.append(m.group(0))
+        tld = m.group(1).lower()
+        if tld in _FILE_EXT or tld in _NOT_TLDS:
+            continue
+        if m.end() < len(cmd) and cmd[m.end()] == "(":
+            continue
+        raw.append(m.group(0))
     seen: set[str] = set()
     out: list[str] = []
     for h in raw:

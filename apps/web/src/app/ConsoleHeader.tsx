@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRun, useRunControls, useSession } from '@/features/hooks';
+import { useElapsed, useRun, useRunControls, useSession } from '@/features/hooks';
 import { KIND_PANELS, PANEL_LABELS, SWAPPABLE, useWorkspace, usedPanels, type PanelId } from '@/store/workspace';
 import { fmtElapsed, fmtTokens } from '@/lib/format';
 import { Dropdown } from '@/components/ui/Dropdown';
@@ -20,6 +20,7 @@ export function ConsoleHeader({ sessionId }: { sessionId: string | null }) {
   const { data: session } = useSession(sessionId);
   const runId = session?.activeRunId ?? null;
   const { data: run } = useRun(runId);
+  const elapsed = useElapsed(run);
   const controls = useRunControls();
   const tiles = useWorkspace((s) => s.tiles);
   const addPanelAsTile = useWorkspace((s) => s.addPanelAsTile);
@@ -73,7 +74,7 @@ export function ConsoleHeader({ sessionId }: { sessionId: string | null }) {
       <div className="grow" />
       {run && (
         <>
-          <Metric k="Elapsed" v={fmtElapsed(run.elapsedSec)} />
+          <Metric k="Elapsed" v={fmtElapsed(elapsed)} />
           <Metric k="Model" v={run.model} />
         </>
       )}
