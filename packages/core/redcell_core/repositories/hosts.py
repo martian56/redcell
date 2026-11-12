@@ -24,6 +24,13 @@ async def exists(s: AsyncSession, session_id: str, host: str) -> bool:
     return (await s.scalar(q)) is not None
 
 
+async def known_ips(s: AsyncSession, session_id: str, ips: list[str]) -> set[str]:
+    stmt = (select(Host.ip)
+            .where(Host.session_id == session_id, Host.ip.in_(ips))
+            .distinct())
+    return set((await s.scalars(stmt)).all())
+
+
 async def create(s: AsyncSession, data: dict) -> Host:
     row = Host(id=data.get("id") or ids.new_id("h"), **{k: v for k, v in data.items() if k != "id"})
     s.add(row)
