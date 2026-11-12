@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useApi } from '@/lib/api';
-import type { ChatMessage, FindingStatus, Settings } from '@redcell/api-client';
+import type { ChatMessage, FindingStatus, Run, Settings } from '@redcell/api-client';
 
 export function useSessions() {
   const api = useApi();
@@ -76,6 +76,23 @@ export function useRun(id: string | null) {
     enabled: !!id,
     refetchInterval: 4000,
   });
+}
+
+export function useElapsed(run: Run | undefined): number {
+  const active = run?.status === 'running';
+  const startMs = run?.startedAt ? new Date(run.startedAt).getTime() : 0;
+  const [now, setNow] = useState(Date.now);
+
+  useEffect(() => {
+    if (!active || !startMs) return;
+    setNow(Date.now());
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [active, startMs]);
+
+  if (!run) return 0;
+  if (!active) return run.elapsedSec;
+  return Math.max(0, Math.floor((now - startMs) / 1000));
 }
 
 // Panels poll while open to track a live run without a per-entity websocket.

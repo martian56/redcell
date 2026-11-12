@@ -558,13 +558,42 @@ class LiveRunner(ReverseShellMixin, ToolsetMixin):
         "codeload.github.com", "pypi.org", "files.pythonhosted.org", "bin.equinox.io",
     })
 
+    async def _llm_scope_judge(self, command: str, suspects: list[str]) -> bool:
+        """Ask the LLM whether *command* targets *suspects* offensively or just
+        uses them as third-party tools/APIs.  Returns True to **allow**."""
+        if not self.llm:
+            return False
+        scope_str = ", ".join(self.scope)
+        hosts_str = ", ".join(suspects)
+        try:
+            resp = await self.llm.complete([
+                {"role": "system",
+                 "content": "You are a penetration-test scope judge. "
+                            "Answer with a single word: ALLOW or BLOCK."},
+                {"role": "user",
+                 "content": f"Engagement scope: {scope_str}\n"
+                            f"Out-of-scope hosts found in command: {hosts_str}\n"
+                            f"Command: {command}\n\n"
+                            "Is this command using those hosts as third-party "
+                            "reconnaissance tools or APIs to gather information "
+                            "about in-scope targets (ALLOW), or is it directly "
+                            "targeting/attacking/scanning them (BLOCK)?"},
+            ])
+            answer = (resp.get("content") or "").strip().upper()
+            return "ALLOW" in answer
+        except Exception:
+            return False
+
     async def _command_scope_block(self, command: str) -> dict[str, Any] | None:
         """Scope-gate a free-form command for offensive kinds. Passive kinds
         (osint/code/mobile) legitimately reach third-party sources, so they are
-        never gated here; tool/infra download hosts and loopback are allowed."""
+        never gated here; tool/infra download hosts and loopback are allowed.
+        When the deterministic check flags potential violations, an LLM judge
+        decides whether the command targets them offensively or just uses them
+        as third-party recon tools."""
         if not self._kindspec.exploits or not self.scope:
             return None
-        violations = []
+        suspects = []
         for host in scope.hosts_in_command(command):
             hl = host.lower()
             if hl == "localhost" or hl.startswith("127.") or hl == "::1":
@@ -572,11 +601,15 @@ class LiveRunner(ReverseShellMixin, ToolsetMixin):
             if hl in self._INFRA_HOSTS or hl.endswith(".ngrok.io"):
                 continue
             if not scope.in_scope(host, self.scope):
-                violations.append(host)
-        if not violations:
+                suspects.append(host)
+        if not suspects:
             return None
-        await self._event("orchestrator", "steer", f"blocked out-of-scope command target: {', '.join(violations)}")
-        return {"error": f"command targets out-of-scope host(s) {', '.join(violations)} "
+        if await self._llm_scope_judge(command, suspects):
+            await self._event("orchestrator", "steer",
+                              f"scope judge allowed third-party use: {', '.join(suspects)}")
+            return None
+        await self._event("orchestrator", "steer", f"blocked out-of-scope command target: {', '.join(suspects)}")
+        return {"error": f"command targets out-of-scope host(s) {', '.join(suspects)} "
                          f"(scope: {', '.join(self.scope)}); target an in-scope host or ask the operator to widen scope"}
 
     async def _scope_block(self, target: str) -> dict[str, Any] | None:

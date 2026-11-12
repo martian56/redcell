@@ -258,6 +258,9 @@
   color: var(--acc);
   font-size: 11.5px;
   font-weight: 510;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 180px;
 }
 .pill .d {
   width: 6px;
