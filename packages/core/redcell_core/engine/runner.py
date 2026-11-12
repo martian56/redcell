@@ -54,6 +54,12 @@ MAX_ORCH_STEPS = 40
 MAX_EXEC_STEPS = 10
 MAX_CONCURRENT_EXECUTORS = 3
 
+_IP_RE = re.compile(r"^(?:\d{1,3}\.){3}\d{1,3}$|^[0-9a-fA-F:]+$")
+
+
+def _is_ip(value: str) -> bool:
+    return bool(_IP_RE.match(value))
+
 
 class _State(TypedDict, total=False):
     messages: list[dict[str, Any]]
@@ -602,6 +608,13 @@ class LiveRunner(ReverseShellMixin, ToolsetMixin):
                 continue
             if not scope.in_scope(host, self.scope):
                 suspects.append(host)
+        if not suspects:
+            return None
+        ip_suspects = [h for h in suspects if _is_ip(h)]
+        if ip_suspects:
+            async with session_scope() as s:
+                known = await hosts_repo.known_ips(s, self.session_id, ip_suspects)
+            suspects = [h for h in suspects if h not in known]
         if not suspects:
             return None
         if await self._llm_scope_judge(command, suspects):
