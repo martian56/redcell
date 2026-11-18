@@ -24,6 +24,13 @@
 > REDCELL is provided for education, research, and legal, authorized security testing only. Use it only to test systems you own or have explicit written permission to test, and only within an agreed scope. Unauthorized access to or interference with computer systems is a crime in Azerbaijan (Criminal Code articles 271 to 273) and under the laws of most other countries. How you use it, and staying within the law, is entirely your responsibility.
 
 ---
+<a href="https://www.star-history.com/?repos=martian56%2Fredcell&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=martian56/redcell&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=martian56/redcell&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=martian56/redcell&type=date&legend=top-left" />
+ </picture>
+</a>
 
 ## What it is
 
